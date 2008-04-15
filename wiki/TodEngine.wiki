@@ -5,7 +5,7 @@
 
 == Prerequisite ==
  * Visual Studio.NET 2005
- * Microsoft DirectX SDK (December 2006)
+ * Microsoft DirectX SDK (March 2008)
  * Python25
 
 == License ==

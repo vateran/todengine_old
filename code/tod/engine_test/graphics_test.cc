@@ -239,7 +239,7 @@ void GraphicsTestCase::test_Mesh()
         renderer->setDisplayMode(STRING("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]"));
 
         Mesh* mesh = renderer->newMesh(STRING("managed://mesh#tiger.x"));
-        mesh->preload();
+        mesh->preload(true, true, true);
 
         Shader* shader = renderer->newShader(
             STRING("managed://shader#test_shader01.fx"));

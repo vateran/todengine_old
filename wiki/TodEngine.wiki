@@ -7,8 +7,21 @@
  * Visual Studio.NET 2005
  * Microsoft DirectX SDK (March 2008)
  * Python25
+ * wxPython
  * Boost
  * TinyXML
+
+== Compilation ==
+ * open $(Python25Dir)/include/pyconfig.h
+ * find _d.lib
+ * change _d.lib -> .lib
+ * find
+   {{{
+#ifdef _DEBUG
+# define Py_DEBUG
+#endif 
+   }}}
+ * change #ifdef _DEBUG -> #ifdef DEBUG
 
 == License ==
  * MIT License

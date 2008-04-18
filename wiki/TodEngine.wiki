@@ -7,6 +7,8 @@
  * Visual Studio.NET 2005
  * Microsoft DirectX SDK (March 2008)
  * Python25
+ * Boost
+ * TinyXML
 
 == License ==
  * MIT License

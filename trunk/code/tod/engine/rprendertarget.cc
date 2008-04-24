@@ -25,6 +25,15 @@ RpRenderTarget::~RpRenderTarget()
 
 
 //-----------------------------------------------------------------------------
+void RpRenderTarget::preload()
+{
+    if (texture_.valid() && texture_->valid())
+        return;
+    create_texture();
+}
+
+
+//-----------------------------------------------------------------------------
 void RpRenderTarget::create_texture()
 {
     texture_.release();
@@ -44,8 +53,6 @@ void RpRenderTarget::create_texture()
 //-----------------------------------------------------------------------------
 void RpRenderTarget::begin()
 {
-    if (texture_.invalid())
-        create_texture();
     if (texture_.valid())
         Renderer::instance()->pushRenderTarget(texture_);
 }

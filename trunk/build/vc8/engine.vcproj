@@ -452,6 +452,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\code\tod\engine\rpbase_method.cc"
+							>
+						</File>
+						<File
 							RelativePath="..\..\code\tod\engine\rppass.cc"
 							>
 						</File>

@@ -51,6 +51,7 @@ namespace graphics
         int usage_;
         int stride_;
         int lockOption_;
+        DWORD fvf_;
     };
 }
 }

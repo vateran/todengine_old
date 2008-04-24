@@ -24,6 +24,8 @@ namespace graphics
         virtual~RpBase();
         DECLARE_CLASS(RpBase, core::Node);
 
+        virtual void validate();
+
         virtual core::uint32_t begin();
         virtual void end();
         virtual void beginPass(core::uint32_t pass);
@@ -37,6 +39,7 @@ namespace graphics
 
         Shader* getShader();
 
+        static void bindMethod();
         static void bindProperty();
 
     private:

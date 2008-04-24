@@ -24,10 +24,8 @@ namespace graphics
         virtual~AbstractShaderNode();
         DECLARE_CLASS(AbstractShaderNode, TransformNode);
 
-        void addTexture(const core::Name& name, const core::Uri& uri);
-        void addCubeTexture(const core::Name& name, const core::Uri& uri);
-
-        void setRpPassIndex(int index);
+        void setRpPass(const core::Name& name);
+        const core::Name& getRpPass() const;
         int getRpPassIndex() const;
 
         static void bindMethod();

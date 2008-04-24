@@ -62,6 +62,9 @@ bool D3D9Texture::preload()
 {
     tod_assert(d3d9device_);
 
+    if (d3d9texture_)
+        return true;
+
     tod::core::Resource resource(getUri());
     if (!resource.open(
         tod::core::Resource::OPEN_READ |
@@ -85,6 +88,15 @@ bool D3D9Texture::preload()
         return false;
     }
     return true;
+}
+
+
+//-----------------------------------------------------------------------------
+void D3D9Texture::use(int index)
+{
+    if (0 == d3d9texture_)
+        return;
+    d3d9device_->SetTexture(index, d3d9texture_);
 }
 
 

@@ -28,6 +28,7 @@ namespace graphics
         override void destroy();
         override bool preload();
 
+        override void use(int index);
         override void useAsRenderTarget(int index);
 
         override bool valid() const;

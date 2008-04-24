@@ -23,7 +23,7 @@ namespace graphics
     public:
         enum Flag
         {
-            FLAG_CLEARCOLOR,
+            FLAG_CLEARTARGET,
             FLAG_CLEARDEPTH,
             FLAG_CLEARSTENCIL,
             FLAG_DRAWQUAD,
@@ -36,6 +36,8 @@ namespace graphics
         virtual~RpPass();
         DECLARE_CLASS(RpPass, RpBase);
 
+        override void validate();
+
         override core::uint32_t begin();
         override void end();
 
@@ -46,7 +48,14 @@ namespace graphics
         bool isDrawQuad() const;
         const core::Color& getClearColor() const;
         float clearDepthValue() const;
-        core::uint32_t clearStencilValue() const;        
+        core::uint32_t clearStencilValue() const;
+
+        void setClearTarget(bool enable);
+        bool isClearTarget() const;
+        void setClearDepth(bool enable);
+        bool isClearDepth() const;
+        void setClearStencil(bool enable);
+        bool isClearStencil() const;
 
         override void onAddNode(core::Node* node);
         override void onRemoveNode(core::Node* node);

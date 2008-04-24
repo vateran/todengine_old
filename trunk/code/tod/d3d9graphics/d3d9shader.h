@@ -28,7 +28,7 @@ namespace graphics
         
         override bool preload();
 
-        override void begin(core::uint32_t& num_pass);
+        override void begin(core::uint32_t& num_pass, bool restore=false);
         override void end();
         override void beginPass(core::uint32_t pass);
         override void endPass();

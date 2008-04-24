@@ -9,6 +9,7 @@
 #include <map>
 #include <hash_map>
 #include "tod/core/name.h"
+#include "tod/core/uri.h"
 #include "tod/core/simplevariable.h"
 
 namespace tod
@@ -22,6 +23,9 @@ namespace graphics
     {
     public:
         virtual~ShaderParams();
+
+        void addTexture(const core::Name& name, const core::Uri& uri);
+        void addCubeTexture(const core::Name& name, const core::Uri& uri);
 
         template <typename T>
         core::SimpleVariable<T>* addShaderParam(const core::Name& name);

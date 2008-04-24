@@ -2,8 +2,9 @@
 
 #include "tod/core/simplepropertybinder.h"
 #include "tod/engine/renderer.h"
-#include "tod/engine/rprendertarget.h"
 #include "tod/engine/shader.h"
+#include "tod/engine/texture.h"
+#include "tod/engine/rprendertarget.h"
 
 using namespace tod::core;
 using namespace tod::engine::graphics;
@@ -14,7 +15,7 @@ IMPLEMENT_CLASS(RpPass, RpBase);
 RpPass::RpPass():
 clearDepthValue_(1.0f), clearStencilValue_(0)
 {
-    flags_[FLAG_CLEARCOLOR] = true;
+    flags_[FLAG_CLEARTARGET] = true;
     flags_[FLAG_CLEARDEPTH] = true;
     flags_[FLAG_CLEARSTENCIL] = true;
 }
@@ -28,82 +29,86 @@ RpPass::~RpPass()
 
 
 //-----------------------------------------------------------------------------
+void RpPass::validate()
+{
+    // preload RenderTarget
+    if (renderTarget_.valid())
+        renderTarget_->preload();
+
+    // recursive validate
+    RpBase::validate();
+}
+
+
+//-----------------------------------------------------------------------------
 uint32_t RpPass::begin()
 {
-    // invoke begin scene
-    Renderer::instance()->beginScene();
-
     // change RenderTarget
     if (renderTarget_.valid())
         renderTarget_->begin();
 
+    // invoke begin scene
+    Renderer::instance()->beginScene();    
+
     // clear RenderTarget
     Renderer::instance()->clearScene(
         clearColor_, clearDepthValue_, clearStencilValue_,
-        flags_[FLAG_CLEARCOLOR], flags_[FLAG_CLEARDEPTH],
+        flags_[FLAG_CLEARTARGET], flags_[FLAG_CLEARDEPTH],
         flags_[FLAG_CLEARSTENCIL]);
 
-    return RpBase::begin();
+    // apply shader (note: save/restore all shader state for pass shaders!)
+    uint32_t num_pass = RpBase::begin();
+    RpBase::beginPass(0);
+
+    // draw full-screen quad
+    if (isDrawQuad())
+        draw_quad();
+
+    return num_pass;
 }
 
 
 //-----------------------------------------------------------------------------
 void RpPass::end()
 {
+    RpBase::endPass();
     RpBase::end();
-
-    // restore RenderTarget
-    if (renderTarget_.valid())
-          renderTarget_->end();
-
-    // draw quad
-    if (isDrawQuad())
-        draw_quad();
 
     // invoke end scene
     Renderer::instance()->endScene();
+
+    // restore RenderTarget
+    if (renderTarget_.valid())
+        renderTarget_->end();
 }
 
 
 //-----------------------------------------------------------------------------
 void RpPass::draw_quad()
-{
-    if (renderTarget_.invalid())
-        return;
-    Shader* s = getShader();
-    Renderer::instance()->setShader(s);
-    if (0 == s)
-        return;
-    if (getTechnique().size())
-        s->setTechnique(getTechnique());
-    s->setTexture(STRING("DiffuseMap"), renderTarget_->getTexture());
-
+{   
+    // setup screen width and height
     const DisplayMode& mode = Renderer::instance()->getDisplayMode();
+    real_t sw = static_cast<real_t>(mode.getWidth());
+    real_t sh = static_cast<real_t>(mode.getHeight());
+    if (renderTarget_.valid())
+    {
+        sw *= renderTarget_->getRelativeSize();
+        sh *= renderTarget_->getRelativeSize();
+    }    
+
+    // setup transforms
     Matrix44 m, v, p;
     m.setTranslation(0, 0, 0);
     v.identity();
-    p.orthogonalOffsetCenterLH(0, 0,
-        static_cast<real_t>(mode.getWidth()),
-        static_cast<real_t>(mode.getHeight()), -10000, 10000);
-
+    p.orthogonalOffsetCenterLH(0, 0, sw, sh, -10000, 10000);
     Renderer::instance()->setTransform(TRANSFORM_WORLD, m);
     Renderer::instance()->setTransform(TRANSFORM_VIEW, v);
     Renderer::instance()->setTransform(TRANSFORM_PROJECTION, p);
 
-    uint32_t pass;
-    s->begin(pass);
-    for (uint32_t p = 0; p < pass; ++p)
-    {
-        s->beginPass(p);
-        Renderer::instance()->drawQuad(
-            Rect(0, 0,
-                mode.getWidth(),
-                mode.getHeight()),
-                Color(255, 255, 255, 255));
-        s->endPass();
-    }
-    
-    s->end();
+    // render quad
+    Renderer::instance()->drawQuad(
+        Rect(0, 0, static_cast<int>(sw), static_cast<int>(sh)),
+            Color(255, 255, 255, 255));
 }
 
 
@@ -164,6 +169,48 @@ bool RpPass::isDrawQuad() const
 
 
 //-----------------------------------------------------------------------------
+void RpPass::setClearTarget(bool enable)
+{
+    flags_[FLAG_CLEARTARGET] = enable;
+}
+
+
+//-----------------------------------------------------------------------------
+bool RpPass::isClearTarget() const
+{
+    return flags_[FLAG_CLEARTARGET];
+}
+
+
+//-----------------------------------------------------------------------------
+void RpPass::setClearDepth(bool enable)
+{
+    flags_[FLAG_CLEARDEPTH] = enable;
+}
+
+
+//-----------------------------------------------------------------------------
+bool RpPass::isClearDepth() const
+{
+    return flags_[FLAG_CLEARDEPTH];
+}
+
+
+//-----------------------------------------------------------------------------
+void RpPass::setClearStencil(bool enable)
+{
+    flags_[FLAG_CLEARDEPTH] = enable;
+}
+
+
+//-----------------------------------------------------------------------------
+bool RpPass::isClearStencil() const
+{
+    return flags_[FLAG_CLEARDEPTH];
+}
+
+
+//-----------------------------------------------------------------------------
 void RpPass::onAddNode(Node* node)
 {
     if (renderTarget_.invalid())
@@ -189,4 +236,9 @@ void RpPass::bindProperty()
 {
     BIND_PROPERTY(bool, draw_quad, &setDrawQuad, &isDrawQuad);
     BIND_PROPERTY(const Color&, clear_color, &setClearColor, &getClearColor);
+    BIND_PROPERTY(float, clear_depth_value, &setClearDepthValue, &clearDepthValue);
+    BIND_PROPERTY(uint32_t, clear_stencil_value, &setClearStencilValue, &clearStencilValue);
+    BIND_PROPERTY(bool, clear_target, &setClearTarget, &isClearTarget);
+    BIND_PROPERTY(bool, clear_depth, &setClearDepth, &isClearDepth);
+    BIND_PROPERTY(bool, clear_stencil, &setClearStencil, &isClearStencil);
 }

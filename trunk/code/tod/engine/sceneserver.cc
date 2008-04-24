@@ -61,6 +61,8 @@ void SceneServer::endScene()
 //-----------------------------------------------------------------------------
 void SceneServer::renderScene()
 {
+    RenderPath::instance()->validate();
+
     // split nodes into shapes and cameras etc..
     splitNodes();
 
@@ -225,7 +227,7 @@ void SceneServer::doRenderPath(const Name& section_name)
     RpSection* section = RenderPath::instance()->findSection(section_name);
     if (0 == section)
         TOD_THROW_EXCEPTION(0,
-            String(STRING("findSection(%s) failed"), section_name.c_str()));
+        String(STRING("findSection(%s) failed"), section_name.c_str()));
 
     // iteration RpPasses of RpSection
     for (uint32_t pass_index = 0; pass_index < section->getNumPass();

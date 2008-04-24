@@ -26,3 +26,16 @@ RpSection* RenderPath::findSection(const Name& name)
 {
     return dynamic_cast<RpSection*>(findChild(name));
 }
+
+
+//-----------------------------------------------------------------------------
+void RenderPath::validate()
+{
+    for (NodeIterator i = firstChildNode(); i != lastChildNode(); ++i)
+    {
+        RpSection* section = i->second;
+        if (0 == section)
+            continue;
+        section->validate();
+    }
+}

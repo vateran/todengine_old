@@ -93,6 +93,8 @@ bool D3D9VertexBuffer::use()
     tod_assert(d3d9vb_);
     if (FAILED(d3d9device_->SetVertexDeclaration(d3d9vdecl_)))
         return false;
+    if (FAILED(d3d9device_->SetFVF(fvf_)))
+        return false;
     if (FAILED(d3d9device_->SetStreamSource(0, d3d9vb_, 0, stride_)))
         return false;
     return true;
@@ -159,6 +161,7 @@ bool D3D9VertexBuffer::setup_vertex_declaration(int vertex_component)
     // release previous vertex declaration
     SAFE_RELEASE(d3d9vdecl_);
 
+    fvf_ = 0;
     int mask = 1;
     int offset = 0;
     int position_usage_index = 0;
@@ -191,24 +194,28 @@ bool D3D9VertexBuffer::setup_vertex_declaration(int vertex_component)
             // i.e. UsageIndex = 3 results in POSITION3
             t.UsageIndex = position_usage_index++;
             offset += 3 * sizeof(float);
+            fvf_ |= D3DFVF_XYZ;
             break;
         case VERTEXCOMPONENT_NORMAL:
             t.Type = D3DDECLTYPE_FLOAT3;
             t.Usage = D3DDECLUSAGE_NORMAL;
             t.UsageIndex = normal_usage_index++;
             offset += 3 * sizeof(float);
+            fvf_ |= D3DFVF_NORMAL;
             break;
         case VERTEXCOMPONENT_COLOR:
             t.Type = D3DDECLTYPE_D3DCOLOR;
             t.Usage = D3DDECLUSAGE_COLOR;
             t.UsageIndex = color_usage_index++;
             offset += sizeof(DWORD);
+            fvf_ |= D3DFVF_DIFFUSE;
             break;        
         case VERTEXCOMPONENT_UV0:
             t.Type = D3DDECLTYPE_FLOAT2;
             t.Usage = D3DDECLUSAGE_TEXCOORD;
             t.UsageIndex = 0;
             offset += 2 * sizeof(float);
+            fvf_ |= D3DFVF_TEX1;
             break;
         case VERTEXCOMPONENT_UV1:
             t.Type = D3DDECLTYPE_FLOAT2;

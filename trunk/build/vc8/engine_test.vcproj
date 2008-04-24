@@ -176,6 +176,10 @@
 	</References>
 	<Files>
 		<File
+			RelativePath="..\..\bin\win32\debug\data\shader\bloom.fx"
+			>
+		</File>
+		<File
 			RelativePath="..\..\bin\win32\debug\data\shader\camera.fx"
 			>
 		</File>

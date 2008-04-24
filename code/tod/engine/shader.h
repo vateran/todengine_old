@@ -26,7 +26,7 @@ namespace graphics
 
         virtual bool preload()=0;
 
-        virtual void begin(core::uint32_t& num_pass)=0;
+        virtual void begin(core::uint32_t& num_pass, bool restore=false)=0;
         virtual void end()=0;
         virtual void beginPass(core::uint32_t pass)=0;
         virtual void endPass()=0;

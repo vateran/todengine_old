@@ -101,7 +101,7 @@ class MainFrame(wx.Frame):
         mesh.technique = 'EnvMapMesh'
         mesh.scaling = (0.3, 0.3, 0.3)
         mesh.translation = (0, -1, 0)
-        mesh.mesh_uri = 'managed://mesh#skullocc.x'    
+        mesh.mesh_uri = 'managed://mesh#skullocc.x'
         #mesh.addTexture('EnvMap', 'managed://texture#uffizi_cross.dds')
         mesh.addCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')
         
@@ -122,27 +122,77 @@ class MainFrame(wx.Frame):
         render_path = new('RenderPath', '/sys/server/renderpath')
         rpsection = new('RpSection', '/sys/server/renderpath/default')
         
-        '''rppass = new('RpPass', '/sys/server/renderpath/default/010_scaled_scene')
-        rppass.clear_color = (0, 0, 255, 0)
-        rppass.draw_quad = True
-        rppass.shader_uri = 'managed://shader#hdr.fx'
-        rppass.technique = 'BrightPass'        
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/010_scaled_scene/rt')
-        rt.texture_uri = 'managed://rt#final_scene'
-        rt.texture_format = 'A16B16G16R16F'
-        rt.relative_size = 0.3'''
-        
-        rppass = new('RpPass', '/sys/server/renderpath/default/100_final_scene')
+        rppass = new('RpPass', '/sys/server/renderpath/default/scene')
         rppass.clear_color = (0, 0, 255, 255)
-        rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#hdr.fx'
-        rppass.technique = 'ComposeScene'        
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/100_final_scene/rt')
-        rt.texture_uri = 'managed://rt#final_scene'
+        rppass.technique = 'ScenePass'
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/scene/rt')
+        rt.texture_uri = 'managed://rt#scene'
         rt.texture_format = 'A16B16G16R16F'
         rt.relative_size = 1
         
+        rppass = new('RpPass', '/sys/server/renderpath/default/downscaled4x')
+        rppass.clear_target = False;
+        rppass.clear_depth = False;
+        rppass.clear_stencil = False;
+        rppass.draw_quad = True
+        rppass.shader_uri = 'managed://shader#hdr.fx'
+        rppass.technique = 'OpaqueQuadPass'
+        rppass.addTexture('SceneMap', 'managed://rt#scene')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/downscaled4x/rt')        
+        rt.texture_uri = 'managed://rt#downscaled4x_scene'
+        rt.texture_format = 'A16B16G16R16F'
+        rt.relative_size = 0.5
         
+        rppass = new('RpPass', '/sys/server/renderpath/default/brightpass')
+        rppass.clear_target = False;
+        rppass.clear_depth = False;
+        rppass.clear_stencil = False;
+        rppass.draw_quad = True
+        rppass.shader_uri = 'managed://shader#hdr.fx'
+        rppass.technique = 'BrightPass'
+        rppass.addTexture('SceneMap', 'managed://rt#downscaled4x_scene')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/brightpass/rt')
+        rt.texture_uri = 'managed://rt#brightpass_scene'
+        rt.texture_format = 'A16B16G16R16F'
+        rt.relative_size = 0.5
+        
+        rppass = new('RpPass', '/sys/server/renderpath/default/bloom_h')
+        rppass.clear_target = False;
+        rppass.clear_depth = False;
+        rppass.clear_stencil = False;
+        rppass.draw_quad = True
+        rppass.shader_uri = 'managed://shader#bloom.fx'
+        rppass.technique = 'BloomHPass'
+        rppass.addTexture('SceneMap', 'managed://rt#brightpass_scene')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/bloom_h/rt')
+        rt.texture_uri = 'managed://rt#bloomh_scene'
+        rt.texture_format = 'A16B16G16R16F'
+        rt.relative_size = 0.125
+        
+        rppass = new('RpPass', '/sys/server/renderpath/default/bloom_v')
+        rppass.clear_target = False;
+        rppass.clear_depth = False;
+        rppass.clear_stencil = False;
+        rppass.draw_quad = True
+        rppass.shader_uri = 'managed://shader#bloom.fx'
+        rppass.technique = 'BloomVPass'
+        rppass.addTexture('SceneMap', 'managed://rt#bloomh_scene')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/bloom_v/rt')
+        rt.texture_uri = 'managed://rt#bloomv_scene'
+        rt.texture_format = 'A16B16G16R16F'
+        rt.relative_size = 0.125
+        
+        rppass = new('RpPass', '/sys/server/renderpath/default/final')
+        rppass.clear_target = False;
+        rppass.clear_depth = False;
+        rppass.clear_stencil = False;
+        rppass.draw_quad = True
+        rppass.shader_uri = 'managed://shader#hdr.fx'
+        rppass.technique = 'ComposeScenePass'
+        rppass.addTexture('SceneMap', 'managed://rt#scene')
+        rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')
+        #rppass.addTexture('ToneMap', 'managed://rt#scene')
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),

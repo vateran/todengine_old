@@ -30,6 +30,8 @@ namespace graphics
         DECLARE_CLASS(RenderPath, core::Node);
 
         RpSection* findSection(const core::Name& name);
+
+        void validate();
     };
 }
 }

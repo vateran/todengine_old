@@ -4,57 +4,69 @@ shared float4x4 ViewMatrix;
 shared float4x4 ProjectionMatrix;
 shared float4x4 WorldViewProjectionMatrix;
 
-texture DiffuseMap;
-
-sampler DefaultSampler =
-sampler_state
-{
-    Texture = <DiffuseMap>;
-    MinFilter = Linear;
-    MagFilter = Linear;
-    MipFilter = None;
-};
-
-struct VsInput
-{
-    float4 pos          : POSITION;
-    float4 diffuse      : COLOR0;
-    float2 uv0          : TEXCOORD0;
-};
-
-struct VsOutput
-{
-    float4 pos          : POSITION;
-    float4 diffuse      : COLOR0;
-    float2 uv0          : TEXCOORD0;
-};
-
-VsOutput vsQuadMain(VsInput input)
-{
-    VsOutput output;
-    
-    output.pos = mul(input.pos, WorldViewProjectionMatrix);
-    output.diffuse = input.diffuse;
-    output.uv0 = input.uv0;
-    return output;
-}
-
-float4 psComposeMain(VsOutput input) : COLOR
-{
-    float4 output;
-    output = tex2D(DefaultSampler, input.uv0) * input.diffuse;
-    return output;
-}
-
-
+texture SceneMap;
+texture ToneMap;
 
 float Luminance = 0.08f;
 static const float fMiddleGray = 0.18f;
 static const float fWhiteCutoff = 0.8f;
 
+
+sampler SceneSampler =
+sampler_state
+{
+    Texture = <SceneMap>;
+    MinFilter = Linear;
+    MagFilter = Linear;
+    MipFilter = None;
+};
+
+
+sampler ToneSampler =
+sampler_state
+{
+    Texture = <ToneMap>;
+    MinFilter = Linear;
+    MagFilter = Linear;
+    MipFilter = None;
+};
+
+
+void vsQuad(
+    float4 pos              : POSITION,
+    float4 diffuse          : COLOR0,
+    float2 uv0              : TEXCOORD0,
+    out float4 out_pos      : POSITION,
+    out float4 out_diffuse  : COLOR0,
+    out float2 out_uv0      : TEXCOORD0)
+{    
+    out_pos = mul(pos, WorldViewProjectionMatrix);
+    out_diffuse = diffuse;
+    out_uv0 = uv0;
+}
+
+
+float4 psOpaque(
+    float4 pos      : POSITION,
+    float4 diffuse  : COLOR0,
+    float2 uv0      : TEXCOORD0) : COLOR
+{
+    return tex2D(SceneSampler, uv0) * diffuse;
+}
+
+
+float4 psCompose(
+    float4 pos      : POSITION,
+    float4 diffuse  : COLOR0,
+    float2 uv0      : TEXCOORD0) : COLOR
+{
+    return tex2D(SceneSampler, uv0) + tex2D(ToneSampler, uv0) * diffuse;
+}
+
+
 float4 psBrightPassFilter(float2 uv0 : TEXCOORD0) : COLOR0
 {
-    float3 color = tex2D(DefaultSampler, uv0);
+    float3 color = tex2D(SceneSampler, uv0);
     
     color *= fMiddleGray / (Luminance + 0.001f);
     color *= (1.0f + (color / (fWhiteCutoff * fWhiteCutoff)));
@@ -64,20 +76,42 @@ float4 psBrightPassFilter(float2 uv0 : TEXCOORD0) : COLOR0
     return float4(color, 1);
 }
 
-technique ComposeScene
+
+technique ScenePass
 {
     pass P0
     {
-        VertexShader = compile vs_2_0 vsQuadMain();
-        PixelShader  = compile ps_2_0 psComposeMain();
+        VertexShader = compile vs_2_0 vsQuad();
+        PixelShader  = compile ps_2_0 psOpaque();
     }
 }
+
+
+technique OpaqueQuadPass
+{
+    pass P0
+    {
+        VertexShader = compile vs_2_0 vsQuad();
+        PixelShader  = compile ps_2_0 psOpaque();
+    }
+}
+
+
+technique ComposeScenePass
+{
+    pass P0
+    {
+        VertexShader = compile vs_2_0 vsQuad();
+        PixelShader  = compile ps_2_0 psCompose();
+    }
+}
+
 
 technique BrightPass
 {
     pass P0
     {
-        VertexShader = compile vs_2_0 vsQuadMain();
+        VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psBrightPassFilter();
         ZEnable = false;
     }

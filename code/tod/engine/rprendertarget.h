@@ -25,6 +25,8 @@ namespace graphics
         virtual~RpRenderTarget();
         DECLARE_CLASS(RpRenderTarget, core::Node);
 
+        void preload();
+
         void begin();
         void end();
 

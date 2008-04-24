@@ -290,6 +290,16 @@ Shader* D3D9Renderer::getShader()
 
 
 //-----------------------------------------------------------------------------
+void D3D9Renderer::setTransform(Transform type, const Matrix44& m)
+{
+    super::setTransform(type, m);
+    d3d9device_->SetTransform(
+        static_cast<D3DTRANSFORMSTATETYPE>(type),
+        reinterpret_cast<CONST D3DMATRIX*>(&m));
+}
+
+
+//-----------------------------------------------------------------------------
 void D3D9Renderer::drawQuad(const Rect& r, const Color& color)
 {
     struct VertexType
@@ -323,18 +333,9 @@ void D3D9Renderer::drawQuad(const Rect& r, const Color& color)
     ptr[2].v = ptr[0].v = 1;
 
     quadVb_->unlock();
-    quadVb_->use();
 
-    Shader* shader = Renderer::instance()->getShader();
-    uint32_t pass;
-    shader->begin(pass);
-    for (uint32_t i = 0; i < pass; ++i)
-    {
-        shader->beginPass(i);
-        quadVb_->draw(PRIMITIVETYPE_TRIANGLESTRIP);
-        shader->endPass();
-    }    
-    shader->end();
+    quadVb_->use();
+    quadVb_->draw(PRIMITIVETYPE_TRIANGLESTRIP);
 }
 
 

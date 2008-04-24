@@ -57,6 +57,8 @@ namespace graphics
         override void setShader(Shader* shader);
         override Shader* getShader();
 
+        override void setTransform(Transform type, const core::Matrix44& m);
+
         override void drawQuad(const core::Rect& r, const core::Color& color);
 
     private:

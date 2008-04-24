@@ -2,6 +2,7 @@
 
 #include "tod/engine/shader.h"
 #include "tod/engine/texture.h"
+#include "tod/engine/renderer.h"
 
 using namespace tod::core;
 using namespace tod::engine::graphics;
@@ -12,6 +13,37 @@ ShaderParams::~ShaderParams()
     for (Params::iterator i = params_.begin();
         i != params_.end(); ++i)
         delete i->second;
+}
+
+
+//-----------------------------------------------------------------------------
+void ShaderParams::addTexture(const Name& name, const Uri& uri)
+{   
+    // load texture
+    Texture* texture = Renderer::instance()->newTexture(uri);
+    if (0 == texture)
+        return;
+
+    // add shader parameter
+    typedef SimpleVariable<Texture*> TextureVariable;
+    TextureVariable* t = addShaderParam<Texture*>(name);
+    *t = texture;
+}
+
+
+//-----------------------------------------------------------------------------
+void ShaderParams::addCubeTexture(const Name& name, const Uri& uri)
+{
+    // load texture
+    Texture* texture = Renderer::instance()->newCubeTexture(uri);
+    if (0 == texture)
+        return;
+    texture->preload();
+
+    // add shader parameter
+    typedef SimpleVariable<Texture*> TextureVariable;
+    TextureVariable* t = addShaderParam<Texture*>(name);
+    *t = texture;
 }
 
 
@@ -49,6 +81,8 @@ void ShaderParams::commit(Shader* shader)
         {
             typedef SimpleVariable<Texture*> TextureVariable;
             TextureVariable* rv = static_cast<TextureVariable*>(v);
+            if ((*rv).get()->invalid())
+                (*rv).get()->preload();
             shader->setTexture(i->first, rv->get());
         }
     }

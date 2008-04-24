@@ -22,6 +22,19 @@ RpBase::~RpBase()
 
 
 //-----------------------------------------------------------------------------
+void RpBase::validate()
+{
+    for (NodeIterator i = firstChildNode(); i != lastChildNode(); ++i)
+    {
+        RpBase* rpbase = i->second;
+        if (0 == rpbase)
+            continue;
+        rpbase->validate();
+    }
+}
+
+
+//-----------------------------------------------------------------------------
 uint32_t RpBase::begin()
 {
     uint32_t num_pass;
@@ -30,7 +43,8 @@ uint32_t RpBase::begin()
         commit(shader_);
         if (getTechnique().size())
             shader_->setTechnique(getTechnique());
-        shader_->begin(num_pass);
+        shader_->begin(num_pass, true);
+        Renderer::instance()->setShader(shader_);
         return num_pass;
     }
     return 0;

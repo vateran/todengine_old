@@ -27,6 +27,7 @@ namespace graphics
         virtual void destroy()=0;
         virtual bool preload()=0;
 
+        virtual void use(int index)=0;
         virtual void useAsRenderTarget(int index)=0;
     };
 }

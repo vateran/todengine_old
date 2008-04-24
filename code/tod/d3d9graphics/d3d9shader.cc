@@ -66,14 +66,21 @@ bool D3D9Shader::preload()
 
 
 //-----------------------------------------------------------------------------
-void D3D9Shader::begin(uint32_t& num_pass)
+void D3D9Shader::begin(uint32_t& num_pass, bool restore)
 {
     if (0 == d3deffect_)
         return;
-    d3deffect_->Begin(reinterpret_cast<UINT*>(&num_pass),
-        D3DXFX_DONOTSAVESTATE |
-        D3DXFX_DONOTSAVESAMPLERSTATE |
-        D3DXFX_DONOTSAVESHADERSTATE);
+    DWORD flags = 0;
+        
+    if (!restore)
+    {
+        flags =
+            D3DXFX_DONOTSAVESTATE |
+            D3DXFX_DONOTSAVESAMPLERSTATE |
+            D3DXFX_DONOTSAVESHADERSTATE;
+    }
+
+    d3deffect_->Begin(reinterpret_cast<UINT*>(&num_pass), flags);
 }
 
 

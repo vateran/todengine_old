@@ -32,6 +32,10 @@ namespace core
         Uri(const char_t* uri);
         Uri(const String& uri);
 
+        void clear();
+        bool empty() const;
+        size_t size() const;
+
         void set(const char_t* uri);
         const String& get() const;
         const char_t* c_str() const;

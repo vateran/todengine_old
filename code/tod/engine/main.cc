@@ -19,6 +19,7 @@
 #include "tod/engine/rppass.h"
 #include "tod/engine/rprendertarget.h"
 #include "tod/engine/timenode.h"
+#include "tod/engine/terrainnode.h"
 
 #include "tod/engine/formatstringconverter.h"
 
@@ -46,6 +47,7 @@ void initialize_Engine(Module* module)
     REGISTER_TYPE(module, RpPass);
     REGISTER_TYPE(module, RpRenderTarget);
     REGISTER_TYPE(module, TimeNode);
+    REGISTER_TYPE(module, TerrainNode);
 
     TimeServer::setSingletonPath(STRING("/sys/server/time"));
     Renderer::setSingletonPath(STRING("/sys/server/renderer"));

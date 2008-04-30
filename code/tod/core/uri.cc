@@ -26,6 +26,32 @@ Uri::Uri(const String& uri)
 
 
 //-----------------------------------------------------------------------------
+void Uri::clear()
+{
+    uri_.clear();
+    protocol_.clear();
+    managed_.clear();
+    ip_.clear();
+    port_.clear();
+    path_.clear();
+}
+
+
+//-----------------------------------------------------------------------------
+bool Uri::empty() const
+{
+    return uri_.empty();
+}
+
+
+//-----------------------------------------------------------------------------
+size_t Uri::size() const
+{
+    return uri_.size();
+}
+
+
+//-----------------------------------------------------------------------------
 void Uri::set(const char_t* uri)
 {
     protocol_.clear();

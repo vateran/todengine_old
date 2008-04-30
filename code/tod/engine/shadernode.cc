@@ -48,6 +48,9 @@ void ShaderNode::renderShader
 //-----------------------------------------------------------------------------
 bool ShaderNode::loadResource()
 {
+    if (getShaderUri().empty())
+        return false;
+
     super::loadResource();
     shader_ = Renderer::instance()->newShader(getShaderUri());
     shader_->preload();

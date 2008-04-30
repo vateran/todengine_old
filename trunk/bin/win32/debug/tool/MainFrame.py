@@ -92,7 +92,7 @@ class MainFrame(wx.Frame):
         time_server = new('TimeServer', '/sys/server/time')
         trigger_server.add(time_server, 0)
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
-        self.renderer.setDisplayMode('w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
         
         mesh = new('MeshNode', '/usr/scene/tiger')
@@ -113,6 +113,8 @@ class MainFrame(wx.Frame):
         mesh.technique = 'SkyBox'
         mesh.mesh_uri = 'managed://mesh#alley_skybox.x'
         mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')
+        
+        terrain = new('TerrainNode', '/usr/scene/terrain')
                 
         camera = new('CameraNode', '/usr/scene/camera')
         camera.renderpath_section = 'default'
@@ -128,7 +130,7 @@ class MainFrame(wx.Frame):
         rppass.technique = 'ScenePass'
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/scene/rt')
         rt.texture_uri = 'managed://rt#scene'
-        rt.texture_format = 'A16B16G16R16F'
+        rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 1
         
         rppass = new('RpPass', '/sys/server/renderpath/default/downscaled4x')
@@ -141,8 +143,8 @@ class MainFrame(wx.Frame):
         rppass.addTexture('SceneMap', 'managed://rt#scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/downscaled4x/rt')        
         rt.texture_uri = 'managed://rt#downscaled4x_scene'
-        rt.texture_format = 'A16B16G16R16F'
-        rt.relative_size = 0.5
+        rt.texture_format = 'X8R8G8B8'
+        rt.relative_size = 0.125
         
         rppass = new('RpPass', '/sys/server/renderpath/default/brightpass')
         rppass.clear_target = False;
@@ -154,8 +156,8 @@ class MainFrame(wx.Frame):
         rppass.addTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/brightpass/rt')
         rt.texture_uri = 'managed://rt#brightpass_scene'
-        rt.texture_format = 'A16B16G16R16F'
-        rt.relative_size = 0.5
+        rt.texture_format = 'X8R8G8B8'
+        rt.relative_size = 0.125
         
         rppass = new('RpPass', '/sys/server/renderpath/default/bloom_h')
         rppass.clear_target = False;
@@ -167,7 +169,7 @@ class MainFrame(wx.Frame):
         rppass.addTexture('SceneMap', 'managed://rt#brightpass_scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/bloom_h/rt')
         rt.texture_uri = 'managed://rt#bloomh_scene'
-        rt.texture_format = 'A16B16G16R16F'
+        rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 0.125
         
         rppass = new('RpPass', '/sys/server/renderpath/default/bloom_v')
@@ -180,7 +182,7 @@ class MainFrame(wx.Frame):
         rppass.addTexture('SceneMap', 'managed://rt#bloomh_scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/bloom_v/rt')
         rt.texture_uri = 'managed://rt#bloomv_scene'
-        rt.texture_format = 'A16B16G16R16F'
+        rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 0.125
         
         rppass = new('RpPass', '/sys/server/renderpath/default/final')
@@ -190,9 +192,8 @@ class MainFrame(wx.Frame):
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'ComposeScenePass'
-        rppass.addTexture('SceneMap', 'managed://rt#scene')
-        rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')
-        #rppass.addTexture('ToneMap', 'managed://rt#scene')
+        rppass.addTexture('SceneMap', 'managed://rt#bloomv_scene')
+        rppass.addTexture('ToneMap', 'managed://rt#scene')
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),

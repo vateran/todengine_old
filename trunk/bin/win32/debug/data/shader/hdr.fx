@@ -60,7 +60,7 @@ float4 psCompose(
     float4 diffuse  : COLOR0,
     float2 uv0      : TEXCOORD0) : COLOR
 {
-    return tex2D(SceneSampler, uv0) + tex2D(ToneSampler, uv0) * diffuse;
+    return (tex2D(SceneSampler, uv0) + tex2D(ToneSampler, uv0)) * diffuse;
 }
 
 

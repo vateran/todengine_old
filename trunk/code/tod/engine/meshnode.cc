@@ -55,6 +55,7 @@ void MeshNode::renderGeometry
 bool MeshNode::loadResource()
 {
     super::loadResource();
+
     mesh_ = Renderer::instance()->newMesh(getMeshUri());
     mesh_->preload(true, true, true);
     return true;
@@ -64,6 +65,7 @@ bool MeshNode::loadResource()
 void MeshNode::unloadResource()
 {
     mesh_.release();
+
     super::unloadResource();
 }
 

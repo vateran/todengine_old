@@ -577,6 +577,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="terrainnode"
+					>
+					<File
+						RelativePath="..\..\code\tod\engine\terrainnode.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\tod\engine\terrainnode.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

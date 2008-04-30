@@ -53,7 +53,7 @@ static const float BlurWeights[g_cKernelSize] =
     0.002216,
 };
 
-float BloomScale = 1.5f;
+float BloomScale = 2.5f;
 
 
 void vsQuadMain(

@@ -8,6 +8,7 @@ import wx.aui
 from lib.NOHTree import *
 from lib.PropertyGrid import *
 from lib.SceneView import *
+from lib.CommandConsole import *
 
 def create(parent):
     return MainFrame(parent)
@@ -64,6 +65,8 @@ class MainFrame(wx.Frame):
 
         self.viewMenu = wx.Menu(title='')
 
+        self.popupMenu = wx.Menu(title='')
+
         self._init_coll_menuBar_Menus(self.menuBar)
         self._init_coll_fileMenu_Items(self.fileMenu)
 
@@ -76,6 +79,7 @@ class MainFrame(wx.Frame):
         self.SetThemeEnabled(True)
         self.SetToolTipString(u'TodEditor')
         self.SetMenuBar(self.menuBar)
+        self.SetClientSize(wx.Size(769, 429))
         self.Bind(wx.EVT_CLOSE, self.OnMainFrameClose)
 
         self.statusBar = wx.StatusBar(id=wxID_MAINFRAMESTATUSBAR,
@@ -206,6 +210,9 @@ class MainFrame(wx.Frame):
         self.nohTree.Bind(wx.EVT_TREE_SEL_CHANGED, self.onSelChanged, id=self.nohTree.GetId())
         self.nohTree.build('/')
         
+        # CommandConsole
+        self.commandConsole = CommandConsole(self, wx.NewId(), wx.DefaultPosition, wx.Size(300, 50), 0)
+        
         # SceneView
         self.sceneView = SceneView(self)
         self.sceneView.addViewPanel('Perspective View')
@@ -218,6 +225,8 @@ class MainFrame(wx.Frame):
             Caption('Node of Hierarchy').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
         self.auimgr.AddPane(self.propertyGrid, wx.aui.AuiPaneInfo().
             Caption('Property').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
+        self.auimgr.AddPane(self.commandConsole, wx.aui.AuiPaneInfo().
+            Caption('Command Console').Dockable(True).Bottom().CloseButton(True).MinimizeButton(True))
         self.auimgr.AddPane(self.sceneView, wx.aui.AuiPaneInfo().
             Caption('Render View').Center().CloseButton(False))
         

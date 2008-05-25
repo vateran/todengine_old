@@ -360,8 +360,6 @@ class PropertyDocPanel(wx.Panel):
         dc.SetFont(PropertyDocPanel.descFont)
         dc.DrawText(self.desc, 3, 16)
 
-
-
 #-------------------------------------------------------------------------------
 class PropertyGrid(wx.Panel):
     s_instance = None

@@ -581,11 +581,39 @@
 					Name="terrainnode"
 					>
 					<File
+						RelativePath="..\..\code\tod\engine\terrain.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\tod\engine\terrain.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\code\tod\engine\terrainnode.cc"
 						>
 					</File>
 					<File
 						RelativePath="..\..\code\tod\engine\terrainnode.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\tod\engine\terrainsection.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\tod\engine\terrainsection.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="quadtree"
+					>
+					<File
+						RelativePath="..\..\code\tod\engine\quadtree.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\tod\engine\quadtree.h"
 						>
 					</File>
 				</Filter>

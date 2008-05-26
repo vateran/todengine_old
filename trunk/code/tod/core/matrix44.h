@@ -42,6 +42,7 @@ namespace core
         real_t getTx() const;
         real_t getTy() const;
         real_t getTz() const;
+        Vector3 getTranslation() const;
 
         void identity();
         bool isIdentity() const;
@@ -51,6 +52,7 @@ namespace core
 
         void multiply(const Matrix44& m);
         void multiplyTranspose(const Matrix44& m);
+        Vector3 multiplyDivW(const Vector3& v) const;
 
         void lookAtLH(const Vector3& eye, const Vector3& at, const Vector3& up);
         void lookAtRH(const Vector3& eye, const Vector3& at, const Vector3& up);
@@ -109,6 +111,11 @@ namespace core
             real_t m_[4][4];
         };
     };
+
+Vector3 operator * (const Matrix44& m, const Vector3& v);
+Vector4 operator * (const Matrix44& m, const Vector4& v);
+Plane operator * (const Matrix44& m, const Plane& p);
+
 }
 }
 

@@ -6,6 +6,8 @@
     @brief
 */
 
+#include "tod/core/math.h"
+
 namespace tod
 {
 namespace core
@@ -26,19 +28,30 @@ namespace core
         {
             a_[i] = value;
         }
+        bool isEqual(const type& v, T tol) const
+        {
+            for (int i = 0; i < 3; ++i)
+                if (a_[i] - tol >= v.a_[i] || v.a_[i] <= a_[i] + tol)
+                    return false;
+            return true;
+        }
+        T size() const
+        {
+            return tod_sqrt(x_ * x_ + y_ * y_ + z_ * z_);
+        }
 
         Tuple3 operator - ()
         {
             return Tuple3(-x_, -y_, -z_);
         }
-        const Tuple3& operator += (const Tuple3& rhs)
+        const type& operator += (const type& rhs)
         {
             x_ += rhs.x_;
             y_ += rhs.y_;
             z_ += rhs.z_;
             return *this;
         }
-        const Tuple3& operator -= (const Tuple3& rhs)
+        const type& operator -= (const type& rhs)
         {
             x_ -= rhs.x_;
             y_ -= rhs.y_;
@@ -67,6 +80,20 @@ namespace core
     };
 
 #include "tod/core/tuple3.inl"
+
+//-----------------------------------------------------------------------------
+template <typename T>
+Tuple3<T> operator + (const Tuple3<T>& t1, const Tuple3<T>& t2)
+{   
+    return Tuple3<T>(t1.x_ + t2.x_, t1.y_ + t2.y_, t1.z_ + t2.z_);
+}
+
+//-----------------------------------------------------------------------------
+template <typename T>
+Tuple3<T> operator - (const Tuple3<T>& t1, const Tuple3<T>& t2)
+{
+    return Tuple3<T>(t1.x_ - t2.x_, t1.y_ - t2.y_, t1.z_ - t2.z_);
+}
 
 }
 }

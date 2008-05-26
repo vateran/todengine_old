@@ -522,6 +522,10 @@
 			<Filter
 				Name="math"
 				>
+				<File
+					RelativePath="..\..\code\tod\core\math.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="log"
@@ -556,11 +560,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\tod\core\line3.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\line3.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\tod\core\matrix44.cc"
 				>
 			</File>
 			<File
 				RelativePath="..\..\code\tod\core\matrix44.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\matrix44.inl"
 				>
 			</File>
 			<File

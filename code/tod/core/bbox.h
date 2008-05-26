@@ -9,6 +9,7 @@
 #include <vector>
 #include "tod/core/primitivetype.h"
 #include "tod/core/vector3.h"
+#include "tod/core/line3.h"
 #include "tod/core/matrix44.h"
 
 namespace tod
@@ -38,10 +39,10 @@ namespace core
 
         enum
         {
-            OUTSIDE,    = 0,
-            ISEQUAL,    = (1<<0),
-            ISCONTAINED,= (1<<1),
-            CONTAINS,   = (1<<2),
+            OUTSIDE     = 0,
+            ISEQUAL     = (1<<0),
+            ISCONTAINED = (1<<1),
+            CONTAINS    = (1<<2),
             CLIPS       = (1<<3),
         };
 
@@ -75,12 +76,20 @@ namespace core
         /// create a matrix which transforms an unit cube to this bounding box
         Matrix44 toMatrix44() const;
         /// return one of the 8 corner points
-        Vector3 cornerPoint(int index) const;
+        Vector3 cornersPoint(int index) const;
         void getClipPlanes(const Matrix44& view_projection, std::vector<Plane>& out_planes) const;
         
         int lineTest(float v0, float v1, float w0, float w1);
         int intersect(const BBox& box);
-        bool intersect(const Line
+        bool intersect(const Line3& line, Vector3* out_intersect_pos) const;
+        
+        bool intersect_const_x(const float x, const Line3& line, Vector3* out) const;
+        bool intersect_const_y(const float y, const Line3& line, Vector3* out) const;
+        bool intersect_const_z(const float z, const Line3& line, Vector3* out) const;
+        
+        bool point_in_polygon_const_x(const Vector3& p) const;
+        bool point_in_polygon_const_y(const Vector3& p) const;
+        bool point_in_polygon_const_z(const Vector3& p) const;
 
     public:
         Vector3 min_;

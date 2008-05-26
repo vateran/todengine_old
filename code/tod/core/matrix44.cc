@@ -178,6 +178,13 @@ real_t Matrix44::getTz() const
 
 
 //-----------------------------------------------------------------------------
+Vector3 Matrix44::getTranslation() const
+{
+    return Vector3(m41_, m42_, m43_);
+}
+
+
+//-----------------------------------------------------------------------------
 void Matrix44::identity()
 {
     D3DXMatrixIdentity(reinterpret_cast<D3DXMATRIX*>(this));
@@ -235,6 +242,15 @@ void Matrix44::multiplyTranspose(const Matrix44& m)
         reinterpret_cast<D3DXMATRIX*>(this),
         reinterpret_cast<CONST D3DXMATRIX*>(this),
         reinterpret_cast<CONST D3DXMATRIX*>(&m));
+}
+
+
+//-----------------------------------------------------------------------------
+Vector3 Matrix44::multiplyDivW(const Vector3& v) const
+{
+    Vector4 v4(v.x_, v.y_, v.z_, 1.0f);
+    v4 = *this * v4;
+    return Vector3(v4.x_ / v4.w_, v4.y_ / v4.w_, v4.z_ / v4.w_);
 }
 
 
@@ -398,4 +414,40 @@ void Matrix44::operator *= (const Matrix44& lhs)
         reinterpret_cast<D3DXMATRIX*>(this),
         reinterpret_cast<CONST D3DXMATRIX*>(this),
         reinterpret_cast<CONST D3DXMATRIX*>(&lhs));
+}
+
+
+//-----------------------------------------------------------------------------
+Vector3 operator * (const Matrix44& m, const Vector3& v)
+{
+    Vector4 out;
+    D3DXVec3Transform(
+        reinterpret_cast<D3DXVECTOR4*>(&out),
+        reinterpret_cast<CONST D3DXVECTOR3*>(&v),
+        reinterpret_cast<CONST D3DXMATRIX*>(&m));
+    return Vector3(out.x_, out.y_, out.z_);
+}
+
+
+//-----------------------------------------------------------------------------
+Vector4 operator * (const Matrix44& m, const Vector4& v)
+{
+    Vector4 out;
+    D3DXVec4Transform(
+        reinterpret_cast<D3DXVECTOR4*>(&out),
+        reinterpret_cast<CONST D3DXVECTOR4*>(&v),
+        reinterpret_cast<CONST D3DXMATRIX*>(&m));
+    return out;
+}
+
+
+//-----------------------------------------------------------------------------
+Plane operator * (const Matrix44& m, const Plane& p)
+{
+    Plane out;
+    D3DXPlaneTransform(
+        reinterpret_cast<D3DXPLANE*>(&out),
+        reinterpret_cast<CONST D3DXPLANE*>(&p),
+        reinterpret_cast<CONST D3DXMATRIX*>(&m));
+    return out;
 }

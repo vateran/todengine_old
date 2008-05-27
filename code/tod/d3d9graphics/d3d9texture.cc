@@ -92,7 +92,7 @@ bool D3D9Texture::preload()
 
 //-----------------------------------------------------------------------------
 bool D3D9Texture::lockRect
-(int level, const core::Rect* rect, void*& out_ptr, int* out_pitch,
+(int level, const Rect* rect, void*& out_ptr, int* out_pitch,
  bool discard, bool read_only)
 {
     tod_assert(d3d9texture_);

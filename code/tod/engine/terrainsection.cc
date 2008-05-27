@@ -32,7 +32,7 @@ void TerrainSection::render()
         height_map->preload();
         char* ptr = 0;
         int pitch;
-        height_map->lockRect(0, 0, (void*&)ptr, &pitch);
+        height_map->lockRect(0, 0, (void*&)&ptr, &pitch);
         height_map->unlockRect(0);
 
         vb = Renderer::instance()->newVertexBuffer(STRING("test"));

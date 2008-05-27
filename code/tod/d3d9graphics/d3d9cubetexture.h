@@ -28,8 +28,17 @@ namespace graphics
         override void destroy();
         override bool preload();
 
+        override bool lockRect(
+            int level, const core::Rect* rect,
+            void*& out_ptr, int* out_pitch,
+            bool discard=true, bool read_only=false);
+        override bool unlockRect(int level);
+
         override void use(int index);
         override void useAsRenderTarget(int index);
+
+        override int width() const;
+        override int height() const;
 
         override bool valid() const;
 

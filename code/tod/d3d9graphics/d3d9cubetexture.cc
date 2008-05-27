@@ -84,9 +84,27 @@ bool D3D9CubeTexture::preload()
 
 
 //-----------------------------------------------------------------------------
+bool D3D9CubeTexture::lockRect
+(int level, const Rect* rect, void*& out_ptr, int* out_pitch,
+ bool discard, bool read_only)
+{
+    // not implement
+    return false;
+}
+
+
+//-----------------------------------------------------------------------------
+bool D3D9CubeTexture::unlockRect(int level)
+{
+    // not implement
+    return false;
+}
+
+
+//-----------------------------------------------------------------------------
 void D3D9CubeTexture::use(int index)
 {
-
+    // not implement
 }
 
 
@@ -95,6 +113,22 @@ void D3D9CubeTexture::useAsRenderTarget(int index)
 {
     if (0 == d3d9texture_)
         return;
+}
+
+
+//-----------------------------------------------------------------------------
+int D3D9CubeTexture::width() const
+{
+    // not implement
+    return -1;
+}
+
+
+//-----------------------------------------------------------------------------
+int D3D9CubeTexture::height() const
+{
+    // not implement
+    return -1;
 }
 
 

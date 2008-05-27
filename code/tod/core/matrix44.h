@@ -112,9 +112,9 @@ namespace core
         };
     };
 
-Vector3 operator * (const Matrix44& m, const Vector3& v);
-Vector4 operator * (const Matrix44& m, const Vector4& v);
-Plane operator * (const Matrix44& m, const Plane& p);
+extern Vector3 operator * (const Matrix44& m, const Vector3& v);
+extern Vector4 operator * (const Matrix44& m, const Vector4& v);
+extern Plane operator * (const Matrix44& m, const Plane& p);
 
 }
 }

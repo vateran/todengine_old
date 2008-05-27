@@ -22,7 +22,7 @@ namespace graphics
         QuadTree();
         virtual~QuadTree();
 
-        void initialize(int depth, const BBox& BoundingBox);
+        void initialize(int depth, const core::BBox& BoundingBox);
 
     public:
         class Node

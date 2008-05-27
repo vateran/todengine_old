@@ -418,36 +418,36 @@ void Matrix44::operator *= (const Matrix44& lhs)
 
 
 //-----------------------------------------------------------------------------
-Vector3 operator * (const Matrix44& m, const Vector3& v)
+Vector3 Matrix44::operator * (const Vector3& lhs) const
 {
     Vector4 out;
     D3DXVec3Transform(
         reinterpret_cast<D3DXVECTOR4*>(&out),
-        reinterpret_cast<CONST D3DXVECTOR3*>(&v),
-        reinterpret_cast<CONST D3DXMATRIX*>(&m));
+        reinterpret_cast<CONST D3DXVECTOR3*>(&lhs),
+        reinterpret_cast<CONST D3DXMATRIX*>(this));
     return Vector3(out.x_, out.y_, out.z_);
 }
 
 
 //-----------------------------------------------------------------------------
-Vector4 operator * (const Matrix44& m, const Vector4& v)
+Vector4 Matrix44::operator * (const Vector4& lhs) const
 {
     Vector4 out;
     D3DXVec4Transform(
         reinterpret_cast<D3DXVECTOR4*>(&out),
-        reinterpret_cast<CONST D3DXVECTOR4*>(&v),
-        reinterpret_cast<CONST D3DXMATRIX*>(&m));
+        reinterpret_cast<CONST D3DXVECTOR4*>(&lhs),
+        reinterpret_cast<CONST D3DXMATRIX*>(this));
     return out;
 }
 
 
 //-----------------------------------------------------------------------------
-Plane operator * (const Matrix44& m, const Plane& p)
+Plane Matrix44::operator * (const Plane& lhs) const
 {
     Plane out;
     D3DXPlaneTransform(
         reinterpret_cast<D3DXPLANE*>(&out),
-        reinterpret_cast<CONST D3DXPLANE*>(&p),
-        reinterpret_cast<CONST D3DXMATRIX*>(&m));
+        reinterpret_cast<CONST D3DXPLANE*>(&lhs),
+        reinterpret_cast<CONST D3DXMATRIX*>(this));
     return out;
 }

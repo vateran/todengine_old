@@ -227,6 +227,10 @@
 					<Filter
 						Name="indexbuffer"
 						>
+						<File
+							RelativePath="..\..\code\tod\engine\indexbuffer.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="mesh"

@@ -6,6 +6,7 @@
     @brief 
 */
 
+#include "tod/core/rect.h"
 #include "tod/engine/format.h"
 #include "tod/engine/resource.h"
 
@@ -27,8 +28,17 @@ namespace graphics
         virtual void destroy()=0;
         virtual bool preload()=0;
 
+        virtual bool lockRect(
+            int level, const core::Rect* rect,
+            void*& out_ptr, int* out_pitch,
+            bool discard=true, bool read_only=false)=0;
+        virtual bool unlockRect(int level)=0;
+
         virtual void use(int index)=0;
         virtual void useAsRenderTarget(int index)=0;
+
+        virtual int width() const=0;
+        virtual int height() const=0;
     };
 }
 }

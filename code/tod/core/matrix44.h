@@ -95,6 +95,9 @@ namespace core
             const Vector3& translation);
 
         Matrix44 operator * (const Matrix44& lhs) const;
+        Vector3 operator * (const Vector3& lhs) const;
+        Vector4 operator * (const Vector4& lhs) const;
+        Plane operator * (const Plane& lhs) const;
         void operator *= (const Matrix44& lhs);
 
     public:
@@ -111,11 +114,6 @@ namespace core
             real_t m_[4][4];
         };
     };
-
-extern Vector3 operator * (const Matrix44& m, const Vector3& v);
-extern Vector4 operator * (const Matrix44& m, const Vector4& v);
-extern Plane operator * (const Matrix44& m, const Plane& p);
-
 }
 }
 

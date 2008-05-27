@@ -58,6 +58,22 @@ namespace core
             z_ -= rhs.z_;
             return *this;
         }
+
+        type operator + (const type& v) const
+        {   
+            return type(x_ + v.x_, y_ + v.y_, z_ + v.z_);
+        }
+
+        type operator - (const type& v) const
+        {
+            return type(x_ - v.x_, y_ - v.y_, z_ - v.z_);
+        }
+
+        type operator * (float value) const
+        {
+            return type(x_ * value, y_ * value, z_ * value);
+        }
+
         const T& operator [] (int i) const
         {
             return a_[i];

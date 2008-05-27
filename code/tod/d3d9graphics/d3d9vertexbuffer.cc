@@ -1,7 +1,6 @@
 #include "tod/d3d9graphics/d3d9vertexbuffer.h"
 
 #include "tod/core/assert.h"
-#include "tod/engine/types.h"
 #include "tod/d3d9graphics/d3d9exception.h"
 
 using namespace tod::core;
@@ -21,6 +20,7 @@ usage_(0), stride_(0), lockOption_(0)
 D3D9VertexBuffer::~D3D9VertexBuffer()
 {
     destroy();
+    SAFE_RELEASE(d3d9device_);
 }
 
 
@@ -30,16 +30,17 @@ bool D3D9VertexBuffer::create(int num_vertice, int vertex_component, int usage)
     tod_assert(d3d9device_);
     tod_assert(0 == d3d9vb_);
     
+    usage_ = 0;
+    numVertice_ = num_vertice;
+    vertexComponent_ = vertex_component;
     d3dpool_ = D3DPOOL_MANAGED;
+
     if (usage & USAGE_DYNAMIC)
     {
         d3dpool_ = D3DPOOL_DEFAULT;
-        usage |= D3DUSAGE_WRITEONLY;
+        usage_ |= D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC;
         lockOption_ = D3DLOCK_DISCARD;
     }
-    numVertice_ = num_vertice;
-    vertexComponent_ = vertex_component;
-    usage_ = usage;
 
     if (!setup_vertex_declaration(vertex_component))
         return false;
@@ -62,7 +63,6 @@ void D3D9VertexBuffer::destroy()
 {
     SAFE_RELEASE(d3d9vdecl_);
     SAFE_RELEASE(d3d9vb_);
-    SAFE_RELEASE(d3d9device_);
 }
 
 

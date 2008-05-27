@@ -72,12 +72,12 @@ namespace core
         /// check for intersection with other bounding box
         ClipStatus clipStatus(const BBox& box) const;
         /// check for intersection with projection volume
-        ClipStatus clipStatus(const Matrix44& view_projection) const;
+        ClipStatus clipStatus(const Matrix44& view_proj) const;
         /// create a matrix which transforms an unit cube to this bounding box
         Matrix44 toMatrix44() const;
         /// return one of the 8 corner points
         Vector3 cornersPoint(int index) const;
-        void getClipPlanes(const Matrix44& view_projection, std::vector<Plane>& out_planes) const;
+        void getClipPlanes(const Matrix44& view_proj, std::vector<Plane>& out_planes) const;
         
         int lineTest(float v0, float v1, float w0, float w1);
         int intersect(const BBox& box);

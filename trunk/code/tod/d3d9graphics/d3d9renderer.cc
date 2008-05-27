@@ -7,6 +7,7 @@
 #include "tod/d3d9graphics/d3d9exception.h"
 #include "tod/d3d9graphics/d3d9mesh.h"
 #include "tod/d3d9graphics/d3d9vertexbuffer.h"
+#include "tod/d3d9graphics/d3d9indexbuffer.h"
 #include "tod/d3d9graphics/d3d9texture.h"
 #include "tod/d3d9graphics/d3d9cubetexture.h"
 #include "tod/d3d9graphics/d3d9shader.h"
@@ -113,7 +114,13 @@ VertexBuffer* D3D9Renderer::newVertexBuffer(const Uri& uri)
 //-----------------------------------------------------------------------------
 IndexBuffer* D3D9Renderer::newIndexBuffer(const Uri& uri)
 {
-    return 0;
+    IndexBuffer* ib = indexBuffers_.find(uri);
+    if (0 == ib)
+    {
+        ib = new D3D9IndexBuffer(uri, d3d9device_);
+        indexBuffers_.add(ib);
+    }
+    return ib;
 }
 
 

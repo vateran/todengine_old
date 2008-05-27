@@ -34,33 +34,17 @@ void TerrainNode::applyGeometry(SceneServer* scene_server)
 void TerrainNode::renderGeometry
 (SceneServer* scene_server, SceneContext* scene_context)
 {
-    if (vb_.invalid() || vb_->invalid())
-        return;
-
-    vb_->use();
-    vb_->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+    ts_.render();
 }
 
 
 //-----------------------------------------------------------------------------
-#include "tod/engine/texture.h"
 bool TerrainNode::loadResource()
 {
     super::loadResource();
 
     if (vbUri_.size() && heightMapUri_.size())
-    {   
-        // load height map texture
-        ResourceRef<Texture> t =
-            Renderer::instance()->
-                newTexture(getHeightMapUri());
-        if (t.invalid())
-            return false;
-        t->preload();
-
-        // create new mesh
-        vb_ = Renderer::instance()->newVertexBuffer(getVBUri());
-        //vb_->create();
+    {
     }
     
     return true;
@@ -70,8 +54,6 @@ bool TerrainNode::loadResource()
 //-----------------------------------------------------------------------------
 void TerrainNode::unloadResource()
 {
-    vb_.release();
-
     super::unloadResource();
 }
 

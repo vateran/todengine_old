@@ -167,6 +167,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\tod\d3d9graphics\d3d9indexbuffer.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\d3d9graphics\d3d9indexbuffer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\tod\d3d9graphics\d3d9mesh.cc"
 				>
 			</File>

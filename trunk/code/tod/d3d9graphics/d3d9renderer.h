@@ -88,6 +88,7 @@ namespace graphics
         ResourceHolder<Shader> shaders_;
         ResourceHolder<Texture> textures_;
         ResourceHolder<VertexBuffer> vertexBuffers_;
+        ResourceHolder<IndexBuffer> indexBuffers_;
         ResourceHolder<Mesh> meshes_;
 
     };

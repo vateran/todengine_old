@@ -74,12 +74,11 @@ bool D3D9Texture::preload()
     dynamic_buffer_t buffer;
     resource.read(buffer);
 
-    D3DXIMAGE_INFO img_info;
     HRESULT hr;
     if (FAILED(hr = D3DXCreateTextureFromFileInMemoryEx(d3d9device_,
         &buffer[0], static_cast<UINT>(buffer.size()),
         D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_FROM_FILE, D3DPOOL_MANAGED, 
-        D3DX_DEFAULT, D3DX_DEFAULT, 0, &img_info, 0, &d3d9texture_)))
+        D3DX_DEFAULT, D3DX_DEFAULT, 0, &info_, 0, &d3d9texture_)))
     {
         THROW_D3D9EXCEPTION(
             D3D9GRAPHICSEXCEPTIONCODE_D3DXCREATETEXTUREFROMFILEINMEMORYEXERROR,
@@ -87,6 +86,44 @@ bool D3D9Texture::preload()
             getUri().c_str()));
         return false;
     }
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool D3D9Texture::lockRect
+(int level, const core::Rect* rect, void*& out_ptr, int* out_pitch,
+ bool discard, bool read_only)
+{
+    tod_assert(d3d9texture_);
+
+    int lock_flags = 0;
+    D3DLOCKED_RECT locked_rect;
+
+    if (discard)
+    {
+        if (0 != rect)
+            lock_flags |= D3DLOCK_DISCARD;
+    }
+    if (read_only)
+        lock_flags |= D3DLOCK_READONLY;
+
+    if (FAILED(d3d9texture_->LockRect(
+        level, &locked_rect,
+        reinterpret_cast<CONST RECT*>(rect),
+        lock_flags)))
+        return false;
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool D3D9Texture::unlockRect(int level)
+{
+    tod_assert(d3d9texture_);
+
+    if (FAILED(d3d9texture_->UnlockRect(level)))
+        return false;
     return true;
 }
 
@@ -110,6 +147,20 @@ void D3D9Texture::useAsRenderTarget(int index)
         return;
     d3d9device_->SetRenderTarget(index, s);
     s->Release();
+}
+
+
+//-----------------------------------------------------------------------------
+int D3D9Texture::width() const
+{
+    return info_.Width;
+}
+
+
+//-----------------------------------------------------------------------------
+int D3D9Texture::height() const
+{
+    return info_.Height;
 }
 
 

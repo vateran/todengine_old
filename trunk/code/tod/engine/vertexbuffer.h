@@ -8,6 +8,7 @@
 
 #include "tod/core/uri.h"
 #include "tod/engine/resource.h"
+#include "tod/engine/types.h"
 
 namespace tod
 {
@@ -31,18 +32,6 @@ namespace graphics
         VERTEXCOMPONENT_COORD4          = (1<<11),
 
         VERTEXCOMPONENT_MAX             = 12,
-    };
-
-    enum PrimitiveType
-    {
-        PRIMITIVETYPE_POINTLIST = 1,
-        PRIMITIVETYPE_LINELIST,
-        PRIMITIVETYPE_LINESTRIP,
-        PRIMITIVETYPE_TRIANGLELIST,
-        PRIMITIVETYPE_TRIANGLESTRIP,
-        PRIMITIVETYPE_TRIANGLEFAN,
-
-        PRIMITIVETYPE_FORCE_DWORD = 0x7fffffff
     };
 
     class VertexBuffer : public Resource

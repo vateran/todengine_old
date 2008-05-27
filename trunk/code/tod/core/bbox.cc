@@ -275,7 +275,7 @@ BBox::ClipStatus BBox::clipStatus(const BBox& box) const
 
 
 //-----------------------------------------------------------------------------
-BBox::ClipStatus BBox::clipStatus(const Matrix44& view_projection) const
+BBox::ClipStatus BBox::clipStatus(const Matrix44& view_proj) const
 {
     int and_flags = 0xffff;
     int or_flags = 0;
@@ -294,7 +294,7 @@ BBox::ClipStatus BBox::clipStatus(const Matrix44& view_projection) const
         if (i & 4)  v0.z_ = min_.z_;
         else        v0.z_ = max_.z_;
 
-        v1 = view_projection * v0;
+        v1 = view_proj * v0;
 
         if (v1.x_ < -v1.w_)     clip |= CLIP_LEFT;
         else if (v1.x_ > v1.w_) clip |= CLIP_RIGHT;
@@ -352,9 +352,9 @@ Vector3 BBox::cornersPoint(int index) const
     Get the bounding box's side planes in clip plane
 */
 void BBox::getClipPlanes
-(const Matrix44& view_projection, std::vector<Plane>& out_planes) const
+(const Matrix44& view_proj, std::vector<Plane>& out_planes) const
 {
-    Matrix44 inv(view_projection);
+    Matrix44 inv(view_proj);
     inv.inverse();
     inv.transpose();
 

@@ -73,13 +73,13 @@ class MainFrame(wx.Frame):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Frame.__init__(self, id=wxID_MAINFRAME, name=u'MainFrame',
-              parent=prnt, pos=wx.Point(434, 144), size=wx.Size(777, 463),
+              parent=prnt, pos=wx.Point(230, 42), size=wx.Size(777, 620),
               style=wx.MAXIMIZE | wx.DEFAULT_FRAME_STYLE, title=u'TodEditor')
         self._init_utils()
         self.SetThemeEnabled(True)
         self.SetToolTipString(u'TodEditor')
         self.SetMenuBar(self.menuBar)
-        self.SetClientSize(wx.Size(769, 429))
+        self.SetClientSize(wx.Size(769, 586))
         self.Bind(wx.EVT_CLOSE, self.OnMainFrameClose)
 
         self.statusBar = wx.StatusBar(id=wxID_MAINFRAMESTATUSBAR,

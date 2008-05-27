@@ -8,7 +8,6 @@
 
 #include "tod/core/uri.h"
 #include "tod/engine/resourceref.h"
-#include "tod/engine/shapenode.h"
 #include "tod/engine/vertexbuffer.h"
 
 namespace tod
@@ -22,6 +21,11 @@ namespace graphics
     public:
         TerrainSection();
         virtual~TerrainSection();
+
+        void render();
+
+    private:
+        ResourceRef<VertexBuffer> vb_;
     };
 }
 }

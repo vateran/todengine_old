@@ -39,6 +39,19 @@ namespace core
         {
             return tod_sqrt(x_ * x_ + y_ * y_ + z_ * z_);
         }
+        T length() const
+        {
+            return size();
+        }
+        void normalize()
+        {
+            T l = length();
+            if (l == 0)
+                return;
+            x_ /= l;
+            y_ /= l;
+            z_ /= l;
+        }
 
         Tuple3 operator - ()
         {

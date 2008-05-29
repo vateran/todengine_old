@@ -65,6 +65,7 @@
 				AdditionalDependencies="d3d9.lib d3dx9.lib winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).pyd"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"

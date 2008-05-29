@@ -1,3 +1,7 @@
+#include "IL/il.h"
+#include "IL/ilu.h"
+#include "IL/ilut.h"
+
 #include "tod/core/define.h"
 #include "tod/core/module.h"
 #include "tod/core/kernel.h"
@@ -58,6 +62,15 @@ void initialize_Engine(Module* module)
 
     static FormatStringConverter format_sc;
     ToString::instance()->addConverter(&format_sc);
+
+    ilInit();
+}
+
+
+//-----------------------------------------------------------------------------
+void finalize_Engine(Module* module)
+{
+    ilShutDown();
 }
 
 

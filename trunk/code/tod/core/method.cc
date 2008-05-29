@@ -1,6 +1,6 @@
 #include "tod/core/method.h"
 
-#include "external/boost/tokenizer.hpp"
+#include "boost/tokenizer.hpp"
 #include "tod/core/node.h"
 
 using namespace tod::core;

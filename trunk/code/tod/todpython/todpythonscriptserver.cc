@@ -85,11 +85,7 @@ TodPythonScriptServer::TodPythonScriptServer()
 //-----------------------------------------------------------------------------
 TodPythonScriptServer::~TodPythonScriptServer()
 {
-    Py_DECREF(g_module);
-    if (s_standAlone_)
-    {
-        Py_Finalize();
-    }
+    
 }
 
 
@@ -119,6 +115,16 @@ void initialize_TodPython(Module* module)
     REGISTER_TYPE(module, TodPythonScriptServer);
 }
 
+
+//-----------------------------------------------------------------------------
+void finalize_TodPython(Module* module)
+{
+    Py_DECREF(g_module);
+    //if (s_standAlone_)
+    {
+        Py_Finalize();
+    }
+}
 
 //-----------------------------------------------------------------------------
 DECLARE_MODULE(TodPython);

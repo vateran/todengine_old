@@ -113,6 +113,10 @@ bool D3D9Texture::lockRect
         reinterpret_cast<CONST RECT*>(rect),
         lock_flags)))
         return false;
+
+    out_ptr = locked_rect.pBits;
+    *out_pitch = locked_rect.Pitch;
+
     return true;
 }
 

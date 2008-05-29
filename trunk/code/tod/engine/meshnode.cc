@@ -32,22 +32,12 @@ void MeshNode::applyGeometry(SceneServer* scene_server)
 
 
 //-----------------------------------------------------------------------------
-#include "tod/engine/shader.h"
 void MeshNode::renderGeometry
 (SceneServer* scene_server, SceneContext* scene_context)
 {
     if (mesh_.invalid())
-        return;
-    Shader* shader = Renderer::instance()->getShader();
-    uint32_t pass;
-    shader->begin(pass);
-    for (uint32_t i = 0; i < pass; ++i)
-    {
-        shader->beginPass(i);
-        mesh_->draw();
-        shader->endPass();
-    }    
-    shader->end();
+        return;   
+    mesh_->draw();
 }
 
 

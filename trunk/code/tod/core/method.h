@@ -6,7 +6,7 @@
     @brief 
 */
 
-#include "external/boost/tokenizer.hpp"
+#include "boost/tokenizer.hpp"
 #include "tod/core/primitivetype.h"
 #include "tod/core/string.h"
 #include "tod/core/name.h"

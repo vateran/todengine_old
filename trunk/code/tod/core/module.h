@@ -64,7 +64,7 @@ namespace core
     extern "C" void Use##name##Module()\
     {\
         static Module s_##name##_module(\
-        STRING(#name), initialize_##name, 0);\
+        STRING(#name), initialize_##name, finalize_##name);\
         tod::core::Kernel::instance()->addModule(&s_##name##_module);\
     }
 /// Include Moudle macro

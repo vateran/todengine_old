@@ -12,5 +12,13 @@ void initialize_D3D9Graphics(Module* module)
     REGISTER_TYPE(module, D3D9Renderer);
 }
 
+
+//-----------------------------------------------------------------------------
+void finalize_D3D9Graphics(Module* module)
+{
+
+}
+
+
 //-----------------------------------------------------------------------------
 DECLARE_MODULE(D3D9Graphics);

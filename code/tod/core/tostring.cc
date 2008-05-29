@@ -1,7 +1,7 @@
 #include "tod/core/tostring.h"
 
 #include <strsafe.h>
-#include "external/boost/tokenizer.hpp"
+#include "boost/tokenizer.hpp"
 #include "tod/core/define.h"
 #include "tod/core/primitivetype.h"
 #include "tod/core/string.h"

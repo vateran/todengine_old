@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code;../../code/external"
+				AdditionalIncludeDirectories="../../code;../../code/external;../../code/external/devil/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,7 +62,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="DevIL.lib"
 				OutputFile="$(SolutionDir)../../lib/win32/$(ProjectName)_d.lib"
+				AdditionalLibraryDirectories="../../code/external/devil/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -105,7 +107,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../code;../../code/external"
+				AdditionalIncludeDirectories="../../code;../../code/external;../../code/external/devil/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -125,7 +127,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies=" DevIL.lib, ILU.lib, ILUT.lib"
 				OutputFile="$(SolutionDir)../../lib/win32/$(ProjectName).lib"
+				AdditionalLibraryDirectories="../../code/external/devil/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -276,6 +280,18 @@
 							>
 						</File>
 					</Filter>
+					<Filter
+						Name="image"
+						>
+						<File
+							RelativePath="..\..\code\tod\engine\image.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\code\tod\engine\image.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="scene"
@@ -400,6 +416,58 @@
 							</File>
 							<File
 								RelativePath="..\..\code\tod\engine\shadernode.h"
+								>
+							</File>
+						</Filter>
+						<Filter
+							Name="quadtree"
+							>
+							<File
+								RelativePath="..\..\code\tod\engine\quadtree.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\quadtree.h"
+								>
+							</File>
+						</Filter>
+						<Filter
+							Name="terrainnode"
+							>
+							<File
+								RelativePath="..\..\code\tod\engine\terrain.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\terrain.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\terrainnode.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\terrainnode.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\terrainsection.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\terrainsection.h"
+								>
+							</File>
+						</Filter>
+						<Filter
+							Name="timenode"
+							>
+							<File
+								RelativePath="..\..\code\tod\engine\timenode.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\timenode.h"
 								>
 							</File>
 						</Filter>
@@ -565,62 +633,6 @@
 					RelativePath="..\..\code\tod\engine\triggerserver_method.cc"
 					>
 				</File>
-			</Filter>
-			<Filter
-				Name="nodes"
-				>
-				<Filter
-					Name="timenode"
-					>
-					<File
-						RelativePath="..\..\code\tod\engine\timenode.cc"
-						>
-					</File>
-					<File
-						RelativePath="..\..\code\tod\engine\timenode.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="terrainnode"
-					>
-					<File
-						RelativePath="..\..\code\tod\engine\terrain.cc"
-						>
-					</File>
-					<File
-						RelativePath="..\..\code\tod\engine\terrain.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\code\tod\engine\terrainnode.cc"
-						>
-					</File>
-					<File
-						RelativePath="..\..\code\tod\engine\terrainnode.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\code\tod\engine\terrainsection.cc"
-						>
-					</File>
-					<File
-						RelativePath="..\..\code\tod\engine\terrainsection.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="quadtree"
-					>
-					<File
-						RelativePath="..\..\code\tod\engine\quadtree.cc"
-						>
-					</File>
-					<File
-						RelativePath="..\..\code\tod\engine\quadtree.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

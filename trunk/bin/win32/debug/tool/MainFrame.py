@@ -99,7 +99,7 @@ class MainFrame(wx.Frame):
         self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
         
-        '''mesh = new('MeshNode', '/usr/scene/tiger')
+        mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'EnvMapMesh'
@@ -111,22 +111,22 @@ class MainFrame(wx.Frame):
         
         mesh = new('MeshNode', '/usr/scene/skybox')
         mesh.euler_rotation = (0, 0, 0)
-        mesh.scaling = (2, 2, 2)
+        mesh.scaling = (1000, 1000, 1000)
         mesh.translation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'SkyBox'
         mesh.mesh_uri = 'managed://mesh#alley_skybox.x'
-        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')'''
+        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
         
         terrain = new('TerrainNode', '/usr/scene/terrain')
         terrain.shader_uri = 'managed://shader#terrain.fx'
         terrain.technique = 'Terrain'
-        terrain.addTexture('DiffuseMap', 'managed://texture#map.bmp')
+        terrain.addTexture('DiffuseMap', 'managed://texture#Base_Texture_BigPoint.jpg')
                 
         camera = new('CameraNode', '/usr/scene/camera')
         camera.renderpath_section = 'default'
         camera.shader_uri = 'managed://shader#camera.fx'
-        camera.translation = (0, 0, -4)
+        camera.translation = (0, 0, -20)
         
         render_path = new('RenderPath', '/sys/server/renderpath')
         rpsection = new('RpSection', '/sys/server/renderpath/default')
@@ -241,4 +241,4 @@ class MainFrame(wx.Frame):
     def OnMainFrameClose(self, event):
         self.app.keepGoing_ = False
         self.Destroy()
-        
+ 

@@ -212,6 +212,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\bin\win32\debug\data\shader\terrain.fx"
+			>
+		</File>
+		<File
 			RelativePath="..\..\bin\win32\debug\test.py"
 			>
 		</File>

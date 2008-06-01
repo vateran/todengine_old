@@ -29,6 +29,7 @@ bool D3D9IndexBuffer::create(int num_indices, int usage, Format format)
     tod_assert(d3d9device_);
     tod_assert(0 == d3d9ib_);
 
+    numIndices_ = num_indices;
     usage_ = 0;
     d3dpool_ = D3DPOOL_MANAGED;
     if (usage & USAGE_DYNAMIC)
@@ -53,7 +54,7 @@ bool D3D9IndexBuffer::create(int num_indices, int usage, Format format)
     // create index buffer
     HRESULT hr;
     if (FAILED(hr = d3d9device_->CreateIndexBuffer(
-        num_indices * stride_, usage, format, d3dpool_, &d3d9ib_, 0)))
+        numIndices_ * stride_, usage, format, d3dpool_, &d3d9ib_, 0)))
     {
         THROW_D3D9EXCEPTION(D3D9GRAPHICSEXCEPTIONCODE_CREATEINDEXBUFFERERROR,
             hr, STRING("d3d9device_->CreateIndexBuffer"));
@@ -104,32 +105,35 @@ bool D3D9IndexBuffer::use()
 
 
 //-----------------------------------------------------------------------------
-bool D3D9IndexBuffer::draw(PrimitiveType type)
+bool D3D9IndexBuffer::draw(PrimitiveType type, int num)
 {
     tod_assert(d3d9device_);
     tod_assert(d3d9ib_);
 
-    int num_primitive = 0;
-    switch (type)
+    int num_primitive = num;
+    if (num == -1)
     {
-    case PRIMITIVETYPE_POINTLIST:
-        num_primitive = numIndices_;
-        break;
-    case PRIMITIVETYPE_LINELIST:
-        num_primitive = numIndices_ / 2;
-        break;
-    case PRIMITIVETYPE_LINESTRIP:
-        num_primitive = numIndices_ - 1;
-        break;
-    case PRIMITIVETYPE_TRIANGLELIST:
-        num_primitive = numIndices_ / 3;
-        break;
-    case PRIMITIVETYPE_TRIANGLESTRIP:
-    case PRIMITIVETYPE_TRIANGLEFAN:
-        num_primitive = numIndices_ - 2;
-        break;
+        switch (type)
+        {
+        case PRIMITIVETYPE_POINTLIST:
+            num_primitive = numIndices_;
+            break;
+        case PRIMITIVETYPE_LINELIST:
+            num_primitive = numIndices_ / 2;
+            break;
+        case PRIMITIVETYPE_LINESTRIP:
+            num_primitive = numIndices_ - 1;
+            break;
+        case PRIMITIVETYPE_TRIANGLELIST:
+            num_primitive = numIndices_ / 3;
+            break;
+        case PRIMITIVETYPE_TRIANGLESTRIP:
+        case PRIMITIVETYPE_TRIANGLEFAN:
+            num_primitive = numIndices_ - 2;
+            break;
+        }
     }
-
+    
     if (FAILED(d3d9device_->DrawIndexedPrimitive(
         static_cast<D3DPRIMITIVETYPE>(type),
         0, 0, numIndices_, 0, num_primitive)))

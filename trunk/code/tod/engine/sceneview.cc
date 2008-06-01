@@ -29,7 +29,7 @@ SceneView::~SceneView()
 void SceneView::render(SceneServer* scene_server)
 {
     // set scene view matrix
-    sceneContext_.setTransform(view_.getMatrix());
+    sceneContext_.setTransform(camera_.getMatrix());
 
     // render
     scene_server->beginScene();
@@ -70,22 +70,43 @@ int SceneView::getWindowId() const
 
 
 //-----------------------------------------------------------------------------
+void SceneView::moveForward(float dst)
+{
+    camera_.translateZ(dst);
+}
+
+
+//-----------------------------------------------------------------------------
+void SceneView::moveLeft(float dst)
+{
+    camera_.translateX(-dst);
+}
+
+
+//-----------------------------------------------------------------------------
+void SceneView::moveRight(float dst)
+{
+    camera_.translateX(dst);
+}
+
+
+//-----------------------------------------------------------------------------
 void SceneView::viewEulerRotationX(float x)
 {
-    view_.eulerRotateX(x);
+    camera_.rotateX(x);
 }
 
 //-----------------------------------------------------------------------------
 void SceneView::viewEulerRotationY(float y)
 {
-    view_.eulerRotateY(y);
+    camera_.rotateY(y);
 }
 
 
 //-----------------------------------------------------------------------------
 void SceneView::viewEulerRotationZ(float z)
 {
-    view_.eulerRotateZ(z);
+    camera_.rotateZ(z);
 }
 
 

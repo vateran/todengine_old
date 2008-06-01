@@ -296,6 +296,10 @@
 							>
 						</File>
 					</Filter>
+					<Filter
+						Name="frustum"
+						>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="scene"

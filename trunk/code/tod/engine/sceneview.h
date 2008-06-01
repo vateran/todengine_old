@@ -11,6 +11,7 @@
 #include "tod/core/matrix44.h"
 #include "tod/core/object.h"
 #include "tod/core/path.h"
+#include "tod/engine/camera.h"
 #include "tod/engine/scenecontext.h"
 
 namespace tod
@@ -34,6 +35,10 @@ namespace graphics
         void setWindowId(int window_id);
         int getWindowId() const;
 
+        void moveForward(float dst);
+        void moveLeft(float dst);
+        void moveRight(float dst);
+
         void viewEulerRotationX(float x);
         void viewEulerRotationY(float y);
         void viewEulerRotationZ(float z);
@@ -45,7 +50,7 @@ namespace graphics
         int windowId_;
         core::Path sceneRootPath_;
         SceneContext sceneContext_;
-        core::Transform44 view_;
+        Camera camera_;
     };
 }
 }

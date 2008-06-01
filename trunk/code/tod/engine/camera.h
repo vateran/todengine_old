@@ -18,6 +18,8 @@ namespace graphics
     class Camera
     {
     public:
+        Camera();
+
         void setView(
             const core::Vector3& eye,
             const core::Vector3& look,

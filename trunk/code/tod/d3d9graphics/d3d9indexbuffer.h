@@ -30,7 +30,7 @@ namespace graphics
         override bool unlock();
 
         override bool use();
-        override bool draw(PrimitiveType type);
+        override bool draw(PrimitiveType type, int num=-1);
 
         override bool valid() const;
         

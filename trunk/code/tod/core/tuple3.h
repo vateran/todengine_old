@@ -7,6 +7,7 @@
 */
 
 #include "tod/core/math.h"
+#include "tod/core/matrix44.h"
 
 namespace tod
 {
@@ -52,7 +53,20 @@ namespace core
             y_ /= l;
             z_ /= l;
         }
-
+        void cross(const type& v2)
+        {
+            type v1(*this);
+            x_ = v1.y_ * v2.z_ - v1.z_ * v2.y_;
+            y_ = v1.z_ * v2.x_ - v1.x_ * v2.z_;
+            z_ = v1.x_ * v2.y_ - v1.y_ * v2.x_;
+        }
+        void transformCoord(const core::Matrix44& m)
+        {
+            D3DXVec3TransformCoord(
+                reinterpret_cast<D3DXVECTOR3*>(this),
+                reinterpret_cast<CONST D3DXVECTOR3*>(this),
+                reinterpret_cast<CONST D3DXMATRIX*>(&m));
+        }
         Tuple3 operator - ()
         {
             return Tuple3(-x_, -y_, -z_);
@@ -69,6 +83,13 @@ namespace core
             x_ -= rhs.x_;
             y_ -= rhs.y_;
             z_ -= rhs.z_;
+            return *this;
+        }
+        const type& operator *= (T v)
+        {
+            x_ *= v;
+            y_ *= v;
+            z_ *= v;
             return *this;
         }
 

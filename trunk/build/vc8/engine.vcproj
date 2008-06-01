@@ -164,6 +164,10 @@
 						Name="camera"
 						>
 						<File
+							RelativePath="..\..\code\tod\engine\camera.cc"
+							>
+						</File>
+						<File
 							RelativePath="..\..\code\tod\engine\camera.h"
 							>
 						</File>

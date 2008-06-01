@@ -21,11 +21,12 @@ TerrainSection::~TerrainSection()
 
 //-----------------------------------------------------------------------------
 VertexBuffer* vb = 0;
+IndexBuffer* ib = 0;
 Texture* height_map = 0;
 #include "tod/engine/texture.h"
 #include "tod/engine/vertexbuffer.h"
 #include "tod/engine/indexbuffer.h"
-Vector3 scale_(10, 10, 10);
+Vector3 scale_(0.01f, 0.01f, 0.01f);
 void TerrainSection::render()
 {
     if (vb == 0)
@@ -48,8 +49,8 @@ void TerrainSection::render()
             float u_, v_;
         };
 
-        Vertex* ptr = 0;
-        vb->lock((void*&)ptr);
+        Vertex* vbptr = 0;
+        vb->lock((void*&)vbptr);
 
         float width = static_cast<float>(hmap.width());
         float height = static_cast<float>(hmap.height());
@@ -58,44 +59,58 @@ void TerrainSection::render()
             for (int w = 0; w < hmap.width(); ++w)
             {
                 Color c = hmap.getPixel(w, h);
-                ptr->coord_.x_ = (w - width) / 2 * scale_.x_;
-                ptr->coord_.z_ = (h - height) / 2 * scale_.z_;
-                ptr->coord_.y_ = c.r_ * scale_.y_;
+                vbptr->coord_.x_ = (w - width) / 2 * scale_.x_;
+                vbptr->coord_.z_ = (h - height) / 2 * scale_.z_;
+                vbptr->coord_.y_ = c.r_ * scale_.y_;
                 
-                ptr->normal_ = ptr->coord_;
-                ptr->normal_.normalize();
+                vbptr->normal_ = vbptr->coord_;
+                vbptr->normal_.normalize();
 
-                ptr->diffuse_ = Color(255, 255, 255, 255);
+                vbptr->diffuse_ = Color(255, 255, 255, 255);
 
-                ptr->u_ = w / (width - 1);
-                ptr->v_ = h / (height - 1);
+                vbptr->u_ = w / (width - 1);
+                vbptr->v_ = h / (height - 1);
             }
         }
 
-        /*ptr[0].coord_.x_ = -1;
-        ptr[0].coord_.y_ = 0;
-        ptr[0].coord_.z_ = 1;
-        ptr[0].diffuse_ = Color(255, 255, 255, 255);
-        ptr[0].u_ = 0;
-        ptr[0].v_ = 0;
+        /*vbptr[0].coord_.x_ = -1;
+        vbptr[0].coord_.y_ = 0;
+        vbptr[0].coord_.z_ = 1;
+        vbptr[0].diffuse_ = Color(255, 255, 255, 255);
+        vbptr[0].u_ = 0;
+        vbptr[0].v_ = 0;
 
-        ptr[1].coord_.x_ = 0;
-        ptr[1].coord_.y_ = 1;
-        ptr[1].coord_.z_ = 1;
-        ptr[1].diffuse_ = Color(255, 255, 255, 255);
-        ptr[1].u_ = 0;
-        ptr[1].v_ = 1;
+        vbptr[1].coord_.x_ = 0;
+        vbptr[1].coord_.y_ = 1;
+        vbptr[1].coord_.z_ = 1;
+        vbptr[1].diffuse_ = Color(255, 255, 255, 255);
+        vbptr[1].u_ = 0;
+        vbptr[1].v_ = 1;
 
-        ptr[2].coord_.x_ = 1;
-        ptr[2].coord_.y_ = -1;
-        ptr[2].coord_.z_ = 1;
-        ptr[2].diffuse_ = Color(255, 255, 255, 255);
-        ptr[2].u_ = 1;
-        ptr[2].v_ = 1;*/
+        vbptr[2].coord_.x_ = 1;
+        vbptr[2].coord_.y_ = -1;
+        vbptr[2].coord_.z_ = 1;
+        vbptr[2].diffuse_ = Color(255, 255, 255, 255);
+        vbptr[2].u_ = 1;
+        vbptr[2].v_ = 1;*/
 
         vb->unlock();
+
+        ib = Renderer::instance()->newIndexBuffer(STRING("test"));
+        ib->create(hmap.width() * hmap.height() * 2, 0, Format::INDEX16);
+
+        struct TriIndex
+        {
+            unsigned short i0_, i1_, i2_;
+        };
+
+        TriIndex* ibptr = 0;
+        ib->lock((void*&)ibptr);
+        
+        ib->unlock();
     }
 
     vb->use();
-    vb->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+    ib->use();
+    ib->draw(PRIMITIVETYPE_TRIANGLELIST);
 }

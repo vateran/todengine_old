@@ -4,6 +4,17 @@ using namespace tod::core;
 using namespace tod::engine::graphics;
 
 //-----------------------------------------------------------------------------
+Camera::Camera()
+{
+    eye_.set(0, 0, 0);
+    at_.set(0, 0, 1);
+    up_.set(0, 1, 0);
+
+    setView(eye_, at_, up_);
+}
+
+
+//-----------------------------------------------------------------------------
 void Camera::setView
 (const Vector3& eye, const Vector3& at, const Vector3& up)
 {
@@ -78,14 +89,24 @@ void Camera::rotateX(float angle)
 //-----------------------------------------------------------------------------
 void Camera::rotateY(float angle)
 {
+    Matrix44 r;
+    r.setRotateAxis(up_, angle);
 
+    view_.transformCoord(r);
+
+    setView(eye_, view_ + eye_, up_);
 }
 
 
 //-----------------------------------------------------------------------------
 void Camera::rotateZ(float angle)
 {
+    Matrix44 r;
+    r.setRotateAxis(view_, angle);
 
+    view_.transformCoord(r);
+
+    setView(eye_, view_ + eye_, up_);
 }
 
 

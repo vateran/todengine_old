@@ -68,6 +68,8 @@ VsOutput TerrainVertexShaderMain(VsInput input)
 
 float4 TerrainPixelShaderMain(VsOutput input) : COLOR
 {
+    return tex2D(DefaultSampler, input.uv0) * input.diffuse;
+
     float3 L = normalize(input.light);
 	float3 V = normalize(input.eye);
 	float3 N = normalize(input.normal);
@@ -103,6 +105,8 @@ technique Terrain
         VertexShader = compile vs_2_0 TerrainVertexShaderMain();
         PixelShader  = compile ps_2_0 TerrainPixelShaderMain();
         CullMode = None;
+        Lighting = False;
+        //FillMode = WireFrame;
     }
 }
 

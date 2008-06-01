@@ -83,6 +83,7 @@ technique ScenePass
     {
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psOpaque();
+        FillMode = Solid;
     }
 }
 
@@ -93,6 +94,7 @@ technique OpaqueQuadPass
     {
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psOpaque();
+        FillMode = Solid;
     }
 }
 
@@ -103,6 +105,7 @@ technique ComposeScenePass
     {
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psCompose();
+        FillMode = Solid;
     }
 }
 
@@ -114,5 +117,6 @@ technique BrightPass
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psBrightPassFilter();
         ZEnable = false;
+        FillMode = Solid;
     }
 }

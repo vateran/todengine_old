@@ -7,12 +7,14 @@
 */
 
 #include "tod/core/math.h"
-#include "tod/core/matrix44.h"
+#include "tod/core/tuple3_impl.h"
 
 namespace tod
 {
 namespace core
 {
+    class Matrix44;
+
     template <typename T>
     class Tuple3
     {
@@ -60,12 +62,9 @@ namespace core
             y_ = v1.z_ * v2.x_ - v1.x_ * v2.z_;
             z_ = v1.x_ * v2.y_ - v1.y_ * v2.x_;
         }
-        void transformCoord(const core::Matrix44& m)
+        void transformCoord(const Matrix44& m)
         {
-            D3DXVec3TransformCoord(
-                reinterpret_cast<D3DXVECTOR3*>(this),
-                reinterpret_cast<CONST D3DXVECTOR3*>(this),
-                reinterpret_cast<CONST D3DXMATRIX*>(&m));
+            Tuple3_Impl::transformCoord(this, m);
         }
         Tuple3 operator - ()
         {

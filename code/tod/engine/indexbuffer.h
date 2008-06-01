@@ -36,7 +36,7 @@ namespace graphics
         virtual bool unlock()=0;
 
         virtual bool use()=0;
-        virtual bool draw(PrimitiveType type)=0;
+        virtual bool draw(PrimitiveType type, int num=-1)=0;
 
         virtual bool valid() const=0;
         bool invalid() const { return !valid(); }

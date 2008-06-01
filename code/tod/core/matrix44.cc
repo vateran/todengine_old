@@ -1,10 +1,6 @@
 #include "tod/core/matrix44.h"
 
 #include <d3dx9.h>
-#include "tod/core/vector3.h"
-#include "tod/core/vector4.h"
-#include "tod/core/plane.h"
-#include "tod/core/quaternion.h"
 
 using namespace tod::core;
 
@@ -357,6 +353,16 @@ void Matrix44::reflect(const Plane& plane)
     D3DXMatrixReflect(
         reinterpret_cast<D3DXMATRIX*>(this), 
         reinterpret_cast<CONST D3DXPLANE*>(&plane));
+}
+
+
+//-----------------------------------------------------------------------------
+void Matrix44::setRotateAxis(const Vector3& axis, real_t angle)
+{
+    D3DXMatrixRotationAxis(
+        reinterpret_cast<D3DXMATRIX*>(this),
+        reinterpret_cast<CONST D3DXVECTOR3*>(&axis),
+        angle);
 }
 
 

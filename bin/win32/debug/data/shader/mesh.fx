@@ -195,6 +195,7 @@ technique Mesh
     {
         VertexShader = compile vs_2_0 MeshVertexShaderMain();
         PixelShader  = compile ps_2_0 MeshPixelShaderMain();
+        FillMode = Solid;
     }
 }
 
@@ -204,6 +205,7 @@ technique EnvMapMesh
     {
         VertexShader = compile vs_2_0 RenderEnvMapSceneVS();
         PixelShader  = compile ps_2_0 RenderEnvMapScenePS();
+        FillMode = Solid;
     }
 }
 
@@ -214,5 +216,6 @@ technique SkyBox
         VertexShader = compile vs_2_0 vsSkyBoxMain();
         PixelShader  = compile ps_2_0 psSkyBoxMain();
         ZEnable = True;
+        FillMode = Solid;
     }
 }

@@ -664,6 +664,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\tod\core\tuple3_impl.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\tuple3_impl.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\tod\core\tuple4.h"
 				>
 			</File>

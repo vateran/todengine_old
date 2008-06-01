@@ -23,15 +23,17 @@ TerrainSection::~TerrainSection()
 VertexBuffer* vb = 0;
 IndexBuffer* ib = 0;
 Texture* height_map = 0;
+#include <windows.h>
 #include "tod/engine/texture.h"
 #include "tod/engine/vertexbuffer.h"
 #include "tod/engine/indexbuffer.h"
-Vector3 scale_(0.01f, 0.01f, 0.01f);
+Vector3 scale_(1, 1, 1);
+int index_ = 0;
 void TerrainSection::render()
 {
     if (vb == 0)
     {   
-        Image hmap(STRING("managed://texture#map.bmp"));
+        Image hmap(STRING("managed://texture#hmap.png"));
         hmap.preload();
 
         vb = Renderer::instance()->newVertexBuffer(STRING("test"));
@@ -59,8 +61,9 @@ void TerrainSection::render()
             for (int w = 0; w < hmap.width(); ++w)
             {
                 Color c = hmap.getPixel(w, h);
-                vbptr->coord_.x_ = (w - width) / 2 * scale_.x_;
-                vbptr->coord_.z_ = (h - height) / 2 * scale_.z_;
+
+                vbptr->coord_.x_ = (w - width / 2) * scale_.x_;
+                vbptr->coord_.z_ = -(h - height / 2) * scale_.z_;
                 vbptr->coord_.y_ = c.r_ * scale_.y_;
                 
                 vbptr->normal_ = vbptr->coord_;
@@ -68,49 +71,56 @@ void TerrainSection::render()
 
                 vbptr->diffuse_ = Color(255, 255, 255, 255);
 
-                vbptr->u_ = w / (width - 1);
-                vbptr->v_ = h / (height - 1);
+                vbptr->u_ = w / width;
+                vbptr->v_ = h / height;
+
+                ++vbptr;                
             }
         }
 
-        /*vbptr[0].coord_.x_ = -1;
-        vbptr[0].coord_.y_ = 0;
-        vbptr[0].coord_.z_ = 1;
-        vbptr[0].diffuse_ = Color(255, 255, 255, 255);
-        vbptr[0].u_ = 0;
-        vbptr[0].v_ = 0;
-
-        vbptr[1].coord_.x_ = 0;
-        vbptr[1].coord_.y_ = 1;
-        vbptr[1].coord_.z_ = 1;
-        vbptr[1].diffuse_ = Color(255, 255, 255, 255);
-        vbptr[1].u_ = 0;
-        vbptr[1].v_ = 1;
-
-        vbptr[2].coord_.x_ = 1;
-        vbptr[2].coord_.y_ = -1;
-        vbptr[2].coord_.z_ = 1;
-        vbptr[2].diffuse_ = Color(255, 255, 255, 255);
-        vbptr[2].u_ = 1;
-        vbptr[2].v_ = 1;*/
-
         vb->unlock();
 
+        int col = hmap.width();
+        int row = hmap.height();
+
         ib = Renderer::instance()->newIndexBuffer(STRING("test"));
-        ib->create(hmap.width() * hmap.height() * 2, 0, Format::INDEX16);
+        ib->create((col * 2) * row - row - 2, 0, Format::INDEX16);
 
-        struct TriIndex
-        {
-            unsigned short i0_, i1_, i2_;
-        };
-
-        TriIndex* ibptr = 0;
+        unsigned short* ibptr = 0;
         ib->lock((void*&)ibptr);
-        
+
+        bool winding = true;
+        int step = 1;        
+
+        int index = 0;
+        for (int h = 0; h < row - 1; ++h)
+        {
+            if (winding)
+            {
+                for (int w = 0; w < col; ++w)
+                {
+                    ibptr[index++] = h * col + w;
+                    ibptr[index++] = (h + 1) * col + w;
+                }
+            }
+            else
+            {
+                for (int w = col - 1; w >= 0; --w)
+                {
+                    ibptr[index++] = h * col + w;
+                    ibptr[index++] = (h + 1) * col + w;
+                }
+            }
+
+            ibptr[index++] = ibptr[index - 1];
+
+            winding = !winding;
+        }
+
         ib->unlock();
     }
 
     vb->use();
     ib->use();
-    ib->draw(PRIMITIVETYPE_TRIANGLELIST);
+    ib->draw(PRIMITIVETYPE_TRIANGLESTRIP);
 }

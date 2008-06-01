@@ -7,6 +7,10 @@
 */
 
 #include "tod/core/primitivetype.h"
+#include "tod/core/vector3.h"
+#include "tod/core/vector4.h"
+#include "tod/core/plane.h"
+#include "tod/core/quaternion.h"
 
 namespace tod
 {

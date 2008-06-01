@@ -38,6 +38,7 @@ void Image::destroy()
 
 
 //-----------------------------------------------------------------------------
+#include <windows.h>
 bool Image::preload()
 {
     // load resource
@@ -72,10 +73,9 @@ bool Image::preload()
     width_ = ilGetInteger(IL_IMAGE_WIDTH);
     height_ = ilGetInteger(IL_IMAGE_HEIGHT);
 
-    ilConvertImage(IL_RGBA, IL_INT);
+    ilConvertImage(IL_RGBA, IL_BYTE);
 
     data_ = reinterpret_cast<Color*>(ilGetData());
-
     return true;
 }
 

@@ -1,6 +1,9 @@
 #include "tod/core/matrix44.h"
 
 #include <d3dx9.h>
+#include "tod/core/vector3.h"
+#include "tod/core/vector4.h"
+#include "tod/core/plane.h"
 #include "tod/core/quaternion.h"
 
 using namespace tod::core;

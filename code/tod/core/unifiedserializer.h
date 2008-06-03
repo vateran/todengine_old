@@ -2,7 +2,7 @@
 #define TOD_CORE_SERIALIZER_UNIFIEDSERIALIZER_H
 /**
     @ingroup TodCoreSerializer
-    @class tod::core::UnifiedSerializer
+    @class tod::UnifiedSerializer
     @brief
 */
 
@@ -12,8 +12,6 @@
 #include "tod/core/serializer.h"
 
 namespace tod
-{
-namespace core
 {
     class Object;
     class UnifiedSerializer : public Serializer
@@ -29,7 +27,6 @@ namespace core
         Serializers serializers_;
 
     };
-}
 }
 
 #endif // TOD_CORE_SERIALIZER_UNIFIEDSERIALIZER_H

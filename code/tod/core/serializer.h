@@ -2,7 +2,7 @@
 #define TOD_CORE_SERIALIZER_SERIALIZER_H
 /**
     @ingroup TodCoreSerializer
-    @class tod::core::Serializer
+    @class tod::Serializer
     @brief
 */
 
@@ -11,8 +11,6 @@
 
 namespace tod
 {
-namespace core
-{
     class Object;
     class Serializer
     {
@@ -20,7 +18,6 @@ namespace core
         virtual bool serialize(const Uri& uri, Object* object)=0;
         virtual Object* deserialize(const Uri& uri)=0;
     };
-}
 }
 
 #endif // TOD_CORE_SERIALIZER_SERIALIZER_H

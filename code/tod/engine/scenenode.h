@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_NODE_SCENENODE_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::SceneNode
+    @class tod::engine::SceneNode
 
     @brief The SceneNode is the base class of all objects which can be attached
     to a scene managed by SceneServer class. A SceneNode object may provide
@@ -16,16 +16,14 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class SceneServer;
     class SceneContext;
-    class SceneNode : public core::Node
+    class SceneNode : public Node
     {
     public:
         SceneNode();
         virtual~SceneNode();
-        DECLARE_CLASS(SceneNode, core::Node);
+        DECLARE_CLASS(SceneNode, Node);
 
         /**
             @brief Attach the object to the scene if necessary. This method
@@ -66,7 +64,7 @@ namespace graphics
         virtual void renderTransform(
             SceneServer* scene_server,
             SceneContext* scene_context,
-            const core::Matrix44& parent_matrix);
+            const Matrix44& parent_matrix);
         
         /**
             @brief Perform per-instance rendering of the shader. This method
@@ -115,7 +113,6 @@ namespace graphics
     protected:
         bool resourceValid_;
     };
-}
 }
 }
 

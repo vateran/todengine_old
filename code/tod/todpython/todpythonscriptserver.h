@@ -2,7 +2,7 @@
 #define TOD_TODPYTHON_TODPYTHONSCRIPTSERVER_H
 /**
     @ingroup TodPythonScriptServer
-    @class tod::core::ScriptServer
+    @class tod::ScriptServer
     @brief
 */
 
@@ -10,29 +10,23 @@
 
 namespace tod
 {
-namespace engine
-{
-namespace script
-{
-    class TodPythonScriptServer : public core::ScriptServer
+    class TodPythonScriptServer : public ScriptServer
     {
     public:
         TodPythonScriptServer();
         virtual~TodPythonScriptServer();
-        DECLARE_CLASS(TodPythonScriptServer, core::ScriptServer);
+        DECLARE_CLASS(TodPythonScriptServer, ScriptServer);
 
         static void initialize();
 
         override bool run(
-            const core::char_t* str,
-            core::Parameter* parameter);
-        override bool run(const core::Uri& uri);
+            const char_t* str,
+            Parameter* parameter);
+        override bool run(const Uri& uri);
 
     public:
         static bool s_standAlone_;
     };
-}
-}
 }
 
 #endif // TOD_CORE_SCRIPT_SCRIPTSERVER_H

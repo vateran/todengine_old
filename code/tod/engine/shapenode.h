@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_NODE_SHAPENODE_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::ShapeNode
+    @class tod::engine::ShapeNode
     @brief 
 */
 
@@ -12,8 +12,6 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class ShapeNode : public ShaderNode
     {
     public:
@@ -21,7 +19,6 @@ namespace graphics
         virtual~ShapeNode();
         DECLARE_CLASS(ShapeNode, ShaderNode);
     };
-}
 }
 }
 

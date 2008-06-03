@@ -1,6 +1,7 @@
 #include "tod/engine/terrain.h"
 
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 Terrain::Terrain()

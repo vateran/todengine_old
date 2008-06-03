@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_SCENEVIEW_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::SceneView
+    @class tod::engine::SceneView
     @brief 
 */
 
@@ -18,20 +18,18 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class SceneServer;
-    class SceneView : public core::Object
+    class SceneView : public Object
     {
     public:
         SceneView();
         virtual~SceneView();
-        DECLARE_CLASS(SceneView, core::Object);
+        DECLARE_CLASS(SceneView, Object);
 
         void render(SceneServer* scene_server);
 
-        void setSceneRootPath(const core::Path& path);
-        const core::Path& getSceneRootPath() const;
+        void setSceneRootPath(const Path& path);
+        const Path& getSceneRootPath() const;
         void setWindowId(int window_id);
         int getWindowId() const;
 
@@ -48,11 +46,10 @@ namespace graphics
 
     private:
         int windowId_;
-        core::Path sceneRootPath_;
+        Path sceneRootPath_;
         SceneContext sceneContext_;
         Camera camera_;
     };
-}
 }
 }
 

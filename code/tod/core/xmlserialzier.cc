@@ -1,6 +1,6 @@
 #include "tod/core/xmlserializer.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 bool XmlSerializer::serialize(const Uri& uri, Object* object)

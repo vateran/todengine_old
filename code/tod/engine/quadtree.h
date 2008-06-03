@@ -16,8 +16,6 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class QuadTree
     {
     public:
@@ -28,11 +26,11 @@ namespace graphics
         QuadTree();
         virtual~QuadTree();
 
-        void initialize(int depth, const core::BBox& box);
-        void render(const core::Matrix44& view_proj);
+        void initialize(int depth, const BBox& box);
+        void render(const Matrix44& view_proj);
 
-        void insert(Element* elm, const core::BBox& box);
-        void update(Element* elm, const core::BBox& box);
+        void insert(Element* elm, const BBox& box);
+        void update(Element* elm, const BBox& box);
         void remove(Element* elm);
 
         int getNumNodes(int level);
@@ -60,20 +58,20 @@ namespace graphics
             /// access to elements list
             Elements& elements();
             /// compute the node's bounding box
-            const core::BBox& getBoundingBox() const;
+            const BBox& getBoundingBox() const;
             /**
                 recursively find the smallest child node which
                 contains the bounding box
             */
-            Node* findContainmentNode(const core::BBox& box);
+            Node* findContainmentNode(const BBox& box);
             /// add element to node
             void addElement(Element* elm);
             /// remove element from node
             void removeElement(Element* elm);
             /// recursively render visible elements
             void render(
-                const core::Matrix44& view_proj,
-                core::BBox::ClipStatus clip_status);
+                const Matrix44& view_proj,
+                BBox::ClipStatus clip_status);
 
         private:
             int level_;
@@ -82,22 +80,22 @@ namespace graphics
 
             Elements elements_;
             QuadTree::Node* children_[4];
-            core::BBox bbox_;
+            BBox bbox_;
 
         };
 
         /// an element in the tree, derive subclass customized render() method
-        class Element : public core::Node
+        class Element : public tod::Node
         {
         public:
             Element();
             virtual~Element();
-            DECLARE_CLASS(Element, core::Node);
+            DECLARE_CLASS(Element, Node);
 
             /// render the element (override in subclass)
             virtual void render(
-                const core::Matrix44& view_proj,
-                core::BBox::ClipStatus clip_status);
+                const Matrix44& view_proj,
+                BBox::ClipStatus clip_status);
 
         private:
             friend class QuadTree;
@@ -110,16 +108,15 @@ namespace graphics
         /// quad tree depth
         int treeDepth_;
         /// global bounding box
-        core::BBox bbox_;
+        BBox bbox_;
         /// base chunk bounding box
-        core::Vector3 baseNodeSize_;
+        Vector3 baseNodeSize_;
         std::vector<Node> nodes_;
 
     private:
         friend class Node;
 
     };
-}
 }
 }
 

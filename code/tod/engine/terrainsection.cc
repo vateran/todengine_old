@@ -3,13 +3,14 @@
 #include "tod/engine/renderer.h"
 #include "tod/engine/image.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 TerrainSection::TerrainSection()
 {
-    // empty
+    tiles_.resize(1);
+    tiles_[0].build(Vector3(1, 1, 1));
 }
 
 
@@ -26,7 +27,7 @@ int build_index
 {
     unsigned short* p = static_cast<unsigned short*>(ptr);
 
-    bool winding = true; 
+    bool winding = false; 
     int index = 0;
 
     for (int h = 0; h < row - step; h += step)
@@ -70,7 +71,7 @@ int col = 0;
 int row = 0;
 void TerrainSection::render()
 {
-    if (vb == 0)
+    /*if (vb == 0)
     {   
         Image hmap(STRING("managed://texture#hmap.png"));
         hmap.preload();
@@ -130,7 +131,32 @@ void TerrainSection::render()
 
     vb->use();
     ib->use();
-    ib->draw(PRIMITIVETYPE_TRIANGLESTRIP, index_ - 2);
+    ib->draw(PRIMITIVETYPE_TRIANGLESTRIP, index_ - 2);*/
+
+    if (0 == ib)
+    {
+        col = 4;
+        row = 4;
+        ib = Renderer::instance()->newIndexBuffer(STRING("test"));
+        ib->create((col * 2) * row - row - 2, 0, Format::INDEX16);
+
+        rebuild(1);
+    }
+
+    Matrix44 v = Renderer::instance()->getTransform(TRANSFORM_VIEW);
+    v.inverse();
+    Vector3 camera_pos = v.getTranslation();
+
+    // compute Level of Details for each tiles in TerrainSection
+    for (TerrainTiles::iterator tile = tiles_.begin();
+         tile != tiles_.end(); ++tile)
+    {
+        tile->computeLOD(camera_pos);
+        tile->render();
+
+        ib->use();
+        ib->draw(PRIMITIVETYPE_TRIANGLESTRIP, index_ - 2);
+    }
 }
 
 //-----------------------------------------------------------------------------

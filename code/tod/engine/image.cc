@@ -3,8 +3,8 @@
 #include "boost/algorithm/string.hpp"
 #include "tod/core/resource.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 Image::Image(const Uri& uri):
@@ -42,10 +42,10 @@ void Image::destroy()
 bool Image::preload()
 {
     // load resource
-    tod::core::Resource resource(getUri());
+    tod::Resource resource(getUri());
     if (!resource.open(
-        tod::core::Resource::OPEN_READ |
-        tod::core::Resource::OPEN_BINARY))
+        tod::Resource::OPEN_READ |
+        tod::Resource::OPEN_BINARY))
         return false;
     dynamic_buffer_t buffer;
     resource.read(buffer);

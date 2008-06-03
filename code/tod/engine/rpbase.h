@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_RENDERPATH_RPBASE_H
 /**
     @ingroup TodEngineGraphicsRenderPath
-    @class tod::engine::graphics::RpBase
+    @class tod::engine::RpBase
     @brief 
 */
 
@@ -15,27 +15,25 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
-    class RpBase : public core::Node, public ShaderParams
+    class RpBase : public Node, public ShaderParams
     {
     public:
         RpBase();
         virtual~RpBase();
-        DECLARE_CLASS(RpBase, core::Node);
+        DECLARE_CLASS(RpBase, Node);
 
         virtual void validate();
 
-        virtual core::uint32_t begin();
+        virtual uint32_t begin();
         virtual void end();
-        virtual void beginPass(core::uint32_t pass);
+        virtual void beginPass(uint32_t pass);
         virtual void endPass();
 
-        void setShaderUri(const core::Uri& uri);
-        const core::Uri& getShaderUri() const;
+        void setShaderUri(const Uri& uri);
+        const Uri& getShaderUri() const;
 
-        void setTechnique(const core::String& t);
-        const core::String& getTechnique() const;
+        void setTechnique(const String& t);
+        const String& getTechnique() const;
 
         Shader* getShader();
 
@@ -44,10 +42,9 @@ namespace graphics
 
     private:
         ResourceRef<Shader> shader_;
-        core::Uri shaderUri_;
-        core::String technique_;
+        Uri shaderUri_;
+        String technique_;
     };
-}
 }
 }
 

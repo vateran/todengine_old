@@ -3,7 +3,7 @@
 #include "tod/core/exception.h"
 #include "tod/core/resource.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 FsResourceImplementator::FsResourceImplementator(const String& path):path_(path)

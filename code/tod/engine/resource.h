@@ -2,7 +2,7 @@
 #define TOD_ENGINE_RESOURE_RESOURCE_H
 /**
     @ingroup TodEngineResource
-    @class tod::engine::Resource
+    @class tod::engine::EngineResource
     @brief 
 */
 
@@ -15,7 +15,7 @@ namespace engine
     class Resource
     {
     public:
-        Resource(const core::Uri& uri);
+        Resource(const Uri& uri);
         virtual~Resource();
 
         int addRef();
@@ -25,13 +25,13 @@ namespace engine
         virtual bool valid() const=0;
         bool invalid() const;
 
-        const core::Uri& getUri() const;
+        const Uri& getUri() const;
 
         virtual void onLostDevice()=0;
         virtual void onRestoreDevice()=0;
 
     private:
-        core::Uri uri_;
+        Uri uri_;
         int refCount_;
     };
 }

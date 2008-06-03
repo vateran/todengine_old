@@ -2,15 +2,13 @@
 #define TOD_CORE_TYPE_NAME_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Name
+    @class tod::Name
     @brief Name type
 */
 
 #include "tod/core/string.h"
 
 namespace tod
-{
-namespace core
 {
     class Name : public String
     {
@@ -20,7 +18,6 @@ namespace core
         Name(const Name& name):String(name) {}
         Name(const String& s):String(s) {}
     };
-}
 }
 
 #endif // TOD_CORE_TYPE_NAME_H

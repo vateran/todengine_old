@@ -1,6 +1,6 @@
 #include "tod/core/quaternion.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Quaternion::Quaternion()

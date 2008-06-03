@@ -6,8 +6,8 @@
 #include "tod/core/simplepropertybinder.h"
 #include "tod/core/compositepropertybinder.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 IMPLEMENT_CLASS(TransformNode, SceneNode);
 

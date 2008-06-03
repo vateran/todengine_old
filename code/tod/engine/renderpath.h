@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_RENDERPATH_RENDERPATH_H
 /**
     @ingroup TodEngineGraphicsRenderPath
-    @class tod::engine::graphics::RenderPath
+    @class tod::engine::RenderPath
     @brief A RenderPath is an abstract description of HOW a scene should be
     rendered. This includes things like what shaders to apply and in which
     order, what render targets to render to, highlevel differences between
@@ -16,24 +16,21 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class RpSection;
     class RpShader;
     class RenderPath :
-        public core::Node,
-        public core::Singleton3<RenderPath>
+        public Node,
+        public Singleton3<RenderPath>
     {
     public:
         RenderPath();
         virtual~RenderPath();
-        DECLARE_CLASS(RenderPath, core::Node);
+        DECLARE_CLASS(RenderPath, Node);
 
-        RpSection* findSection(const core::Name& name);
+        RpSection* findSection(const Name& name);
 
         void validate();
     };
-}
 }
 }
 

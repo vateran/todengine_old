@@ -3,7 +3,7 @@
 #include "tod/core/type.h"
 #include "tod/core/object.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Module::Module

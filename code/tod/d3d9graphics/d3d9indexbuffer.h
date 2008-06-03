@@ -2,7 +2,7 @@
 #define TOD_D3D9GRAPHICS_D3D9INDEXBUFFER_H
 /**
     @ingroup D3D9Graphics
-    @class tod::engine::graphics::D3D9IndexBuffer
+    @class tod::engine::D3D9IndexBuffer
     @brief 
 */
 
@@ -15,12 +15,10 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class D3D9IndexBuffer : public IndexBuffer
     {
     public:
-        D3D9IndexBuffer(const core::Uri& uri, IDirect3DDevice9* d3d9device);
+        D3D9IndexBuffer(const Uri& uri, IDirect3DDevice9* d3d9device);
         virtual~D3D9IndexBuffer();
 
         override bool create(int num_indices, int usage, Format format);
@@ -47,7 +45,6 @@ namespace graphics
         int lockOption_;
         int stride_;
     };
-}
 }
 }
 

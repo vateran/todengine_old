@@ -12,19 +12,19 @@ namespace tod
 {
 namespace engine
 {
-    class FormatStringConverter : public core::StringConverter
+    class FormatStringConverter : public StringConverter
     {
     public:
-        override core::type_id getTypeId();
-        override const core::char_t* getTypeKeyword() const;
-        override const core::String& toString(
-            core::Object* object, core::Property* property);
+        override type_id getTypeId();
+        override const char_t* getTypeKeyword() const;
+        override const String& toString(
+            Object* object, Property* property);
         override void fromString(
-            core::Object* object, core::Property* property,
-            const core::char_t* value);
+            Object* object, Property* property,
+            const char_t* value);
 
     private:
-        core::String str_;
+        String str_;
     };
 }
 }

@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_SINGLETON3_H
 /**
     @ingroup TodCoreUtility
-    @class tod::core::Singleton3
+    @class tod::Singleton3
     @brief 
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/kernel.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename T>
     class Singleton3
@@ -33,7 +31,6 @@ namespace core
 
 #include "tod/core/singleton3.inl"
 
-}
 }
 
 #endif // TOD_CORE_UTILITY_SINGLETON3_H

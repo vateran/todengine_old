@@ -3,8 +3,8 @@
 #include <d3d9.h>
 #include "tod/core/exception.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 D3D9Exception::D3D9Exception

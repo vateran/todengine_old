@@ -4,7 +4,7 @@
 #include "tod/core/module.h"
 #include "tod/core/builtinmodule.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Kernel::Kernel()

@@ -2,7 +2,7 @@
 
 #include "tod/core/define.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Uri::Uri()

@@ -12,8 +12,8 @@
 #include "tod/d3d9graphics/d3d9cubetexture.h"
 #include "tod/d3d9graphics/d3d9shader.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 IMPLEMENT_CLASS(D3D9Renderer, Renderer);
@@ -101,12 +101,18 @@ Mesh* D3D9Renderer::newMesh(const Uri& uri)
 //-----------------------------------------------------------------------------
 VertexBuffer* D3D9Renderer::newVertexBuffer(const Uri& uri)
 {
-    VertexBuffer* vb = vertexBuffers_.find(uri);
-    if (0 == vb)
+    VertexBuffer* vb = 0;
+    if (!uri.empty())
     {
-        vb = new D3D9VertexBuffer(uri, d3d9device_);
-        vertexBuffers_.add(vb);
+        // find exist vertex buffer in named resources
+        vb = vertexBuffers_.find(uri);
+        if (vb)
+            return vb;
     }
+
+    // create new vertex buffer
+    vb = new D3D9VertexBuffer(uri, d3d9device_);
+    vertexBuffers_.add(vb);
     return vb;
 }
 

@@ -2,7 +2,7 @@
 #define TOD_CORE_SCRIPT_SCRIPTSERVER_H
 /**
     @ingroup TodCoreScriptServer
-    @class tod::core::ScriptServer
+    @class tod::ScriptServer
     @brief
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/uri.h"
 
 namespace tod
-{
-namespace core
 {
     class Argument;
     class ReturnValue;
@@ -27,7 +25,6 @@ namespace core
             Parameter* parameter);
         virtual bool run(const Uri& uri);
     };
-}
 }
 
 #endif // TOD_CORE_SCRIPT_SCRIPTSERVER_H

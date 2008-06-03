@@ -2,7 +2,7 @@
 #define TOD_CORE_OBJECT_NODE_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::Node
+    @class tod::Node
     @brief
 */
 
@@ -14,8 +14,6 @@
 #include "tod/core/ref.h"
 
 namespace tod
-{
-namespace core
 {
     class Node : public Object
     {
@@ -77,7 +75,6 @@ namespace core
 
 #include "tod/core/node.inl"
 
-}
 }
 
 #endif // TOD_CORE_OBJECT_NODE_H

@@ -2,7 +2,7 @@
 #define TOD_CORE_RESOURCE_RESOURCE_H
 /**
     @ingroup TodCoreResource
-    @class tod::core::Resource
+    @class tod::Resource
     @brief
 */
 
@@ -10,8 +10,6 @@
 #include "tod/core/uri.h"
 
 namespace tod
-{
-namespace core
 {
     class ResourceImplementator;
     class Resource
@@ -40,7 +38,6 @@ namespace core
     private:
         ResourceImplementator* ri_;
     };
-}
 }
 
 #endif // TOD_CORE_RESOURCE_RESOURCE_H

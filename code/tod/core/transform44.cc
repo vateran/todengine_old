@@ -1,6 +1,6 @@
 #include "tod/core/transform44.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Transform44::Transform44()

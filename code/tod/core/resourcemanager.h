@@ -2,7 +2,7 @@
 #define TOD_CORE_RESOURCE_RESOURCEMANAGER_H
 /**
     @ingroup TodCoreResource
-    @class tod::core::ResourceManager
+    @class tod::ResourceManager
     @brief
 */
 
@@ -12,8 +12,6 @@
 #include "tod/core/uri.h"
 
 namespace tod
-{
-namespace core
 {
     class ResourceProtocol;
     class ResourceImplementator;
@@ -42,8 +40,6 @@ namespace core
         String basePath_;
         ResourceProtocols protocols_;
     };
-
-}
 }
 
 #endif // TOD_CORE_RESOURCE_RESOURCEMANAGER_H

@@ -2,15 +2,13 @@
 #define TOD_CORE_TYPE_COLOR_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Color
+    @class tod::Color
     @brief 
 */
 
 #include "tod/core/primitivetype.h"
 
 namespace tod
-{
-namespace core
 {
     class Color
     {
@@ -50,7 +48,6 @@ namespace core
             uint32_t data_;
         };
     };
-}
 }
 
 #endif // TOD_CORE_TYPE_COLOR_H

@@ -2,15 +2,13 @@
 #define TOD_CORE_PROPERTY_SIMPLEPROPERTYBINDER_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::SimplePropertyBinder
+    @class tod::SimplePropertyBinder
     @brief
 */
 
 #include "tod/core/simpleproperty.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename TYPE, typename PROPERTY_TYPE>
     class SimplePropertyBinder : public SimpleProperty<PROPERTY_TYPE>
@@ -39,8 +37,6 @@ namespace core
     s_##name##_property.setName(STRING(#name));\
     s_##name##_property.bind(setter, getter);\
     TYPE.addProperty(&s_##name##_property);
-
-}
 }
 
 #endif // TOD_CORE_PROPERTY_SIMPLEPROPERTYBINDER_H

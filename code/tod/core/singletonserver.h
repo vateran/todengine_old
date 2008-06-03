@@ -2,15 +2,13 @@
 #define TOD_CORE_UTILITY_SINGLETONSERVER_H
 /**
     @ingroup TodCoreUtility
-    @class tod::core::SingletonServer
+    @class tod::SingletonServer
     @brief 
 */
 
 #include <list>
 
 namespace tod
-{
-namespace core
 {
     class SingletonBase;
     class SingletonServer
@@ -34,7 +32,6 @@ namespace core
     private:
         Singletons singletons_;
     };
-}
 }
 
 #endif // TOD_CORE_UTILITY_SINGLETONSERVER_H

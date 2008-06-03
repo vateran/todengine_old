@@ -1,6 +1,6 @@
 #include "tod/core/type.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Type::Type(const name_t* name, Type* base):

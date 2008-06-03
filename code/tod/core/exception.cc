@@ -1,6 +1,6 @@
 #include "tod/core/exception.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Exception::Exception

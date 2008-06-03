@@ -3,8 +3,8 @@
 #include "tod/core/simplepropertybinder.h"
 #include "tod/engine/renderer.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 IMPLEMENT_CLASS(RpBase, Node);
 

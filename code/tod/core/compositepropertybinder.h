@@ -2,7 +2,7 @@
 #define TOD_CORE_PROPERTY_COMPOSITEPROPERTYBINDER_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::VectorProperty
+    @class tod::VectorProperty
     @brief
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/properties.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename TYPE, typename PROPERTY_TYPE>
     class CompositePropertyBinder : public CompositeProperty<PROPERTY_TYPE>
@@ -47,7 +45,6 @@ namespace core
     s_##cpname##_##name##_property.setName(STRING(#name));\
     s_##cpname##_##name##_property.bind(setter, getter);\
     s_##cpname##_property.addProperty(&s_##cpname##_##name##_property);
-}
 }
 
 #endif // TOD_CORE_PROPERTY_COMPOSITEPROPERTYBINDER_H

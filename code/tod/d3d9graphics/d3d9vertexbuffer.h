@@ -2,7 +2,7 @@
 #define TOD_D3D9GRAPHICS_D3D9VERTEXBUFFER_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::VertexBuffer
+    @class tod::engine::VertexBuffer
     @brief 
 */
 
@@ -15,12 +15,10 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class D3D9VertexBuffer : public VertexBuffer
     {
     public:
-        D3D9VertexBuffer(const core::Uri& uri, IDirect3DDevice9* d3d9device);
+        D3D9VertexBuffer(const Uri& uri, IDirect3DDevice9* d3d9device);
         virtual~D3D9VertexBuffer();
 
         override bool create(int num_vertice, int vertex_component, int usage);
@@ -55,7 +53,5 @@ namespace graphics
     };
 }
 }
-}
-
 
 #endif // TOD_D3D9GRAPHICS_D3D9VERTEXBUFFER_H

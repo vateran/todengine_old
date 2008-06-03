@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_RENDERPATH_RPSECTION_H
 /**
     @ingroup TodEngineGraphicsRenderPath
-    @class tod::engine::graphics::RpSection
+    @class tod::engine::RpSection
     @brief 
 */
 
@@ -12,8 +12,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     class RpPass;
     class RpSection : public RpBase
@@ -28,22 +26,21 @@ namespace graphics
 
         void addPass(RpPass* pass);
         void removePass(RpPass* pass);
-        RpPass* getPass(core::index_t index);
-        core::uint32_t getNumPass() const;
+        RpPass* getPass(index_t index);
+        uint32_t getNumPass() const;
 
         RpPasses::iterator firstPass();
         RpPasses::iterator lastPass();
         RpPasses::const_iterator firstPass() const;
         RpPasses::const_iterator lastPass() const;
 
-        override void onAddNode(core::Node* node);
-        override void onRemoveNode(core::Node* node);
+        override void onAddNode(Node* node);
+        override void onRemoveNode(Node* node);
 
     private:
         RpPasses passes_;
 
     };
-}
 }
 }
 

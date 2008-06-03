@@ -2,7 +2,7 @@
 #define TOD_D3D9GRAPHICS_D3D9RENDERER_H
 /**
     @ingroup D3D9Graphics
-    @class tod::engine::graphics::D3D9Renderer
+    @class tod::engine::D3D9Renderer
     @brief
 */
 
@@ -22,8 +22,6 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class D3D9Renderer : public Renderer
     {
     public:
@@ -32,18 +30,18 @@ namespace graphics
         DECLARE_CLASS(D3D9Renderer, Renderer);
 
         override void clearScene(
-            const core::Color& color, float z, core::uint32_t stencil,
+            const Color& color, float z, uint32_t stencil,
             bool clear_target, bool clear_zbuf, bool clear_sbuf);
         override void beginScene();
         override void endScene();
         override void presentScene(int windowid_override=0);
 
-        override Mesh* newMesh(const core::Uri& uri);
-        override VertexBuffer* newVertexBuffer(const core::Uri& uri);
-        override IndexBuffer* newIndexBuffer(const core::Uri& uri);
-        override Texture* newTexture(const core::Uri& uri);
-        override Texture* newCubeTexture(const core::Uri& uri);
-        override Shader* newShader(const core::Uri& uri);
+        override Mesh* newMesh(const Uri& uri);
+        override VertexBuffer* newVertexBuffer(const Uri& uri);
+        override IndexBuffer* newIndexBuffer(const Uri& uri);
+        override Texture* newTexture(const Uri& uri);
+        override Texture* newCubeTexture(const Uri& uri);
+        override Shader* newShader(const Uri& uri);
 
         override void setDisplayMode(const DisplayMode& display_mode);
         override const DisplayMode& getDisplayMode() const;
@@ -57,9 +55,9 @@ namespace graphics
         override void setShader(Shader* shader);
         override Shader* getShader();
 
-        override void setTransform(Transform type, const core::Matrix44& m);
+        override void setTransform(Transform type, const Matrix44& m);
 
-        override void drawQuad(const core::Rect& r, const core::Color& color);
+        override void drawQuad(const Rect& r, const Color& color);
 
     private:
         typedef std::stack<Texture*> RenderTargetStack;
@@ -92,7 +90,6 @@ namespace graphics
         ResourceHolder<Mesh> meshes_;
 
     };
-}
 }
 }
 

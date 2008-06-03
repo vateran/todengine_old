@@ -13,8 +13,6 @@
 
 namespace tod
 {
-namespace core
-{
     template <typename T, int SIZE, int INVALID=SIZE>
     class Enumeration
     {
@@ -137,7 +135,6 @@ namespace core
     template <typename T, int SIZE, int INVALID>
     typename Enumeration<T, SIZE, INVALID>::ValueMap
     Enumeration<T, SIZE, INVALID>::valueMap_;
-}
 }
 
 #endif // TOD_CORE_UTILITY_ENUMERATION_H

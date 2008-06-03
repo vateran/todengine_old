@@ -7,7 +7,7 @@
 #include "tod/core/color.h"
 #include "tod/core/simpleproperty.h"
 
-using namespace tod::core;
+using namespace tod;
 
 IMPLEMENT_CLASS(LinkNode, Node);
 

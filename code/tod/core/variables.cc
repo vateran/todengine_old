@@ -1,6 +1,6 @@
 #include "tod/core/variables.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Variables::Variables():

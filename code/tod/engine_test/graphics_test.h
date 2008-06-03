@@ -3,7 +3,7 @@
 
 #include "tod/core/unittest.h"
 
-class GraphicsTestCase : public tod::core::unittest::TestCase<GraphicsTestCase>
+class GraphicsTestCase : public tod::TestCase<GraphicsTestCase>
 {
 public:
     TODUNIT_BEGINE_TESTSUITE(GraphicsTestCase)

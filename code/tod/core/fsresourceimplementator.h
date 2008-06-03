@@ -2,7 +2,7 @@
 #define TOD_CORE_RESOURCE_FSRESOURCEIMPLEMENTATOR_H
 /**
     @ingroup TodCoreResource
-    @class tod::core::FsResourceImplementator
+    @class tod::FsResourceImplementator
     @brief
 */
 
@@ -12,8 +12,6 @@
 #include "tod/core/resourceimplementator.h"
 
 namespace tod
-{
-namespace core
 {
     class FsResourceImplementator : public ResourceImplementator
     {
@@ -30,8 +28,6 @@ namespace core
         mutable std::fstream file_;
         String path_;
     };
-
-}
 }
 
 #endif // TOD_CORE_RESOURCE_FSRESOURCEIMPLEMENTATOR_H

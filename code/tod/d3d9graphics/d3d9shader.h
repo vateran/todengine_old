@@ -2,7 +2,7 @@
 #define TOD_D3D9GRAPHICS_D3D9SHADER_H
 /**
     @ingroup D3D9Graphics
-    @class tod::engine::graphics::D3D9Shader
+    @class tod::engine::D3D9Shader
     @brief 
 */
 
@@ -15,31 +15,29 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class D3D9Shader : public Shader
     {
     public:
         D3D9Shader(
-            const core::Uri& uri,
+            const Uri& uri,
             IDirect3DDevice9* d3d9device,
             ID3DXEffectPool* d3deffectpool);
         virtual~D3D9Shader();
         
         override bool preload();
 
-        override void begin(core::uint32_t& num_pass, bool restore=false);
+        override void begin(uint32_t& num_pass, bool restore=false);
         override void end();
-        override void beginPass(core::uint32_t pass);
+        override void beginPass(uint32_t pass);
         override void endPass();
 
-        override void setTechnique(const core::String& name);
+        override void setTechnique(const String& name);
 
-        override void setFloat(const core::String& name, float v);
+        override void setFloat(const String& name, float v);
         override void setMatrix(
-            const core::String& name,
-            const core::Matrix44& m);
-        override void setTexture(const core::String& name, Texture* t);
+            const String& name,
+            const Matrix44& m);
+        override void setTexture(const String& name, Texture* t);
 
         override void commit();
 
@@ -54,7 +52,5 @@ namespace graphics
     };
 }
 }
-}
-
 
 #endif // TOD_D3D9GRAPHICS_D3D9SHADER_H

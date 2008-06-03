@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_SHADERPARAMS_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::ShaderParams
+    @class tod::engine::ShaderParams
     @brief 
 */
 
@@ -16,25 +16,23 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class Shader;
     class ShaderParams
     {
     public:
         virtual~ShaderParams();
 
-        void addTexture(const core::Name& name, const core::Uri& uri);
-        void addCubeTexture(const core::Name& name, const core::Uri& uri);
+        void addTexture(const Name& name, const Uri& uri);
+        void addCubeTexture(const Name& name, const Uri& uri);
 
         template <typename T>
-        core::SimpleVariable<T>* addShaderParam(const core::Name& name);
-        core::Variable* findShaderParam(const core::Name& name);
+        SimpleVariable<T>* addShaderParam(const Name& name);
+        Variable* findShaderParam(const Name& name);
 
         void commit(Shader* shader);
 
     private:
-        typedef std::map<core::Name, core::Variable*> Params;
+        typedef std::map<Name, Variable*> Params;
 
     private:
         Params params_;
@@ -42,7 +40,6 @@ namespace graphics
 
 #include "tod/engine/shaderparams.inl"
 
-}
 }
 }
 

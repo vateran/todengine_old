@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_SCENESERVER_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::SceneServer
+    @class tod::engine::SceneServer
     @brief 
 */
 
@@ -15,18 +15,16 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class SceneNode;
     class SceneContext;
     class SceneServer :
-        public core::Node,
-        public core::Singleton3<SceneServer>
+        public Node,
+        public Singleton3<SceneServer>
     {
     public:
         SceneServer();
         virtual~SceneServer();
-        DECLARE_CLASS(SceneServer, core::Node);
+        DECLARE_CLASS(SceneServer, Node);
 
         void beginScene();
         void attach(SceneContext* scene_context);
@@ -41,13 +39,13 @@ namespace graphics
         void validateNodeResources();
         void sortNodes();
         void renderCameraScenes();
-        void doRenderPath(const core::Name& section_name);
+        void doRenderPath(const Name& section_name);
 
         /**
             @brief Set CURRENT Group's model transform.
             This method will be called by SceneNode's renderTransform() method.
         */
-        void setModelTransform(const core::Matrix44& m);
+        void setModelTransform(const Matrix44& m);
 
     private:
         struct Group
@@ -55,10 +53,10 @@ namespace graphics
             int parentGroupId_;
             SceneNode* sceneNode_;
             SceneContext* sceneContext_;
-            core::Matrix44 modelTransform_;
+            Matrix44 modelTransform_;
         };
 
-        template <typename T, core::uint32_t SIZE>
+        template <typename T, uint32_t SIZE>
         class Bucket
         {
         public:
@@ -67,10 +65,10 @@ namespace graphics
         public:
             void clear()
             {
-                for (core::uint32_t i = 0; i < SIZE; ++i)
+                for (uint32_t i = 0; i < SIZE; ++i)
                     array_[i].clear();
             }
-            array_type& operator [] (core::uint32_t index)
+            array_type& operator [] (uint32_t index)
             {
                 return array_[index];
             }
@@ -88,7 +86,6 @@ namespace graphics
         std::vector<int> groupStack_;
         int stackDepth_;
     };
-}
 }
 }
 

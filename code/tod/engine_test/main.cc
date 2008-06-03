@@ -6,7 +6,6 @@
 #include "tod/engine_test/time_test.h"
 
 using namespace tod;
-using namespace tod::core;
 
 INCLUDE_MODULE(Engine);
 INCLUDE_MODULE(D3D9Graphics);
@@ -24,7 +23,7 @@ int APIENTRY WinMain
 
     ResourceManager::instance()->initialize(STRING("data"));
 
-    tod::core::unittest::TestSuite test_suite;
+    tod::TestSuite test_suite;
     test_suite.addTestCase<TimeTestCase>();
     test_suite.addTestCase<GraphicsTestCase>();
     test_suite.run();

@@ -2,7 +2,7 @@
 #define TOD_CORE_PROPERTY_PROPERTIES_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::Properties
+    @class tod::Properties
     @brief
 */
 
@@ -11,13 +11,10 @@
 
 namespace tod
 {
-namespace core
-{    
     class Properties : public std::map<Name, Property*>
     {
     public:
     };
-}
 }
 
 #endif // TOD_CORE_PROPERTY_PROPERTIES_H

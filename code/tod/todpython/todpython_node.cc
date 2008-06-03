@@ -2,7 +2,7 @@
 
 #include "tod/core/typeid.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 PyObject* TodNode_new(PyTypeObject* type, PyObject* args, PyObject* keys)

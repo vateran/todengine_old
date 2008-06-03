@@ -2,7 +2,7 @@
 #define TOD_CORE_KERNEL_MODULE_H
 /**
     @ingroup TodCoreKernel
-    @class tod::core::Module
+    @class tod::Module
     @brief 
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/name.h"
 
 namespace tod
-{
-namespace core
 {
     class Type;
     class Object;
@@ -65,14 +63,13 @@ namespace core
     {\
         static Module s_##name##_module(\
         STRING(#name), initialize_##name, finalize_##name);\
-        tod::core::Kernel::instance()->addModule(&s_##name##_module);\
+        tod::Kernel::instance()->addModule(&s_##name##_module);\
     }
 /// Include Moudle macro
 #define INCLUDE_MODULE(name) extern "C" void Use##name##Module();
 /// Using Moudle macro
 #define USING_MODULE(name) Use##name##Module();
 
-}
 }
 
 #endif // TOD_CORE_KERNEL_MODULE_H

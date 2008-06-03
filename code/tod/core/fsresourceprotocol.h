@@ -2,15 +2,13 @@
 #define TOD_CORE_RESOURCE_FSRESOURCEPROTOCOL_H
 /**
     @ingroup TodCoreResource
-    @class tod::core::FsResourceProtocol
+    @class tod::FsResourceProtocol
     @brief
 */
 
 #include "tod/core/resourceprotocol.h"
 
 namespace tod
-{
-namespace core
 {
     class ResourceImplementator;
     class FsResourceProtocol : public ResourceProtocol
@@ -25,8 +23,6 @@ namespace core
         void make_path(const Uri& uri);
         String combine_path(const Uri& uri);
     };
-
-}
 }
 
 #endif // TOD_CORE_RESOURCE_FSRESOURCEPROTOCOL_H

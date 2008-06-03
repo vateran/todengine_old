@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_NODE_MESHNODE_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::MeshNode
+    @class tod::engine::MeshNode
     @brief 
 */
 
@@ -13,8 +13,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     class Mesh;
     class MeshNode : public ShapeNode
@@ -32,16 +30,15 @@ namespace graphics
         override void unloadResource();
         override bool hasGeometry() const;
 
-        void setMeshUri(const core::Uri& uri);
-        const core::Uri& getMeshUri() const;
+        void setMeshUri(const Uri& uri);
+        const Uri& getMeshUri() const;
 
         static void bindProperty();
 
     private:
-        core::Uri uri_;
+        Uri uri_;
         ResourceRef<Mesh> mesh_;
     };
-}
 }
 }
 

@@ -4,7 +4,7 @@
 #include "tod/core/kernel.h"
 #include "tod/core/resourcemanager.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 TodNode* find_todnode(const Path& path)

@@ -2,7 +2,7 @@
 
 #include "tod/core/fsresourceimplementator.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 FsResourceProtocol::~FsResourceProtocol()

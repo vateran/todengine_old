@@ -2,7 +2,7 @@
 
 #include <d3dx9.h>
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Matrix44::Matrix44():

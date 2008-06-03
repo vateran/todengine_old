@@ -1,6 +1,6 @@
 #include "tod/core/plane.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Plane::Plane():

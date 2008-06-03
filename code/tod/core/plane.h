@@ -2,15 +2,13 @@
 #define TOD_CORE_TYPE_PLANE_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Plane
+    @class tod::Plane
     @brief 
 */
 
 #include "tod/core/primitivetype.h"
 
 namespace tod
-{
-namespace core
 {
     class Plane
     {
@@ -21,7 +19,6 @@ namespace core
     public:
         real_t a_, b_, c_, d_;
     };
-}
 }
 
 #endif // TOD_CORE_TYPE_PLANE_H

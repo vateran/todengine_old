@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_TEXTURE_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::Texture
+    @class tod::engine::Texture
     @brief 
 */
 
@@ -14,12 +14,10 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class Texture : public Resource
     {
     public:
-        Texture(const core::Uri& uri);
+        Texture(const Uri& uri);
         virtual~Texture();
 
         virtual bool create(
@@ -29,7 +27,7 @@ namespace graphics
         virtual bool preload()=0;
 
         virtual bool lockRect(
-            int level, const core::Rect* rect,
+            int level, const Rect* rect,
             void*& out_ptr, int* out_pitch,
             bool discard=true, bool read_only=false)=0;
         virtual bool unlockRect(int level)=0;
@@ -42,7 +40,5 @@ namespace graphics
     };
 }
 }
-}
-
 
 #endif // TOD_ENGINE_GRAPHICS_CORE_TEXTURE_H

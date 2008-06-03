@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_MATRIX44_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Matrix44
+    @class tod::Matrix44
     @brief 4x4 Matrix
 */
 
@@ -13,8 +13,6 @@
 #include "tod/core/quaternion.h"
 
 namespace tod
-{
-namespace core
 {
     class Matrix44
     {
@@ -114,7 +112,6 @@ namespace core
             real_t m_[4][4];
         };
     };
-}
 }
 
 #endif // TOD_CORE_TYPE_MATRIX44_H

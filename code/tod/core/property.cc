@@ -2,7 +2,7 @@
 
 #include "tod/core/tostring.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 const String& Property::toString(Object* object)

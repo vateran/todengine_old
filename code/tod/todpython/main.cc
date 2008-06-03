@@ -2,7 +2,7 @@
 #include <python.h>
 #include "tod/todpython/todpythonscriptserver.h"
 
-using namespace tod::engine::script;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 PyMODINIT_FUNC inittodpython(void)

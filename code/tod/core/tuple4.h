@@ -2,13 +2,11 @@
 #define TOD_CORE_TYPE_TUPLE4_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Tuple4
+    @class tod::Tuple4
     @brief
 */
 
 namespace tod
-{
-namespace core
 {
     template <typename T>
     class Tuple4
@@ -29,7 +27,6 @@ namespace core
 
 #include "tod/core/tuple4.inl"
 
-}
 }
 
 #endif // TOD_CORE_TYPE_TUPLE4_H

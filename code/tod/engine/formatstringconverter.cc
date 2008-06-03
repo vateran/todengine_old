@@ -4,9 +4,8 @@
 #include "tod/core/simpleproperty.h"
 #include "tod/engine/format.h"
 
-using namespace tod::core;
+using namespace tod;
 using namespace tod::engine;
-using namespace tod::engine::graphics;
 
 //-----------------------------------------------------------------------------
 type_id FormatStringConverter::getTypeId()

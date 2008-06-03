@@ -1,6 +1,6 @@
 #include "tod/core/unifiedserializer.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 bool UnifiedSerializer::serialize(const Uri& uri, Object* object)

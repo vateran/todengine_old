@@ -2,15 +2,13 @@
 #define TOD_CORE_PROPERTY_ENUMPROPERTYBINDER_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::EnumPropertyBinder
+    @class tod::EnumPropertyBinder
     @brief
 */
 
 #include "tod/core/enumproperty.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename TYPE, typename PROPERTY_TYPE>
     class EnumPropertyBinder : public EnumProperty<PROPERTY_TYPE>
@@ -44,7 +42,6 @@ namespace core
 #define ENUM_PROPERTY_ADD(ptype, value) \
     s_##ptype##_property.add(STRING(#value), value);
 
-}
 }
 
 #endif // TOD_CORE_PROPERTY_ENUMPROPERTYBINDER_H

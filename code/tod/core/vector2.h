@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_VECTOR2_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Vector2
+    @class tod::Vector2
     @brief
 */
 
@@ -10,10 +10,7 @@
 
 namespace tod
 {
-namespace core
-{
     typedef Tuple2<float> Vector2;
-}
 }
 
 #endif // TOD_CORE_TYPE_VECTOR2_H

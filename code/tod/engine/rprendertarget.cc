@@ -4,8 +4,8 @@
 #include "tod/engine/renderer.h"
 #include "tod/engine/texture.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 IMPLEMENT_CLASS(RpRenderTarget, Node);
 

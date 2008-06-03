@@ -2,7 +2,7 @@
 #define TOD_CORE_KERNEL_KERNEL_H
 /**
     @ingroup TodCoreKernel
-    @class tod::core::Kernel
+    @class tod::Kernel
     @brief 
 */
 
@@ -15,8 +15,6 @@
 #include "tod/core/singleton.h"
 
 namespace tod
-{
-namespace core
 {
     class Object;
     class Module;
@@ -56,7 +54,6 @@ namespace core
 
 #include "tod/core/kernel.inl"
 
-}
 }
 
 #endif // TOD_CORE_KERNEL_KERNEL_H

@@ -2,7 +2,7 @@
 #define TOD_ENGINE_TIME_TIMESERVER_H
 /**
     @ingroup TodEngineTime
-    @class tod::engine::time::TimeServer
+    @class tod::engine::TimeServer
     @brief 
 */
 
@@ -16,30 +16,28 @@ namespace tod
 {
 namespace engine
 {
-namespace time
-{
     class TimeServer :
-        public core::Node,
-        public core::Singleton3<TimeServer>
+        public Node,
+        public Singleton3<TimeServer>
     {
     public:
         TimeServer();
         virtual~TimeServer();
-        DECLARE_CLASS(TimeServer, core::Node);
+        DECLARE_CLASS(TimeServer, Node);
 
         void pause(bool pause=true);
         void resume();
-        void step(core::Time d);
+        void step(Time d);
         void scale(float scale);
 
         bool isPause() const;
         float getScale() const;
 
-        core::Time getTime() const;
-        core::uint64_t getSystemTime() const;
-        core::Time getDelta() const;
+        Time getTime() const;
+        uint64_t getSystemTime() const;
+        Time getDelta() const;
 
-        void sleep(core::Time t);
+        void sleep(Time t);
 
         override bool trigger();
         
@@ -48,13 +46,12 @@ namespace time
     private:
         static bool s_pause_;
         static float s_scale_;
-        static core::Time s_delta_;
-        static core::Time s_time_;
+        static Time s_delta_;
+        static Time s_time_;
         static LARGE_INTEGER s_prevSystemTime_;
         static LARGE_INTEGER s_currentSystemTime_;
         static LARGE_INTEGER s_Frequency_;
     };
-}
 }
 }
 

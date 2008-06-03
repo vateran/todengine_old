@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_SCENECONTEXT_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::SceneContext
+    @class tod::engine::SceneContext
     @brief 
 */
 
@@ -11,8 +11,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     class SceneNode;
     class SceneContext
@@ -24,14 +22,13 @@ namespace graphics
         void setRootSceneNode(SceneNode* scene_node);
         SceneNode* getRootSceneNode();
 
-        void setTransform(const core::Matrix44& m);
-        const core::Matrix44& getTransform() const;
+        void setTransform(const Matrix44& m);
+        const Matrix44& getTransform() const;
 
     private:
         SceneNode* rootSceneNode_;
-        core::Matrix44 transform_;
+        Matrix44 transform_;
     };
-}
 }
 }
 

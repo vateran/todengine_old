@@ -4,7 +4,7 @@
 #include "tod/core/exception.h"
 #include "tod/core/fsresourceprotocol.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 ResourceManager::ResourceManager()

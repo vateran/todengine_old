@@ -26,10 +26,8 @@
 #include "tod/engine/timenode.h"
 #include "tod/engine/timeserver.h"
 
-using namespace tod::core;
+using namespace tod;
 using namespace tod::engine;
-using namespace tod::engine::graphics;
-using namespace tod::engine::time;
 
 //-----------------------------------------------------------------------------
 void GraphicsTestCase::test_Format()
@@ -211,7 +209,7 @@ void GraphicsTestCase::test_VertexBuffer()
         DestroyWindow(hwnd);
         renderer->detach();
     }
-    catch(const tod::core::Exception& e)
+    catch(const tod::Exception& e)
     {
         String s(STRING("%s(%d) :\n\nException(%d):%s:\n%s"),
             e.getFile().c_str(), e.getLine(), e.getErrorCode(),
@@ -305,7 +303,7 @@ void GraphicsTestCase::test_Mesh()
         DestroyWindow(hwnd);
         renderer->detach();
     }
-    catch(const tod::core::Exception& e)
+    catch(const tod::Exception& e)
     {
         String s(STRING("%s(%d) :\n\nException(%d):%s:\n%s"),
             e.getFile().c_str(), e.getLine(), e.getErrorCode(),
@@ -414,7 +412,7 @@ void GraphicsTestCase::test_Scene()
         DestroyWindow(hwnd);
         renderer->detach();
     }
-    catch(const tod::core::Exception& e)
+    catch(const tod::Exception& e)
     {
         String s(STRING("%s(%d) :\n\nException(%d):%s:\n%s"),
             e.getFile().c_str(), e.getLine(), e.getErrorCode(),

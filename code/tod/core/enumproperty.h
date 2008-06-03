@@ -2,7 +2,7 @@
 #define TOD_CORE_PROPERTY_ENUMPROPERTY_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::EnumProperty
+    @class tod::EnumProperty
     @brief
 */
 
@@ -10,8 +10,6 @@
 #include "tod/core/property.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename PROPERTY_TYPE>
     class EnumProperty : public Property
@@ -46,7 +44,6 @@ namespace core
 
 #include "tod/core/enumproperty.inl"
 
-}
 }
 
 

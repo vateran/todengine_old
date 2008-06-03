@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_FORMAT_H
 /**
     @ingroup TodEngineGraphicsCore
-    @enum tod::engine::graphics::Format
+    @enum tod::engine::Format
     @brief 
 */
 
@@ -13,8 +13,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     class Format
     {
@@ -128,14 +126,14 @@ namespace graphics
 
     public:
         Format();
-        Format(const core::char_t* str);
-        Format(const core::String& str);
+        Format(const char_t* str);
+        Format(const String& str);
         Format(const Value& value);
         Format(const int& value);
 
-        void fromString(const core::char_t* str);
-        void fromString(const core::String& str);
-        core::String toString() const;
+        void fromString(const char_t* str);
+        void fromString(const String& str);
+        String toString() const;
 
         int bit() const;
         int sbufBit() const;
@@ -159,12 +157,11 @@ namespace graphics
         }
 
     private:
-        Value from_string(const core::char_t* str);
+        Value from_string(const char_t* str);
 
     private:
         Value value_;
     };
-}
 }
 }
 

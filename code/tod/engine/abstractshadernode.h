@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_NODE_ABSTRACTSHADERNODE_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::AbstractShaderNode
+    @class tod::engine::AbstractShaderNode
     @brief 
 */
 
@@ -15,8 +15,6 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class AbstractShaderNode : public TransformNode, public ShaderParams
     {
     public:
@@ -24,8 +22,8 @@ namespace graphics
         virtual~AbstractShaderNode();
         DECLARE_CLASS(AbstractShaderNode, TransformNode);
 
-        void setRpPass(const core::Name& name);
-        const core::Name& getRpPass() const;
+        void setRpPass(const Name& name);
+        const Name& getRpPass() const;
         int getRpPassIndex() const;
 
         static void bindMethod();
@@ -38,7 +36,6 @@ namespace graphics
 
 #include "tod/engine/abstractshadernode.inl"
 
-}
 }
 }
 

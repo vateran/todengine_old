@@ -2,15 +2,13 @@
 #define TOD_CORE_PROPERTY_SIMPLEPROPERTY_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::SimpleProperty
+    @class tod::SimpleProperty
     @brief
 */
 
 #include "tod/core/property.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename PROPERTY_TYPE>
     class SimpleProperty : public Property
@@ -24,8 +22,6 @@ namespace core
             return TypeId<PROPERTY_TYPE>::id();
         }
     };
-    
-}
 }
 
 #endif // TOD_CORE_PROPERTY_SIMPLEPROPERTY_H

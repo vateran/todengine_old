@@ -1,6 +1,6 @@
 #include "tod/core/structproperty.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 bool StructProperty::isReadOnly() const

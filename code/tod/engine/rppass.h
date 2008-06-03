@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_RENDERPATH_RPPASS_H
 /**
     @ingroup TodEngineGraphicsRenderPath
-    @class tod::engine::graphics::RpPass
+    @class tod::engine::RpPass
     @brief 
 */
 
@@ -14,8 +14,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     class RpRenderTarget;
     class RpPass : public RpBase
@@ -38,17 +36,17 @@ namespace graphics
 
         override void validate();
 
-        override core::uint32_t begin();
+        override uint32_t begin();
         override void end();
 
-        void setClearColor(const core::Color& color);
+        void setClearColor(const Color& color);
         void setClearDepthValue(float value);
-        void setClearStencilValue(core::uint32_t value);
+        void setClearStencilValue(uint32_t value);
         void setDrawQuad(bool enable);
         bool isDrawQuad() const;
-        const core::Color& getClearColor() const;
+        const Color& getClearColor() const;
         float clearDepthValue() const;
-        core::uint32_t clearStencilValue() const;
+        uint32_t clearStencilValue() const;
 
         void setClearTarget(bool enable);
         bool isClearTarget() const;
@@ -57,8 +55,8 @@ namespace graphics
         void setClearStencil(bool enable);
         bool isClearStencil() const;
 
-        override void onAddNode(core::Node* node);
-        override void onRemoveNode(core::Node* node);
+        override void onAddNode(Node* node);
+        override void onRemoveNode(Node* node);
 
         static void bindProperty();
 
@@ -66,13 +64,12 @@ namespace graphics
         void draw_quad();
 
     private:
-        core::Ref<RpRenderTarget> renderTarget_;
-        core::Color clearColor_;
+        Ref<RpRenderTarget> renderTarget_;
+        Color clearColor_;
         float clearDepthValue_;
-        core::uint32_t clearStencilValue_;
+        uint32_t clearStencilValue_;
         std::bitset<FLAG_MAX> flags_;
     };
-}
 }
 }
 

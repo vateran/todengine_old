@@ -2,8 +2,8 @@
 
 #include "tod/core/methodbinder.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 static void Renderer_v_setDisplayMode_s(Renderer* self, Parameter* param)

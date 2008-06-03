@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_TUPLE3_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Tuple3
+    @class tod::Tuple3
     @brief
 */
 
@@ -10,8 +10,6 @@
 #include "tod/core/tuple3_impl.h"
 
 namespace tod
-{
-namespace core
 {
     class Matrix44;
 
@@ -130,7 +128,6 @@ namespace core
 
 #include "tod/core/tuple3.inl"
 
-}
 }
 
 #endif // TOD_CORE_TYPE_TUPLE3_H

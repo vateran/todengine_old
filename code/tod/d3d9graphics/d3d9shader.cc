@@ -8,8 +8,8 @@
 #include "tod/d3d9graphics/d3d9texture.h"
 #include "tod/d3d9graphics/d3d9cubetexture.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 D3D9Shader::D3D9Shader
@@ -37,10 +37,10 @@ bool D3D9Shader::preload()
 {
     tod_assert(d3d9device_);
 
-    tod::core::Resource resource(getUri());
+    tod::Resource resource(getUri());
     if (!resource.open(
-        tod::core::Resource::OPEN_READ |
-        tod::core::Resource::OPEN_BINARY))
+        tod::Resource::OPEN_READ |
+        tod::Resource::OPEN_BINARY))
         return false;
 
     dynamic_buffer_t buffer;

@@ -3,8 +3,8 @@
 #include "tod/core/assert.h"
 #include "tod/d3d9graphics/d3d9exception.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 D3D9IndexBuffer::D3D9IndexBuffer

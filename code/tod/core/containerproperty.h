@@ -2,7 +2,7 @@
 #define TOD_CORE_PROPERTY_CONTAINERPROPERTY_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::ContainerProperty
+    @class tod::ContainerProperty
     @brief
 */
 
@@ -10,8 +10,6 @@
 #include "tod/core/property.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename TYPE, typename KEY_TYPE, typename VALUE_TYPE>
     class ContainerProperty : public Property
@@ -46,8 +44,6 @@ namespace core
     s_##name##_property.setName(STRING(#name));\
     s_##name##_property.bind(inserter, remover, searcher);\
     TYPE.addProperty(&s_##name##_property);
-
-}
 }
 
 #endif // TOD_CORE_PROPERTY_CONTAINERPROPERTY_H

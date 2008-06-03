@@ -1,6 +1,6 @@
 #include "tod/core/path.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Path::Path():

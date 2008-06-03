@@ -3,7 +3,7 @@
 #include "boost/tokenizer.hpp"
 #include "tod/core/node.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Method::Method()

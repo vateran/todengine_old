@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_CURRENTSNAPSHOT_H
 /**
     @ingroup TodCoreException
-    @class tod::core::CurrentSnapShot
+    @class tod::CurrentSnapShot
     @brief 
 */
 
@@ -10,8 +10,6 @@
 #include "tod/core/string.h"
 
 namespace tod
-{
-namespace core
 {
     class CurrentSnapShot
     {
@@ -40,7 +38,6 @@ namespace core
 
 #include "tod/core/currentsnapshot.inl"
 
-}
 }
 
 #endif // TOD_CORE_UTILITY_CURRENTSNAPSHOT_H

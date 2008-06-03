@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_NODE_SHADERNODE_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::ShaderNode
+    @class tod::engine::ShaderNode
     @brief 
 */
 
@@ -13,8 +13,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     class Shader;
     class ShaderNode : public AbstractShaderNode
@@ -32,20 +30,19 @@ namespace graphics
         override bool loadResource();
         override void unloadResource();
 
-        void setShaderUri(const core::Uri& uri);
-        const core::Uri& getShaderUri() const;
+        void setShaderUri(const Uri& uri);
+        const Uri& getShaderUri() const;
 
-        void setTechnique(const core::String& t);
-        const core::String& getTechnique() const;
+        void setTechnique(const String& t);
+        const String& getTechnique() const;
 
         static void bindProperty();
 
     private:
-        core::Uri uri_;
+        Uri uri_;
         ResourceRef<Shader> shader_;
-        core::String technique_;
+        String technique_;
     };
-}
 }
 }
 

@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_TRANSFORM44_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Transform44
+    @class tod::Transform44
     @brief Information of 4x4 Transformation
 */
 
@@ -10,8 +10,6 @@
 #include "tod/core/matrix44.h"
 
 namespace tod
-{
-namespace core
 {
     class Transform44
     {
@@ -121,7 +119,6 @@ namespace core
 
 #include "tod/core/transform44.inl"
 
-}
 }
 
 #endif // TOD_CORE_TYPE_TRANSFORM44_H

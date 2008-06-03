@@ -5,7 +5,7 @@
 #include "tod/core/define.h"
 #include "tod/core/vector4.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 BBox::BBox()

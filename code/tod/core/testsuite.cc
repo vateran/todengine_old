@@ -2,7 +2,7 @@
 
 #include "tod/core/testcase.h"
 
-using namespace tod::core::unittest;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 TestSuite::~TestSuite()

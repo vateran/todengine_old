@@ -2,7 +2,7 @@
 
 #include <d3dx9.h>
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 void Tuple3_Impl::transformCoord(void* tuple3, const Matrix44& m)

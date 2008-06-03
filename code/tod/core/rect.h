@@ -2,13 +2,11 @@
 #define TOD_CORE_TYPE_RECT_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Rect
+    @class tod::Rect
     @brief
 */
 
 namespace tod
-{
-namespace core
 {
     class Rect
     {
@@ -62,8 +60,6 @@ namespace core
             int m_[4];
         };
     };
-
-}
 }
 
 #endif // TOD_CORE_TYPE_RECT_H

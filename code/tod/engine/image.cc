@@ -62,10 +62,12 @@ bool Image::preload()
         file_format = IL_PNG;
     else if (ext == STRING("jpg"))
         file_format = IL_JPG;
-    else if (ext == STRING("DDS"))
+    else if (ext == STRING("dds"))
         file_format = IL_DDS;
-    else if (ext == STRING("TIF"))
+    else if (ext == STRING("tif"))
         file_format = IL_TIF;
+    else if (ext == STRING("tga"))
+        file_format = IL_TGA;
     
     ilBindImage(id_);
     ilLoadL(file_format, &buffer[0], buffer.size());

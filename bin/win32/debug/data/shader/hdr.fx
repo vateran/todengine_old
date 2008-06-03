@@ -11,6 +11,32 @@ float Luminance = 0.08f;
 static const float fMiddleGray = 0.18f;
 static const float fWhiteCutoff = 0.8f;
 
+static const float g_cWidth = 640;
+static const float g_cHeight = 480;
+
+float2 PixelCoordsDownFilter[16] =
+{
+    { 1.5 / g_cWidth,  -1.5 / g_cHeight },
+    { 1.5 / g_cWidth,  -0.5 / g_cHeight },
+    { 1.5 / g_cWidth,   0.5 / g_cHeight },
+    { 1.5 / g_cWidth,   1.5 / g_cHeight },
+
+    { 0.5 / g_cWidth,  -1.5 / g_cHeight },
+    { 0.5 / g_cWidth,  -0.5 / g_cHeight },
+    { 0.5 / g_cWidth,   0.5 / g_cHeight },
+    { 0.5 / g_cWidth,   1.5 / g_cHeight },
+
+    {-0.5 / g_cWidth,  -1.5 / g_cHeight },
+    {-0.5 / g_cWidth,  -0.5 / g_cHeight },
+    {-0.5 / g_cWidth,   0.5 / g_cHeight },
+    {-0.5 / g_cWidth,   1.5 / g_cHeight },
+
+    {-1.5 / g_cWidth,  -1.5 / g_cHeight },
+    {-1.5 / g_cWidth,  -0.5 / g_cHeight },
+    {-1.5 / g_cWidth,   0.5 / g_cHeight },
+    {-1.5 / g_cWidth,   1.5 / g_cHeight },
+};
+
 
 sampler SceneSampler =
 sampler_state
@@ -55,6 +81,23 @@ float4 psOpaque(
 }
 
 
+float4 psDownFilter(
+    float4 pos      : POSITION,
+    float4 diffuse  : COLOR0,
+    float2 uv0      : TEXCOORD0) : COLOR
+{
+    float4 color = 0;
+
+    for (int i = 0; i < 16; i++)
+    {
+        color += tex2D(SceneSampler, uv0 + PixelCoordsDownFilter[i].xy );
+    }
+
+    return color / 16;
+}
+
+
+
 float4 psCompose(
     float4 pos      : POSITION,
     float4 diffuse  : COLOR0,
@@ -83,6 +126,17 @@ technique ScenePass
     {
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psOpaque();
+        FillMode = Solid;
+    }
+}
+
+
+technique DownFilterPass
+{
+    pass P0
+    {
+        VertexShader = compile vs_2_0 vsQuad();
+        PixelShader  = compile ps_2_0 psDownFilter();
         FillMode = Solid;
     }
 }

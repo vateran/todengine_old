@@ -99,7 +99,7 @@ class MainFrame(wx.Frame):
         self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
         
-        mesh = new('MeshNode', '/usr/scene/tiger')
+        '''mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'EnvMapMesh'
@@ -116,11 +116,12 @@ class MainFrame(wx.Frame):
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'SkyBox'
         mesh.mesh_uri = 'managed://mesh#alley_skybox.x'
-        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
+        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')'''
         
         terrain = new('TerrainNode', '/usr/scene/terrain')
         terrain.shader_uri = 'managed://shader#terrain.fx'
         terrain.technique = 'Terrain'
+        terrain.scaling = (1, 0.5, 1)
         terrain.addTexture('DiffuseMap', 'managed://texture#Base_Texture_BigPoint.jpg')
                 
         camera = new('CameraNode', '/usr/scene/camera')
@@ -146,7 +147,7 @@ class MainFrame(wx.Frame):
         rppass.clear_stencil = False;
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#hdr.fx'
-        rppass.technique = 'OpaqueQuadPass'
+        rppass.technique = 'DownFilterPass'
         rppass.addTexture('SceneMap', 'managed://rt#scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/downscaled4x/rt')        
         rt.texture_uri = 'managed://rt#downscaled4x_scene'
@@ -199,8 +200,10 @@ class MainFrame(wx.Frame):
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'ComposeScenePass'
-        rppass.addTexture('SceneMap', 'managed://rt#bloomv_scene')
-        rppass.addTexture('ToneMap', 'managed://rt#scene')
+        #rppass.addTexture('SceneMap', 'managed://rt#downscaled4x_scene')
+        rppass.addTexture('SceneMap', 'managed://rt#scene')
+        #rppass.addTexture('SceneMap', 'managed://rt#bloomv_scene')
+        #rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),

@@ -100,4 +100,5 @@ void TerrainNode::bindProperty()
 {
     BIND_PROPERTY(const Uri&, vb_uri, &setVBUri, &getVBUri);
     BIND_PROPERTY(const Uri&, heightmap_uri, &setHeightMapUri, &getHeightMapUri);
+    BIND_PROPERTY(int, lod, &setLOD, &getLOD);
 }

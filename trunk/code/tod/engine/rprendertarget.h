@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_RENDERPATH_RENDERTARGET_H
 /**
     @ingroup TodEngineGraphicsRenderPath
-    @class tod::engine::graphics::RpRenderTarget
+    @class tod::engine::RpRenderTarget
     @brief 
 */
 
@@ -15,26 +15,24 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class Texture;
-    class RpRenderTarget : public core::Node
+    class RpRenderTarget : public Node
     {
     public:
         RpRenderTarget();
         virtual~RpRenderTarget();
-        DECLARE_CLASS(RpRenderTarget, core::Node);
+        DECLARE_CLASS(RpRenderTarget, Node);
 
         void preload();
 
         void begin();
         void end();
 
-        void setAlias(const core::Name& alias);
-        const core::Name& getAlias() const;
+        void setAlias(const Name& alias);
+        const Name& getAlias() const;
 
-        void setTextureUri(const core::Uri& uri);
-        const core::Uri& getTextureUri() const;
+        void setTextureUri(const Uri& uri);
+        const Uri& getTextureUri() const;
 
         void setFormat(const Format& format);
         const Format& getFormat() const;
@@ -51,12 +49,11 @@ namespace graphics
 
     private:
         ResourceRef<Texture> texture_;
-        core::Name alias_;
-        core::Uri uri_;
+        Name alias_;
+        Uri uri_;
         Format format_;
         float relativeSize_;
     };
-}
 }
 }
 

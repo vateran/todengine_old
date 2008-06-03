@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_PATH_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Path
+    @class tod::Path
     @brief Node of Hierarchy Path
 
     @section Path
@@ -18,8 +18,6 @@
 #include "tod/core/string.h"
 
 namespace tod
-{
-namespace core
 {
     class Path : public String
     {
@@ -53,7 +51,6 @@ namespace core
 
 #include "tod/core/path.inl"
 
-}
 }
 
 #endif // TOD_CORE_TYPE_PATH_H

@@ -2,8 +2,8 @@
 
 #include "tod/engine/timeserver.h"
 
-using namespace tod::core;
-using namespace tod::engine::time;
+using namespace tod;
+using namespace tod::engine;
 
 //------------------------------------------------------------------------------
 StopWatch::StopWatch(bool start):

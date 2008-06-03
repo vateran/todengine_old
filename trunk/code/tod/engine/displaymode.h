@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_DISPLAYMODE_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::DisplayMode
+    @class tod::engine::DisplayMode
     @brief 
 */
 
@@ -14,16 +14,14 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
-    class DisplayMode : public core::String
+    class DisplayMode : public String
     {
     public:
         DisplayMode();
-        DisplayMode(const core::char_t* mode);
-        DisplayMode(const core::String& mode);
+        DisplayMode(const char_t* mode);
+        DisplayMode(const String& mode);
 
-        void set(const core::char_t* mode);
+        void set(const char_t* mode);
 
         const String getTitle() const;
         int getWidth() const;
@@ -34,7 +32,7 @@ namespace graphics
         bool isWindowed() const;
         bool isVSync() const;
 
-        DisplayMode& operator = (const core::char_t* mode);
+        DisplayMode& operator = (const char_t* mode);
         
     private:
         String title_;
@@ -47,7 +45,6 @@ namespace graphics
         bool fullscreen_;
         bool vsync_;
     };
-}
 }
 }
 

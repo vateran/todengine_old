@@ -2,7 +2,7 @@
 
 #include "tod/core/singleton.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 SingletonServer::SingletonServer()

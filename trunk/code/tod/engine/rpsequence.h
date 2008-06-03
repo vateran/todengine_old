@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_RENDERPATH_RENDERSEQUENCE_H
 /**
     @ingroup TodEngineGraphicsRenderPath
-    @class tod::engine::graphics::RpSequence
+    @class tod::engine::RpSequence
     @brief 
 */
 
@@ -11,8 +11,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     class RpSequence : public RpBase
     {
@@ -23,7 +21,6 @@ namespace graphics
 
     private:
     };
-}
 }
 }
 

@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include <Windows.h>
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 String::String(const char* s, ...)

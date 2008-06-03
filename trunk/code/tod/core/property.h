@@ -2,7 +2,7 @@
 #define TOD_CORE_PROPERTY_PROPERTY_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::Property
+    @class tod::Property
     @brief
 */
 
@@ -14,8 +14,6 @@
 #include "tod/core/typeid.h"
 
 namespace tod
-{
-namespace core
 {
     class Object;
     class Property
@@ -36,7 +34,6 @@ namespace core
 
 #include "tod/core/property.inl"
 
-}
 }
 
 #endif // TOD_CORE_PROPERTY_PROPERTY_H

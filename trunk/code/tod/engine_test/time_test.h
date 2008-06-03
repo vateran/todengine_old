@@ -3,7 +3,7 @@
 
 #include "tod/core/unittest.h"
 
-class TimeTestCase : public tod::core::unittest::TestCase<TimeTestCase>
+class TimeTestCase : public tod::TestCase<TimeTestCase>
 {
 public:
     TODUNIT_BEGINE_TESTSUITE(TimeTestCase)

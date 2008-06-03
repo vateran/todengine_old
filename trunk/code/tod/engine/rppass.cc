@@ -6,8 +6,8 @@
 #include "tod/engine/texture.h"
 #include "tod/engine/rprendertarget.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 IMPLEMENT_CLASS(RpPass, RpBase);
 

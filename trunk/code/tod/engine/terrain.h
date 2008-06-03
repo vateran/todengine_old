@@ -15,15 +15,12 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class Terrain
     {
     public:
         Terrain();
         virtual~Terrain();
     };
-}
 }
 }
 

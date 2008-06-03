@@ -2,7 +2,7 @@
 #define TOD_CORE_OBJECT_VARIABLES_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::Variable
+    @class tod::Variable
     @brief
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/simplevariable.h"
 
 namespace tod
-{
-namespace core
 {
     class Variables
     {
@@ -43,7 +41,6 @@ namespace core
 
 #include "tod/core/variables.inl"
 
-}
 }
 
 #endif // TOD_CORE_OBJECT_VARIABLES_H

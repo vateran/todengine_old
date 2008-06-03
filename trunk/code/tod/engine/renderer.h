@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_RENDERER_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::Renderer
+    @class tod::engine::Renderer
     @brief 
 */
 
@@ -20,39 +20,37 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class Mesh;
     class Shader;
     class Texture;
     class IndexBuffer;
     class VertexBuffer;
     class Renderer :
-        public core::Node,
-        public core::Singleton3<Renderer>
+        public Node,
+        public Singleton3<Renderer>
     {
     public:
         Renderer();
         virtual~Renderer();
-        DECLARE_ABSTRACTCLASS(Renderer, core::Node);
+        DECLARE_ABSTRACTCLASS(Renderer, Node);
 
         virtual void clearScene(
-            const core::Color& color, float z, core::uint32_t stencil,
+            const Color& color, float z, uint32_t stencil,
             bool target, bool zbuf, bool sbuf)=0;
         virtual void beginScene()=0;
         virtual void endScene()=0;
         virtual void presentScene(int windowid_override=0)=0;
 
-        virtual Mesh* newMesh(const core::Uri& uri)=0;
-        virtual VertexBuffer* newVertexBuffer(const core::Uri& uri)=0;
-        virtual IndexBuffer* newIndexBuffer(const core::Uri& uri)=0;
-        virtual Texture* newTexture(const core::Uri& uri)=0;
-        virtual Texture* newCubeTexture(const core::Uri& uri)=0;
-        virtual Shader* newShader(const core::Uri& uri)=0;
+        virtual Mesh* newMesh(const Uri& uri=STRING(""))=0;
+        virtual VertexBuffer* newVertexBuffer(const Uri& uri=STRING(""))=0;
+        virtual IndexBuffer* newIndexBuffer(const Uri& uri=STRING(""))=0;
+        virtual Texture* newTexture(const Uri& uri=STRING(""))=0;
+        virtual Texture* newCubeTexture(const Uri& uri=STRING(""))=0;
+        virtual Shader* newShader(const Uri& uri=STRING(""))=0;
 
         virtual void setDisplayMode(const DisplayMode& display_mode)=0;
         virtual const DisplayMode& getDisplayMode() const=0;
-        virtual const core::String& getDisplayModeStr() const;
+        virtual const String& getDisplayModeStr() const;
 
         virtual void pushRenderTarget(Texture* texture)=0;
         virtual Texture* popRenderTarget()=0;
@@ -63,27 +61,26 @@ namespace graphics
         virtual void setShader(Shader* shader)=0;
         virtual Shader* getShader()=0;
 
-        virtual void setTransform(Transform type, const core::Matrix44& m);
-        virtual const core::Matrix44& getTransform(Transform type) const;
-        virtual void pushTransform(Transform type, const core::Matrix44& m);
+        virtual void setTransform(Transform type, const Matrix44& m);
+        virtual const Matrix44& getTransform(Transform type) const;
+        virtual void pushTransform(Transform type, const Matrix44& m);
         virtual void popTransform(Transform type);
 
-        virtual void drawQuad(const core::Rect& r, const core::Color& color)=0;
+        virtual void drawQuad(const Rect& r, const Color& color)=0;
 
         static void bindMethod();
         static void bindProperty();
 
     private:
-        typedef std::stack<core::Matrix44> MatrixStack;
+        typedef std::stack<Matrix44> MatrixStack;
 
     private:
-        void set_transform(Transform type, const core::Matrix44& m);
+        void set_transform(Transform type, const Matrix44& m);
 
     private:
         MatrixStack matrixStack_[TRANSFORM_MAX];
         
     };
-}
 }
 }
 

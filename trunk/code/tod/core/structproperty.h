@@ -2,7 +2,7 @@
 #define TOD_CORE_PROPERTY_STRUCTPROPERTY_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::StructProperty
+    @class tod::StructProperty
     @brief
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/properties.h"
 
 namespace tod
-{
-namespace core
 {
     class StructProperty : public Property
     {
@@ -51,8 +49,6 @@ namespace core
     s_##name##_property.setName(STRING(#name));\
     s_##name##_property.bind(setter, getter);\
     s_##group_name##_struct_property.addProperty(&s_##name##_property);
-
-}
 }
 
 

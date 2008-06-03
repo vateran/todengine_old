@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_UNITTEST_TESTCALLER_H
 /**
     @ingroup TodCoreUnitTest
-    @class tod::core::unittest::TestCaller
+    @class tod::unittest::TestCaller
     @brief 
 */
 
@@ -10,10 +10,6 @@
 #include "tod/core/testcallerbase.h"
 
 namespace tod
-{
-namespace core
-{
-namespace unittest
 {
     template <typename T>
     class TestCaller : public TestCallerBase
@@ -41,9 +37,9 @@ namespace unittest
 #include "tod/core/testcaller.inl"
 
 #define TODUNIT_BEGINE_TESTSUITE(name) typedef name MyTestCase;\
-    typedef tod::core::unittest::TestCaller<name> MyTestCaller;\
+    typedef tod::TestCaller<name> MyTestCaller;\
     void addTest(MyTestCaller* test) { testCallers_.push_back(test); }\
-    override const tod::core::char_t* toString() const { return STRING(#name); }\
+    override const tod::char_t* toString() const { return STRING(#name); }\
     name() {
 
 #define TODUNIT_TEST(name) addTest(\
@@ -51,9 +47,6 @@ namespace unittest
 
 #define TODUNIT_END_TESTSUITE() }
 
-
-}
-}
 }
 
 #endif // TOD_CORE_UTILITY_UNITTEST_TESTCALLER_H

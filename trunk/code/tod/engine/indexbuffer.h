@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_INDEXBUFFER_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::IndexBuffer
+    @class tod::engine::IndexBuffer
     @brief 
 */
 
@@ -15,8 +15,6 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     enum IndexFormat
     {
         INDEXFORMAT_INDEX16,
@@ -26,7 +24,7 @@ namespace graphics
     class IndexBuffer : public Resource
     {
     public:
-        IndexBuffer(const core::Uri& uri):Resource(uri) {}
+        IndexBuffer(const Uri& uri):Resource(uri) {}
         virtual~IndexBuffer() {}
 
         virtual bool create(int num_indices, int usage, Format format)=0;
@@ -46,7 +44,5 @@ namespace graphics
     };
 }
 }
-}
-
 
 #endif // TOD_ENGINE_GRAPHICS_CORE_INDEXBUFFER_H

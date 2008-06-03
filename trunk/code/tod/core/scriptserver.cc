@@ -1,6 +1,6 @@
 #include "tod/core/scriptserver.h"
 
-using namespace tod::core;
+using namespace tod;
 
 IMPLEMENT_CLASS(ScriptServer, Node);
 

@@ -2,7 +2,7 @@
 template <typename T>
 bool ResourceHolder<T>::empty() const
 {
-    return resources_.empty();
+    return namedResources_.empty() && unnamedResources_.empty();
 }
 
 
@@ -10,7 +10,7 @@ bool ResourceHolder<T>::empty() const
 template <typename T>
 size_t ResourceHolder<T>::size() const
 {
-    return resources_.size();
+    return namedResources_.size() + unnamedResources_.size();
 }
 
 
@@ -18,7 +18,8 @@ size_t ResourceHolder<T>::size() const
 template <typename T>
 void ResourceHolder<T>::clear()
 {
-    resources_.clear();
+    namedResources_.clear();
+    unnamedResources_.clear();
 }
 
 
@@ -27,24 +28,27 @@ template <typename T>
 void ResourceHolder<T>::add(Resource* r)
 {
     tod_assert(r);
-    resources_.insert(Resources::value_type(r->getUri(), r));
+    if (r->getUri().empty())
+        unnamedResources_.push_back(r);
+    else
+        namedResources_.insert(NamedResources::value_type(r->getUri(), r));
 }
 
 
 //-----------------------------------------------------------------------------
 template <typename T>
-void ResourceHolder<T>::remove(const core::Uri& uri)
+void ResourceHolder<T>::remove(const Uri& uri)
 {
-    resources_.erase(uri);
+    namedResources_.erase(uri);
 }
 
 
 //-----------------------------------------------------------------------------
 template <typename T>
-T* ResourceHolder<T>::find(const core::Uri& uri)
+T* ResourceHolder<T>::find(const Uri& uri)
 {
-    Resources::iterator find_iter = resources_.find(uri);
-    if (resources_.end() == find_iter)
+    NamedResources::iterator find_iter = namedResources_.find(uri);
+    if (namedResources_.end() == find_iter)
         return 0;
     return find_iter->second;
 }

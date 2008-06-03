@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_MESH_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::Mesh
+    @class tod::engine::Mesh
     @brief 
 */
 
@@ -13,12 +13,10 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class Mesh : public Resource
     {
     public:
-        Mesh(const core::Uri& uri):Resource(uri) {}
+        Mesh(const Uri& uri):Resource(uri) {}
         virtual~Mesh() {}
 
         virtual bool preload(
@@ -36,7 +34,5 @@ namespace graphics
     };
 }
 }
-}
-
 
 #endif // TOD_ENGINE_GRAPHICS_CORE_MESH_H

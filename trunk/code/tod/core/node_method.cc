@@ -2,7 +2,7 @@
 
 #include "tod/core/methodbinder.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 static void Node_i_addRef_v(Node* self, Parameter* param)

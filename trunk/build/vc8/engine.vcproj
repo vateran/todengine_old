@@ -466,6 +466,14 @@
 								RelativePath="..\..\code\tod\engine\terrainsection.h"
 								>
 							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\terraintile.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\terraintile.h"
+								>
+							</File>
 						</Filter>
 						<Filter
 							Name="timenode"

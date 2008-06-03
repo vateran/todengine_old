@@ -2,7 +2,7 @@
 #define TOD_D3D9GRAPHICS_D3D9MESH_H
 /**
     @ingroup D3D9Graphics
-    @class tod::engine::graphics::D3D9Mesh
+    @class tod::engine::D3D9Mesh
     @brief 
 */
 
@@ -16,12 +16,10 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class D3D9Mesh : public Mesh
     {
     public:
-        D3D9Mesh(const core::Uri& uri, IDirect3DDevice9* d3d9device);
+        D3D9Mesh(const Uri& uri, IDirect3DDevice9* d3d9device);
         virtual~D3D9Mesh();
 
         override bool preload(
@@ -43,7 +41,6 @@ namespace graphics
         D3DXMATERIAL* materials_;
         DWORD numMaterial_;
     };
-}
 }
 }
 

@@ -2,7 +2,7 @@
 
 #include "tod/core/simplepropertybinder.h"
 
-using namespace tod::core;
+using namespace tod;
 
 IMPLEMENT_CLASS(Node, Object);
 

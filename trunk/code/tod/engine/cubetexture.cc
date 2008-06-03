@@ -1,7 +1,7 @@
 #include "tod/engine/cubetexture.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 CubeTexture::CubeTexture(const Uri& uri):

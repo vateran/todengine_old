@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_SCENE_NODE_CAMERANODE_H
 /**
     @ingroup TodEngineGraphicsScene
-    @class tod::engine::graphics::CameraNode
+    @class tod::engine::CameraNode
     @brief 
 */
 
@@ -11,8 +11,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     class CameraNode : public AbstractCameraNode
     {
@@ -24,7 +22,6 @@ namespace graphics
         override void renderCamera(SceneServer* scene_server);
         override bool hasCamera() const;
     };
-}
 }
 }
 

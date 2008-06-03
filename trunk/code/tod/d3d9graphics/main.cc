@@ -3,8 +3,8 @@
 #include "tod/core/kernel.h"
 #include "tod/d3d9graphics/d3d9renderer.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 void initialize_D3D9Graphics(Module* module)

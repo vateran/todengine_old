@@ -2,17 +2,13 @@
 #define TOD_CORE_UTILITY_UNITTEST_TESTSUITE_H
 /**
     @ingroup TodCoreUnitTest
-    @class tod::core::unittest::TestSuite
+    @class tod::unittest::TestSuite
     @brief 
 */
 
 #include <list>
 
 namespace tod
-{
-namespace core
-{
-namespace unittest
 {
     class TestCaseBase;
     class TestSuite
@@ -33,8 +29,6 @@ namespace unittest
 
 #include "tod/core/testsuite.inl"
 
-}
-}
 }
 
 #endif // TOD_CORE_UTILITY_UNITTEST_TESTSUITE_H

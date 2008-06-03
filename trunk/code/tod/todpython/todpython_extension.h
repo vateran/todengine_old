@@ -6,21 +6,21 @@
 #include "tod/core/node.h"
 
 //-----------------------------------------------------------------------------
-extern PyObject* build_value(tod::core::Variable* variable);
+extern PyObject* build_value(tod::Variable* variable);
 extern PyObject* build_input_paramter
-(tod::core::Variables* v, PyObject* args, const char* method_name);
+(tod::Variables* v, PyObject* args, const char* method_name);
 extern int set_property
-(tod::core::Object* object, const tod::core::Path& phat,
+(tod::Object* object, const tod::Path& phat,
  PyObject* name, PyObject* value);
 extern PyObject* invoke_method
-(tod::core::Object* object, PyObject* attr_name, const tod::core::Path& path,
+(tod::Object* object, PyObject* attr_name, const tod::Path& path,
  PyObject* args, PyObject* keys);
 
 //-----------------------------------------------------------------------------
 struct TodObject
 {
     PyObject_HEAD
-    tod::core::Object* object_;
+    tod::Object* object_;
     PyObject* attrName_;
 
     TodObject():attrName_(0) {}
@@ -34,13 +34,13 @@ extern PyObject* TodPython_newobject(PyObject* self, PyObject* args);
 struct TodNode
 {
     PyObject_HEAD
-    tod::core::Ref<tod::core::Node> node_;
+    tod::Ref<tod::Node> node_;
     PyObject* attrName_;
 
     TodNode():attrName_(0) {}
 };
 
-typedef std::map<tod::core::Path, TodNode*> TodNodes;
+typedef std::map<tod::Path, TodNode*> TodNodes;
 
 extern PyObject* g_module;
 extern TodNodes g_todobjects;

@@ -2,15 +2,13 @@
 #define TOD_CORE_KERNEL_BUILTINMODULE_H
 /**
     @ingroup TodCoreKernel
-    @class tod::core::BuiltinModule
+    @class tod::BuiltinModule
     @brief 
 */
 
 #include "tod/core/module.h"
 
 namespace tod
-{
-namespace core
 {
     class Type;
     class Object;
@@ -20,7 +18,6 @@ namespace core
         BuiltinModule(const name_t* name);
         virtual~BuiltinModule();
     };
-}
 }
 
 #endif // TOD_CORE_KERNEL_BUILTINMODULE_H

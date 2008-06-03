@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_LIGHT_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::Camera
+    @class tod::engine::Camera
     @brief 
 */
 
@@ -10,13 +10,10 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class Light
     {
     public:
     };
-}
 }
 }
 

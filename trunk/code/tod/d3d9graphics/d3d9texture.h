@@ -2,7 +2,7 @@
 #define TOD_D3D9GRAPHICS_D3D9TEXTURE_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::D3D9Texture
+    @class tod::engine::D3D9Texture
     @brief 
 */
 
@@ -15,12 +15,10 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class D3D9Texture : public Texture
     {
     public:
-        D3D9Texture(const core::Uri& uri, IDirect3DDevice9* d3d9device);
+        D3D9Texture(const Uri& uri, IDirect3DDevice9* d3d9device);
         virtual~D3D9Texture();
 
         override bool create(
@@ -30,7 +28,7 @@ namespace graphics
         override bool preload();
 
         override bool lockRect(
-            int level, const core::Rect* rect,
+            int level, const Rect* rect,
             void*& out_ptr, int* out_pitch,
             bool discard=true, bool read_only=false);
         override bool unlockRect(int level);
@@ -57,7 +55,5 @@ namespace graphics
     };
 }
 }
-}
-
 
 #endif // TOD_D3D9GRAPHICS_D3D9TEXTURE_H

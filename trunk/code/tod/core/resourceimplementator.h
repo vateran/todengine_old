@@ -2,15 +2,13 @@
 #define TOD_CORE_RESOURCE_RESOURCEIMPLEMENTATOR_H
 /**
     @ingroup TodCoreResource
-    @class tod::core::ResourceImplementator
+    @class tod::ResourceImplementator
     @brief
 */
 
 #include "tod/core/primitivetype.h"
 
 namespace tod
-{
-namespace core
 {
     class ResourceImplementator
     {
@@ -26,7 +24,6 @@ namespace core
         virtual int read(buffer_t* buffer, length_t len)=0;
         virtual int size() const=0;
     };
-}
 }
 
 #endif // TOD_CORE_RESOURCE_RESOURCEIMPLEMENTATOR_H

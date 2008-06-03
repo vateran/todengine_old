@@ -2,15 +2,13 @@
 #define TOD_CORE_UTILITY_REF_H
 /**
     @ingroup TodCoreUtility
-    @class tod::core::Ref
+    @class tod::Ref
     @brief 
 */
 
 #include "tod/core/define.h"
 
 namespace tod
-{
-namespace core
 {
     class Node;
     template <typename T>
@@ -72,7 +70,6 @@ namespace core
 
 #include "tod/core/ref.inl"
 
-}
 }
 
 #endif // TOD_CORE_UTILITY_REF_H

@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_BBOX_H
 /**
     @ingroup TodCoreType
-    @class tod::core::BBox
+    @class tod::BBox
     @brief 
 */
 
@@ -13,8 +13,6 @@
 #include "tod/core/matrix44.h"
 
 namespace tod
-{
-namespace core
 {
     class BBox
     {
@@ -96,7 +94,6 @@ namespace core
         Vector3 max_;
 
     };
-}
 }
 
 #endif // TOD_CORE_TYPE_BBOX_H

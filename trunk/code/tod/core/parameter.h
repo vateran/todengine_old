@@ -2,15 +2,13 @@
 #define TOD_CORE_OBJECT_PARAMETER_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::Parameter
+    @class tod::Parameter
     @brief
 */
 
 #include "tod/core/variables.h"
 
 namespace tod
-{
-namespace core
 {
     class Parameter
     {
@@ -27,7 +25,6 @@ namespace core
 
 #include "tod/core/parameter.inl"
 
-}
 }
 
 #endif // TOD_CORE_OBJECT_PARAMETER_H

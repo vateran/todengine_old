@@ -2,15 +2,13 @@
 #define TOD_CORE_UTILITY_SINGLETON_H
 /**
     @ingroup TodCoreUtility
-    @class tod::core::Singleton
+    @class tod::Singleton
     @brief 
 */
 
 #include "tod/core/singletonserver.h"
 
 namespace tod
-{
-namespace core
 {
     class SingletonBase
     {
@@ -35,7 +33,6 @@ namespace core
 
 #include "tod/core/singleton.inl"
 
-}
 }
 
 #endif // TOD_CORE_UTILITY_SINGLETON_H

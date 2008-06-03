@@ -2,7 +2,7 @@
 #define TOD_CORE_OBJECT_LINKNODE_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::LinkNode
+    @class tod::LinkNode
     @brief
 */
 
@@ -10,8 +10,6 @@
 #include "tod/core/node.h"
 
 namespace tod
-{
-namespace core
 {
     class LinkNode : public Node
     {
@@ -77,7 +75,6 @@ namespace core
     private:
         static UpdatePropertyServer s_updatePropertyServer_;
     };
-}
 }
 
 #endif // TOD_CORE_OBJECT_LINKNODE_H

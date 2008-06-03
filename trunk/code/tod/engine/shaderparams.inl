@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 template <typename T>
-core::SimpleVariable<T>* ShaderParams::addShaderParam(const core::Name& name)
+SimpleVariable<T>* ShaderParams::addShaderParam(const Name& name)
 {   
     typedef SimpleVariable<T> VariableType;
     VariableType* v = new VariableType();

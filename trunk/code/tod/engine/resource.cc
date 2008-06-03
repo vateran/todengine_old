@@ -1,6 +1,6 @@
 #include "tod/engine/resource.h"
 
-using namespace tod::core;
+using namespace tod;
 using namespace tod::engine;
 
 //-----------------------------------------------------------------------------

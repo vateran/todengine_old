@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_EXCEPTION_H
 /**
     @ingroup TodCoreException
-    @class tod::core::Exception
+    @class tod::Exception
     @brief 
 */
 
@@ -13,8 +13,6 @@
 #include "tod/core/singleton.h"
 
 namespace tod
-{
-namespace core
 {
     class Exception : public std::exception
     {
@@ -95,7 +93,7 @@ namespace core
     };
 
 #define TOD_THROW_EXCEPTION(err_code, desc) \
-    ExceptionManager::instance()->handle(tod::core::Exception(\
+    ExceptionManager::instance()->handle(tod::Exception(\
         err_code, ___LINE___, ___FILE___, ___FUNCTION___, desc));
 
 enum TodExceptionCode
@@ -103,8 +101,6 @@ enum TodExceptionCode
     TODEXCEPTIONCODE_RESOURCEOPEN,
 };
 
-
-}
 }
 
 #endif // TOD_CORE_UTILITY_EXCEPTION_H

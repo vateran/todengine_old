@@ -2,16 +2,13 @@
 #define TOD_CORE_TYPE_TIME_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Time
+    @class tod::Time
     @brief Time type
 */
 
 namespace tod
 {
-namespace core
-{
     typedef double Time;
-}
 }
 
 #endif // TOD_CORE_TYPE_TIME_H

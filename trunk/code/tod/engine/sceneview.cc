@@ -5,8 +5,8 @@
 #include "tod/engine/scenenode.h"
 #include "tod/engine/sceneserver.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 IMPLEMENT_CLASS(SceneView, Node);
 

@@ -2,15 +2,13 @@
 #define TOD_CORE_PROPERTY_COMPOSITEPROPERTY_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::CompositeProperty
+    @class tod::CompositeProperty
     @brief
 */
 
 #include "tod/core/properties.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename PROPERTY_TYPE>
     class CompositeProperty : public Property
@@ -37,8 +35,7 @@ namespace core
     };
 
 #include "tod/core/compositeproperty.inl"
-    
-}
+
 }
 
 #endif // TOD_CORE_PROPERTY_COMPOSITEPROPERTY_H

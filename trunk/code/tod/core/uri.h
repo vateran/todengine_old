@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_URI_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Uri
+    @class tod::Uri
     @brief Universal Resource Identifier
 
     @section URIParts
@@ -22,8 +22,6 @@
 #include "tod/core/string.h"
 
 namespace tod
-{
-namespace core
 {
     class Uri
     {
@@ -70,7 +68,6 @@ namespace core
 
 #include "tod/core/uri.inl"
 
-}
 }
 
 #endif // TOD_CORE_TYPE_URI_H

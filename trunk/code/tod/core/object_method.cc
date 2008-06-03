@@ -2,7 +2,7 @@
 
 #include "tod/core/methodbinder.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 static void Object_b_isKindOf_v(Object* self, Parameter* param)

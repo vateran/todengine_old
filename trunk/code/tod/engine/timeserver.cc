@@ -2,8 +2,8 @@
 
 #include "tod/core/simplepropertybinder.h"
 
-using namespace tod::core;
-using namespace tod::engine::time;
+using namespace tod;
+using namespace tod::engine;
 
 IMPLEMENT_CLASS(TimeServer, Node);
 

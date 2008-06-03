@@ -10,8 +10,6 @@
 
 namespace tod
 {
-namespace core
-{
     class Method;
     class Argument;
     class MessageQueue
@@ -32,7 +30,6 @@ namespace core
     private:
         Messages messages_;
     };
-}
 }
 
 #endif // TOD_CORE_OBJECT_MESSAGEQUEUE_H

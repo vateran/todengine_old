@@ -3,8 +3,8 @@
 #include "tod/core/methodbinder.h"
 #include "tod/engine/sceneserver.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 static void SceneView_v_render_v(SceneView* self, Parameter* param)

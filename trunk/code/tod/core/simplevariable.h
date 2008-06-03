@@ -2,7 +2,7 @@
 #define TOD_CORE_OBJECT_SIMPLEVARIABLE_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::SimpleVariable
+    @class tod::SimpleVariable
     @brief
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/typeid.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename T>
     class SimpleVariable : public Variable
@@ -35,7 +33,6 @@ namespace core
 
 #include "tod/core/simplevariable.inl"
 
-}
 }
 
 #endif // TOD_CORE_OBJECT_SIMPLEVARIABLE_H

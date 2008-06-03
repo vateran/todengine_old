@@ -7,8 +7,6 @@
 
 namespace tod
 {
-namespace core
-{
 #ifdef UNICODE
     typedef wchar_t char_t;
 #else
@@ -39,7 +37,6 @@ namespace core
     typedef uint32_t length_t;
 
     typedef const char* type_id;
-}
 }
 
 #endif // TOD_CORE_TYPE_PRIMITIVETYPE_H

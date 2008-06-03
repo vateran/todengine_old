@@ -2,7 +2,7 @@
 #define TOD_ENGINE_TIME_STOPWATCH_H
 /**
     @ingroup TodEngineTime
-    @class tod::engine::time::TimeServer
+    @class tod::engine::TimeServer
     @brief 
 */
 
@@ -11,8 +11,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace time
 {
     class StopWatch
     {
@@ -24,9 +22,9 @@ namespace time
         void restart();
         void pause();
         void resume();
-        void step(core::Time d);
-        core::Time elapse() const;
-        core::Time delta() const;
+        void step(Time d);
+        Time elapse() const;
+        Time delta() const;
 
         bool isStarted() const;
         bool isPaused() const;
@@ -34,10 +32,9 @@ namespace time
     protected:
         bool start_;
         bool pause_;
-        core::Time startTime_;
-        core::Time pauseTime_;
+        Time startTime_;
+        Time pauseTime_;
     };
-}
 }
 }
 

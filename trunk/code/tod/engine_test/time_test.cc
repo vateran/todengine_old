@@ -5,8 +5,8 @@
 #include "tod/engine/timeserver.h"
 #include "tod/engine/stopwatch.h"
 
-using namespace tod::core;
-using namespace tod::engine::time;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 void TimeTestCase::test_TimeServer()

@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_STRING_H
 /**
     @ingroup TodCoreType
-    @class tod::core::String
+    @class tod::String
     @brief
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/primitivetype.h"
 
 namespace tod
-{
-namespace core
 {
 #ifdef UNICODE
     class String : public std::wstring
@@ -43,7 +41,6 @@ namespace core
     public:
     };
 #endif
-}
 }
 
 #endif // TOD_CORE_TYPE_STRING_H

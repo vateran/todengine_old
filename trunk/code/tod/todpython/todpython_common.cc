@@ -5,8 +5,8 @@
 #include "tod/core/simpleproperty.h"
 #include "tod/engine/format.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 int todpython_toint(PyObject* value)
@@ -171,7 +171,7 @@ PyObject* build_input_paramter
 
 //-----------------------------------------------------------------------------
 int set_property
-(tod::core::Object* object, const Path& path, PyObject* name, PyObject* value)
+(tod::Object* object, const Path& path, PyObject* name, PyObject* value)
 {
     // find property
     char* prop_name = PyString_AsString(name);

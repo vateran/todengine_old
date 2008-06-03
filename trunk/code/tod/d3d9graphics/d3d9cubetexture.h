@@ -2,7 +2,7 @@
 #define TOD_D3D9GRAPHICS_D3D9CUBETEXTURE_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::D3D9CubeTexture
+    @class tod::engine::D3D9CubeTexture
     @brief 
 */
 
@@ -14,12 +14,10 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class D3D9CubeTexture : public CubeTexture
     {
     public:
-        D3D9CubeTexture(const core::Uri& uri, IDirect3DDevice9* d3d9device);
+        D3D9CubeTexture(const Uri& uri, IDirect3DDevice9* d3d9device);
         virtual~D3D9CubeTexture();
 
         override bool create(
@@ -29,7 +27,7 @@ namespace graphics
         override bool preload();
 
         override bool lockRect(
-            int level, const core::Rect* rect,
+            int level, const Rect* rect,
             void*& out_ptr, int* out_pitch,
             bool discard=true, bool read_only=false);
         override bool unlockRect(int level);
@@ -55,7 +53,5 @@ namespace graphics
     };
 }
 }
-}
-
 
 #endif // TOD_D3D9GRAPHICS_D3D9CUBETEXTURE_H

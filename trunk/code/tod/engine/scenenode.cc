@@ -1,7 +1,7 @@
 #include "tod/engine/scenenode.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 IMPLEMENT_CLASS(SceneNode, Node);
 

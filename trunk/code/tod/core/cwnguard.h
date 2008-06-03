@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_CWNGUARD_H
 /**
     @ingroup TodCoreUtility
-    @class tod::core::CwnGuard
+    @class tod::CwnGuard
     @brief Current Working Node Guard
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/kernel.h"
 
 namespace tod
-{
-namespace core
 {
     class CwnGuard
     {
@@ -39,7 +37,6 @@ namespace core
 
 #include "tod/core/cwnguard.inl"
 
-}
 }
 
 #endif // TOD_CORE_UTILITY_CWNGUARD_H

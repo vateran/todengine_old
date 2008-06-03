@@ -5,8 +5,7 @@
 #include "tod/core/module.h"
 #include "tod/core/resourcemanager.h"
 
-using namespace tod::core;
-using namespace tod::engine::script;
+using namespace tod;
 
 IMPLEMENT_CLASS(TodPythonScriptServer, ScriptServer);
 INCLUDE_MODULE(Engine);

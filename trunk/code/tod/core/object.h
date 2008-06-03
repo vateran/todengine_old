@@ -2,7 +2,7 @@
 #define TOD_CORE_OBJECT_OBJECT_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::Object
+    @class tod::Object
     @brief
 */
 
@@ -12,8 +12,6 @@
 #include "tod/core/type.h"
 
 namespace tod
-{
-namespace core
 {
     class Object
     {
@@ -26,7 +24,6 @@ namespace core
         static void bindMethod();
         static void bindProperty();
     };
-}
 }
 
 #endif // TOD_CORE_OBJECT_OBJECT_H

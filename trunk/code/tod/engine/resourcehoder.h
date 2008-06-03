@@ -31,15 +31,17 @@ namespace engine
         void clear();
 
         void add(Resource* r);
-        void remove(const core::Uri& uri);
-        T* find(const core::Uri& uri);
+        void remove(const Uri& uri);
+        T* find(const Uri& uri);
 
     private:
         typedef ResourceRef<T> RefType;
-        typedef std::map<core::Uri, RefType> Resources;
+        typedef std::map<Uri, RefType> NamedResources;
+        typedef std::list<RefType> UnnamedResources;
 
     private:
-        Resources resources_;
+        NamedResources namedResources_;
+        UnnamedResources unnamedResources_;
     };
 
 #include "tod/engine/resourceholder.inl"

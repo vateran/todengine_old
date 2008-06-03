@@ -2,13 +2,11 @@
 #define TOD_CORE_TYPE_BOUNDEDVALUE_H
 /**
     @ingroup TodCoreType
-    @class tod::core::BoundedValue
+    @class tod::BoundedValue
     @brief 
 */
 
 namespace tod
-{
-namespace core
 {
     template <typename T>
     class BoundedValue
@@ -20,7 +18,6 @@ namespace core
         T min_;
         T max_;
     };
-}
 }
 
 #endif // TOD_CORE_TYPE_BOUNDEDVALUE_H

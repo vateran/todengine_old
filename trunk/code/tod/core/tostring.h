@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_TOSTRING_H
 /**
     @ingroup TodCoreUtility
-    @class tod::core::ToString
+    @class tod::ToString
     @brief 
 */
 
@@ -12,8 +12,6 @@
 #include "tod/core/string.h"
 
 namespace tod
-{
-namespace core
 {
     class Object;
     class Property;
@@ -35,7 +33,6 @@ namespace core
     private:
         StringConverters converters_;
     };
-}
 }
 
 #endif // TOD_CORE_UTILITY_TOSTRING_H

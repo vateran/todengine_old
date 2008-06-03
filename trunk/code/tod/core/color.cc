@@ -1,6 +1,6 @@
 #include "tod/core/color.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Color::Color():

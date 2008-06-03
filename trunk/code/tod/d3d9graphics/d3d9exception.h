@@ -8,8 +8,6 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     enum 
     {
         D3D9GRAPHICSEXCEPTIONCODE = 1000,
@@ -36,15 +34,14 @@ namespace graphics
     public:
         D3D9Exception(
             long hresult,
-            core::Exception& exception,
-            const core::String& detail_description);
+            Exception& exception,
+            const String& detail_description);
     };
 
 #define THROW_D3D9EXCEPTION(code, hr, desc) do {\
-    tod::core::Exception e(\
+    tod::Exception e(\
         code, ___LINE___, ___FILE___, ___FUNCTION___, STRING(""));\
         D3D9Exception(hr, e, desc); } while (0);
-}
 }
 }
 

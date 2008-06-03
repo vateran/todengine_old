@@ -105,7 +105,7 @@ technique Terrain
     {
         VertexShader = compile vs_2_0 TerrainVertexShaderMain();
         PixelShader  = compile ps_2_0 TerrainPixelShaderMain();
-        CullMode = None;
+        CullMode = CCW;
         Lighting = False;
         FillMode = WireFrame;
     }

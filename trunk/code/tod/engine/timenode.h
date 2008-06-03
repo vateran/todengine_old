@@ -13,14 +13,14 @@ namespace tod
 {
 namespace engine
 {
-    class TimeNode : public core::Node
+    class TimeNode : public Node
     {
     public:
         TimeNode();
         virtual~TimeNode();
-        DECLARE_CLASS(TimeNode, core::Node);
+        DECLARE_CLASS(TimeNode, Node);
 
-        core::Time getTime() const;
+        Time getTime() const;
 
         static void bindProperty();
     };

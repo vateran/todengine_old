@@ -2,7 +2,7 @@
 #define TOD_CORE_TYPE_LINE3_H
 /**
     @ingroup TodCoreType
-    @class tod::core::Line3
+    @class tod::Line3
     @brief 
 */
 
@@ -11,8 +11,6 @@
 #include "tod/core/vector3.h"
 
 namespace tod
-{
-namespace core
 {
     class Line3
     {
@@ -29,7 +27,6 @@ namespace core
         Vector3 m_;
 
     };
-}
 }
 
 #endif // TOD_CORE_TYPE_LINE3_H

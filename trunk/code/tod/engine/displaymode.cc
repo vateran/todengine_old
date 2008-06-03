@@ -3,8 +3,8 @@
 #include "tod/core/define.h"
 #include "boost/tokenizer.hpp"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 DisplayMode::DisplayMode():

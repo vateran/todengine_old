@@ -28,10 +28,8 @@
 
 #include "tod/engine/formatstringconverter.h"
 
-using namespace tod::core;
+using namespace tod;
 using namespace tod::engine;
-using namespace tod::engine::graphics;
-using namespace tod::engine::time;
 
 //-----------------------------------------------------------------------------
 void initialize_Engine(Module* module)

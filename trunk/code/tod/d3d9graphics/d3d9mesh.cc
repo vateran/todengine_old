@@ -6,8 +6,8 @@
 #include "tod/core/exception.h"
 #include "tod/d3d9graphics/d3d9exception.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 D3D9Mesh::D3D9Mesh(const Uri& uri, IDirect3DDevice9* d3d9device):
@@ -34,10 +34,10 @@ bool D3D9Mesh::preload
 {
     tod_assert(d3d9device_);
 
-    tod::core::Resource resource(getUri());
+    tod::Resource resource(getUri());
     if (!resource.open(
-        tod::core::Resource::OPEN_READ |
-        tod::core::Resource::OPEN_BINARY))
+        tod::Resource::OPEN_READ |
+        tod::Resource::OPEN_BINARY))
         return false;
 
     dynamic_buffer_t buffer;

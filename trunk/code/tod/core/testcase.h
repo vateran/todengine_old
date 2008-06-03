@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_UNITTEST_TESTCASE_H
 /**
     @ingroup TodCoreUnitTest
-    @class tod::core::unittest::TestCase
+    @class tod::unittest::TestCase
     @brief 
 */
 
@@ -13,10 +13,6 @@
 #include "tod/core/testcallerbase.h"
 
 namespace tod
-{
-namespace core
-{
-namespace unittest
 {
     class TestCaseBase
     {
@@ -73,8 +69,6 @@ namespace unittest
     ___FUNCTION___, ___LINE___, STRING(#e));\
     } } while (0);
 
-}
-}
 }
 
 #endif // TOD_CORE_UTILITY_UNITTEST_TESTCASE_H

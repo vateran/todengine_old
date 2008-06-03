@@ -3,7 +3,7 @@
 #include "tod/core/resourcemanager.h"
 #include "tod/core/resourceimplementator.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 Resource::Resource(const Uri& uri)

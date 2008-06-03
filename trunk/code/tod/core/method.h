@@ -2,7 +2,7 @@
 #define TOD_CORE_OBJECT_METHOD_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::Method
+    @class tod::Method
     @brief 
 */
 
@@ -13,8 +13,6 @@
 #include "tod/core/parameter.h"
 
 namespace tod
-{
-namespace core
 {
     class Object;
     class ReturnValue;
@@ -43,7 +41,6 @@ namespace core
 
 #include "tod/core/method.inl"
 
-}
 }
 
 #endif // TOD_CORE_OBJECT_METHOD_H

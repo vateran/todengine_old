@@ -16,8 +16,6 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class TerrainNode : public ShapeNode
     {
     public:
@@ -33,10 +31,10 @@ namespace graphics
         override void unloadResource();
         override bool hasGeometry() const;
 
-        void setVBUri(const core::Uri& uri);
-        const core::Uri& getVBUri() const;
-        void setHeightMapUri(const core::Uri& uri);
-        const core::Uri& getHeightMapUri() const;
+        void setVBUri(const Uri& uri);
+        const Uri& getVBUri() const;
+        void setHeightMapUri(const Uri& uri);
+        const Uri& getHeightMapUri() const;
 
         void setLOD(int lod) { lod_ = lod; ts_.rebuild(lod_); }
         int getLOD() const { return lod_; }
@@ -44,13 +42,12 @@ namespace graphics
         static void bindProperty();
 
     private:
-        core::Uri vbUri_;
-        core::Uri heightMapUri_;
+        Uri vbUri_;
+        Uri heightMapUri_;
         TerrainSection ts_;
 
         int lod_;
     };
-}
 }
 }
 

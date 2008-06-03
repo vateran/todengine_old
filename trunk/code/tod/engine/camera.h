@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_CAMERA_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::Camera
+    @class tod::engine::Camera
     @brief 
 */
 
@@ -13,19 +13,17 @@ namespace tod
 {
 namespace engine
 {
-namespace graphics
-{
     class Camera
     {
     public:
         Camera();
 
         void setView(
-            const core::Vector3& eye,
-            const core::Vector3& look,
-            const core::Vector3& up);
+            const Vector3& eye,
+            const Vector3& look,
+            const Vector3& up);
 
-        void setTranslation(const core::Vector3& v);
+        void setTranslation(const Vector3& v);
         void translateX(float dist);
         void translateY(float dist);
         void translateZ(float dist);
@@ -34,20 +32,19 @@ namespace graphics
         void rotateY(float angle);
         void rotateZ(float angle);
 
-        const core::Matrix44& getMatrix();
+        const Matrix44& getMatrix();
 
     private:
-        core::Vector3 eye_;
-        core::Vector3 at_;
-        core::Vector3 up_;
+        Vector3 eye_;
+        Vector3 at_;
+        Vector3 up_;
 
-        core::Vector3 view_;
-        core::Vector3 cross_;
+        Vector3 view_;
+        Vector3 cross_;
 
-        core::Matrix44 viewMatrix_;
-        core::Matrix44 invViewMatrix_;
+        Matrix44 viewMatrix_;
+        Matrix44 invViewMatrix_;
     };
-}
 }
 }
 

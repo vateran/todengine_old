@@ -2,12 +2,12 @@
 #define TOD_CORE_OBJECT_TYPE_H
 /**
     @ingroup TodCoreObject
-    @class tod::core::Type
+    @class tod::Type
     @brief
 */
 /**
     @ingroup TodCoreObject
-    @class tod::core::ConcreteType
+    @class tod::ConcreteType
     @brief
 */
 
@@ -17,8 +17,6 @@
 #include "tod/core/methods.h"
 
 namespace tod
-{
-namespace core
 {
     class Object;    
     class Type
@@ -103,12 +101,12 @@ namespace core
 /// declare ClassBase macro
 #define DECLARE_CLASSBASE(cls) public:\
     typedef cls type;\
-    virtual const tod::core::name_t* toString() const { return STRING(#cls); }
+    virtual const tod::name_t* toString() const { return STRING(#cls); }
     /// declare AbstractClass macro
 #define DECLARE_SUPERABSTRACTCLASS(cls) \
     DECLARE_CLASSBASE(cls)\
-    virtual tod::core::Type& getType() { return TYPE; }\
-    static tod::core::AbstractConcreteType<cls> TYPE;
+    virtual tod::Type& getType() { return TYPE; }\
+    static tod::AbstractConcreteType<cls> TYPE;
 /// declare AbstractClass macro
 #define DECLARE_ABSTRACTCLASS(cls, base_cls) \
     typedef base_cls super;\
@@ -116,8 +114,8 @@ namespace core
 /// declare SuperClass macro
 #define DECLARE_SUPERCLASS(cls) \
     DECLARE_CLASSBASE(cls)\
-    virtual tod::core::Type& getType() { return TYPE; }\
-    static tod::core::ConcreteType<cls> TYPE;
+    virtual tod::Type& getType() { return TYPE; }\
+    static tod::ConcreteType<cls> TYPE;
 /// declare Class macro
 #define DECLARE_CLASS(cls, base_cls) public:\
     typedef base_cls super;\
@@ -125,18 +123,17 @@ namespace core
 
 /// impletemt SuperAbstractClass macro
 #define IMPLEMENT_SUPERABSTRACTCLASS(cls) \
-    tod::core::AbstractConcreteType<cls> cls::TYPE(STRING(#cls), 0);
+    tod::AbstractConcreteType<cls> cls::TYPE(STRING(#cls), 0);
 /// impletemt AbstractClass macro
 #define IMPLEMENT_ABSTRACTCLASS(cls, base_cls) \
-    tod::core::AbstractConcreteType<cls> cls::TYPE(STRING(#cls), &base_cls::TYPE);
+    tod::AbstractConcreteType<cls> cls::TYPE(STRING(#cls), &base_cls::TYPE);
 /// impletemt SuperClass macro
 #define IMPLEMENT_SUPERCLASS(cls) \
-    tod::core::ConcreteType<cls> cls::TYPE(STRING(#cls), 0);
+    tod::ConcreteType<cls> cls::TYPE(STRING(#cls), 0);
 /// impletemt Class macro
 #define IMPLEMENT_CLASS(cls, base_cls) \
-    tod::core::ConcreteType<cls> cls::TYPE(STRING(#cls), &base_cls::TYPE);
+    tod::ConcreteType<cls> cls::TYPE(STRING(#cls), &base_cls::TYPE);
 
-}
 }
 
 #endif // TOD_CORE_OBJECT_TYPE_H

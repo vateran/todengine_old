@@ -2,17 +2,13 @@
 #define TOD_CORE_UTILITY_UNITTEST_TESTCALLERBASE_H
 /**
     @ingroup TodCoreUnitTest
-    @class tod::core::unittest::TestCallerBase
+    @class tod::unittest::TestCallerBase
     @brief 
 */
 
 #include "tod/core/name.h"
 
 namespace tod
-{
-namespace core
-{
-namespace unittest
 {
     class TestCallerBase
     {
@@ -22,8 +18,6 @@ namespace unittest
         virtual void call()=0;
         virtual const Name& getName() const=0;
     };
-}
-}
 }
 
 #endif // TOD_CORE_UTILITY_UNITTEST_TESTCALLERBASE_H

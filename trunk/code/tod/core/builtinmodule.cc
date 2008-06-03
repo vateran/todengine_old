@@ -3,7 +3,7 @@
 #include "tod/core/node.h"
 #include "tod/core/linknode.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 BuiltinModule::BuiltinModule(const name_t* name):

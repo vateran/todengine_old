@@ -2,7 +2,7 @@
 #define TOD_ENGINE_GRAPHICS_CORE_VERTEXBUFFER_H
 /**
     @ingroup TodEngineGraphicsCore
-    @class tod::engine::graphics::VertexBuffer
+    @class tod::engine::VertexBuffer
     @brief 
 */
 
@@ -13,8 +13,6 @@
 namespace tod
 {
 namespace engine
-{
-namespace graphics
 {
     enum VertexComponent
     {
@@ -37,7 +35,7 @@ namespace graphics
     class VertexBuffer : public Resource
     {
     public:
-        VertexBuffer(const core::Uri& uri):Resource(uri) {}
+        VertexBuffer(const Uri& uri):Resource(uri) {}
         virtual~VertexBuffer() {}
 
         virtual bool create(int num_vertice, int vertex_component, int usage)=0;
@@ -57,7 +55,5 @@ namespace graphics
     };
 }
 }
-}
-
 
 #endif // TOD_ENGINE_GRAPHICS_CORE_VERTEXBUFFER_H

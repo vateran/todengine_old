@@ -2,15 +2,13 @@
 #define TOD_CORE_BASE_TYPEID_H
 /**
     @ingroup TodCoreBase
-    @class tod::core::TypeId
+    @class tod::TypeId
     @brief 
 */
 
 #include "tod/core/primitivetype.h"
 
 namespace tod
-{
-namespace core
 {
     template <typename T>
     class TypeId
@@ -34,8 +32,6 @@ namespace core
             return check(rhs.id());
         }
     };
-
-}
 }
 
 #endif // TOD_CORE_BASE_TYPEID_H

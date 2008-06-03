@@ -11,8 +11,8 @@
 #include "tod/engine/abstractshadernode.h"
 #include "tod/engine/abstractcameranode.h"
 
-using namespace tod::core;
-using namespace tod::engine::graphics;
+using namespace tod;
+using namespace tod::engine;
 
 IMPLEMENT_CLASS(SceneServer, Node);
 

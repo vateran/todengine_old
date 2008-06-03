@@ -20,6 +20,43 @@ TerrainSection::~TerrainSection()
 }
 
 //-----------------------------------------------------------------------------
+int build_index
+(void* ptr, int col, int row, int step,
+ int left, int right, int top, int bottom)
+{
+    unsigned short* p = static_cast<unsigned short*>(ptr);
+
+    bool winding = true; 
+    int index = 0;
+
+    for (int h = 0; h < row - step; h += step)
+    {
+        if (winding)
+        {
+            for (int w = 0; w < col; w += step)
+            {
+                p[index++] = h * col + w;
+                p[index++] = (h + step) * col + w;
+            }
+        }
+        else
+        {
+            for (int w = col - 1; w >= 0; w -= step)
+            {
+                p[index++] = h * col + w;
+                p[index++] = (h + step) * col + w;
+            }
+        }
+
+        p[index++] = p[index - 1];
+
+        winding = !winding;
+    }
+
+    return index - 1;
+}
+
+//-----------------------------------------------------------------------------
 VertexBuffer* vb = 0;
 IndexBuffer* ib = 0;
 Texture* height_map = 0;
@@ -29,6 +66,8 @@ Texture* height_map = 0;
 #include "tod/engine/indexbuffer.h"
 Vector3 scale_(1, 1, 1);
 int index_ = 0;
+int col = 0;
+int row = 0;
 void TerrainSection::render()
 {
     if (vb == 0)
@@ -80,47 +119,27 @@ void TerrainSection::render()
 
         vb->unlock();
 
-        int col = hmap.width();
-        int row = hmap.height();
+        col = hmap.width();
+        row = hmap.height();
 
         ib = Renderer::instance()->newIndexBuffer(STRING("test"));
         ib->create((col * 2) * row - row - 2, 0, Format::INDEX16);
 
-        unsigned short* ibptr = 0;
-        ib->lock((void*&)ibptr);
-
-        bool winding = true;
-        int step = 1;        
-
-        int index = 0;
-        for (int h = 0; h < row - 1; ++h)
-        {
-            if (winding)
-            {
-                for (int w = 0; w < col; ++w)
-                {
-                    ibptr[index++] = h * col + w;
-                    ibptr[index++] = (h + 1) * col + w;
-                }
-            }
-            else
-            {
-                for (int w = col - 1; w >= 0; --w)
-                {
-                    ibptr[index++] = h * col + w;
-                    ibptr[index++] = (h + 1) * col + w;
-                }
-            }
-
-            ibptr[index++] = ibptr[index - 1];
-
-            winding = !winding;
-        }
-
-        ib->unlock();
+        rebuild(1);
     }
 
     vb->use();
     ib->use();
-    ib->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+    ib->draw(PRIMITIVETYPE_TRIANGLESTRIP, index_ - 2);
+}
+
+//-----------------------------------------------------------------------------
+void TerrainSection::rebuild(int lod)
+{
+    unsigned short* ibptr = 0;
+    ib->lock((void*&)ibptr);
+
+    index_ = build_index(ibptr, col, row, lod, 0, 0, 0, 0);        
+
+    ib->unlock();
 }

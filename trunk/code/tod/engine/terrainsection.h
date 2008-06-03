@@ -24,6 +24,8 @@ namespace graphics
 
         void render();
 
+        void rebuild(int lod);
+
     private:
         ResourceRef<VertexBuffer> vb_;
     };

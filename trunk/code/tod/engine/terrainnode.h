@@ -38,12 +38,17 @@ namespace graphics
         void setHeightMapUri(const core::Uri& uri);
         const core::Uri& getHeightMapUri() const;
 
+        void setLOD(int lod) { lod_ = lod; ts_.rebuild(lod_); }
+        int getLOD() const { return lod_; }
+
         static void bindProperty();
 
     private:
         core::Uri vbUri_;
         core::Uri heightMapUri_;
         TerrainSection ts_;
+
+        int lod_;
     };
 }
 }

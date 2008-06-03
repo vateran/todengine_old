@@ -1,0 +1,30 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+SLOD + Splatting + QuadTree 조합의 Terrain System
+
+= Details =
+
+// 각 레벨에 필요한 실제 IndexBuffer 를 가진다.
+class DetailLevel
+    // 하나의 section 에 얼마나 많은 tile 로 나뉠지 결정하도록 하자.
+    // 예를 들면, 256x256 통 height map 을 16 등분하여, 하나의 tile 은
+    // 16x16 짜리로 만드는 것이다.
+    std::vector<IndexBuffer> tiles_;
+
+// DetailLevel 단계를 지정가능하도록하자.
+std::vector<DetailLevel> detailLevels_;
+
+class TerrainTile
+    int detailLevel_;
+    VertexBuffer* vb_;
+    Vector3 center_;
+
+
+최종적으로 TerrainTile 을 TerrainSection 이 가지고 있도록 하자.
+하나의 TerrainSection 이 가지는 tile 의 갯수를 Terrain 에서 지정할 수 있도록하자.
+
+TerrainSection 에서 하나의 VertexBuffer 를 갖도록 하고,
+여기에 offset 을 활용하여, TerrainTile 을 rendering 하도록하여
+SetSourceStream 호출을 최소화 할 수 있다.

@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_UNITTEST_TESTSUITE_H
 /**
     @ingroup TodCoreUnitTest
-    @class tod::unittest::TestSuite
+    @class tod::TestSuite
     @brief 
 */
 

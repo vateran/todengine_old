@@ -31,18 +31,15 @@ namespace engine
         override void unloadResource();
         override bool hasGeometry() const;
 
-        void setVBUri(const Uri& uri);
-        const Uri& getVBUri() const;
         void setHeightMapUri(const Uri& uri);
         const Uri& getHeightMapUri() const;
 
-        void setLOD(int lod) { lod_ = lod; ts_.rebuild(lod_); }
+        void setLOD(int lod) { lod_ = lod; }
         int getLOD() const { return lod_; }
 
         static void bindProperty();
 
     private:
-        Uri vbUri_;
         Uri heightMapUri_;
         TerrainSection ts_;
 

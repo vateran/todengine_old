@@ -42,9 +42,10 @@ void TerrainNode::renderGeometry
 bool TerrainNode::loadResource()
 {
     super::loadResource();
-
-    if (vbUri_.size() && heightMapUri_.size())
+    
+    if (heightMapUri_.size())
     {
+        ts_.build(heightMapUri_, Vector3(1, 1, 1), 4);
     }
     
     return true;
@@ -66,21 +67,6 @@ bool TerrainNode::hasGeometry() const
 
 
 //-----------------------------------------------------------------------------
-void TerrainNode::setVBUri(const Uri& uri)
-{
-    vbUri_ = uri;
-    unloadResource();
-}
-
-
-//-----------------------------------------------------------------------------
-const Uri& TerrainNode::getVBUri() const
-{
-    return vbUri_;
-}
-
-
-//-----------------------------------------------------------------------------
 void TerrainNode::setHeightMapUri(const Uri& uri)
 {
     heightMapUri_ = uri;
@@ -98,7 +84,6 @@ const Uri& TerrainNode::getHeightMapUri() const
 //-----------------------------------------------------------------------------
 void TerrainNode::bindProperty()
 {
-    BIND_PROPERTY(const Uri&, vb_uri, &setVBUri, &getVBUri);
     BIND_PROPERTY(const Uri&, heightmap_uri, &setHeightMapUri, &getHeightMapUri);
     BIND_PROPERTY(int, lod, &setLOD, &getLOD);
 }

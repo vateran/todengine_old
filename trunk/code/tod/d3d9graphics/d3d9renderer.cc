@@ -120,12 +120,18 @@ VertexBuffer* D3D9Renderer::newVertexBuffer(const Uri& uri)
 //-----------------------------------------------------------------------------
 IndexBuffer* D3D9Renderer::newIndexBuffer(const Uri& uri)
 {
-    IndexBuffer* ib = indexBuffers_.find(uri);
-    if (0 == ib)
+    IndexBuffer* ib = 0;
+    if (!uri.empty())
     {
-        ib = new D3D9IndexBuffer(uri, d3d9device_);
-        indexBuffers_.add(ib);
+        // find exist index buffer in named resources
+        ib = indexBuffers_.find(uri);
+        if (ib)
+            return ib;
     }
+
+    // create new index buffer
+    ib = new D3D9IndexBuffer(uri, d3d9device_);
+    indexBuffers_.add(ib);
     return ib;
 }
 

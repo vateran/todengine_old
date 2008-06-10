@@ -28,9 +28,6 @@ SceneView::~SceneView()
 //-----------------------------------------------------------------------------
 void SceneView::render(SceneServer* scene_server)
 {
-    // set scene view matrix
-    sceneContext_.setTransform(camera_.getMatrix());
-
     // render
     scene_server->beginScene();
     scene_server->attach(&sceneContext_);

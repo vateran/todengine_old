@@ -21,7 +21,7 @@ namespace engine
         D3D9IndexBuffer(const Uri& uri, IDirect3DDevice9* d3d9device);
         virtual~D3D9IndexBuffer();
 
-        override bool create(int num_indices, int usage, Format format);
+        override bool create(uint32_t num_indices, int usage, Format format);
         override void destroy();
 
         override bool lock(void*& ptr);
@@ -40,7 +40,7 @@ namespace engine
         IDirect3DIndexBuffer9* d3d9ib_;
 
         D3DPOOL d3dpool_;
-        int numIndices_;
+        uint32_t numIndices_;
         int usage_;
         int lockOption_;
         int stride_;

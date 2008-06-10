@@ -6,6 +6,7 @@
     @brief 
 */
 
+#include "tod/engine/camera.h"
 #include "tod/engine/abstractcameranode.h"
 
 namespace tod
@@ -21,6 +22,19 @@ namespace engine
 
         override void renderCamera(SceneServer* scene_server);
         override bool hasCamera() const;
+
+        void moveForward(float dist);
+        void moveLeft(float dist);
+        void moveRight(float dist);
+
+        void eulerRotateX(float angle);
+        void eulerRotateY(float angle);
+        void eulerRotateZ(float angle);
+
+        static void bindMethod();
+
+    private:
+        Camera camera_;
     };
 }
 }

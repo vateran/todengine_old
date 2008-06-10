@@ -24,7 +24,7 @@ D3D9IndexBuffer::~D3D9IndexBuffer()
 
 
 //-----------------------------------------------------------------------------
-bool D3D9IndexBuffer::create(int num_indices, int usage, Format format)
+bool D3D9IndexBuffer::create(uint32_t num_indices, int usage, Format format)
 {
     tod_assert(d3d9device_);
     tod_assert(0 == d3d9ib_);

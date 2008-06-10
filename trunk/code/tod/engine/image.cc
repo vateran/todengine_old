@@ -7,6 +7,14 @@ using namespace tod;
 using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
+Image::Image():
+id_(IL_INVALID_VALUE), width_(0), height_(0)
+{
+    id_ = ilGenImage();
+}
+
+
+//-----------------------------------------------------------------------------
 Image::Image(const Uri& uri):
 uri_(uri), id_(IL_INVALID_VALUE), width_(0), height_(0)
 {
@@ -17,7 +25,9 @@ uri_(uri), id_(IL_INVALID_VALUE), width_(0), height_(0)
 //-----------------------------------------------------------------------------
 Image::~Image()
 {
-    destroy();
+    if (id_ != IL_INVALID_VALUE)
+        ilDeleteImage(id_);
+    id_ = IL_INVALID_VALUE;
 }
 
 
@@ -30,15 +40,11 @@ bool Image::create(int width, int height)
 
 //-----------------------------------------------------------------------------
 void Image::destroy()
-{
-    if (id_ != IL_INVALID_VALUE)
-        ilDeleteImage(id_);
-    id_ = IL_INVALID_VALUE;
+{   
 }
 
 
 //-----------------------------------------------------------------------------
-#include <windows.h>
 bool Image::preload()
 {
     // load resource
@@ -93,6 +99,13 @@ int Image::width() const
 int Image::height() const
 {
     return height_;
+}
+
+
+//-----------------------------------------------------------------------------
+void Image::setUri(const Uri& uri)
+{
+    uri_ = uri;
 }
 
 

@@ -2,7 +2,7 @@
 #define TOD_CORE_UTILITY_UNITTEST_TESTCALLER_H
 /**
     @ingroup TodCoreUnitTest
-    @class tod::unittest::TestCaller
+    @class tod::TestCaller
     @brief 
 */
 

@@ -17,6 +17,7 @@ namespace engine
     class Image
     {
     public:
+        Image();
         Image(const Uri& uri);
         virtual~Image();
 
@@ -26,6 +27,8 @@ namespace engine
 
         int width() const;
         int height() const;
+
+        void setUri(const Uri& uri);
         const Uri& getUri() const;
 
         Color getPixel(int x, int y) const;

@@ -111,6 +111,12 @@ void Camera::rotateZ(float angle)
 
 
 //-----------------------------------------------------------------------------
+const Vector3& Camera::getEye() const
+{
+    return eye_;
+}
+
+//-----------------------------------------------------------------------------
 const Matrix44& Camera::getMatrix()
 {
     return viewMatrix_;

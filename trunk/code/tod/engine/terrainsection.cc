@@ -1,16 +1,16 @@
 #include "tod/engine/terrainsection.h"
 
+#include "tod/core/math.h"
 #include "tod/engine/renderer.h"
-#include "tod/engine/image.h"
 
 using namespace tod;
 using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
-TerrainSection::TerrainSection()
+TerrainSection::TerrainSection():
+maxLOD_(0), split_(0)
 {
-    tiles_.resize(1);
-    tiles_[0].build(Vector3(1, 1, 1));
+    // empty
 }
 
 
@@ -20,152 +20,141 @@ TerrainSection::~TerrainSection()
     // empty
 }
 
+
 //-----------------------------------------------------------------------------
-int build_index
-(void* ptr, int col, int row, int step,
- int left, int right, int top, int bottom)
+void TerrainSection::build(const Uri& uri, const Vector3& scale, int split)
 {
-    unsigned short* p = static_cast<unsigned short*>(ptr);
+    split_ = split;
 
-    bool winding = false; 
-    int index = 0;
+    build_tile(uri, scale);
 
-    for (int h = 0; h < row - step; h += step)
-    {
-        if (winding)
-        {
-            for (int w = 0; w < col; w += step)
-            {
-                p[index++] = h * col + w;
-                p[index++] = (h + step) * col + w;
-            }
-        }
-        else
-        {
-            for (int w = col - 1; w >= 0; w -= step)
-            {
-                p[index++] = h * col + w;
-                p[index++] = (h + step) * col + w;
-            }
-        }
+    // compute max lod level
+    maxLOD_ = compute_max_lod_level(
+        tod_min(hmap_.width(), hmap_.height()), split_);
 
-        p[index++] = p[index - 1];
-
-        winding = !winding;
-    }
-
-    return index - 1;
+    build_index(hmap_.width(), hmap_.height(), maxLOD_, split_);
 }
 
+
 //-----------------------------------------------------------------------------
-VertexBuffer* vb = 0;
-IndexBuffer* ib = 0;
-Texture* height_map = 0;
-#include <windows.h>
-#include "tod/engine/texture.h"
-#include "tod/engine/vertexbuffer.h"
-#include "tod/engine/indexbuffer.h"
-Vector3 scale_(1, 1, 1);
-int index_ = 0;
-int col = 0;
-int row = 0;
 void TerrainSection::render()
 {
-    /*if (vb == 0)
-    {   
-        Image hmap(STRING("managed://texture#hmap.png"));
-        hmap.preload();
+    if (vb_.invalid() || vb_->invalid())
+        return;
 
-        vb = Renderer::instance()->newVertexBuffer(STRING("test"));
-        vb->create(hmap.width() * hmap.height(),
-            VERTEXCOMPONENT_COORD  |
-            VERTEXCOMPONENT_NORMAL |
-            VERTEXCOMPONENT_COLOR  |
-            VERTEXCOMPONENT_UV0, 0);
+    vb_->use();
 
-        struct Vertex
-        {
-            Vector3 coord_;
-            Vector3 normal_;
-            Color diffuse_;
-            float u_, v_;
-        };
-
-        Vertex* vbptr = 0;
-        vb->lock((void*&)vbptr);
-
-        float width = static_cast<float>(hmap.width());
-        float height = static_cast<float>(hmap.height());
-        for (int h = 0; h < hmap.height(); ++h)
-        {
-            for (int w = 0; w < hmap.width(); ++w)
-            {
-                Color c = hmap.getPixel(w, h);
-
-                vbptr->coord_.x_ = (w - width / 2) * scale_.x_;
-                vbptr->coord_.z_ = -(h - height / 2) * scale_.z_;
-                vbptr->coord_.y_ = c.r_ * scale_.y_;
-                
-                vbptr->normal_ = vbptr->coord_;
-                vbptr->normal_.normalize();
-
-                vbptr->diffuse_ = Color(255, 255, 255, 255);
-
-                vbptr->u_ = w / width;
-                vbptr->v_ = h / height;
-
-                ++vbptr;                
-            }
-        }
-
-        vb->unlock();
-
-        col = hmap.width();
-        row = hmap.height();
-
-        ib = Renderer::instance()->newIndexBuffer(STRING("test"));
-        ib->create((col * 2) * row - row - 2, 0, Format::INDEX16);
-
-        rebuild(1);
-    }
-
-    vb->use();
-    ib->use();
-    ib->draw(PRIMITIVETYPE_TRIANGLESTRIP, index_ - 2);*/
-
-    if (0 == ib)
-    {
-        col = 4;
-        row = 4;
-        ib = Renderer::instance()->newIndexBuffer(STRING("test"));
-        ib->create((col * 2) * row - row - 2, 0, Format::INDEX16);
-
-        rebuild(1);
-    }
-
+    // get view transform matrix
     Matrix44 v = Renderer::instance()->getTransform(TRANSFORM_VIEW);
     v.inverse();
     Vector3 camera_pos = v.getTranslation();
 
     // compute Level of Details for each tiles in TerrainSection
-    for (TerrainTiles::iterator tile = tiles_.begin();
-         tile != tiles_.end(); ++tile)
-    {
-        tile->computeLOD(camera_pos);
-        tile->render();
-
-        ib->use();
-        ib->draw(PRIMITIVETYPE_TRIANGLESTRIP, index_ - 2);
+    int i = 0;
+    for (Tiles::iterator tile = tiles_.begin();
+         tile != tiles_.end(); ++tile, ++i)
+    {   
+        tile->computeLOD(Vector3(-128, 0, -128), maxLOD_, hmap_.width() / split_);
+        tiles_[i].ibs_[tile->detailLevel_]->use();
+        tiles_[i].ibs_[tile->detailLevel_]->draw(PRIMITIVETYPE_TRIANGLESTRIP);
     }
 }
 
 //-----------------------------------------------------------------------------
-void TerrainSection::rebuild(int lod)
+void TerrainSection::build_index(int col, int row, int max_lod, int split)
+{   
+    int x = 0;
+    int y = 0;
+    int advance_x1 = col / split;
+    int advance_y1 = row / split;
+    float advance_x2 = static_cast<float>(col - 1) / split;
+    float advance_y2 = static_cast<float>(row - 1) / split;
+    float rx = static_cast<float>(col / 2);
+    float ry = static_cast<float>(row / 2);
+
+    tiles_.resize(split * split);
+    
+    int i = 0;
+    for (float h = ry - (advance_y2 / 2); h >= -ry; h -= advance_y2, ++i)
+    {
+        int j = 0;
+        for (float w = -rx + (advance_x2 / 2); w < rx; w += advance_x2, ++j)
+        {   
+            TerrainTile& tile = tiles_[i * split + j];
+
+            tile.build(max_lod, split, Vector3(w, 0, h), col, row, x, y);
+
+            x += advance_x1;
+            if (x >= col - 1)
+            {
+                x = 0;
+                y += advance_y1;
+            }
+        }
+    }
+}
+
+
+//-----------------------------------------------------------------------------
+bool TerrainSection::build_tile(const Uri& uri, const Vector3& scale)
 {
-    unsigned short* ibptr = 0;
-    ib->lock((void*&)ibptr);
+    if (vb_.invalid())
+        vb_ = Renderer::instance()->newVertexBuffer();
 
-    index_ = build_index(ibptr, col, row, lod, 0, 0, 0, 0);        
+    // load height map image
+    hmap_.setUri(uri);
+    if (!hmap_.preload())
+        return false;
 
-    ib->unlock();
+    vb_->destroy();
+    vb_->create(hmap_.width() * hmap_.height(),
+        VERTEXCOMPONENT_COORD  |
+        VERTEXCOMPONENT_NORMAL |
+        VERTEXCOMPONENT_UV0, 0);
+
+    struct Vertex
+    {
+        Vector3 coord_;
+        Vector3 normal_;
+        float u_, v_;
+    };
+
+    Vertex* vbptr = 0;
+    if (!vb_->lock((void*&)vbptr))
+        return false;
+
+    float width = static_cast<float>(hmap_.width());
+    float height = static_cast<float>(hmap_.height());
+    for (int h = 0; h < hmap_.height(); ++h)
+    {
+        for (int w = 0; w < hmap_.width(); ++w)
+        {
+            Color c = hmap_.getPixel(w, h);
+
+            vbptr->coord_.x_ = (w - width / 2) * scale.x_;
+            vbptr->coord_.z_ = -(h - height / 2) * scale.z_;
+            vbptr->coord_.y_ = c.r_ * scale.y_;
+
+            vbptr->normal_ = vbptr->coord_;
+            vbptr->normal_.normalize();
+
+            vbptr->u_ = w / width;
+            vbptr->v_ = h / height;
+
+            ++vbptr;                
+        }
+    }
+
+    vb_->unlock();
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+int TerrainSection::compute_max_lod_level(int size, int split)
+{
+    int max_lod = 0;
+    size /= split;
+    for (; size > 1; ++max_lod, size /= 2);
+    return max_lod;
 }

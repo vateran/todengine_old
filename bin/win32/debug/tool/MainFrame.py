@@ -96,8 +96,13 @@ class MainFrame(wx.Frame):
         time_server = new('TimeServer', '/sys/server/time')
         trigger_server.add(time_server, 0)
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
-        self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        self.renderer.setDisplayMode('w[1024]h[768]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
+        
+        camera = new('CameraNode', '/usr/scene/camera')
+        camera.renderpath_section = 'default'
+        camera.shader_uri = 'managed://shader#camera.fx'
+        camera.translation = (0, 6.0, 6.0)
         
         '''mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
@@ -109,9 +114,9 @@ class MainFrame(wx.Frame):
         #mesh.addTexture('EnvMap', 'managed://texture#uffizi_cross.dds')
         mesh.addCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')
         
-        mesh = new('MeshNode', '/usr/scene/skybox')
+        mesh = new('MeshNode', '/usr/scene/camera/skybox')
         mesh.euler_rotation = (0, 0, 0)
-        mesh.scaling = (1000, 1000, 1000)
+        mesh.scaling = (100, 100, 100)
         mesh.translation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'SkyBox'
@@ -119,15 +124,11 @@ class MainFrame(wx.Frame):
         mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')'''
         
         terrain = new('TerrainNode', '/usr/scene/terrain')
+        terrain.heightmap_uri = 'managed://texture#hmap5x5.png'
         terrain.shader_uri = 'managed://shader#terrain.fx'
         terrain.technique = 'Terrain'
-        terrain.scaling = (1, 0.5, 1)
+        terrain.scaling = (1, 0.05, 1)
         terrain.addTexture('DiffuseMap', 'managed://texture#Base_Texture_BigPoint.jpg')
-                
-        camera = new('CameraNode', '/usr/scene/camera')
-        camera.renderpath_section = 'default'
-        camera.shader_uri = 'managed://shader#camera.fx'
-        camera.translation = (0, 0, -20)
         
         render_path = new('RenderPath', '/sys/server/renderpath')
         rpsection = new('RpSection', '/sys/server/renderpath/default')
@@ -136,7 +137,7 @@ class MainFrame(wx.Frame):
         rppass.clear_color = (0, 0, 255, 255)
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'ScenePass'
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/scene/rt')
+        '''rt = new('RpRenderTarget', '/sys/server/renderpath/default/scene/rt')
         rt.texture_uri = 'managed://rt#scene'
         rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 1
@@ -203,7 +204,7 @@ class MainFrame(wx.Frame):
         #rppass.addTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rppass.addTexture('SceneMap', 'managed://rt#scene')
         #rppass.addTexture('SceneMap', 'managed://rt#bloomv_scene')
-        #rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')
+        #rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')'''
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),
@@ -221,7 +222,7 @@ class MainFrame(wx.Frame):
         
         # SceneView
         self.sceneView = SceneView(self)
-        self.sceneView.addViewPanel('Perspective View')
+        self.sceneView.addViewPanel('Perspective View', get('/usr/scene/camera'))
         self.sceneView.addViewPanel('Top View')
         self.sceneView.addViewPanel('Left View')
         self.sceneView.addViewPanel('Front View')

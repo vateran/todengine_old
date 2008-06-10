@@ -23,37 +23,43 @@ class SceneViewPanel(wx.Panel):
     def OnMotion(self, event):
         x = event.GetX()
         y = event.GetY()
-        if event.AltDown():
+        if not event.AltDown():
             if event.LeftIsDown():
                 delta_x = self.prev[0] - x
                 delta_y = y - self.prev[1]
-                self.sceneView.viewEulerRotationX((float)(delta_y) / 100)
-                self.sceneView.viewEulerRotationY(-(float)(delta_x) / 100)
+                self.camera.eulerRotateX((float)(delta_y) / 100)
+                self.camera.eulerRotateY(-(float)(delta_x) / 100)
                 self.sceneView.render()        
             if event.RightIsDown():
                 delta_x = self.prev[0] - x
                 delta_y = self.prev[1] - y
-                self.sceneView.moveForward((float)(delta_y) / 100)
-                self.sceneView.moveLeft((float)(delta_x) / 100)
+                self.camera.moveForward((float)(delta_y) / 100)
+                self.camera.moveLeft((float)(delta_x) / 100)
                 self.sceneView.render()
         self.prev = (x, y)
     
     def OnKeyDown(self, event):
         kc = event.GetKeyCode()        
         if kc == wx.WXK_UP or kc == 87:
-            self.sceneView.moveForward(1)
+            self.camera.moveForward(1)
         if kc == wx.WXK_DOWN or kc == 83:
-            self.sceneView.moveForward(-1)
+            self.camera.moveForward(-1)
         if kc == wx.WXK_LEFT or kc == 65:
-            self.sceneView.moveLeft(1)
+            self.camera.moveLeft(1)
         if kc == wx.WXK_RIGHT or kc == 68:
-            self.sceneView.moveRight(1)
-        self.sceneView.render() 
+            self.camera.moveRight(1)
+        self.sceneView.render()
+        
+    def setCamera(self, camera):
+        self.camera = camera
 
 #-------------------------------------------------------------------------------
 class SceneView(wx.aui.AuiNotebook):
     def __init__(self, parent):
         wx.aui.AuiNotebook.__init__(self, parent, style=wx.aui.AUI_NB_DEFAULT_STYLE | wx.aui.wx.NO_BORDER | wx.aui.AUI_NB_WINDOWLIST_BUTTON)
         
-    def addViewPanel(self, title):
-        self.AddPage(SceneViewPanel(self), title)
+    def addViewPanel(self, title, camera=0):
+        panel = SceneViewPanel(self)
+        panel.setCamera(camera)
+        self.AddPage(panel, title)
+

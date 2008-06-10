@@ -346,6 +346,10 @@
 								RelativePath="..\..\code\tod\engine\cameranode.h"
 								>
 							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\cameranode_method.cc"
+								>
+							</File>
 						</Filter>
 						<Filter
 							Name="meshnode"
@@ -472,6 +476,10 @@
 							</File>
 							<File
 								RelativePath="..\..\code\tod\engine\terraintile.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\terraintile.inl"
 								>
 							</File>
 						</Filter>

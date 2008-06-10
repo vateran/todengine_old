@@ -27,7 +27,7 @@ namespace engine
         IndexBuffer(const Uri& uri):Resource(uri) {}
         virtual~IndexBuffer() {}
 
-        virtual bool create(int num_indices, int usage, Format format)=0;
+        virtual bool create(uint32_t num_indices, int usage, Format format)=0;
         virtual void destroy()=0;
 
         virtual bool lock(void*& ptr)=0;

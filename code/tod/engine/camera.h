@@ -32,6 +32,8 @@ namespace engine
         void rotateY(float angle);
         void rotateZ(float angle);
 
+        const Vector3& getEye() const;
+
         const Matrix44& getMatrix();
 
     private:

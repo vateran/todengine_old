@@ -34,16 +34,11 @@ namespace engine
         void setHeightMapUri(const Uri& uri);
         const Uri& getHeightMapUri() const;
 
-        void setLOD(int lod) { lod_ = lod; }
-        int getLOD() const { return lod_; }
-
         static void bindProperty();
 
     private:
         Uri heightMapUri_;
         TerrainSection ts_;
-
-        int lod_;
     };
 }
 }

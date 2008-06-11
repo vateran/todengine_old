@@ -7,7 +7,7 @@ using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 TerrainTile::TerrainTile():
-detailLevel_(0)
+lod_(0)
 {
     // empty
 }
@@ -21,9 +21,46 @@ TerrainTile::~TerrainTile()
 
 
 //-----------------------------------------------------------------------------
-void TerrainTile::draw()
+void TerrainTile::draw(const JunctionFlag& flag)
 {
+    if (flag.any())
+    {
+        int junction = 0;
+        if (flag.test(TerrainTile::JUNCTION_TOP))
+        {
+            if (flag.test(TerrainTile::JUNCTION_LEFT))
+                junction = TerrainTile::JUNCTION_TOPLEFT;
+            else if (flag.test(TerrainTile::JUNCTION_RIGHT))
+                junction = TerrainTile::JUNCTION_TOPRIGHT;
+            else
+                junction = TerrainTile::JUNCTION_TOP;
+        }
+        else if (flag.test(TerrainTile::JUNCTION_BOTTOM))
+        {
+            if (flag.test(TerrainTile::JUNCTION_LEFT))
+                junction = TerrainTile::JUNCTION_BOTTOMLEFT;
+            else if (flag.test(TerrainTile::JUNCTION_RIGHT))
+                junction = TerrainTile::JUNCTION_BOTTOMRIGHT;
+            else
+                junction = TerrainTile::JUNCTION_BOTTOM;
+        }
+        else if (flag.test(TerrainTile::JUNCTION_LEFT))
+            junction = TerrainTile::JUNCTION_LEFT;
+        else if (flag.test(TerrainTile::JUNCTION_RIGHT))
+            junction = TerrainTile::JUNCTION_RIGHT;
+        else
+        {
+            tod_assert(0);
+        }
 
+        cibs_[junction][lod_]->use();
+        cibs_[junction][lod_]->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+    }
+    else
+    {
+        ibs_[lod_]->use();
+        ibs_[lod_]->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+    }
 }
 
 
@@ -34,8 +71,8 @@ bool TerrainTile::build
     center_ = center;
 
     ibs_.resize(max_lod);
-    for (int side = 0; side < SIDE_MAX; ++side)
-        cibs_[side].resize(max_lod);
+    for (int junction = 0; junction < JUNCTION_MAX; ++junction)
+        cibs_[junction].resize(max_lod);
 
     // choose index buffer format 
     Format format = Format::INDEX16;
@@ -95,36 +132,36 @@ bool TerrainTile::build
             continue;
         
         // compute number of index for connector tile
-        int index_nums[SIDE_MAX];
-        index_nums[SIDE_LEFT] = index_nums[SIDE_RIGHT] = 
+        int index_nums[JUNCTION_MAX];
+        index_nums[JUNCTION_LEFT] = index_nums[JUNCTION_RIGHT] = 
             (((tile_width - 1) * 2) + 5) * (tile_height - 1);
-        index_nums[SIDE_TOP] = index_nums[SIDE_BOTTOM] =
-            index_nums[SIDE_LEFT] - 1;
+        index_nums[JUNCTION_TOP] = index_nums[JUNCTION_BOTTOM] =
+            index_nums[JUNCTION_LEFT] - 1;
 
-        index_nums[SIDE_TOPLEFT] =
+        index_nums[JUNCTION_TOPLEFT] =
             (((tile_width - 1) * 4) + 2) +
             ((tile_width - 1) * 2 + 5) * (tile_height - 2) +
             ((tile_height - 2)?1:0);
-        index_nums[SIDE_TOPRIGHT] =
+        index_nums[JUNCTION_TOPRIGHT] =
             ((tile_width - 1) * 4 + 5) +
             ((tile_width - 1) * 2 + 5) * (tile_height - 2);
-        index_nums[SIDE_BOTTOMLEFT] =
+        index_nums[JUNCTION_BOTTOMLEFT] =
             (((tile_width - 1) * 2 + 4) * (tile_height - 1)) +
             (((tile_width - 1) * 2)) + (tile_height - 2) -
             ((tile_height - 2)?2:0);
-        index_nums[SIDE_BOTTOMRIGHT] =
+        index_nums[JUNCTION_BOTTOMRIGHT] =
             (((tile_width - 1) * 2 + 5) + ((tile_width - 1) * 2 + 3)) *
             ((tile_height - 1) / 2) + (tile_width - 2) * 2 +
             (tile_height - 2) + 2 + ((tile_height - 2)?0:4);
 
-        for (int side = 0; side < SIDE_MAX; ++side)
+        for (int junction = 0; junction < JUNCTION_MAX; ++junction)
         {
-            ResourceRef<IndexBuffer>& cib = cibs_[side][lod];
+            ResourceRef<IndexBuffer>& cib = cibs_[junction][lod];
             cib = Renderer::instance()->newIndexBuffer();
             if (cib.invalid())
                 return false;
             cib->destroy();
-            if (!cib->create(index_nums[side], 0, format))
+            if (!cib->create(index_nums[junction], 0, format))
                 return false;
 
             switch (format)
@@ -135,8 +172,8 @@ bool TerrainTile::build
                     if (!cib->lock((void*&)ibptr))
                         return false;
                     int usage_index_num = build_connector(ibptr, col, row, step,
-                        x, y, tile_width, tile_height, side);
-                    tod_assert(usage_index_num == index_nums[side]);
+                        x, y, tile_width, tile_height, junction);
+                    tod_assert(usage_index_num == index_nums[junction]);
                     cib->unlock();
                     break;
                 }
@@ -146,8 +183,8 @@ bool TerrainTile::build
                     if (!cib->lock((void*&)ibptr))
                         return false;
                     int usage_index_num = build_connector(ibptr, col, row, step,
-                        x, y, tile_width, tile_height, side);
-                    tod_assert(usage_index_num == index_nums[side]);
+                        x, y, tile_width, tile_height, junction);
+                    tod_assert(usage_index_num == index_nums[junction]);
                     cib->unlock();
                     break;
                 }
@@ -169,10 +206,10 @@ void TerrainTile::computeLOD(const Vector3& camera_pos, int lod, float step)
     {
         if (dist_to_camera < i * step)
         {
-            detailLevel_ = i ;
+            lod_ = i ;
             return;
         }
     }
 
-    detailLevel_ = lod - 1;
+    lod_ = lod - 1;
 }

@@ -85,5 +85,4 @@ const Uri& TerrainNode::getHeightMapUri() const
 void TerrainNode::bindProperty()
 {
     BIND_PROPERTY(const Uri&, heightmap_uri, &setHeightMapUri, &getHeightMapUri);
-    BIND_PROPERTY(int, lod, &setLOD, &getLOD);
 }

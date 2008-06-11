@@ -43,7 +43,7 @@ int TerrainTile::build_index
 template <typename T>
 int TerrainTile::build_connector
 (T* ptr, int col, int row, int step,
- int x, int y, int width, int height, int side)
+ int x, int y, int width, int height, int junction)
 {
     bool winding = true; 
     int index = 0;
@@ -51,7 +51,7 @@ int TerrainTile::build_connector
     if (step < 2)
         return 0;
 
-    if (side == SIDE_TOP)
+    if (junction == JUNCTION_TOP)
     {
         bool head = false;
         int h = 0;
@@ -89,7 +89,7 @@ int TerrainTile::build_connector
             winding = !winding;
         }
     }
-    else if (side == SIDE_LEFT)
+    else if (junction == JUNCTION_LEFT)
     {
         int h = 0;
         while (true)
@@ -132,7 +132,7 @@ int TerrainTile::build_connector
             winding = !winding;
         }
     }
-    else if (side == SIDE_RIGHT)
+    else if (junction == JUNCTION_RIGHT)
     {
         int h = 0;
         while (true)
@@ -176,7 +176,7 @@ int TerrainTile::build_connector
             winding = !winding;
         }
     }
-    else if (side == SIDE_BOTTOM)
+    else if (junction == JUNCTION_BOTTOM)
     {
         int h = 0;
         while (true)
@@ -217,7 +217,7 @@ int TerrainTile::build_connector
             winding = !winding;
         }
     }
-    else if (side == SIDE_TOPLEFT)
+    else if (junction == JUNCTION_TOPLEFT)
     {
         bool head = false;
         int h = 0;
@@ -280,7 +280,7 @@ int TerrainTile::build_connector
             winding = !winding;
         }
     }
-    else if (side == SIDE_TOPRIGHT)
+    else if (junction == JUNCTION_TOPRIGHT)
     {
         bool head = false;
         int h = 0;
@@ -333,7 +333,7 @@ int TerrainTile::build_connector
             winding = !winding;
         }
     }
-    else if (side == SIDE_BOTTOMLEFT)
+    else if (junction == JUNCTION_BOTTOMLEFT)
     {
         int h = 0;
         while (true)
@@ -397,7 +397,7 @@ int TerrainTile::build_connector
             winding = !winding;
         }
     }
-    else if (side == SIDE_BOTTOMRIGHT)
+    else if (junction == JUNCTION_BOTTOMRIGHT)
     {
         int h = 0;
         while (true)
@@ -463,4 +463,25 @@ int TerrainTile::build_connector
     }
 
     return index;
+}
+
+
+//-----------------------------------------------------------------------------
+inline int TerrainTile::getLOD() const
+{
+    return lod_;
+}
+
+
+//-----------------------------------------------------------------------------
+inline void TerrainTile::setCenter(const Vector3& center)
+{
+    center_ = center;
+}
+
+
+//-----------------------------------------------------------------------------
+inline const Vector3& TerrainTile::getCenter() const
+{
+    return center_;
 }

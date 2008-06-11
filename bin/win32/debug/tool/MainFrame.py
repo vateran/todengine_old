@@ -96,7 +96,7 @@ class MainFrame(wx.Frame):
         time_server = new('TimeServer', '/sys/server/time')
         trigger_server.add(time_server, 0)
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
-        self.renderer.setDisplayMode('w[1024]h[768]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
         
         camera = new('CameraNode', '/usr/scene/camera')
@@ -116,18 +116,19 @@ class MainFrame(wx.Frame):
         
         mesh = new('MeshNode', '/usr/scene/camera/skybox')
         mesh.euler_rotation = (0, 0, 0)
-        mesh.scaling = (100, 100, 100)
+        mesh.scaling = (3, 3, 3)
         mesh.translation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'SkyBox'
         mesh.mesh_uri = 'managed://mesh#alley_skybox.x'
-        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')'''
+        #mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
+        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')'''
         
         terrain = new('TerrainNode', '/usr/scene/terrain')
-        terrain.heightmap_uri = 'managed://texture#hmap5x5.png'
+        terrain.heightmap_uri = 'managed://texture#hmap257x257.png'
         terrain.shader_uri = 'managed://shader#terrain.fx'
         terrain.technique = 'Terrain'
-        terrain.scaling = (1, 0.05, 1)
+        terrain.scaling = (1, 0.50, 1)
         terrain.addTexture('DiffuseMap', 'managed://texture#Base_Texture_BigPoint.jpg')
         
         render_path = new('RenderPath', '/sys/server/renderpath')
@@ -204,7 +205,7 @@ class MainFrame(wx.Frame):
         #rppass.addTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rppass.addTexture('SceneMap', 'managed://rt#scene')
         #rppass.addTexture('SceneMap', 'managed://rt#bloomv_scene')
-        #rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')'''
+        rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')'''
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),

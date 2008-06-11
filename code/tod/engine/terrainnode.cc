@@ -45,7 +45,7 @@ bool TerrainNode::loadResource()
     
     if (heightMapUri_.size())
     {
-        ts_.build(heightMapUri_, Vector3(1, 1, 1), 4);
+        ts_.build(heightMapUri_, Vector3(1, 1, 1), 8);
     }
     
     return true;

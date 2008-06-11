@@ -95,225 +95,67 @@ bool TerrainTile::build
             continue;
         
         // compute number of index for connector tile
-        index_num = (((tile_width - 1) * 2) + 5) * (tile_height - 1);
-        if (index_num < 0)
-            return 0;
-
-        static int connector_flags[] =
-        {
-            SIDE_TOP, SIDE_LEFT, SIDE_RIGHT, SIDE_BOTTOM,
-            SIDE_TOP | SIDE_LEFT, SIDE_TOP | SIDE_RIGHT,
-            SIDE_BOTTOM | SIDE_LEFT, SIDE_BOTTOM | SIDE_RIGHT,
-        };
         int index_nums[SIDE_MAX];
         index_nums[SIDE_LEFT] = index_nums[SIDE_RIGHT] = 
             (((tile_width - 1) * 2) + 5) * (tile_height - 1);
         index_nums[SIDE_TOP] = index_nums[SIDE_BOTTOM] =
             index_nums[SIDE_LEFT] - 1;
 
+        index_nums[SIDE_TOPLEFT] =
+            (((tile_width - 1) * 4) + 2) +
+            ((tile_width - 1) * 2 + 5) * (tile_height - 2) +
+            ((tile_height - 2)?1:0);
+        index_nums[SIDE_TOPRIGHT] =
+            ((tile_width - 1) * 4 + 5) +
+            ((tile_width - 1) * 2 + 5) * (tile_height - 2);
+        index_nums[SIDE_BOTTOMLEFT] =
+            (((tile_width - 1) * 2 + 4) * (tile_height - 1)) +
+            (((tile_width - 1) * 2)) + (tile_height - 2) -
+            ((tile_height - 2)?2:0);
+        index_nums[SIDE_BOTTOMRIGHT] =
+            (((tile_width - 1) * 2 + 5) + ((tile_width - 1) * 2 + 3)) *
+            ((tile_height - 1) / 2) + (tile_width - 2) * 2 +
+            (tile_height - 2) + 2 + ((tile_height - 2)?0:4);
+
         for (int side = 0; side < SIDE_MAX; ++side)
-        {   
-            int connector_flag = connector_flags[side];
+        {
             ResourceRef<IndexBuffer>& cib = cibs_[side][lod];
             cib = Renderer::instance()->newIndexBuffer();
             if (cib.invalid())
                 return false;
+            cib->destroy();
             if (!cib->create(index_nums[side], 0, format))
                 return false;
 
-            uint16_t* ibptr = 0;
-            if (!cib->lock((void*&)ibptr))
-                return false;
-            int usage_index_num = build_connector(ibptr, col, row, step,
-                x, y, tile_width, tile_height, connector_flag);
-            tod_assert(usage_index_num == _index_num);
-            cib->unlock();
+            switch (format)
+            {
+            case Format::INDEX16:
+                {
+                    uint16_t* ibptr = 0;
+                    if (!cib->lock((void*&)ibptr))
+                        return false;
+                    int usage_index_num = build_connector(ibptr, col, row, step,
+                        x, y, tile_width, tile_height, side);
+                    tod_assert(usage_index_num == index_nums[side]);
+                    cib->unlock();
+                    break;
+                }
+            case Format::INDEX32:
+                {
+                    uint32_t* ibptr = 0;
+                    if (!cib->lock((void*&)ibptr))
+                        return false;
+                    int usage_index_num = build_connector(ibptr, col, row, step,
+                        x, y, tile_width, tile_height, side);
+                    tod_assert(usage_index_num == index_nums[side]);
+                    cib->unlock();
+                    break;
+                }
+            }
         }
     }    
 
     return true;
-}
-
-
-//-----------------------------------------------------------------------------
-int TerrainTile::build_connector
-(uint16_t* ptr, int col, int row, int step,
- int x, int y, int width, int height, int side)
-{
-    bool winding = true; 
-    int index = 0;
-
-    if (step < 2)
-        return 0;
-
-    if (side == SIDE_RIGHT)
-    {
-        int h = 0;
-        while (true)
-        {
-            if (winding)
-            {
-                int w = 0;
-                for (; w < width - 1; w += 1)
-                {
-                    ptr[index++] = (h * step + y) * col + x + (w * step);
-                    ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-                }
-
-                ptr[index++] = (h * step + y) * col + x + (w * step);
-                ptr[index++] = ptr[index - 2];
-                ptr[index++] = ((h * step + step / 2) + y) * col + x + (w * step);
-                ptr[index++] = ptr[index - 2];
-                ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-            }
-            else
-            {
-                int w = width - 1;
-                
-                ptr[index++] = ((h * step + step / 2) + y) * col + x + (w * step);
-                ptr[index++] = (h * step + y) * col + x + (w - 1) * step;
-                ptr[index++] = ptr[index - 2];
-                ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-
-                for (w = width - 2; w >= 0; w -= 1)
-                {
-                    ptr[index++] = (h * step + y) * col + x + (w * step);
-                    ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-                }
-
-                ptr[index++] = ptr[index - 1];
-            }
-
-            h += 1;
-            if (h >= height - 1)
-                break;
-            winding = !winding;
-        }
-    }
-    else if (side == SIDE_LEFT)
-    {
-        int h = 0;
-        while (true)
-        {
-            if (winding)
-            {
-                int w = 0;
-
-                ptr[index++] = (h * step + y) * col + x + (w * step);
-                ptr[index++] = ((h * step + step / 2) + y) * col + x + (w * step);
-                ptr[index++] = (h * step + y) * col + x + ((w + 1)* step);
-                ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-                
-                for (w = 1; w < width; w += 1)
-                {
-                    ptr[index++] = (h * step + y) * col + x + (w * step);
-                    ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-                }
-                ptr[index++] = ptr[index - 1];
-            }
-            else
-            {
-                int w = width - 1;
-                for (; w >= 1; w -= 1)
-                {
-                    ptr[index++] = (h * step + y) * col + x + (w * step);
-                    ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-                }
-
-                ptr[index++] = (h * step + y) * col + x + (w * step);
-                ptr[index++] = ((h * step + step / 2) + y) * col + x + (w * step);
-                ptr[index++] = ptr[index - 1];
-                ptr[index++] = ptr[index - 4];
-                ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-            }
-
-            h += 1;
-            if (h >= height - 1)
-                break;            
-            winding = !winding;
-        }
-    }
-    else if (side == SIDE_TOP)
-    {
-        int h = 0;
-        while (true)
-        {
-            if (winding)
-            {
-                for (int w = 0; w < width; w += 1)
-                {
-                    ptr[index++] = (h * step + y) * col + x + (w * step);
-                    ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-
-                    if (h >= height - 2 && w < width - 1)
-                    {
-                        ptr[index++] = (h * step + y) * col + x + ((w + 1) * step);
-                        ptr[index++] = ((h + 1) * step + y) * col + x + (w * step + step / 2);
-                    }
-                }
-            }
-            else
-            {
-                for (int w = width - 1; w >= 0; w -= 1)
-                {
-                    ptr[index++] = (h * step + y) * col + x + (w * step);
-                    ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-
-                    if (h >= height - 2 && w > 0)
-                    {
-                        ptr[index++] = (h * step + y) * col + x + ((w - 1) * step);
-                        ptr[index++] = ((h + 1) * step + y) * col + x + (w * step - step / 2);
-                    }
-                }
-            }
-
-            h += 1;
-            if (h >= height - 1)
-                break;
-            ptr[index++] = ptr[index - 1];
-            winding = !winding;
-        }
-    }
-    else if (side == SIDE_BOTTOM)
-    {
-        bool head = false;
-        int h = 0;
-        while (true)
-        {
-            if (winding)
-            {
-                for (int w = 0; w < width; w += 1)
-                {
-                    ptr[index++] = (h * step + y) * col + x + (w * step);
-                    ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-
-                    if (!head && w < width - 1)
-                    {
-                        ptr[index++] = (h * step + y) * col + x + (w * step + step / 2);
-                        ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-                    }
-                }
-
-                head = true;
-            }
-            else
-            {
-                for (int w = width - 1; w >= 0; w -= 1)
-                {
-                    ptr[index++] = (h * step + y) * col + x + (w * step);
-                    ptr[index++] = ((h + 1) * step + y) * col + x + (w * step);
-                }
-            }
-
-            h += 1;
-            if (h >= height - 1)
-                break;
-            ptr[index++] = ptr[index - 1];
-            winding = !winding;
-        }
-    }
-
-    return index;
 }
 
     

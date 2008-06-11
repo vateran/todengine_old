@@ -39,15 +39,16 @@ class SceneViewPanel(wx.Panel):
         self.prev = (x, y)
     
     def OnKeyDown(self, event):
+        dist = 1
         kc = event.GetKeyCode()        
         if kc == wx.WXK_UP or kc == 87:
-            self.camera.moveForward(1)
+            self.camera.moveForward(dist)
         if kc == wx.WXK_DOWN or kc == 83:
-            self.camera.moveForward(-1)
+            self.camera.moveForward(-dist)
         if kc == wx.WXK_LEFT or kc == 65:
-            self.camera.moveLeft(1)
+            self.camera.moveLeft(dist)
         if kc == wx.WXK_RIGHT or kc == 68:
-            self.camera.moveRight(1)
+            self.camera.moveRight(dist)
         self.sceneView.render()
         
     def setCamera(self, camera):

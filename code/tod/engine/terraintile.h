@@ -49,8 +49,9 @@ namespace engine
         int build_index(
             T* ptr, int col, int row, int step,
             int x, int y, int width, int height);
+        template <typename T>
         int build_connector(
-            uint16_t* ptr, int col, int row, int step,
+            T* ptr, int col, int row, int step,
             int x, int y, int width, int height, int side);
 
     public:

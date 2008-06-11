@@ -37,6 +37,7 @@ void TerrainSection::build(const Uri& uri, const Vector3& scale, int split)
 
 
 //-----------------------------------------------------------------------------
+#include <bitset>
 void TerrainSection::render()
 {
     if (vb_.invalid() || vb_->invalid())
@@ -51,12 +52,67 @@ void TerrainSection::render()
 
     // compute Level of Details for each tiles in TerrainSection
     int i = 0;
+
     for (Tiles::iterator tile = tiles_.begin();
-         tile != tiles_.end(); ++tile, ++i)
-    {   
-        tile->computeLOD(Vector3(-128, 0, -128), maxLOD_, hmap_.width() / split_);
-        tiles_[i].ibs_[tile->detailLevel_]->use();
-        tiles_[i].ibs_[tile->detailLevel_]->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+         tile != tiles_.end(); ++tile)
+         //tile->computeLOD(Vector3(-32, 0, -32), maxLOD_, hmap_.width() / split_);
+         tile->computeLOD(camera_pos, maxLOD_, hmap_.width() / split_);
+
+    for (int h = 0; h < split_; ++h)
+    {
+        for (int w = 0; w < split_; ++w)
+        {
+            TerrainTile& tile = tiles_[h * split_ + w];
+
+            std::bitset<4> flag;
+            if (w && tiles_[h * split_ + w - 1].detailLevel_ < tile.detailLevel_)
+                flag.set(TerrainTile::SIDE_LEFT);
+            if (w < (split_ - 1) && tiles_[h * split_ + w + 1].detailLevel_ < tile.detailLevel_)
+                flag.set(TerrainTile::SIDE_RIGHT);
+            if (h && tiles_[(h - 1) * split_ + w].detailLevel_ < tile.detailLevel_)
+                flag.set(TerrainTile::SIDE_TOP);
+            if (h < (split_ - 1) && tiles_[(h + 1) * split_ + w].detailLevel_ < tile.detailLevel_)
+                flag.set(TerrainTile::SIDE_BOTTOM);
+
+            if (flag.any())
+            {
+                int side = 0;
+                if (flag.test(TerrainTile::SIDE_TOP))
+                {
+                    if (flag.test(TerrainTile::SIDE_LEFT))
+                        side = TerrainTile::SIDE_TOPLEFT;
+                    else if (flag.test(TerrainTile::SIDE_RIGHT))
+                        side = TerrainTile::SIDE_TOPRIGHT;
+                    else
+                        side = TerrainTile::SIDE_TOP;
+                }
+                else if (flag.test(TerrainTile::SIDE_BOTTOM))
+                {
+                    if (flag.test(TerrainTile::SIDE_LEFT))
+                        side = TerrainTile::SIDE_BOTTOMLEFT;
+                    else if (flag.test(TerrainTile::SIDE_RIGHT))
+                        side = TerrainTile::SIDE_BOTTOMRIGHT;
+                    else
+                        side = TerrainTile::SIDE_BOTTOM;
+                }
+                else if (flag.test(TerrainTile::SIDE_LEFT))
+                    side = TerrainTile::SIDE_LEFT;
+                else if (flag.test(TerrainTile::SIDE_RIGHT))
+                    side = TerrainTile::SIDE_RIGHT;
+                else
+                {
+                    tod_assert(0);
+                }
+
+                tile.cibs_[side][tile.detailLevel_]->use();
+                tile.cibs_[side][tile.detailLevel_]->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+            }
+            else
+            {
+                tile.ibs_[tile.detailLevel_]->use();
+                tile.ibs_[tile.detailLevel_]->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+            }
+        }
     }
 }
 
@@ -141,7 +197,7 @@ bool TerrainSection::build_tile(const Uri& uri, const Vector3& scale)
             vbptr->u_ = w / width;
             vbptr->v_ = h / height;
 
-            ++vbptr;                
+            ++vbptr;
         }
     }
 
@@ -153,7 +209,7 @@ bool TerrainSection::build_tile(const Uri& uri, const Vector3& scale)
 //-----------------------------------------------------------------------------
 int TerrainSection::compute_max_lod_level(int size, int split)
 {
-    int max_lod = 0;
+    int max_lod = 1;
     size /= split;
     for (; size > 1; ++max_lod, size /= 2);
     return max_lod;

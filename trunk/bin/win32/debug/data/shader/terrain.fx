@@ -66,9 +66,14 @@ VsOutput TerrainVertexShaderMain(VsInput input)
     return output;
 }
 
-float4 TerrainPixelShaderMain(VsOutput input) : COLOR
+float4 TerrainPixelShaderMain2(VsOutput input) : COLOR
 {
     return float4(1,1,1,1);
+}
+
+float4 TerrainPixelShaderMain(VsOutput input) : COLOR
+{
+    //return float4(1,1,1,1);
     return tex2D(DefaultSampler, input.uv0) * input.diffuse;
 
     float3 L = normalize(input.light);
@@ -105,6 +110,24 @@ technique Terrain
     {
         VertexShader = compile vs_2_0 TerrainVertexShaderMain();
         PixelShader  = compile ps_2_0 TerrainPixelShaderMain();
+        CullMode = CW;
+        Lighting = False;
+    }
+}
+
+technique TerrainDebug
+{
+    pass P0
+    {
+        VertexShader = compile vs_2_0 TerrainVertexShaderMain();
+        PixelShader  = compile ps_2_0 TerrainPixelShaderMain();
+        CullMode = CW;
+        Lighting = False;
+    }
+    pass P1
+    {
+        VertexShader = compile vs_2_0 TerrainVertexShaderMain();
+        PixelShader  = compile ps_2_0 TerrainPixelShaderMain2();
         CullMode = CW;
         Lighting = False;
         FillMode = WireFrame;

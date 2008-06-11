@@ -11,8 +11,8 @@ float Luminance = 0.08f;
 static const float fMiddleGray = 0.18f;
 static const float fWhiteCutoff = 0.8f;
 
-static const float g_cWidth = 1024;
-static const float g_cHeight = 768;
+static const float g_cWidth = 800;
+static const float g_cHeight = 600;
 
 float2 PixelCoordsDownFilter[16] =
 {
@@ -97,13 +97,11 @@ float4 psDownFilter(
 }
 
 
-
 float4 psCompose(
     float4 pos      : POSITION,
     float4 diffuse  : COLOR0,
     float2 uv0      : TEXCOORD0) : COLOR
 {
-    return tex2D(SceneSampler, uv0) * diffuse;
     return (tex2D(SceneSampler, uv0) + tex2D(ToneSampler, uv0)) * diffuse;
 }
 

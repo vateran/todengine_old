@@ -1,0 +1,331 @@
+Game Program  
+
+ 
+제목 최적화 방법들 
+ 
+작성자 김명균 
+ 
+이메일  
+ 
+홈페이지  
+ 
+조회수 1005 등록일 2006/12/10 (1:44) 
+ 
+ 
+ 다이렉트X 그래픽
+왜 버텍스 버퍼를 사용하는가?
+버텍스 버퍼 사용시 다음과 같은 이점이 있다.
+
+짾 메모리의 소유권과 접근 권한, 접근 시기를 결정할 수 있다.
+짿 디바이스만 접근할 수 있는 메모리에 직접 접근하므로, 버텍스 데이터 복사량을 줄일 수 있다.
+쨁 하드웨어에 의한 T&L 가속을 받아 빠르다. 
+
+버텍스 버퍼 사용시 주의할 점은?
+다음의 두 가지 주의점을 참고한다.
+
+짾 버텍스 버퍼의 변경은 많은 비용을 요구한다. 따라서 복수의 오브젝트를 하나의 버텍스 버퍼로 묶는 것이 바람직하다.
+짿 버텍스 포맷에 들어있는 중복되는 데이터는 버텍스 버퍼 크기를 크게 하고 AGP 버스를 통한 데이터 전송량을 증가시키므로, 데이터의 중복을 최소화하는 것이 좋다. 두 요구사항은 서로 배타적이다. 동일한 버텍스 포맷별로 데이터를 모아서, 가능하면 적은 수의 버텍스 버퍼를 사용해 버텍스 버퍼 변경을 적게 하자. 
+
+버텍스 버퍼 생성시 어떤 옵션을 주는 것이 좋은가?
+GPU 입장에서 버텍스 버퍼 생성시 가장 이상적인 옵션은 WRI TEONLY이다. D3DPOOL_DEFAULT 옵션을 설정함으로써, 비디오 메모리(AGP 메모리/로컬 비디오 메모리)에 버텍스 버퍼를 생성할 수 있다. AGP 메모리는 GPU 입장에서 보면 읽기가 빠르고, CPU 입장에서 보면 쓰기가 빠르다. AGP 메모리는 CPU에서 바로 읽기가 가능하나, 비디오 카드에서 사용하기 위해 할당된 경우에는 사실상 L1/L2 캐시를 불가능하게 하므로, 읽기 작업은 많은 처리 시간을 요한다. 버텍스 데이터를 꼭 읽고 싶다면 CPU 접근용 버텍스 버퍼 사본을 시스템 메모리에 하나 더 만들어 사용하자. AGP 메모리에 데이터를 쓸 경우에는 데이터를 순차적으로 써야 성능을 최대한 끌어낼 수 있다. D3DPOOL_SYSTEMMEM 옵션은 CPU가 버텍스 버퍼에서 읽기 작업을 할 경우에만 쓰도록 한다. 
+
+정적/동적 데이터란?
+정적 데이터는 게임이 진행되는 동안 바뀌지 않는 버텍스 데이터를 말한다. AGP 메모리에 상주시키도록 하자. AGP 메모리는 스와핑되지 않는다. 버텍스 생성시 WRITEONLY 옵션을 주고 한 번만 Lock을 걸어 데이터를 채운다. 순차적으로 데이터를 쓰면 AGP의 성능을 최대한 낼 수 있다. 
+동적 데이터는 게임이 진행되는 동안 계속 쓰기 연산이 필요한 데이터이므로 Lock이 자주 필요하다. CPU에서 쓰기만 하는 경우와 읽기/쓰기를 모두 하는 경우 두 가지로 나눠 사용할 수 있다. 쓰기만 하는 경우에는 Lock 옵션으로 WRITEONLY와 DISCARD/NOOVE RWRITE 둘 중 하나를 옵션으로 설정하고, 읽기/쓰기의 경우에는 Lock 옵션을 설정할 수 없다.
+
+Lock 호출시, DISCARD와 NOOVERWRITE 옵션을 동시에 사용하면 어떤 일이 발생하는가?
+NOOVERWRITE 옵션은 현재 사용되고 있는 데이터에 어떤 손상도 입히지 않는다는 약속이 내부적으로 이뤄져 있기 때문에 DISCARD 옵션은 무시된다. Lock을 호출할 때 두 옵션을 동시에 설정하지 않도록 하자.
+
+동적 버텍스 버퍼를 사용할 경우에는 성능 저하가 심각한가?
+아니다. D3DAPI를 적절히 사용함으로써 동적 버텍스 버퍼를 통해서도 CPU만을 사용했을 때보다 훨씬 뛰어난 처리 능력을 얻을 수 있다.
+
+동적 버텍스 버퍼를 사용하는 경우와 사용 방법은?
+버텍스 데이터, 인덱스 데이터가 자주 변경되는 경우 D3DU SAGE_DYNAMIC을 사용해 버텍스 버퍼 또는 인덱스 버퍼를 생성할 필요가 있다. 이 플래그를 이용함으로써 다이렉트3D는 버텍스 버퍼를 빈번한 Lock 호출에 최적화시킨다. 
+D3DLOCK_DISCARD는 Lock 호출 시점에서 GPU가 버퍼를 계속 사용 중인 경우, 새로운 메모리 영역의 포인터를 돌려준다. 그렇게 하면 응용 프로그램이 새 버퍼에 데이터를 저장하는 동안 GPU는 이전 버퍼의 데이터를 계속 사용할 수 있다. GPU 처리가 다 끝나면 이전 버퍼는 재사용되거나 파기된다. 
+D3DLOCK_NOOVERWRITE는 이미 사용중인 동적 버퍼 내의 데이터를 응용 프로그램에서 덧쓰지 않도록 막는다. 이 옵션을 주어 Lock을 호출하면 현재 사용중인 데이터의 포인터를 얻게 된다. 버퍼의 빈 공간이 새 데이터를 담기에 충분하다면 빈 공간을 사용하고, 공간이 부족하다면 D3DLOCK_DISCARD 옵션을 주어서 새 메모리 영역을 잡도록 한다. 다음의 코드를 참조하자.
+
+// USAGE STYLE 1
+BYTE* pBytes;
+if( FAILED( m_pVertexBuffer->Lock( 0, 0, &pBytes, D3DLOCK_DISCARD ) ) )
+return false; 
+…
+m_pVertexBuffer->Unlock();
+
+// USAGE STYLE 2
+// Reusing one vertex buffer for multiple objects 
+// Determine the size of data to be moved into the vertex buffer.
+UINT nSizeOfData = nNumberOfVertices * m_nVertexStride;
+
+// No overwrite will be used if the vertices can fit into 
+// the space remaining in the vertex buffer.
+DWORD dwLockFlags = D3DLOCK_NOOVERWRITE;
+
+// Check to see if the entire vertex buffer has been used up yet.
+if( m_nNextVertexData > m_nSizeOfVB - nSizeOfData )
+{
+// No space remains. Start over from the beginning 
+// of the vertex buffer.
+dwLockFlags = D3DLOCK_DISCARD;
+m_nNextVertexData = 0;
+}
+
+// Lock the vertex buffer.
+BYTE* pBytes;
+if( FAILED( m_pVertexBuffer->Lock( (UINT) m_nNextVertexData, nSizeOfData, 
+&pBytes, dwLockFlags ) ) )
+return false;
+
+// Copy the vertices into the vertex buffer.
+memcpy( pBytes, pVertices, nSizeOfData );
+m_pVertexBuffer->Unlock();
+
+// Render the primitives.
+m_pDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 
+m_nNextVertexData/m_nVertexStride, nNumberOfVertices/3)
+
+// Advance to the next position in the vertex buffer.
+m_nNextVertexData += nSizeOfData;
+
+동일 평면상의 다각형들 중 우선 순위를 주어 특정 다각형이 위에 그려지도록 하는 방법은 무엇인가(깊이 바이어스란 무엇인가)?
+데칼 등을 그리려 할 때 폴리곤을 겹쳐 찍는 일이 있다. 이때 데칼의 폴리곤과 데칼이 그려질 폴리곤이, 깊이 버퍼의 정밀도로 앞뒤를 구분할 수 없을 만큼 붙어있게 되어 깨져 보이는 일이 있다. 이때 Z 값에 바이어스(bias)를 추가함으로써 동일 평면상의 다각형을 올바르게 렌더링할 수 있다. 
+사용 방법은 D3DRS_DEPTHBIAS와 D3DRS_SLOPESCALED EPTHBIAS Renderstate를 설정해 주면, 래스터라이징(ra sterizing) 단계에서 Z 버퍼에 기록되는 픽셀 값에 특정 오프셋을 더해 줌으로써 앞과 뒤를 명확히 할 수 있다. 각각의 디폴트 값은 0이다. Z 바이어스의 값이 높을수록 동일 평면상의 다른 다각형보다 보일 가능성이 높아진다. GetDeviceCaps로 D3DPRASTERCAPS_ DEPTHBIAS, D3DPRASTERCAPS_SLOPESCALEDEPTHBI AS flag를 살펴보면 이 기능의 지원 여부를 알 수 있다.
+
+W 깊이 버퍼는 무엇인가?
+대부분의 3D 가속기가 Z 버퍼링을 지원하고 있어 Z 버퍼가 가장 일반적인 깊이 버퍼로 쓰인다. 그러나 Z 버퍼에는 결점이 있는데, Z 버퍼에 생성되는 Z 값이 Z 버퍼의 범위(0.0∼1.0) 전체에 불균일하게 분산된다는 것이다. ‘가까운 평면의 거리’에 대한 ‘먼 평면의 거리’ 비율을 100%로 했을 때, 깊이 버퍼 범위의 90%가 ‘장면의 깊이 버퍼 범위’의 최초 10%에 소비된다. W 깊이 버퍼에서는 Z 버퍼의 경우보다 가까운 클립면과 먼 클립면 사이의 분산이 균등해서 두 평면까지의 거리의 비율이 문제가 되지 않는다는 이점이 있다. 하지만 W 버퍼에도 문제점이 있는데, 가까운 오브젝트의 표면 디테일이 약해진다는 점과 W 버퍼링을 지원하는 하드웨어가 별로 없다는 점이다.
+
+버텍스 트위닝(tweening)이란 무엇인가?
+쉽게 말해 두 개의 메시를 보간하는 것이다. 매시의 각 버텍스를 보간하는 방법은 다음과 같다. 단순하게 하기 위해 버텍스의 데이터는 위치와 노말(Normal)만 사용하겠다(『Direct3D ShaderX』, NVIDIA Effects Browser 참고).
+
+짾 3D 맥스와 같은 3D 제작 툴에서 3D 오브젝트를 제작한 후, 키가 될 프레임의 데이터(위치, Normal)를 저장한다.
+짿 각 버텍스를 선언한다. 1번에서 생성한 데이터를 읽어와서 저장한다. 
+쨁 스트림에 현재 프레임 메시의 정보(위치, Normal)와 다음 프레임의 메시 정보를 넣는다.
+쨂 상수 레지스터의 값을 설정한다.
+
+float T[4] = { t, 1-t, 0, 0 }
+SetVertexShaderConstantF( CV_BLEND_FACTORS, (float*)&T, 1 ); 
+// c[CV_BLEND_FACTORS]에 T(보간용) 값을 넣는다.
+
+쨃 다음과 같이 버텍스 셰이더를 작성한다.
+
+// v0는 첫 번째 버텍스. c[CV_BLEND_FACTORS].y는 첫 번째 Weight 값
+// v3는 두 번째 버텍스. c[CV_BLEND_FACTORS].x는 두 번째 Weight 값
+
+mul r1, v0, c[CV_BLEND_FACTORS].y 
+mad r1, v3, c[CV_BLEND_FACTORS].x, r1 
+m4x4 r1, c[WORLD_VIEW_PROJ] 
+
+인덱스화 버텍스 블렌딩(Indexed Vertex Blending)이란 무엇인가?
+이것을 사용해 스키닝(skinning)을 구현할 수 있다. 스키닝은 메시의 각 버텍스마다 1개 이상의 Bone(Matrix)의 영향을 받도록 설정하여, 피부나 천과 같은 것을 표현할 수 있게 해주는 기술이다. 다음은 다이렉트X에서 사용하는 예제이다(『Direct3D ShaderX』, NVIDIA Effects Browser 참고).
+
+짾 다음과 같이 버텍스 구조체를 선언한다.
+
+struct VERTEX
+{
+float x,y,z;
+float weight;
+DWORD matrixIndices; // 다음에 지정될 Matrix의 번호
+loat normal[3];
+};
+
+짿 Bone(Matrix) 정보를 삽입한다.
+
+SetTransform( D3DTS_WORLDMATRIX(0), &matBlend[0] );
+SetTransform( D3DTS_WORLDMATRIX(1), &matBlend[1] );
+SetTransform( D3DTS_WORLDMATRIX(2), &matBlend[2] );
+
+쨁 인덱스화 버텍스 블렌딩 기능을 활성화한다.
+
+SetRenderState( D3DRS_INDEXEDVERTEXBLENDENABLE, TRUE );
+
+쨂 각 버텍스가 몇 개의 Bone에 영향을 받는지 설정한다. 
+
+SetRenderState( D3DRS_VERTEXBLEND, D3DVBF_3WEIGHTS ); 
+// 버텍스 하나당 세 개의 본의 영향을 받는다. 
+
+쨃 DrawPrimitive를 호출한다. 여기서 주의할 점이 있는데. 거의 대부분의 그래픽카드들이 아직 이것을 지원하지 않는다는 것이다. 이를 확인하기 위해서는 D3DC APS9의 MaxVertexBlendMatrixIndex 값을 확인하면 된다. 만약 이 기능이 지원되지 않는 경우 버텍스 셰이더를 통해 구현할 수 있다.
+
+매트릭스 팔레트란 무엇이며, 사용법은 어떻게 되는가?
+IDirect3DDevice9::SetTransform 메쏘드에서 D3DTS_ WORLDMATRIX(0)∼D3DTS_WORLDMATRIX(255)까지 256개의 월드 행렬을 지정해 줄 수 있는데 이를 매트릭스 팔레트라고 한다. 이렇게 여러 개 지정한 월드 행렬을 스키닝 애니메이션 등에 사용할 수 있다. FVF 포맷의 플래그 중 D3DFVF_XYZ 대신에 D3DFVF_XYZB1∼D3DFVF_XYZB5와 D3DFVF_LASTBETA_ UBYTE4를 함께 사용하면 XYZ 값 뒤에 매트릭스 팔레트의 행렬 번호(0∼255까지의 인덱스)와 각각의 행렬에 영향받는 가중치를 지정해 줄 수 있다. 예를 들어 D3DFVF_XYZB4 | D3DFVF_LAS TBETA_UBYTE4로 FVF를 지정했다면 다음과 같은 버텍스 데이터를 사용한다.
+
+struct VERTEX
+{
+float x, y, z; // 버텍스 위치 좌표
+union 
+{
+float beta[4];
+struct
+{
+float weights[3]; // 가중치
+BYTE Indices[4]; // 매트릭스 팔레트의 인덱스
+};
+};
+};
+
+D3DFVF_XYZB4의 B4는 매트릭스 팔레트에 대응되는 가중치 필드(베타 필드)가 4개라는 의미이며 D3DFVF_LASTBETA_ UBYTE4는 마지막 필드가 매트릭스 팔레트의 인덱스를 지정하는 UBYTE형이 4개라는 의미이다. 행렬 4개에 동시에 영향을 받는다고 할 때 weight[0]∼weight[2]는 각각 Indices[0]∼Indices[2]가 가리키는 행렬에 곱해지는 가중치이다. Indices[3]이 받는 가중치는 1.0 - weight[0] - weight[1] - weight[2]와 같다. 가중치의 합은 항상 1이 된다.
+
+쭓 주의 : D3DFVF_LASTBETA_UBYTE4가 가리키는 매트릭스 인덱스로 쓰일 마지막 필드는, D3DFVF_XYZB1∼D3DFVF_XYZB5로 지정된 버텍스 포맷 크기에서의 마지막 필드가 아니라 IDirect3DDevice9::SetRenderState로 지정된 D3DRS_VERTEXBLEND state의 가중치 개수를 따른다.
+
+블렌딩될 물체들을 뿌릴 때 카메라에서 먼 것부터 가까운 순서대로 뿌려야 한다. 이 때 정렬을 해야 하는데 정렬하지 않고 할 수 있는 방법이 있는가?
+m_pd3dDevice->SetRenderState(D3DRS_ZWRITEENA BLE, FALSE);와 같이 하면 된다. 이는 렌더링시 깊이 값이 Z 버퍼에 써지는 것을 막아 준다. 그러므로 다음에 그려질 것은 깊이 테스트에 영향을 받지 않는다. 정렬을 하지 않고 블렌딩되는 물체를 뿌렸다고 해서 화면에 구멍나는 일은 없다. 하지만 문제가 없는 것은 아니다. 블렌딩된 결과가 자신이 원하지 않는 형태로 나올 수 있다. 예를 들어 창을 통해서 유리컵이 보이게 되는 것이 정상인데 유리컵을 통해 창이 보이는 결과가 나올 수 있다. 
+그렇다면 과연 사용할 수 있는 방법인지 의심스러울 수도 있지만 아주 요긴하게 사용할 수 있는 곳이 있다. 바로 특수 효과, 그 중에서도 파티클 효과다. 대부분의 파티클은 블렌딩을 사용하고, 하나의 효과에서 사용되는 그림은 서로 비슷하고 블렌딩 정도 또한 비슷한 경우가 많다. 따라서 어떻게 섞이든 큰 차이가 나지 않는다. 거기다 한 번에 뿌려지는 파티클의 수는 적은 편이 아니다. 이런 점을 생각해 볼 때 충분히 유용한 옵션이다.
+
+다이렉트3D 프로그램을 사용하다 보면 GetTransform 함수가 작동을 안 하는 경우가 있는데 왜 그런가?
+디바이스 생성시 D3DCREATE_PUREDEVICE 플래그를 사용했기 때문이다. 이 플래그를 사용하면, GetTransform 함수로 내부 상태를 얻어오지 못한다. 함수를 사용하기 원한다면 디바이스 생성시 D3DCREATE_PUREDEVICE 플래그가 사용되지 않게 하면 된다. CD3DApplication을 상속해서 쓴다면 HRESULT ConfirmDevice( D3DCAPS9*, DWORD, D3DFORMAT, D3DFORMAT ) 함수에 다음과 같은 코드를 넣으면 된다.
+
+if( dwBehavior & D3DCREATE_PUREDEVICE )
+return E_FAIL; // GetTransform이 PUREDEVICE에서 작동하지 않는다
+
+색상 키 설정은 어떻게 하는가?
+다이렉트X 7에서 다음 상위 버전으로 전환하는 사람들이 꼭 한번쯤은 궁금하게 생각하는 것이 이것이다. 다이렉트X 7 이후 버전에서는 색상 키라는 것이 없어졌지만 그 기능 자체는 없어지지 않았다. 알파 테스트(Alpha Test)라는 방식으로 할 수 있다. 기존의 색상 키 방식은 무시될 부분의 색상을 설정하는 방식이지만, 알파 테스트는 알파 값에 의해 그려질 여부를 결정하는 방식이다. 그럼 알파 블렌딩과 무엇이 다른 걸까? 바로 알파 블렌딩은 색을 섞는 것이고, 알파 테스트는 무시해 버리는 것이다. 다음과 같이 설정한다.
+
+m_pd3dDevice->SetRenderState( D3DRS_ALPHATESTENABLE, TRUE );
+m_pd3dDevice->SetRenderState( D3DRS_ALPHAREF, 0x08 );
+m_pd3dDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL ); 
+
+D3DRS_ALPHAREF는 기준이 될 알파 값을 설정하는 것이다. D3DRS_ALPHAFUNC은 검사 조건으로서, 앞과 같은 경우는 설정된 알파 값보다 크거나 같으면 테스트에서 성공해 화면에 그려진다. 이 테스트를 통과하지 못하면 화면에 그려지지 않게 된다. 이제 사용하는 텍스처에 알파 값만 넣어주면 색상 키를 쓰는 효과를 얻을 수 있다.
+
+다이렉트X의 기본설정 상태에서는 버텍스 색과 빛을 같이 쓸 수 없는데, 같이 쓸 수 있는 방법이 있는가?
+화면에 물체를 뿌릴 때 버텍스 색상 값을 변화시켜 색을 조정할 수 있다. 특히 하이트맵 방식의 지형을 뿌릴 때는 버텍스의 색상을 조절하는 것이 좀더 다양한 효과를 줄 수 있는 방법이 된다. 하지만 빛을 켜는 순간 이 효과는 사라져 버린다. 그렇다면 이 두 가지를 같이 쓰려면 어떻게 하면 될까? 우선 다음과 같은 설정을 해 준다.
+
+m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_MODULATE );
+m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
+m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
+
+D3DRENDERSTATETYPE을 보자.
+
+typedef enum _D3DRENDERSTATETYPE {
+…
+D3DRS_DIFFUSEMATERIALSOURCE = 145,
+D3DRS_AMBIENTMATERIALSOURCE = 147,
+… }
+
+각각의 디폴트 상태는 D3DMCS_COLOR1, D3DMCS_MATER IAL이다.
+typedef enum _D3DMATERIALCOLORSOURCE {
+D3DMCS_MATERIAL = 0, // 현재의 Material 색을 사용한다.
+D3DMCS_COLOR1 = 1, // Diffuse vertex 색을 사용한다.
+D3DMCS_COLOR2 = 2, // Specular vertex 색을 사용한다.
+}
+
+여기서 다음과 같이 하면 버텍스 색상 값이 적용되는 것을 확인할 수 있다.
+
+m_pd3dDevice->SetRenderState( D3DRS_AMBIENTMATERIALSOURCE , 
+D3DMCS_COLOR1 );
+
+알파 값이 들어가지 않은 텍스처를 사용하는 물체를 투명하게 하고 싶은데 방법이 있는가?
+이 경우 또한 앞에서 말한 D3DRS_DIFFUSEMATERIA LSOURCE, D3DRS_AMBIENTMATERIALSOURCE의 상태를 조절해 구현할 수 있다. 두 가지를 생각할 수 있는데 버텍스의 알파 값을 조절해 투명하게 하는 방법과 재질을 조절해 투명하게 방법이 있다. 버텍스가 많은 물체를 자연스럽게 투명화시키려면 일일이 버텍스의 알파 값을 변환해야 한다. 이럴 경우에 재질을 이용해서 알파를 변화시키면 간단하게 처리할 수 있다. 다음과 같은 설정을 먼저 해 줘야 한다.
+
+m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE );
+m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
+m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
+
+일단 재질이 적용되려면 빛이 켜 있어야 한다.
+
+m_pd3dDevice->SetRenderState( D3DRS_LIGHTING, TRUE );
+
+그리고 D3DRS_DIFFUSEMATERIALSOURCE를 다음과 같이 변경한다.
+
+m_pd3dDevice->SetRenderState( D3DRS_DIFFUSEMATERIALSOURCE ,
+D3DMCS_MATERIAL );
+
+이렇게 하면 버텍스의 알파 값이 무시되고 재질의 알파 값에 의해 투명하게 된다. 적용방법은 간단하다. 버텍스의 알파를 조절하는 것처럼 버텍스 값을 일일이 바꿔주지 않고, 물체를 그리기 전에 재질만 설정해 주고 물체를 그리고 다시 원래의 재질로 복구시켜 주면 된다.
+
+D3DMATERIAL9 material, OldMaterial;
+m_pd3dDevice->GetMaterial( &OldMaterial );
+D3DUtil_InitMaterial( material, 1.0f, 1.0f, 1.0f, 0.5f );
+m_pd3dDevice->SetMaterial( &material );
+m_Object.Render();
+m_pd3dDevice->SetMaterial( & OldMaterial );
+
+다이렉트X 9.0에서의 한글 구현은 어떻게 지원되는가?
+한글 구현에서 DC(Device Context)를 활용하면 윈도우 시스템에서 지원되는 글꼴을 사용할 수 있고 구현 방법 또한 간단해진다. 그러나 버전 7에서 버전 8로 바뀌면서 DC를 쓸 수 없게 되어 개발자들을 당혹스럽게 했다. 다행히도 이번 버전 9.0에서는 다시 DC를 쓸 수 있게 되었다. 구현 방법은 간단하다. 일반 윈도우 프로그램에서 DC에 글자를 찍듯이, 서피스(surface)에서 DC를 얻어와서 쓴다. DC는 LPDIRECT3DSURFACE9를 통해 불러올 수 있다.
+
+LPDIRECT3DSURFACE9 lpSur;
+pDevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, & lpSur );
+lpSur->GetDC( &hDc );
+… // 글꼴 설정..
+TextOut(hDc, X, Y, Text, strlen(Text)); 
+lpSur ->ReleaseDC(hDc);
+lpSur ->Release();
+
+앞의 경우는 백 버퍼의 DC를 가지고 화면에 직접 뿌리는 방식이다. 하지만 백 버퍼에 바로 글을 찍으면 변화없이 똑같이 출력되는 글도 매 프레임마다 찍어줘야 한다. 약간의 문제가 있는 것이다. 생각을 좀더 해보니 다음 방법이 나왔다. 텍스처를 만들고 그 위에 글을 찍은 후, 텍스처를 갱신없이 그냥 쓰는 것이다. 이 방법이 속도면에서 훨씬 이득이다.
+
+LPDIRECT3DTEXTURE9 m_pHanOutTexture;
+…
+if( FAILED(hr = m_pd3dDevice->CreateTexture( 512 , 512 , 1, 0, 
+D3DFMT_X8R8G8B8, D3DPOOL_MANAGED , 
+&m_pHanOutTexture, NULL )) )
+{ return E_FAIL; }
+…
+LPDIRECT3DSURFACE9 lpSur;
+HDC hDc;
+m_pHanOutTexture->GetSurfaceLevel( 0, &lpSur );
+lpSur->GetDC( &hDc ); 
+… // 글꼴 설정..
+TextOut(hDc, X, Y, Text, strlen(Text)); 
+lpSur ->ReleaseDC(hDc);
+lpSur ->Release();
+
+이제 Win32 API를 이용해 입맛에 맞게 글꼴 종류나 크기 등을 조절해 가면서 쓰면 된다. GetTextExtentPoint32(…) 함수를 이용하면 실제로 텍스처에 찍히게 되는 글자 크기를 알 수 있다. 텍스처에 글자 찍고 그 부분만을 U, V 좌표를 알아내서 쓰는 것도 가능할 것이다.
+
+3D 스튜디오 맥스처럼 여러 개의 화면을 만들려면 어떻게 해야 하는가?
+뷰포트(ViewPort)를 이용하면 렌더링 타겟 표면의 일부에만 렌더링할 수 있다.
+
+D3DVIEWPORT9 viewPort;
+viewPort.X = nX; // 뷰포트가 시작될 X 좌표
+viewPort.Y = nY; // 뷰포트가 시작될 Y 좌표
+viewPort.MaxZ = 1.0f;
+viewPort.MinZ = 0.0f;
+viewPort.Height = dwHeight; // 뷰포트의 높이 
+viewPort.Width = dwWidth; // 뷰포트의 폭 
+
+m_pd3dDevice->SetViewport( &viewPort );
+m_pd3dDevice->Clear( 0L, NULL, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET , 
+dwColor, 1.0f, 0L );
+Object.Render(); // 장면을 렌더링한다.
+
+앞과 같이 하면 설정된 범위에만 렌더링된다. 여기서 한 가지 알아둬야 할 것은, 프로젝션 매트릭스(Projection Matrix)를 뷰포트의 크기에 맞게 다시 설정해야 한다는 것이다. 그래야 장면이 늘어나 보이는 현상을 막을 수 있다. 이런 식으로 원하는 만큼 화면을 나눠서 렌더링하면 레이싱 게임의 백미러 같은 효과나 인벤토리에서 3D 오브젝트가 돌아가게 만드는 등의 활용이 가능하다. 
+
+다이렉트사운드
+응용 프로그램이 시작할 때 정적 버스트(burst)가 왜 발생하는가? 다른 응용 프로그램에서도 이 문제가 있다.
+이 경우 디버그 다이렉트X 런타임을 설치했을 수 있다. 런타임의 디버그 버전은 개발자들이 버퍼가 초기화되지 않은 버그를 잡는 데 도움을 주기 위해 정적으로 버퍼를 채운다. 생성된 후에는 다이렉트사운드 버퍼의 내용을 보장할 수 없다. 특히 버퍼가 0으로 초기화된다는 점이 그러하다.
+
+효과 매개변수를 변경하고 그 결과를 듣는데 왜 지체 현상이 생기는 걸까?
+다이렉트사운드 8에서는 항상 효과 매개변수의 변경이 바로 반영되는 것은 아니다. 효율을 위해서 다이렉트사운드는 버퍼가 플레이되기 전 play cursor에서 시작되는 버퍼 안에 있는 0.1초의 사운드 데이터를 처리한다. 이 전 처리는 다음 호출 뒤에 발생한다.
+
+IDirectSoundBuffer8::SetCurrentPosition
+IDirectSoundBuffer8::SetFX
+IDirectSoundBuffer8::Stop
+IDirectSoundBuffer8::Unlock
+
+다이렉트X 9.0에 있는 새로운 FX 알고리즘은 적절한 시간에 효과를 처리하며, 신호대기를 줄였다. Write cursor 이전에 단지 효과를 처리하는 추가 쓰레드와 함께 이 알고리즘은 DirectSoundBuffer8:: Play() 호출에 추가됐다. 그래서 언제라도 매개변수를 설정할 수 있으며, 기대한 것처럼 작동할 것이다. 그러나 버퍼가 진행중인 경우에는 play/write cursor(그리고 1비트 더 채우기) 사이의 오디오가 이미 그 때 처리되었기 때문에, 매개변수의 변경을 듣기 전에 작은 지연(일반적으로는 0.1초보다 적다)이 있다는 점을 주의한다.
+
+3차원 배경으로 연주되는 하드웨어 미디 신디사이저를 가질 수 있는가?
+불행하게도 3차원 위치를 지원하는 다이렉트뮤직(DirectMusic) 하드웨어 신디는 없다. 또한 오디오 경로를 지원하는 다이렉트뮤직 하드웨어 신디도 없다. 만일 하드웨어 신디를 이용하려면 다이렉트X 7-era DMusic 기능만 사용해야 한다.
+
+다이렉트사운드가 설치됐는지 점검하는 방법은?
+가능한 다이렉트사운드 디바이스를 리스트화하기 위해 Direct SoundEnumerate()를 이용할 필요가 없다면 dsound.lib를 링크하지 말고, COMs CoCreateInstance(CLSID_DirectSoudn…)를 이용한다. 그리고 나서 Initialize(NULL)를 이용해 다이렉트사운드 객체를 초기화한다. DirectSoundEnumerate()를 이용할 필요가 있다면 LoadLibrary(“dsound.dll”)를 이용해 dsound.dll을 동적으로 부를 수 있다. 그리고 GetProcAddress(DirectSoundEnumerate A/W)와 GetProcAddress(DirectSoundCreateA/W) 등을 이용해 메쏘드에 접근할 수 있다.
+다이렉트쇼
+재생을 위해 간단한 미디어 디코더를 구현하고 싶은데 다이렉트쇼나 DMOs를 이용해야만 하는가?
+DMOs(DirectX Media Objects)는 현재 인코더/디코더, 그리고 오디오 효과를 기술하기 위한 해결책으로서 추천된다. 응용 프로그램의 필요에 따라 많은 다른 가능성도 있다. 지원되는 기능이 적어서 보통 다이렉트쇼 필터보다는 작고 간단하다. 하지만 필터 그래프를 필요로 하지 않기 때문에 다이렉트쇼 필터보다 더욱 유연하다. 동기화, 지능적인 연결, 데이터 흐름 자동 제어, 쓰레드 관리 같은 다이렉트쇼가 제공하는 서비스가 필요할 경우, 다이렉트쇼와 같이 사용할 수 있다. 이런 서비스가 필요없는 클라이언트는 직접 DMOs에 접근할 수 있다.
+
+다이렉트플레이
+어떻게 다이렉트플레이가 질의 목록을 처리하지 않도록 하는가?
+IDirectPlay8Peer::Host와 IDirectPlay8Server::Host를 호출시 DPN_APPLICATION_DESC 구조체 안에 DPNSESSI ON_NOENUMS 플래그를 설정한다.
+
+응용 프로그램에서 최상의 결과를 얻기 위해서는 다이렉트플레이 프로토콜을 어떻게 트윅해야 하는가?
+IDirectPlay8Peer::GetCaps, IDirectPlay8Client::GetCaps, IDirectPlay8Server::GetCaps 또는 IDirectPlay8Peer::SetCaps, IDirectPlay8Client::SetCaps, 그리고 IDirectPlay8Server:: SetCaps 호출시 응용 프로그램은 DPN_CAPS_EX 구조체를 사용하고 있는 다이렉트플레이 프로토콜을 조정할 수 있다.
+
+클라이언트가 비정상적으로 끝나면(즉 액세스 바이얼레이션), 때때로 다른 클라이언트가 서버에 접속할 때 긴 시간이 걸리는데 이유가 무엇인가?
+이런 상황에선 서버가 타임아웃을 통하여 비정상적으로 끊어진 접속을 발견할 때까지 다른 클라이언트는 서버에 접속할 수 없다. 다이렉트X 9.0에서는 전송을 시도하는 횟수와 재전송 사이의 최대 기간을 줄이기 위해 SetCaps와 DPN_CAPS_EX 구조체를 이용함으로써 끊어진 연결을 발견하기 위한 시간을 줄일 수 있다. 즉 최대 시도 횟수를 5로, 최대 전송 기간을 2초로 설정했다면 끊어진 연결을 발견하기 위해 10초도 안 걸릴 것이다. 물론 너무 공격적으로 끊어진 연결을 발견하려고 한다면 유효한 플레이어와의 연결을 끊는 위험이 발생한다.
+
+다이렉트플레이 8 보이스를 이용해 어떻게 음성 데이터를 기록할 수 있는가?
+FX처럼 플레이어의 사운드 버퍼에 붙일 수 있는 DMOs를 사용하면 된다. 통상 사운드 효과를 음성에 추가하기 위해 사용된다. 그러나 오디오를 변경하지 않은 상태로 원하는 포맷으로 바꾸고 단순히 그것을 디스크에 복사하는 ‘투명 DMO’를 쓰는 것을 멈출 수 있는 것은 없다. 이는 클라이언트 측 접근이므로 서버 측에는 막을 방법이 없다. 한 가지 방법이 있다면, 순수하게 오디오 기록만을 책임지는 서버에서 클라이언트를 실행하는 것이다. 그 후 모든 클라이언트의 목표는 송신되는 음성 데이터를 기록하는 것이다. 
+다이렉트X는 DMO를 기술한 문서와 샘플을 포함하고 있다. 응용 프로그램이 첫 번째로 다이렉트사운드 8 객체를 생성해야만 하는 것에 음성이 관계돼 있다면, Connect()를 호출할 때 음성 클라이언트에 그것을 넘긴다. 그 다음 각 새로운 플레이어를 위해 DSBCAP S_CTRLFX flag로 설정하고 사운드 객체에서 분리된 사운드 버퍼를 생성한다. 그 다음, 음성 기록 DMO를 사운드 버퍼에 할당하기 위해 SetFX를 사용한다. 마지막으로 Create3DSoundBuffer method를 이용해 음성 클라이언트에 사운드 버퍼를 넘긴다. 음성 흐름에 접근을 허가하는 DMO를 가지고 있는 한, 음성은 여러분이 직접 만든 사운드 버퍼를 사용할 것이다. 추가로 주의할 점들은 다음과 같다. 
+
+쭓 세션 동안 사운드 버퍼 데이터를 직접 잠그거나, 읽으려고 시도하지 말라 : 만일 음성이 잠겨진 버퍼와 관련이 있으면 오류 상태로 가정하고 접속을 종료할 것이다. 
+쭓 얼마나 많은 시간이 DMO에서 음성 데이터를 처리하는지 주의하라 : 각 새로운 패킷마다 디스크에 기록하는 것은 아마 성능에 나쁜 영향을 끼칠 것이다. 최고의 솔루션은 데이터를 버퍼에 넣는 것이고 청크에서 기록을 수행하는 것이다. 보다 바람직한 것은 개별 쓰레드로 처리하는 것이다. 
+
+다이렉트플레이는 멀티캐스팅을 지원하는가?
+멀티캐스트는 상당한 시간 동안 고려됐던 것이다. 멀티캐스트의 잠재적인 면을 볼 수 있는 반면, 현재의 구조에는 문제가 있는데 바로 멀티플레이어 게임에서 나타난다. 결함이 있는 하부 구조 배치, 신뢰할 수 없는 전달과 표준 피드백 메커니즘의 부족은, 최종 사용자가 이 문제를 경험하기 전에 알려야 할 필요가 있다. 이 문제를 해결하기는 어렵지 않지만, 상당한 노력과 자원을 필요로 한다.
+
+

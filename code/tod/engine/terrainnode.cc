@@ -34,7 +34,8 @@ void TerrainNode::applyGeometry(SceneServer* scene_server)
 void TerrainNode::renderGeometry
 (SceneServer* scene_server, SceneContext* scene_context)
 {
-    ts_.render();
+    ts_.use();
+    tts_.draw();
 }
 
 
@@ -45,7 +46,9 @@ bool TerrainNode::loadResource()
     
     if (heightMapUri_.size())
     {
-        ts_.build(heightMapUri_, Vector3(1, 1, 1), 8);
+        int split = 8;
+        ts_.build(heightMapUri_, Vector3(1, 1, 1), split);
+        tts_.build(ts_.getWidth(), ts_.getHeight(), split);
     }
     
     return true;

@@ -11,6 +11,7 @@
 #include "tod/engine/shapenode.h"
 #include "tod/engine/vertexbuffer.h"
 #include "tod/engine/terrainsection.h"
+#include "tod/engine/terraintileset.h"
 
 namespace tod
 {
@@ -39,6 +40,7 @@ namespace engine
     private:
         Uri heightMapUri_;
         TerrainSection ts_;
+        TerrainTileSet tts_;
     };
 }
 }

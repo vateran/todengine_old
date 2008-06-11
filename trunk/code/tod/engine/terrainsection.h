@@ -6,12 +6,10 @@
     @brief 
 */
 
-#include <vector>
 #include "tod/core/uri.h"
+#include "tod/core/vector3.h"
 #include "tod/engine/resourceref.h"
-#include "tod/engine/indexbuffer.h"
 #include "tod/engine/vertexbuffer.h"
-#include "tod/engine/terraintile.h"
 #include "tod/engine/image.h"
 
 namespace tod
@@ -24,24 +22,16 @@ namespace engine
         TerrainSection();
         virtual~TerrainSection();
 
-        void render();
+        void use();
 
-        void build(const Uri& uri, const Vector3& scale, int split);
+        bool build(const Uri& uri, const Vector3& scale, int split);
 
-    private:
-        bool build_tile(const Uri& uri, const Vector3& scale);
-        void build_index(int col, int row, int max_lod, int split);
-        int compute_max_lod_level(int size, int split);
-
-    private:
-        typedef std::vector<TerrainTile> Tiles;
-
+        int getWidth() const { return hmap_.width(); }
+        int getHeight() const { return hmap_.height(); }
+    
     private:
         Image hmap_;
-        Tiles tiles_;
-        int maxLOD_;
-        int split_;
-
+    
         ResourceRef<VertexBuffer> vb_;
     };
 }

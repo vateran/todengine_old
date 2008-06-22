@@ -2,6 +2,7 @@
 
 from todpython import *
 import wx
+import lib.CommandConsole as CommandConsole
 
 split_control_width = 4
 
@@ -65,8 +66,7 @@ class PropertyItemValue(wx.Window):
         self.nameControl.OnKillFocus(event)
         event.Skip()
         
-    def setValue(self, value):
-        self.object.setProperty(self.propertyName, value)
+    def setValue(self, value):        
         PropertyGrid.instance().OnChangePropertyValue(self.object, self.propertyName, value)
         
     def updateValue(self):
@@ -410,8 +410,11 @@ class PropertyGrid(wx.Panel):
         self.docPanel.Refresh()
         
     def OnChangePropertyValue(self, object, prop_name, value):
+        #str = "get('" + object.getAbsolutePath() + "')." + prop_name + " = (" + value.replace(' ', ',') + ")"
+        #CommandConsole.CommandConsole.instance().execute(str)
+        object.setProperty(prop_name, value)
         self.GetParent().Refresh(False)
     
-    @classmethod    
+    @classmethod
     def instance(self):
         return PropertyGrid.s_instance

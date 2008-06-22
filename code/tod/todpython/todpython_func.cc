@@ -2,7 +2,9 @@
 
 #include "tod/core/define.h"
 #include "tod/core/kernel.h"
+#include "tod/core/module.h"
 #include "tod/core/resourcemanager.h"
+#include "tod/core/xmlserializer.h"
 
 using namespace tod;
 
@@ -189,6 +191,88 @@ PyObject* TodPython_todprint(PyObject* self, PyObject* args)
 PyObject* TodPython_exit(PyObject* self, PyObject* args)
 {
     return 0;
+}
+
+
+//-----------------------------------------------------------------------------
+PyObject* TodPython_serialize(PyObject* self, PyObject* args)
+{
+    TodNode* o = 0;
+    char* uri = 0;
+    if (!PyArg_ParseTuple(args, "sO:serialize", &uri, &o))
+        return PyErr_Format(PyExc_Exception, "mismatch argument");
+
+    XmlSerializer s;
+    s.serialize(String(uri), o->node_);
+
+    Py_INCREF(Py_True);
+    return Py_True;
+}
+
+
+//-----------------------------------------------------------------------------
+PyObject* TodPython_deserialize(PyObject* self, PyObject* args)
+{
+    TodNode* o = 0;
+    char* uri = 0;
+    if (!PyArg_ParseTuple(args, "sO:serialize", &uri, &o))
+        return PyErr_Format(PyExc_Exception, "mismatch argument");
+
+    XmlSerializer s;
+    s.serialize(String(uri), o->node_);
+
+    Py_INCREF(Py_True);
+    return Py_True;
+}
+
+
+//-----------------------------------------------------------------------------
+PyObject* TodPython_getModuleList(PyObject* self, PyObject* args)
+{
+    PyObject* result = PyTuple_New(Kernel::instance()->getNumModules());
+
+    int i = 0;
+    for (Kernel::Modules::iterator m = Kernel::instance()->firstModule();
+         m != Kernel::instance()->lastModule(); ++m, ++i)
+    {
+        Module* module = m->second;
+        PyTuple_SET_ITEM(result, i,
+            PyString_FromString(
+                module->getName().toAnsiString().c_str()));
+    }
+
+    return result;
+}
+
+
+//-----------------------------------------------------------------------------
+PyObject* TodPython_getTypeList(PyObject* self, PyObject* args)
+{
+    char* module_name = 0;
+    if (!PyArg_ParseTuple(args, "s:getTypeList", &module_name))
+        return PyErr_Format(PyExc_Exception, "mismatch argument");
+
+    PyObject* result = 0;
+    Module* module = Kernel::instance()->findModule(String(module_name).c_str());
+    if (0 == module)
+    {
+        result = PyTuple_New(0);
+        return result;
+    }
+    else
+        result = PyTuple_New(module->getNumTypes());
+    
+    int i = 0;
+    for (Module::Types::iterator t = module->firstType();
+         t != module->lastType(); ++t, ++i)
+    {
+        const Type* type = t->second;
+        PyTuple_SET_ITEM(result, i,
+            PyString_FromString(type->getName().toAnsiString().c_str()));
+    }
+
+    return result;
+
 }
 
 /*PyObject* dict = PyModule_GetDict(g_module);

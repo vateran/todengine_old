@@ -103,6 +103,7 @@ technique BloomHPass
         VertexShader = compile vs_2_0 vsQuadMain();
         PixelShader  = compile ps_2_0 psBloomH();
         ZEnable = false;
+        CullMode = CCW;
     }
 }
 
@@ -114,6 +115,7 @@ technique BloomVPass
         VertexShader = compile vs_2_0 vsQuadMain();
         PixelShader  = compile ps_2_0 psBloomV();
         ZEnable = false;
+        CullMode = CCW;
     }
 }
 

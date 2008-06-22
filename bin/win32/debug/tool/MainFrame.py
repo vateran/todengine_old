@@ -88,6 +88,8 @@ class MainFrame(wx.Frame):
 
     def __init__(self, parent):
         self._init_ctrls(parent)
+        self.SetIcon(wx.Icon('data/tod.png', wx.BITMAP_TYPE_PNG))
+        
         self.auimgr = wx.aui.AuiManager()
         self.auimgr.SetManagedWindow(self)
         
@@ -124,12 +126,16 @@ class MainFrame(wx.Frame):
         #mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
         mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')'''
         
-        terrain = new('TerrainNode', '/usr/scene/terrain')
+        '''terrain = new('TerrainNode', '/usr/scene/terrain')
         terrain.heightmap_uri = 'managed://texture#hmap257x257.png'
         terrain.shader_uri = 'managed://shader#terrain.fx'
-        terrain.technique = 'Terrain'
+        terrain.technique = 'TerrainDebug'
         terrain.scaling = (1, 0.50, 1)
-        terrain.addTexture('DiffuseMap', 'managed://texture#Base_Texture_BigPoint.jpg')
+        terrain.addTexture('DiffuseMap', 'managed://texture#Base_Texture_BigPoint.jpg')'''
+
+        tree = new('TreeNode', '/usr/scene/tree')
+        tree.shader_uri = 'managed://shader#terrain.fx'
+        tree.technique = 'TerrainDebug'
         
         render_path = new('RenderPath', '/sys/server/renderpath')
         rpsection = new('RpSection', '/sys/server/renderpath/default')
@@ -219,7 +225,7 @@ class MainFrame(wx.Frame):
         self.nohTree.build('/')
         
         # CommandConsole
-        self.commandConsole = CommandConsole(self, wx.NewId(), wx.DefaultPosition, wx.Size(300, 50), 0)
+        self.commandConsole = CommandConsole(self, wx.NewId(), wx.DefaultPosition, wx.Size(300, 80), 0)
         
         # SceneView
         self.sceneView = SceneView(self)

@@ -237,7 +237,8 @@ void RpPass::bindProperty()
     BIND_PROPERTY(bool, draw_quad, &setDrawQuad, &isDrawQuad);
     BIND_PROPERTY(const Color&, clear_color, &setClearColor, &getClearColor);
     BIND_PROPERTY(float, clear_depth_value, &setClearDepthValue, &clearDepthValue);
-    BIND_PROPERTY(uint32_t, clear_stencil_value, &setClearStencilValue, &clearStencilValue);
+    BIND_PROPERTY(uint32_t, clear_stencil_value,
+        &setClearStencilValue, &clearStencilValue);
     BIND_PROPERTY(bool, clear_target, &setClearTarget, &isClearTarget);
     BIND_PROPERTY(bool, clear_depth, &setClearDepth, &isClearDepth);
     BIND_PROPERTY(bool, clear_stencil, &setClearStencil, &isClearStencil);

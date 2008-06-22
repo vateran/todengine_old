@@ -6,6 +6,13 @@ inline const Name& Module::getName() const
 
 
 //-----------------------------------------------------------------------------
+inline size_t Module::getNumTypes() const
+{
+    return types_.size();
+}
+
+
+//-----------------------------------------------------------------------------
 inline Module::Types::iterator Module::firstType()
 {
     return types_.begin();

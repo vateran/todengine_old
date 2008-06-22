@@ -126,6 +126,7 @@ technique ScenePass
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psOpaque();
         FillMode = Solid;
+        CullMode = CCW;
     }
 }
 
@@ -137,6 +138,7 @@ technique DownFilterPass
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psDownFilter();
         FillMode = Solid;
+        CullMode = CCW;
     }
 }
 
@@ -148,6 +150,7 @@ technique OpaqueQuadPass
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psOpaque();
         FillMode = Solid;
+        CullMode = CCW;
     }
 }
 
@@ -159,6 +162,7 @@ technique ComposeScenePass
         VertexShader = compile vs_2_0 vsQuad();
         PixelShader  = compile ps_2_0 psCompose();
         FillMode = Solid;
+        CullMode = CCW;
     }
 }
 
@@ -171,5 +175,6 @@ technique BrightPass
         PixelShader  = compile ps_2_0 psBrightPassFilter();
         ZEnable = false;
         FillMode = Solid;
+        CullMode = CCW;
     }
 }

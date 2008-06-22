@@ -503,6 +503,18 @@
 								>
 							</File>
 						</Filter>
+						<Filter
+							Name="treenode"
+							>
+							<File
+								RelativePath="..\..\code\tod\engine\treenode.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\treenode.h"
+								>
+							</File>
+						</Filter>
 					</Filter>
 					<Filter
 						Name="sceneserver"

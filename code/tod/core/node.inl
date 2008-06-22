@@ -13,13 +13,6 @@ inline int Node::getRef() const
 
 
 //-----------------------------------------------------------------------------
-inline void Node::setName(const name_t* name)
-{
-    name_ = name;
-}
-
-
-//-----------------------------------------------------------------------------
 inline void Node::setName(const Name& name)
 {
     setName(name.c_str());

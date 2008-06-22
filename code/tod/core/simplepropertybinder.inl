@@ -6,6 +6,7 @@ SimplePropertyBinder<TYPE, PROPERTY_TYPE>::SimplePropertyBinder():
     // empty
 }
 
+
 //-----------------------------------------------------------------------------
 template <typename TYPE, typename PROPERTY_TYPE>
 void SimplePropertyBinder<TYPE, PROPERTY_TYPE>::bind(Setter set, Getter get)

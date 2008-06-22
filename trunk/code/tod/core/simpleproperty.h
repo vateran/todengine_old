@@ -17,11 +17,11 @@ namespace tod
         virtual void set(Object* object, PROPERTY_TYPE value)=0;
         virtual PROPERTY_TYPE get(Object* object) const=0;
 
-        override type_id getType() const
-        {
-            return TypeId<PROPERTY_TYPE>::id();
-        }
+        override type_id getType() const;
     };
+
+#include "tod/core/simpleproperty.inl"
+
 }
 
 #endif // TOD_CORE_PROPERTY_SIMPLEPROPERTY_H

@@ -65,7 +65,7 @@ namespace engine
     private:
         typedef std::vector<ResourceRef<IndexBuffer> > IndexBuffers;
 
-    private:
+    public:
         IndexBuffers ibs_;
         IndexBuffers cibs_[JUNCTION_MAX];
 

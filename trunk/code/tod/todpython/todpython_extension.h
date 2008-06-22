@@ -55,5 +55,9 @@ extern PyObject* TodPython_pushCwn(PyObject* self, PyObject* args);
 extern PyObject* TodPython_popCwn(PyObject* self, PyObject* args);
 extern PyObject* TodPython_todprint(PyObject* self, PyObject* args);
 extern PyObject* TodPython_exit(PyObject* self, PyObject* args);
+extern PyObject* TodPython_serialize(PyObject* self, PyObject* args);
+extern PyObject* TodPython_deserialize(PyObject* self, PyObject* args);
+extern PyObject* TodPython_getModuleList(PyObject* self, PyObject* args);
+extern PyObject* TodPython_getTypeList(PyObject* self, PyObject* args);
 
 #endif // TOD_TODPYTHON_TODPYTHONFUNC_H

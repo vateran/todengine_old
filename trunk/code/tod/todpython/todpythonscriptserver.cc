@@ -15,8 +15,8 @@ INCLUDE_MODULE(TodPython);
 //-----------------------------------------------------------------------------
 static PyMethodDef TodPythonMethods[] =
 {   
-    { "resroot",  TodPython_resroot, METH_VARARGS, "create new TodObject" },
-    { "newobj",  TodPython_newobject, METH_VARARGS, "create new TodObject" },
+    { "resroot",  TodPython_resroot, METH_VARARGS, "set resource root" },
+    { "newobj",  TodPython_newobject, METH_VARARGS, "create new nonamed TodObject" },
     { "new",  TodPython_new, METH_VARARGS, "create new TodNode" },
     { "get",  TodPython_get, METH_VARARGS, "get TobObject from NOH" },
     { "delete",  TodPython_delete, METH_VARARGS, "delete TodNode" },
@@ -25,6 +25,14 @@ static PyMethodDef TodPythonMethods[] =
     { "popcwn",  TodPython_popCwn, METH_VARARGS, "pop current work node" },
     { "todprint",  TodPython_todprint, METH_VARARGS, "debug print" },
     { "exit",  TodPython_exit, METH_VARARGS, "exit application" },
+    { "serialize",  TodPython_serialize, METH_VARARGS,
+        "serialize objects to resource" },
+    { "deserialize",  TodPython_deserialize, METH_VARARGS, 
+        "deserialize objects from resource" },
+    { "getModuleList",  TodPython_getModuleList, METH_VARARGS, 
+       "get module list" },
+    { "getTypeList",  TodPython_getTypeList, METH_VARARGS, 
+      "get type list specified module name" },
     { NULL, NULL, 0, NULL }        /* Sentinel */
 };
 

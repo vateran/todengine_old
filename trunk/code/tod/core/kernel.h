@@ -21,6 +21,10 @@ namespace tod
     class Kernel : public Singleton<Kernel>
     {
     public:
+        typedef std::map<Name, Module*> Types;
+        typedef std::map<Name, Module*> Modules;
+
+    public:
         Kernel();
         ~Kernel();
 
@@ -34,12 +38,15 @@ namespace tod
 
         void addModule(Module* module);
         Module* findModule(const name_t* name);
+        Modules::iterator firstModule();
+        Modules::iterator lastModule();
+        Modules::const_iterator firstModule() const;
+        Modules::const_iterator lastModule() const;
+        size_t getNumModules() const;
 
         Node* getRoot();
 
-    private:
-        typedef std::map<Name, Module*> Types;
-        typedef std::map<Name, Module*> Modules;
+    private:        
         typedef std::stack<Node::RefNode> Cwn;
 
     private:

@@ -36,11 +36,12 @@ namespace tod
         void addType(const name_t* type_name, Type* type);
 
         const Name& getName() const;
+        size_t getNumTypes() const;
 
         Types::iterator firstType();
         Types::iterator lastType();
         Types::const_iterator firstType() const;
-        Types::const_iterator lastType() const;
+        Types::const_iterator lastType() const;        
 
     private:
         /// Module's name

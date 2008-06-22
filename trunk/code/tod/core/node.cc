@@ -37,6 +37,25 @@ int Node::release()
 
 
 //-----------------------------------------------------------------------------
+void Node::setName(const name_t* name)
+{
+    if (parent_)
+    {
+        // check node name where parent children nodes
+        Node* node = parent_->findChild(name);
+        if (node)
+            return;
+        Node* parent = parent_;
+        detach();
+        name_ = name;
+        parent->attach(this);
+    }
+    else
+        name_ = name;
+}
+
+
+//-----------------------------------------------------------------------------
 Path Node::getAbsolutePath()
 {
     std::stack<Node*> s;

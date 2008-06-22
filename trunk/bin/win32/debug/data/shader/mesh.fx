@@ -196,6 +196,7 @@ technique Mesh
         VertexShader = compile vs_2_0 MeshVertexShaderMain();
         PixelShader  = compile ps_2_0 MeshPixelShaderMain();
         FillMode = Solid;
+        CullMode = CCW;
     }
 }
 
@@ -206,6 +207,7 @@ technique EnvMapMesh
         VertexShader = compile vs_2_0 RenderEnvMapSceneVS();
         PixelShader  = compile ps_2_0 RenderEnvMapScenePS();
         FillMode = Solid;
+        CullMode = CCW;
     }
 }
 
@@ -217,5 +219,6 @@ technique SkyBox
         PixelShader  = compile ps_2_0 psSkyBoxMain();
         ZEnable = True;
         FillMode = Solid;
+        CullMode = CCW;
     }
 }

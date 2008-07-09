@@ -22,9 +22,9 @@ namespace engine
         TerrainTileSet();
         virtual~TerrainTileSet();
 
-        void draw();
+        void draw(const Vector3& offset);
 
-        void build(int col, int row, int split);
+        void build(int col, int row, int tile_size);
 
     private:
         void build_index(int col, int row, int max_lod, int split);

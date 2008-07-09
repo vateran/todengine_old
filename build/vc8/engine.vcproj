@@ -300,6 +300,18 @@
 						Name="frustum"
 						>
 					</Filter>
+					<Filter
+						Name="animation"
+						>
+						<File
+							RelativePath="..\..\code\tod\engine\bone.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\code\tod\engine\boneanimator.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="scene"
@@ -512,6 +524,18 @@
 							</File>
 							<File
 								RelativePath="..\..\code\tod\engine\treenode.h"
+								>
+							</File>
+						</Filter>
+						<Filter
+							Name="xfilenode"
+							>
+							<File
+								RelativePath="..\..\code\tod\engine\xfilenode.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\xfilenode.h"
 								>
 							</File>
 						</Filter>

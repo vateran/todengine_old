@@ -7,7 +7,7 @@
 #include "tod/core/module.h"
 #include "tod/core/cwnguard.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 class Sorceress : public Node

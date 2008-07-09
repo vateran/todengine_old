@@ -19,8 +19,9 @@ namespace tod
 
         static void initialize();
 
+        override bool run(const String& str);
         override bool run(
-            const char_t* str,
+            const String& str,
             Parameter* parameter);
         override bool run(const Uri& uri);
 

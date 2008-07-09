@@ -3,7 +3,7 @@
 
 #include "tod/core/unittest.h"
 
-class UtilityTestCase : public tod::core::unittest::TestCase<UtilityTestCase>
+class UtilityTestCase : public tod::TestCase<UtilityTestCase>
 {
 public:
     TODUNIT_BEGINE_TESTSUITE(UtilityTestCase)

@@ -97,7 +97,16 @@ TodPythonScriptServer::~TodPythonScriptServer()
 
 
 //-----------------------------------------------------------------------------
-bool TodPythonScriptServer::run(const char_t* str, Parameter* parameter)
+bool TodPythonScriptServer::run(const String& str)
+{
+    if (PyRun_SimpleString(str.toAnsiString().c_str()) == -1)
+        return false;
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodPythonScriptServer::run(const String& str, Parameter* parameter)
 {
     return false;
 }

@@ -204,9 +204,9 @@ void TerrainTile::computeLOD(const Vector3& camera_pos, int lod, float step)
 
     for (int i = 0; i < lod; ++i)
     {
-        if (dist_to_camera < i * step)
+        if (dist_to_camera < (i + 1) * step)
         {
-            lod_ = i ;
+            lod_ = i;
             return;
         }
     }

@@ -37,11 +37,9 @@ namespace engine
     private:
         typedef ResourceRef<T> RefType;
         typedef std::map<Uri, RefType> NamedResources;
-        typedef std::list<RefType> UnnamedResources;
 
     private:
         NamedResources namedResources_;
-        UnnamedResources unnamedResources_;
     };
 
 #include "tod/engine/resourceholder.inl"

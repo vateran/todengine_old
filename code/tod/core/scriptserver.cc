@@ -5,7 +5,13 @@ using namespace tod;
 IMPLEMENT_CLASS(ScriptServer, Node);
 
 //-----------------------------------------------------------------------------
-bool ScriptServer::run(const char_t* str, Parameter* parameter)
+bool ScriptServer::run(const String& str)
+{
+    return false;
+}
+
+//-----------------------------------------------------------------------------
+bool ScriptServer::run(const String& str, Parameter* parameter)
 {
     return false;
 }

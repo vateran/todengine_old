@@ -23,11 +23,14 @@ TerrainTileSet::~TerrainTileSet()
 
 
 //-----------------------------------------------------------------------------
-void TerrainTileSet::build(int col, int row, int split)
+void TerrainTileSet::build(int col, int row, int tile_size)
 {
     col_ = col;
     row_ = row;
-    split_ = split;
+
+    split_ = col / tile_size;
+    if (split_ == 0)
+        split_ = 1;
 
     // compute max level of detail
     maxLOD_ = compute_max_lod_level(tod_min(col, row), split_);
@@ -37,12 +40,14 @@ void TerrainTileSet::build(int col, int row, int split)
 
 
 //-----------------------------------------------------------------------------
-void TerrainTileSet::draw()
+void TerrainTileSet::draw(const Vector3& offset)
 {
     // get view transform matrix
     Matrix44 v = Renderer::instance()->getTransform(TRANSFORM_VIEW);
     v.inverse();
-    Vector3 camera_pos = v.getTranslation();
+    Vector3 look(v.m31_, v.m32_, v.m33_);
+    //Vector3 camera_pos = ((look * 10) + v.getTranslation()) - offset;
+    Vector3 camera_pos = v.getTranslation() - offset;
 
     // compute Level of Details for each tiles in TerrainTileSet
     for (Tiles::iterator tile = tiles_.begin();
@@ -114,6 +119,8 @@ void TerrainTileSet::build_index(int col, int row, int max_lod, int split)
 //-----------------------------------------------------------------------------
 int TerrainTileSet::compute_max_lod_level(int size, int split)
 {
+    if (split == 0)
+        return 0;
     int max_lod = 1;
     size /= split;
     for (; size > 1; ++max_lod, size /= 2);

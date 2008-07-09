@@ -2,7 +2,7 @@
 template <typename T>
 bool ResourceHolder<T>::empty() const
 {
-    return namedResources_.empty() && unnamedResources_.empty();
+    return namedResources_.empty();
 }
 
 
@@ -10,7 +10,7 @@ bool ResourceHolder<T>::empty() const
 template <typename T>
 size_t ResourceHolder<T>::size() const
 {
-    return namedResources_.size() + unnamedResources_.size();
+    return namedResources_.size();
 }
 
 
@@ -19,7 +19,6 @@ template <typename T>
 void ResourceHolder<T>::clear()
 {
     namedResources_.clear();
-    unnamedResources_.clear();
 }
 
 
@@ -29,9 +28,8 @@ void ResourceHolder<T>::add(Resource* r)
 {
     tod_assert(r);
     if (r->getUri().empty())
-        unnamedResources_.push_back(r);
-    else
-        namedResources_.insert(NamedResources::value_type(r->getUri(), r));
+        return;
+    namedResources_.insert(NamedResources::value_type(r->getUri(), r));
 }
 
 

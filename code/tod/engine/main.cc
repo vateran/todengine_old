@@ -26,6 +26,7 @@
 #include "tod/engine/terrainnode.h"
 #include "tod/engine/treenode.h"
 #include "tod/engine/quadtree.h"
+#include "tod/engine/xfilenode.h"
 
 #include "tod/engine/formatstringconverter.h"
 
@@ -54,6 +55,7 @@ void initialize_Engine(Module* module)
     REGISTER_TYPE(module, TerrainNode);
     REGISTER_TYPE(module, TreeNode);
     REGISTER_TYPE(module, QuadTree::Element);
+    REGISTER_TYPE(module, XFileNode);
 
     TimeServer::setSingletonPath(STRING("/sys/server/time"));
     Renderer::setSingletonPath(STRING("/sys/server/renderer"));

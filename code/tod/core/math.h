@@ -6,7 +6,7 @@
 #define tod_min(a,b)    (((a) < (b)) ? (a) : (b))
 #define tod_max(a,b)    (((a) > (b)) ? (a) : (b))
 #define tod_abs(a)      (((a) < 0.0f) ? (-(a)) : (a))
-#define tod_tiny        (0.0000001f)
+#define tod_tiny        (0.00001f)
 
 //-----------------------------------------------------------------------------
 template <typename T>

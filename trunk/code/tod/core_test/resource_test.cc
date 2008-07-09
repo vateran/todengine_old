@@ -12,7 +12,7 @@
 #include "tod/core/resource.h"
 #include "tod/core/resourcemanager.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 void ResourceTestCase::test_Uri_split()

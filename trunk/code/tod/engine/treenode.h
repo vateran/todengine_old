@@ -7,6 +7,7 @@
 */
 
 #include "tod/engine/shapenode.h"
+#include "tod/engine/resourceref.h"
 
 namespace tod
 {
@@ -26,6 +27,9 @@ namespace engine
         override bool loadResource();
         override void unloadResource();
         override bool hasGeometry() const;
+
+    private:
+
     };
 }
 }

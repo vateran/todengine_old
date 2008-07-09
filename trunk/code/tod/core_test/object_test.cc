@@ -14,7 +14,7 @@
 #include "tod/core/containerproperty.h"
 #include "tod/core/methodbinder.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 class Super : public Object

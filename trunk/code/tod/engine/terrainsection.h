@@ -24,16 +24,16 @@ namespace engine
 
         void use();
 
-        bool build(const Uri& uri, const Vector3& scale, int split);
-
-        int getWidth() const { return hmap_.width(); }
-        int getHeight() const { return hmap_.height(); }
-    
+        bool build(int col, int row, const Vector3& scale);
+        
     private:
-        Image hmap_;
-    
         ResourceRef<VertexBuffer> vb_;
+
+        int col_;
+        int row_;
     };
+
+    typedef std::vector<TerrainSection> TerrainSections;
 }
 }
 

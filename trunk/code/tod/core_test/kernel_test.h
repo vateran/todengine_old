@@ -3,7 +3,7 @@
 
 #include "tod/core/unittest.h"
 
-class KernelTestCase : public tod::core::unittest::TestCase<KernelTestCase>
+class KernelTestCase : public tod::TestCase<KernelTestCase>
 {
 public:
     TODUNIT_BEGINE_TESTSUITE(KernelTestCase)

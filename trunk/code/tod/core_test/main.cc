@@ -5,7 +5,6 @@
 #include "tod/core/singletonserver.h"
 
 using namespace tod;
-using namespace tod::core;
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[])
@@ -13,7 +12,7 @@ int main(int argc, char* argv[])
     _CrtSetDbgFlag (_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF );
     //_CrtSetBreakAlloc(428);
 
-    tod::core::unittest::TestSuite test_suite;
+    tod::TestSuite test_suite;
 
     test_suite.addTestCase<ObjectTestCase>();
     test_suite.addTestCase<ResourceTestCase>();

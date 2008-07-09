@@ -6,7 +6,8 @@ using namespace tod;
 using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
-TerrainSection::TerrainSection()
+TerrainSection::TerrainSection():
+col_(0), row_(0)
 {
     // empty
 }
@@ -15,23 +16,21 @@ TerrainSection::TerrainSection()
 //-----------------------------------------------------------------------------
 TerrainSection::~TerrainSection()
 {
-    // empty
+    vb_.release();
 }
 
 
 //-----------------------------------------------------------------------------
-bool TerrainSection::build(const Uri& uri, const Vector3& scale, int split)
+bool TerrainSection::build(int col, int row, const Vector3& scale)
 {
     if (vb_.invalid())
         vb_ = Renderer::instance()->newVertexBuffer();
 
-    // load height map image
-    hmap_.setUri(uri);
-    if (!hmap_.preload())
-        return false;
+    col_ = col;
+    row_ = row;
 
     vb_->destroy();
-    vb_->create(hmap_.width() * hmap_.height(),
+    vb_->create(col_ * row_,
         VERTEXCOMPONENT_COORD  |
         VERTEXCOMPONENT_NORMAL |
         VERTEXCOMPONENT_UV0, 0);
@@ -47,17 +46,17 @@ bool TerrainSection::build(const Uri& uri, const Vector3& scale, int split)
     if (!vb_->lock((void*&)vbptr))
         return false;
 
-    float width = static_cast<float>(hmap_.width());
-    float height = static_cast<float>(hmap_.height());
-    for (int h = 0; h < hmap_.height(); ++h)
+    float width = static_cast<float>(col_);
+    float height = static_cast<float>(row_);
+    for (int h = 0; h < col_; ++h)
     {
-        for (int w = 0; w < hmap_.width(); ++w)
+        for (int w = 0; w < row_; ++w)
         {
-            Color c = hmap_.getPixel(w, h);
-
             vbptr->coord_.x_ = (w - width / 2) * scale.x_;
             vbptr->coord_.z_ = -(h - height / 2) * scale.z_;
-            vbptr->coord_.y_ = c.r_ * scale.y_;
+
+            if (w == 4 && h == 2)
+                vbptr->coord_.y_ = 2;
 
             vbptr->normal_ = vbptr->coord_;
             vbptr->normal_.normalize();

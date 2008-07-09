@@ -9,7 +9,8 @@ using namespace tod::engine;
 IMPLEMENT_CLASS(TerrainNode, ShapeNode);
 
 //-----------------------------------------------------------------------------
-TerrainNode::TerrainNode()
+TerrainNode::TerrainNode():
+col_(1), row_(1)
 {
     // empty
 }
@@ -34,21 +35,23 @@ void TerrainNode::applyGeometry(SceneServer* scene_server)
 void TerrainNode::renderGeometry
 (SceneServer* scene_server, SceneContext* scene_context)
 {
-    ts_.use();
-    tts_.draw();
+    terrainSection_.use();
+    terrain_.draw(Vector3(0, 0, 0));
 }
 
 
 //-----------------------------------------------------------------------------
+int tile_col = 65;
+int tile_row = 65;
 bool TerrainNode::loadResource()
 {
     super::loadResource();
     
     if (heightMapUri_.size())
     {
-        int split = 8;
-        ts_.build(heightMapUri_, Vector3(1, 1, 1), split);
-        tts_.build(ts_.getWidth(), ts_.getHeight(), split);
+        int tile_size = 32;        
+        terrain_.build(tile_col, tile_row, tile_size);
+        terrainSection_.build(tile_col, tile_row, Vector3(1, 1, 1));
     }
     
     return true;

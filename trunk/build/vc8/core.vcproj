@@ -159,6 +159,10 @@
 				RelativePath="..\..\code\tod\core\scriptserver.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\tod\core\scriptserver_method.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="resource"

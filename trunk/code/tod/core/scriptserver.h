@@ -20,10 +20,13 @@ namespace tod
     public:
         DECLARE_CLASS(ScriptServer, Node);
 
+        virtual bool run(const String& str);
         virtual bool run(
-            const char_t* str,
+            const String& str,
             Parameter* parameter);
         virtual bool run(const Uri& uri);
+
+        static void bindMethod();
     };
 }
 

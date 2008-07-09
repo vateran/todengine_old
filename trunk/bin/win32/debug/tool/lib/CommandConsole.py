@@ -54,10 +54,11 @@ class CommandConsole(wx.Panel):
         wx.Panel.__init__(self, parent, id, pos, size, style)
         self._init_ctrls(parent)
         
-    def execute(self, command):
-        self.scriptText.AppendText(command + '\n')
-        code = compile(command, '<string>', 'exec')
-        exec(code)
+        self.script = get('/sys/server/script/python')
+        
+    def execute(self, command):        
+        if self.script.run(str(command)):
+            self.scriptText.AppendText(command + '\n')
         
     def OnCommandLineTextEnter(self, event):
         self.execute(self.commandLine.GetValue())

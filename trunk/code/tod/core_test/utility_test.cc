@@ -3,7 +3,7 @@
 #include "tod/core/string.h"
 #include "tod/core/enumeration.h"
 
-using namespace tod::core;
+using namespace tod;
 
 //-----------------------------------------------------------------------------
 void UtilityTestCase::test_String()

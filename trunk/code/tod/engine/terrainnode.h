@@ -10,8 +10,8 @@
 #include "tod/engine/resourceref.h"
 #include "tod/engine/shapenode.h"
 #include "tod/engine/vertexbuffer.h"
+#include "tod/engine/terrain.h"
 #include "tod/engine/terrainsection.h"
-#include "tod/engine/terraintileset.h"
 
 namespace tod
 {
@@ -39,8 +39,11 @@ namespace engine
 
     private:
         Uri heightMapUri_;
-        TerrainSection ts_;
-        TerrainTileSet tts_;
+        Terrain terrain_;        
+        TerrainSection terrainSection_;
+
+        int col_;
+        int row_;
     };
 }
 }

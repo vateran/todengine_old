@@ -3,7 +3,7 @@
 
 #include "tod/core/unittest.h"
 
-class ResourceTestCase : public tod::core::unittest::TestCase<ResourceTestCase>
+class ResourceTestCase : public tod::TestCase<ResourceTestCase>
 {
 public:
     TODUNIT_BEGINE_TESTSUITE(ResourceTestCase)

@@ -26,7 +26,7 @@ namespace engine
 
         bool build(int col, int row, const Vector3& scale);
         
-    private:
+    public:
         ResourceRef<VertexBuffer> vb_;
 
         int col_;

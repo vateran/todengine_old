@@ -25,7 +25,7 @@ CameraNode::~CameraNode()
 //-----------------------------------------------------------------------------
 void CameraNode::renderCamera(SceneServer* scene_server)
 {
-    projection_.perspectiveFovLH(3.14f/4.0f, 1.0f, 1.0f, 10000.0f);
+    projection_.perspectiveFovLH(3.14f/4.0f, 1.3333f, 0.1f, 1000.0f);
     view_ = camera_.getMatrix();
     //view_.inverse();
 

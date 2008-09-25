@@ -24,7 +24,7 @@ namespace engine
         DECLARE_CLASS(TriggerServer, Node);
 
         void add(Node* node, Time period);
-        void remove(Node* node);
+        void remove(Node* node);        
 
         override bool trigger();
 

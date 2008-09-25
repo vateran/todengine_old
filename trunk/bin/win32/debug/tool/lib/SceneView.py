@@ -16,6 +16,11 @@ class SceneViewPanel(wx.Panel):
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown, id=self.GetId())
         
     def OnPaint(self, event):
+        mstat = wx.GetMouseState()
+        x, y = self.ScreenToClient((mstat.GetX(), mstat.GetY()))
+        if mstat.LeftDown():
+            self.sceneView.pick(x, y)
+
         dc = wx.PaintDC(self)
         dc.SetBackgroundMode(wx.TRANSPARENT)
         self.sceneView.render()
@@ -29,13 +34,11 @@ class SceneViewPanel(wx.Panel):
                 delta_y = y - self.prev[1]
                 self.camera.eulerRotateX((float)(delta_y) / 100)
                 self.camera.eulerRotateY(-(float)(delta_x) / 100)
-                self.sceneView.render()        
             if event.RightIsDown():
                 delta_x = self.prev[0] - x
                 delta_y = self.prev[1] - y
                 self.camera.moveForward((float)(delta_y) / 100)
                 self.camera.moveLeft((float)(delta_x) / 100)
-                self.sceneView.render()
         self.prev = (x, y)
     
     def OnKeyDown(self, event):
@@ -49,7 +52,6 @@ class SceneViewPanel(wx.Panel):
             self.camera.moveLeft(dist)
         if kc == wx.WXK_RIGHT or kc == 68:
             self.camera.moveRight(dist)
-        self.sceneView.render()
         
     def setCamera(self, camera):
         self.camera = camera
@@ -63,4 +65,13 @@ class SceneView(wx.aui.AuiNotebook):
         panel = SceneViewPanel(self)
         panel.setCamera(camera)
         self.AddPage(panel, title)
+
+    def update(self):
+        s = self.GetPageCount()
+        i = 0
+        while i < s:
+            page = self.GetPage(i)
+            page.Refresh(False)
+            i = i + 1
+
 

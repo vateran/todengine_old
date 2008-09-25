@@ -31,6 +31,8 @@ namespace engine
         override bool draw(PrimitiveType type, int num=-1);
 
         override bool valid() const;
+
+        override uint32_t getNumIndices() const;
         
         override void onLostDevice();
         override void onRestoreDevice();

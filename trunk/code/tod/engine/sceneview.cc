@@ -67,6 +67,13 @@ int SceneView::getWindowId() const
 
 
 //-----------------------------------------------------------------------------
+void SceneView::pick(int x, int y)
+{
+    SceneServer::instance()->pick(x, y);
+}
+
+
+//-----------------------------------------------------------------------------
 void SceneView::moveForward(float dst)
 {
     camera_.translateZ(dst);

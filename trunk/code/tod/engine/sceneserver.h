@@ -41,6 +41,8 @@ namespace engine
         void renderCameraScenes();
         void doRenderPath(const Name& section_name);
 
+        void pick(int x, int y);
+
         /**
             @brief Set CURRENT Group's model transform.
             This method will be called by SceneNode's renderTransform() method.

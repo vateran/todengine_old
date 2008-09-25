@@ -700,7 +700,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\tod\core\vector3.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\tod\core\vector3.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\vector3.inl"
 				>
 			</File>
 			<File

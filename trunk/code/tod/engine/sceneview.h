@@ -33,6 +33,8 @@ namespace engine
         void setWindowId(int window_id);
         int getWindowId() const;
 
+        void pick(int x, int y);
+
         void moveForward(float dst);
         void moveLeft(float dst);
         void moveRight(float dst);

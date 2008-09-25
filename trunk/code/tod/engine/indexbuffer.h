@@ -39,6 +39,8 @@ namespace engine
         virtual bool valid() const=0;
         bool invalid() const { return !valid(); }
 
+        virtual uint32_t getNumIndices() const=0;
+
         virtual void onLostDevice()=0;
         virtual void onRestoreDevice()=0;
     };

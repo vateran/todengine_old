@@ -28,6 +28,7 @@ class BoaApp(wx.App):
         return True
     
     def update(self, event_loop):
+        self.main.update()
         while event_loop.Pending():
             event_loop.Dispatch()
         self.ProcessIdle()
@@ -39,7 +40,7 @@ class BoaApp(wx.App):
         while self.keepGoing_:
             self.update(event_loop)
             self.triggerServer.trigger()
-            time.sleep(0)
+            time.sleep(0.001)
         wx.EventLoop.SetActive(old)
 
 def main():

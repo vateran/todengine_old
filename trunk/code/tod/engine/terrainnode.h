@@ -31,6 +31,7 @@ namespace engine
         override bool loadResource();
         override void unloadResource();
         override bool hasGeometry() const;
+        override void pick(int x, int y);
 
         void setHeightMapUri(const Uri& uri);
         const Uri& getHeightMapUri() const;
@@ -41,6 +42,8 @@ namespace engine
         Uri heightMapUri_;
         TerrainTileSet terrain_;        
         TerrainSection terrainSection_;
+
+        ResourceRef<VertexBuffer> vb_;
 
         int col_;
         int row_;

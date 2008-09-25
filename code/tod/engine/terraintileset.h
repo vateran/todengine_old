@@ -30,10 +30,10 @@ namespace engine
         void build_index(int col, int row, int max_lod, int split);
         int compute_max_lod_level(int size, int split);
 
-    private:
+    public:
         typedef std::vector<TerrainTile> Tiles;
 
-    private:
+    public:
         int col_;
         int row_;
         int split_;

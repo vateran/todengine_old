@@ -55,14 +55,11 @@ bool TerrainSection::build(int col, int row, const Vector3& scale)
             vbptr->coord_.x_ = (w - width / 2) * scale.x_;
             vbptr->coord_.z_ = -(h - height / 2) * scale.z_;
 
-            if (w == 4 && h == 2)
-                vbptr->coord_.y_ = 2;
-
             vbptr->normal_ = vbptr->coord_;
             vbptr->normal_.normalize();
 
-            vbptr->u_ = w / width;
-            vbptr->v_ = h / height;
+            vbptr->u_ = w / width * 16;
+            vbptr->v_ = h / height * 16;
 
             ++vbptr;
         }

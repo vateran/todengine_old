@@ -110,6 +110,8 @@ namespace engine
         bool isResourceValid() const { return resourceValid_; }
         bool isResourceInvalid() const { return !resourceValid_; }
 
+        virtual void pick(int x, int y) {}
+
     protected:
         bool resourceValid_;
     };

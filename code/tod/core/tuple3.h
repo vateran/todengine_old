@@ -53,6 +53,10 @@ namespace tod
             y_ /= l;
             z_ /= l;
         }
+        float dotprod(const type& v)
+        {
+            return (x_ * v.x_ + y_ * v.y_ + z_ * v.z_);
+        }
         void cross(const type& v2)
         {
             type v1(*this);

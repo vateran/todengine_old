@@ -9,6 +9,7 @@ from lib.NOHTree import *
 from lib.PropertyGrid import *
 from lib.SceneView import *
 from lib.CommandConsole import *
+from lib.TerrainEditTool import *
 
 def create(parent):
     return MainFrame(parent)
@@ -98,7 +99,7 @@ class MainFrame(wx.Frame):
         time_server = new('TimeServer', '/sys/server/time')
         trigger_server.add(time_server, 0)
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
-        self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        self.renderer.setDisplayMode('w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
         
         camera = new('CameraNode', '/usr/scene/camera')
@@ -131,7 +132,7 @@ class MainFrame(wx.Frame):
         terrain.shader_uri = 'managed://shader#terrain.fx'
         terrain.technique = 'TerrainDebug'
         terrain.scaling = (1, 0.50, 1)
-        terrain.addTexture('DiffuseMap', 'managed://texture#Base_Texture_BigPoint.jpg')
+        terrain.addTexture('DiffuseMap', 'managed://texture#grass.jpg')
 
         tree = new('TreeNode', '/usr/scene/tree')
         tree.shader_uri = 'managed://shader#terrain.fx'
@@ -231,6 +232,9 @@ class MainFrame(wx.Frame):
         # CommandConsole
         self.commandConsole = CommandConsole(self, wx.NewId(), wx.DefaultPosition, wx.Size(300, 80), 0)
         
+        # TerrainEditTool
+        self.terrainEditTool = TerrainEditTool(self)
+        
         # SceneView
         self.sceneView = SceneView(self)
         self.sceneView.addViewPanel('Perspective View', get('/usr/scene/camera'))
@@ -245,6 +249,8 @@ class MainFrame(wx.Frame):
             Caption('Property').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
         self.auimgr.AddPane(self.commandConsole, wx.aui.AuiPaneInfo().
             Caption('Command Console').Dockable(True).Bottom().CloseButton(True).MinimizeButton(True))
+        self.auimgr.AddPane(self.terrainEditTool, wx.aui.AuiPaneInfo().MinSize(wx.Size(50, 50)).
+            Caption('Terrain Edit Tool').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
         self.auimgr.AddPane(self.sceneView, wx.aui.AuiPaneInfo().
             Caption('Render View').Center().CloseButton(False))
         
@@ -256,4 +262,7 @@ class MainFrame(wx.Frame):
     def OnMainFrameClose(self, event):
         self.app.keepGoing_ = False
         self.Destroy()
+
+    def update(self):
+        self.sceneView.update()
  

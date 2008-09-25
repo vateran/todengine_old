@@ -150,6 +150,13 @@ bool D3D9IndexBuffer::valid() const
 
 
 //-----------------------------------------------------------------------------
+uint32_t D3D9IndexBuffer::getNumIndices() const
+{
+    return numIndices_;
+}
+
+
+//-----------------------------------------------------------------------------
 void D3D9IndexBuffer::onLostDevice()
 {
     // not implement

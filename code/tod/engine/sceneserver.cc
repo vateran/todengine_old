@@ -269,6 +269,27 @@ void SceneServer::doRenderPath(const Name& section_name)
 
 
 //-----------------------------------------------------------------------------
+void SceneServer::pick(int x, int y)
+{
+    // find RpSection
+    RpSection* section = RenderPath::instance()->findSection(STRING("default"));
+
+    // iteration RpPasses of RpSection
+    for (uint32_t pass_index = 0; pass_index < section->getNumPass();
+        ++pass_index)
+    {
+        Shapes::array_type shapes = shapes_[pass_index];
+        for (size_t shape_index = 0; shape_index < shapes.size(); ++shape_index)
+        {
+            Group& group = groups_[shapes[shape_index]];
+            SceneNode* scene_node = group.sceneNode_;
+            scene_node->pick(x, y);            
+        }
+    }
+}
+
+
+//-----------------------------------------------------------------------------
 void SceneServer::setModelTransform(const Matrix44& m)
 {
     groups_.back().modelTransform_ = m;

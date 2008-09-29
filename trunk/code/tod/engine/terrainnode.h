@@ -41,10 +41,30 @@ namespace engine
         override void pick(int x, int y, int w, int h);
 
         void pick(int x, int y, int w, int h, PickInfo* info);
+
+        void makeKernel(int radius, float strength, float softness);
         void raise(int x, int y, int w, int h);
+        void lower(int x, int y, int w, int h);
+        void computeNormal();
 
         void setHeightMapUri(const Uri& uri);
         const Uri& getHeightMapUri() const;
+
+        void setTerrainSize(int s);
+        int getTerrainSize() const;
+
+
+
+        void setTexture(const Uri& uri);
+        const Uri& getTexture() const;
+        Uri diffuseUri_;
+
+        void setUVRepeat(int s) { uvRepeat_ = s; unloadResource(); }
+        int getUVRepeat() const { return uvRepeat_; }
+        int uvRepeat_;
+
+
+
 
         static void bindProperty();
         static void bindMethod();
@@ -55,6 +75,7 @@ namespace engine
         TerrainSection terrainSection_;
 
         ResourceRef<VertexBuffer> vb_;
+        std::vector<std::vector<float> > kernel_;
 
         int col_;
         int row_;

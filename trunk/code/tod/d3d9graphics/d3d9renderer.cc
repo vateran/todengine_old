@@ -195,6 +195,7 @@ void D3D9Renderer::setDisplayMode(const DisplayMode& display_mode)
     }
         
     d3dpp_.BackBufferFormat = D3DFMT_UNKNOWN;
+    d3dpp_.BackBufferCount = 1;
     if (display_mode.isVSync())
         d3dpp_.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
     else
@@ -312,9 +313,14 @@ Shader* D3D9Renderer::getShader()
 void D3D9Renderer::setTransform(Transform type, const Matrix44& m)
 {
     super::setTransform(type, m);
-    d3d9device_->SetTransform(
-        static_cast<D3DTRANSFORMSTATETYPE>(type),
-        reinterpret_cast<CONST D3DMATRIX*>(&m));
+
+    D3DTRANSFORMSTATETYPE tt = static_cast<D3DTRANSFORMSTATETYPE>(type);
+    if (TRANSFORM_WORLD == type)
+    {
+        return;
+        tt = D3DTS_WORLD;
+    }
+    d3d9device_->SetTransform(tt, reinterpret_cast<CONST D3DMATRIX*>(&m));
 }
 
 

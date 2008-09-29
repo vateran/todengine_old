@@ -102,7 +102,7 @@ class MainFrame(wx.Frame):
         time_server = new('TimeServer', '/sys/server/time')
         trigger_server.add(time_server, 0)
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
-        self.renderer.setDisplayMode('w[1024]h[768]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
         
         camera = new('CameraNode', '/usr/scene/camera')
@@ -110,36 +110,36 @@ class MainFrame(wx.Frame):
         camera.shader_uri = 'managed://shader#camera.fx'
         camera.translation = (0, 6.0, 6.0)
         
-        '''mesh = new('MeshNode', '/usr/scene/tiger')
+        mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'EnvMapMesh'
         mesh.scaling = (0.3, 0.3, 0.3)
-        mesh.translation = (0, -1, 0)
+        mesh.translation = (0, 10, 0)
         mesh.mesh_uri = 'managed://mesh#skullocc.x'
         #mesh.addTexture('EnvMap', 'managed://texture#uffizi_cross.dds')
         mesh.addCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')
         
         mesh = new('MeshNode', '/usr/scene/camera/skybox')
         mesh.euler_rotation = (0, 0, 0)
-        mesh.scaling = (3, 3, 3)
+        mesh.scaling = (50, 50, 50)
         mesh.translation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'SkyBox'
         mesh.mesh_uri = 'managed://mesh#alley_skybox.x'
-        #mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
-        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')'''
+        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
+        #mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')
         
         terrain = new('TerrainNode', '/usr/scene/terrain')
         terrain.heightmap_uri = 'managed://texture#hmap5x5_tile.png'
         terrain.shader_uri = 'managed://shader#terrain.fx'
-        terrain.technique = 'TerrainDebug'
+        terrain.technique = 'Terrain'
         terrain.scaling = (1, 0.50, 1)
         terrain.addTexture('DiffuseMap', 'managed://texture#grass.jpg')
 
         tree = new('TreeNode', '/usr/scene/tree')
         tree.shader_uri = 'managed://shader#terrain.fx'
-        tree.technique = 'TerrainDebug'
+        tree.technique = 'Terrain'
 
         x = new('TreeNode', '/usr/scene/xesh')
         x.shader_uri = 'managed://shader#mesh.fx'

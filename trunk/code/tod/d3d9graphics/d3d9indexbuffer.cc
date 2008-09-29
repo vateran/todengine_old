@@ -9,7 +9,7 @@ using namespace tod::engine;
 //-----------------------------------------------------------------------------
 D3D9IndexBuffer::D3D9IndexBuffer
 (const Uri& uri, IDirect3DDevice9* d3d9device):
-IndexBuffer(uri), d3d9device_(d3d9device), d3d9ib_(0)
+IndexBuffer(uri), d3d9device_(d3d9device), d3d9ib_(0), lockOption_(0)
 {
     d3d9device_->AddRef();
 }
@@ -105,7 +105,7 @@ bool D3D9IndexBuffer::use()
 
 
 //-----------------------------------------------------------------------------
-bool D3D9IndexBuffer::draw(PrimitiveType type, int num)
+bool D3D9IndexBuffer::draw(PrimitiveType type, int num_vertice, int num)
 {
     tod_assert(d3d9device_);
     tod_assert(d3d9ib_);
@@ -136,7 +136,7 @@ bool D3D9IndexBuffer::draw(PrimitiveType type, int num)
     
     if (FAILED(d3d9device_->DrawIndexedPrimitive(
         static_cast<D3DPRIMITIVETYPE>(type),
-        0, 0, numIndices_, 0, num_primitive)))
+        0, 0, num_vertice, 0, num_primitive)))
         return false;
     return true;
 }

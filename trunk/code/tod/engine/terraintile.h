@@ -70,6 +70,7 @@ namespace engine
         IndexBuffers cibs_[JUNCTION_MAX];
 
         int lod_;
+        int numVertices_;
         Vector3 center_;
     };
 

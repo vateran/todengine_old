@@ -11,7 +11,7 @@ IMPLEMENT_CLASS(TerrainNode, ShapeNode);
 
 //-----------------------------------------------------------------------------
 TerrainNode::TerrainNode():
-col_(1), row_(1)
+col_(33), row_(33), uvRepeat_(16)
 {
     // empty
 }
@@ -38,15 +38,10 @@ void TerrainNode::renderGeometry
 {
     terrainSection_.use();
     terrain_.draw(Vector3(0, 0, 0));
-
-    vb_->use();
-    vb_->draw(PRIMITIVETYPE_TRIANGLELIST);
 }
 
 
 //-----------------------------------------------------------------------------
-int tile_col = 33;
-int tile_row = 33;
 bool TerrainNode::loadResource()
 {
     super::loadResource();
@@ -54,16 +49,8 @@ bool TerrainNode::loadResource()
     if (heightMapUri_.size())
     {
         int tile_size = 32;        
-        terrain_.build(tile_col, tile_row, tile_size);
-        terrainSection_.build(tile_col, tile_row, Vector3(1, 1, 1));
-
-        if (vb_.invalid())
-            vb_ = Renderer::instance()->newVertexBuffer();
-        vb_->destroy();
-        vb_->create(3,
-            VERTEXCOMPONENT_COORD  |
-            VERTEXCOMPONENT_NORMAL |
-            VERTEXCOMPONENT_COLOR, USAGE_DYNAMIC);
+        terrain_.build(col_, row_, tile_size);
+        terrainSection_.build(col_, row_, Vector3(1, 1, 1), uvRepeat_);
     }
     
     return true;
@@ -85,8 +72,6 @@ bool TerrainNode::hasGeometry() const
 
 
 //-----------------------------------------------------------------------------
-
-
 #include <windows.h>
 void TerrainNode::pick(int x, int y, int w, int h)
 {   
@@ -99,6 +84,8 @@ struct Vertex
     float u_, v_;
 };
 
+
+//-----------------------------------------------------------------------------
 void TerrainNode::pick(int x, int y, int w, int h, PickInfo* info)
 {
     int screen_w = w;
@@ -127,13 +114,12 @@ void TerrainNode::pick(int x, int y, int w, int h, PickInfo* info)
     pick_ray_orig.y_ = wv.m42_;
     pick_ray_orig.z_ = wv.m43_;
 
-    TerrainTileSet::Tiles& tiles = terrain_.tiles_;
-
-    Vertex* vbptr = 0;
-    terrainSection_.vb_->lock((void*&)vbptr);
+    TerrainTileSet::Tiles& tiles = terrain_.tiles_;    
     float min_dist = 1000000;
-
     Vertex* picked = 0;
+
+    Vertex* vbptr = 0;    
+    terrainSection_.vb_->lock((void*&)vbptr);
 
     for (int h = 0; h < terrain_.split_; ++h)
     {
@@ -145,7 +131,7 @@ void TerrainNode::pick(int x, int y, int w, int h, PickInfo* info)
             uint16_t* ibptr = 0;
             ib->lock((void*&)ibptr);
 
-            for (uint32_t i = 0; i < ib->getNumIndices() - 2; ++i)
+            for (uint32_t i = 0; i < ib->getNumIndices() - 3; ++i)
             {
                 Vector3 v0 = vbptr[ibptr[i]].coord_;
                 Vector3 v1 = vbptr[ibptr[i + 1]].coord_;
@@ -174,6 +160,27 @@ void TerrainNode::pick(int x, int y, int w, int h, PickInfo* info)
 
 
 //-----------------------------------------------------------------------------
+void TerrainNode::makeKernel(int radius, float strength, float softness)
+{
+    kernel_.resize(radius);
+    for (int i = 0; i < radius; ++i)
+        kernel_[i].resize(radius);
+
+    int half = radius / 2;
+    for (int y = -half; y < half + radius % 2; ++y)
+    {
+        for (int x = -half; x < half + radius % 2; ++x)
+        {
+            kernel_[y + half][x + half] = strength *
+                static_cast<float>(
+                    1 / (2 * 3.14 * softness * softness) *
+                    tod_exp(-(x * x + y * y) / (2 * softness * softness)));
+        }
+    } 
+}
+
+
+//-----------------------------------------------------------------------------
 void TerrainNode::raise(int x, int y, int w, int h)
 {
     PickInfo pi;
@@ -184,26 +191,79 @@ void TerrainNode::raise(int x, int y, int w, int h)
     if (pi.tile_ == 0)
         return;
 
-    float kernel[5][5];
-    float sigma = 5;
-    for (int y = 0; y < 5; ++y)
+    Vertex* vbptr = 0;
+    terrainSection_.vb_->lock((void*&)vbptr);
+
+    int radius = kernel_.size();
+    int half = radius / 2;
+    for (int yy = -half; yy < half + radius % 2; ++yy)
     {
-        for (int x = 0; x < 5; ++x)
+        for (int xx = -half; xx < half + radius % 2; ++xx)
         {
-            kernel[y][x] =
-                static_cast<float>(
-                    1 / (2 * 3.14 * sigma * sigma) *
-                    tod_exp(-(x * x + y * y) / (2 * sigma * sigma)));
+            int index = pi.index_ + yy * col_ + xx;
+            if (index < 0 || index > col_ * row_)
+                continue;
+            vbptr[index].coord_.y_ += kernel_[yy + half][xx + half];
         }
     }
 
+    terrainSection_.vb_->unlock();
+}
+
+
+//-----------------------------------------------------------------------------
+void TerrainNode::lower(int x, int y, int w, int h)
+{
+    PickInfo pi;
+    memset(&pi, 0, sizeof(PickInfo));
+
+    pick(x, y, w, h, &pi);
+
+    if (pi.tile_ == 0)
+        return;
 
     Vertex* vbptr = 0;
     terrainSection_.vb_->lock((void*&)vbptr);
 
-    vbptr[pi.index_].coord_.y_ += 0.1f;
+    int radius = kernel_.size();
+    int half = radius / 2;
+    for (int yy = -half; yy < half + radius % 2; ++yy)
+    {
+        for (int xx = -half; xx < half + radius % 2; ++xx)
+        {
+            int index = pi.index_ + yy * col_ + xx;
+            if (index < 0 || index > col_ * row_)
+                continue;
+            vbptr[index].coord_.y_ -= kernel_[yy + half][xx + half];
+        }
+    }
 
-    terrainSection_.vb_->unlock();    
+    terrainSection_.vb_->unlock();
+}
+
+
+//-----------------------------------------------------------------------------
+void TerrainNode::computeNormal()
+{
+    Vertex* vbptr = 0;
+    terrainSection_.vb_->lock((void*&)vbptr);
+    
+    for (int h = 1; h < col_ - 1; ++h)
+    {
+        for (int w = 1; w < row_ - 1; ++w)
+        {
+            Vertex* v = vbptr + h * row_ + w;
+
+            Vector3 v0 = v->coord_ - (v - 1)->coord_;
+            Vector3 v1 = (v + row_)->coord_ - v->coord_;
+
+            v->normal_ = v0;
+            v->normal_.cross(v1);
+            v->normal_.normalize();
+        }
+    }
+
+    terrainSection_.vb_->unlock();
 }
 
 
@@ -223,7 +283,41 @@ const Uri& TerrainNode::getHeightMapUri() const
 
 
 //-----------------------------------------------------------------------------
+void TerrainNode::setTerrainSize(int s)
+{
+    col_ = s;
+    row_ = s; 
+    unloadResource();
+}
+
+
+//-----------------------------------------------------------------------------
+int TerrainNode::getTerrainSize() const
+{
+    return col_;
+}
+
+
+//-----------------------------------------------------------------------------
+void TerrainNode::setTexture(const Uri& uri)
+{
+    diffuseUri_ = uri;
+    addTexture(STRING("DiffuseMap"), uri);
+}
+
+
+//-----------------------------------------------------------------------------
+const Uri& TerrainNode::getTexture() const
+{
+    return diffuseUri_;
+}
+
+
+//-----------------------------------------------------------------------------
 void TerrainNode::bindProperty()
 {
     BIND_PROPERTY(const Uri&, heightmap_uri, &setHeightMapUri, &getHeightMapUri);
+    BIND_PROPERTY(const Uri&, diffuse_texture_uri, &setTexture, &getTexture);
+    BIND_PROPERTY(int, uv_repeat, &setUVRepeat, &getUVRepeat);
+    BIND_PROPERTY(int, terrain_size, &setTerrainSize, &getTerrainSize);
 }

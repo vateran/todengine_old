@@ -44,8 +44,10 @@ void MeshNode::renderGeometry
 //-----------------------------------------------------------------------------
 bool MeshNode::loadResource()
 {
-    super::loadResource();
+    if (getMeshUri().empty())
+        return false;
 
+    super::loadResource();
     mesh_ = Renderer::instance()->newMesh(getMeshUri());
     mesh_->preload(true, true, true);
     return true;

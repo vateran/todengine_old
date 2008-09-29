@@ -7,7 +7,7 @@ using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 TerrainTile::TerrainTile():
-lod_(0)
+lod_(0), numVertices_(0)
 {
     // empty
 }
@@ -54,12 +54,12 @@ void TerrainTile::draw(const JunctionFlag& flag)
         }
 
         cibs_[junction][lod_]->use();
-        cibs_[junction][lod_]->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+        cibs_[junction][lod_]->draw(PRIMITIVETYPE_TRIANGLESTRIP, numVertices_);
     }
     else
     {
         ibs_[lod_]->use();
-        ibs_[lod_]->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+        ibs_[lod_]->draw(PRIMITIVETYPE_TRIANGLESTRIP, numVertices_);
     }
 }
 
@@ -69,6 +69,7 @@ bool TerrainTile::build
 (int max_lod, int split, const Vector3& center, int col, int row, int x, int y)
 {
     center_ = center;
+    numVertices_ = col * row;
 
     ibs_.resize(max_lod);
     for (int junction = 0; junction < JUNCTION_MAX; ++junction)

@@ -21,7 +21,7 @@ TerrainSection::~TerrainSection()
 
 
 //-----------------------------------------------------------------------------
-bool TerrainSection::build(int col, int row, const Vector3& scale)
+bool TerrainSection::build(int col, int row, const Vector3& scale, int uv_repeat)
 {
     if (vb_.invalid())
         vb_ = Renderer::instance()->newVertexBuffer();
@@ -33,7 +33,8 @@ bool TerrainSection::build(int col, int row, const Vector3& scale)
     vb_->create(col_ * row_,
         VERTEXCOMPONENT_COORD  |
         VERTEXCOMPONENT_NORMAL |
-        VERTEXCOMPONENT_UV0, 0);
+        VERTEXCOMPONENT_UV0,
+        USAGE_DYNAMIC);
 
     struct Vertex
     {
@@ -55,11 +56,11 @@ bool TerrainSection::build(int col, int row, const Vector3& scale)
             vbptr->coord_.x_ = (w - width / 2) * scale.x_;
             vbptr->coord_.z_ = -(h - height / 2) * scale.z_;
 
-            vbptr->normal_ = vbptr->coord_;
+            vbptr->normal_ = Vector3(0, 0, 1);
             vbptr->normal_.normalize();
 
-            vbptr->u_ = w / width * 16;
-            vbptr->v_ = h / height * 16;
+            vbptr->u_ = w / width * uv_repeat;
+            vbptr->v_ = h / height * uv_repeat;
 
             ++vbptr;
         }

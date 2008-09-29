@@ -24,7 +24,7 @@ namespace engine
 
         void use();
 
-        bool build(int col, int row, const Vector3& scale);
+        bool build(int col, int row, const Vector3& scale, int uv_repeat);
         
     public:
         ResourceRef<VertexBuffer> vb_;

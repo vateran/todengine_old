@@ -13,6 +13,10 @@ class SceneViewPanel(wx.Panel):
         
         self.Bind(wx.EVT_PAINT, self.OnPaint, id=self.GetId())
         self.Bind(wx.EVT_MOTION, self.OnMotion, id=self.GetId())
+        self.Bind(wx.EVT_LEFT_UP, self.OnLeftUp, id=self.GetId())
+        self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown, id=self.GetId())
+        self.Bind(wx.EVT_RIGHT_UP, self.OnRightUp, id=self.GetId())
+        self.Bind(wx.EVT_RIGHT_DOWN, self.OnRightDown, id=self.GetId())
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown, id=self.GetId())
         
     def OnPaint(self, event):
@@ -31,7 +35,7 @@ class SceneViewPanel(wx.Panel):
 
         x = event.GetX()
         y = event.GetY()
-        if not event.AltDown():
+        if event.AltDown():
             if event.LeftIsDown():
                 delta_x = self.prev[0] - x
                 delta_y = y - self.prev[1]
@@ -43,6 +47,22 @@ class SceneViewPanel(wx.Panel):
                 self.camera.moveForward((float)(delta_y) / 100)
                 self.camera.moveLeft((float)(delta_x) / 100)
         self.prev = (x, y)
+
+    def OnLeftUp(self, event):
+        self.GetParent().OnLeftUp(self, event)
+        event.Skip()
+
+    def OnLeftDown(self, event):
+        self.GetParent().OnLeftDown(self, event)
+        event.Skip()
+
+    def OnRightUp(self, event):
+        self.GetParent().OnRightUp(self, event)
+        event.Skip()
+
+    def OnRightDown(self, event):
+        self.GetParent().OnRightDown(self, event)
+        event.Skip()
     
     def OnKeyDown(self, event):
         dist = 1
@@ -81,12 +101,14 @@ class SceneView(wx.aui.AuiNotebook):
             i = i + 1
 
     def addEventSubscriber(self, type, s):
-        print type, s
-        print type, s
         if type in self.eventSubscriber.keys():
-            self.eventSubscriber[type].add(s)
+            self.eventSubscriber[type].append(s)
         else:
             self.eventSubscriber[type] = [s]
+
+    def removeEventSubscriber(self, type, s):
+        if type in self.eventSubscriber.keys():
+            self.eventSubscriber[type].remove(s)
 
     def OnMotion(self, sv_panel, event):
         try:
@@ -95,7 +117,36 @@ class SceneView(wx.aui.AuiNotebook):
         except:
             pass
 
+    def OnLeftUp(self, sv_panel, event):
+        try:
+            for s in self.eventSubscriber['LeftUp']:
+                s.OnLeftUp(sv_panel, event)
+        except:
+            pass
+
+    def OnLeftDown(self, sv_panel, event):
+        try:
+            for s in self.eventSubscriber['LeftDown']:
+                s.OnLeftDown(sv_panel, event)
+        except:
+            pass
+
+    def OnRightUp(self, sv_panel, event):
+        try:
+            for s in self.eventSubscriber['RightUp']:
+                s.OnRightUp(sv_panel, event)
+        except:
+            pass
+
+    def OnRightDown(self, sv_panel, event):
+        try:
+            for s in self.eventSubscriber['RightDown']:
+                s.OnRightDown(sv_panel, event)
+        except:
+            pass
+
     s_instance = None
     @classmethod
     def instance(self):
         return SceneView.s_instance
+

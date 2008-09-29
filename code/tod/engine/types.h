@@ -32,7 +32,7 @@ namespace engine
 
     enum Transform
     {
-        TRANSFORM_WORLD,
+        TRANSFORM_WORLD         = 0,
         TRANSFORM_VIEW          = 2,
         TRANSFORM_PROJECTION    = 3,
 

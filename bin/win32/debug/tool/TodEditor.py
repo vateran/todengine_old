@@ -11,7 +11,8 @@ import MainFrame
 from todpython import *
 from lib.PropertyGrid import *
 
-modules ={u'MainFrame': [1, 'Main frame of Application', u'MainFrame.py']}
+modules ={'Frame1': [0, '', 'none://Frame1.py'],
+ u'MainFrame': [1, 'Main frame of Application', u'MainFrame.py']}
 
 class BoaApp(wx.App):
     def OnInit(self):

@@ -177,7 +177,7 @@ void vsSkyBoxMain(
     out float3 output_uv0       : TEXCOORD0,
     out float3 output_viewpos   : TEXCOORD1)
 {
-    output_viewpos = mul(pos, WorldMatrix);
+    output_viewpos = mul(pos, WorldMatrix);    
     output_pos = mul(float4(output_viewpos, 1), ProjectionMatrix);
     output_uv0 = uv0;
 }

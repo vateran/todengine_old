@@ -11,15 +11,15 @@ shared float4x4 RevViewMatrix;
 shared float4x4 InvWorldViewMatrix;
 shared float4x4 InvWorldViewProjectionMatrix;
 
-float3 DirLight = float3(0, 0, -1);
+float3 DirLight = float3(0.3, 0.5, 0.8);
 
-float4 i_a : LIGHTAMBIENT <string name="Light Ambient";> = {1, 1, 1, 1};
+float4 i_a : LIGHTAMBIENT <string name="Light Ambient";> = {0.7, 0.7, 0.7, 0.7};
 float4 i_d : LIGHTDIFFUSE <string name="Light Diffuse";> = {1, 1, 1, 1};
-float4 i_s : LIGHTSPECULAR <string name="Light Specular";> = {1, 1, 1, 1};
+float4 i_s : LIGHTSPECULAR <string name="Light Specular";> = {0.5, 0.5, 0.5, 0.5};
 
-float4 k_a : MATERIALAMBIENT <string name="Material Ambient";> = {1, 1, 1, 1};
-float4 k_d : MATERIALDIFFUSE <string name="Material Diffuse";> = {1, 1, 1, 1};
-float4 k_s : MATERIALSPECUAL <string name="Material Specular";> = {1, 1, 1, 1}; 
+float4 k_a : MATERIALAMBIENT <string name="Material Ambient";> = {0.6, 0.6, 0.6, 0.6};
+float4 k_d : MATERIALDIFFUSE <string name="Material Diffuse";> = {0.7, 0.7, 0.7, 0.7};
+float4 k_s : MATERIALSPECUAL <string name="Material Specular";> = {0.1, 0.1, 0.1, 0.1}; 
 
 texture DiffuseMap;
 
@@ -35,7 +35,6 @@ sampler_state
 struct VsInput
 {
     float4 pos          : POSITION;
-    float4 diffuse      : COLOR0;
     float3 normal       : NORMAL;
     float2 uv0          : TEXCOORD0;
 };
@@ -61,8 +60,9 @@ VsOutput TerrainVertexShaderMain(VsInput input)
     float4 eye_pos = mul(float4(0, 0, 0, 1), InvWorldViewMatrix);
     output.eye = normalize(eye_pos - input.pos);
     
-    output.diffuse = i_a * k_a + i_d * k_d * input.diffuse * max(0, dot(DirLight, input.normal));
-    
+    float3 dir_light = normalize(DirLight);
+    output.diffuse = i_a * k_a + i_d * k_d * max(0, dot(dir_light, input.normal));
+
     return output;
 }
 
@@ -73,8 +73,10 @@ float4 TerrainPixelShaderMain2(VsOutput input) : COLOR
 
 float4 TerrainPixelShaderMain(VsOutput input) : COLOR
 {
+    //return tex2D(DefaultSampler, input.uv0) * input.diffuse;
+
     //return float4(1,1,1,1);
-    return tex2D(DefaultSampler, input.uv0) * input.diffuse;
+    //return tex2D(DefaultSampler, input.uv0) * input.diffuse;
 
     float3 L = normalize(input.light);
 	float3 V = normalize(input.eye);

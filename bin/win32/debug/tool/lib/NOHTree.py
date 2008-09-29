@@ -48,7 +48,11 @@ class NOHPopupMenu(wx.Menu):
         
     def setTargetObject(self, obj):
         self.targetObject = obj
-        self.run_editor_item.Enable(os.path.exists('plugins/' + self.targetObject.getTypeName()))
+        self.run_editor_item.Enable(False)
+        for type_name in obj.getGenerations():
+            if os.path.exists('plugins/' + type_name):
+                self.run_editor_item.Enable(True)
+                break
         
     def OnAddNode(self, event):
         frame = NodeCreator.create(self.parent)
@@ -64,9 +68,12 @@ class NOHPopupMenu(wx.Menu):
         
     def OnRunEditor(self, event):
         try:
-            plugins_module = __import__('plugins.' + self.targetObject.getTypeName())
-            module = getattr(plugins_module, self.targetObject.getTypeName())
-            module.initialize(self.parent, self.targetObject)
+            for type_name in self.targetObject.getGenerations():                
+                if os.path.exists('plugins/' + type_name):
+                    plugins_module = __import__('plugins.' + type_name)
+                    module = getattr(plugins_module, type_name)
+                    module.initialize(self.parent, self.targetObject)
+                    break
         except:
             raise
         

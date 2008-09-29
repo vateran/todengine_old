@@ -1,5 +1,6 @@
 #include "tod/engine/terrainnode.h"
 
+#include "tod/core/math.h"
 #include "tod/core/simplepropertybinder.h"
 #include "tod/engine/renderer.h"
 
@@ -84,12 +85,25 @@ bool TerrainNode::hasGeometry() const
 
 
 //-----------------------------------------------------------------------------
+
+
 #include <windows.h>
-void TerrainNode::pick(int x, int y)
+void TerrainNode::pick(int x, int y, int w, int h)
+{   
+}
+
+struct Vertex
 {
-    int screen_w = 531;
-    int screen_h = 394;
-    Matrix44 proj = Renderer::instance()->getTransform(TRANSFORM_PROJECTION);
+    Vector3 coord_;
+    Vector3 normal_;
+    float u_, v_;
+};
+
+void TerrainNode::pick(int x, int y, int w, int h, PickInfo* info)
+{
+    int screen_w = w;
+    int screen_h = h;
+    const Matrix44& proj = Renderer::instance()->getTransform(TRANSFORM_PROJECTION);
 
     // compute the vector of the pick ray in screen space
     Vector3 v;
@@ -97,7 +111,6 @@ void TerrainNode::pick(int x, int y)
     v.y_ = -(((2.0f * y) / screen_h) - 1) / proj.m22_;
     v.z_ = 1.0f;
 
-    
     // get the inverse view matrix
     const Matrix44 view = Renderer::instance()->getTransform(TRANSFORM_VIEW);
     const Matrix44 world = Renderer::instance()->getTransform(TRANSFORM_WORLD);
@@ -115,13 +128,6 @@ void TerrainNode::pick(int x, int y)
     pick_ray_orig.z_ = wv.m43_;
 
     TerrainTileSet::Tiles& tiles = terrain_.tiles_;
-
-    struct Vertex
-    {
-        Vector3 coord_;
-        Vector3 normal_;
-        float u_, v_;
-    };
 
     Vertex* vbptr = 0;
     terrainSection_.vb_->lock((void*&)vbptr);
@@ -153,7 +159,8 @@ void TerrainNode::pick(int x, int y)
                     min_dist > dist)
                 {
                     min_dist = dist;
-                    picked = &vbptr[ibptr[i]];
+                    info->tile_ = &tile;
+                    info->index_ = ibptr[i];
                 }
             }
 
@@ -162,36 +169,41 @@ void TerrainNode::pick(int x, int y)
         }
     }
 
-    if (picked)
+    terrainSection_.vb_->unlock();
+}
+
+
+//-----------------------------------------------------------------------------
+void TerrainNode::raise(int x, int y, int w, int h)
+{
+    PickInfo pi;
+    memset(&pi, 0, sizeof(PickInfo));
+
+    pick(x, y, w, h, &pi);
+
+    if (pi.tile_ == 0)
+        return;
+
+    float kernel[5][5];
+    float sigma = 5;
+    for (int y = 0; y < 5; ++y)
     {
-        picked[0].coord_.y_ += 0.1f;
-        //picked[0].coord_.y_ += 0.1f;
-        //picked[2].coord_.y_ += 0.1f;
-
-        /*struct Vertex2
+        for (int x = 0; x < 5; ++x)
         {
-            Vector3 coord_;                        
-            Vector3 normal_;
-            Color diffuse_;
-        };
-
-        Vertex2* vbptr2 = 0;
-        vb_->lock((void*&)vbptr2);
-        vbptr2[0].coord_ = picked[0].coord_;
-        vbptr2[0].normal_ = picked[0].normal_;
-        vbptr2[0].diffuse_.set(255, 255, 255, 255);
-
-        vbptr2[1].coord_ = picked[1].coord_;
-        vbptr2[1].normal_ = picked[1].normal_;
-        vbptr2[1].diffuse_.set(255, 255, 255, 255);
-
-        vbptr2[2].coord_ = picked[2].coord_;
-        vbptr2[2].normal_ = picked[2].normal_;
-        vbptr2[2].diffuse_.set(255, 255, 255, 255);
-        vb_->unlock();*/
+            kernel[y][x] =
+                static_cast<float>(
+                    1 / (2 * 3.14 * sigma * sigma) *
+                    tod_exp(-(x * x + y * y) / (2 * sigma * sigma)));
+        }
     }
 
-    terrainSection_.vb_->unlock();
+
+    Vertex* vbptr = 0;
+    terrainSection_.vb_->lock((void*&)vbptr);
+
+    vbptr[pi.index_].coord_.y_ += 0.1f;
+
+    terrainSection_.vb_->unlock();    
 }
 
 

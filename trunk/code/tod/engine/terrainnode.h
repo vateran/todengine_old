@@ -20,6 +20,13 @@ namespace engine
     class TerrainNode : public ShapeNode
     {
     public:
+        struct PickInfo
+        {
+            TerrainTile* tile_; 
+            int index_;
+        };
+
+    public:
         TerrainNode();
         virtual~TerrainNode();
         DECLARE_CLASS(TerrainNode, ShapeNode);
@@ -31,12 +38,16 @@ namespace engine
         override bool loadResource();
         override void unloadResource();
         override bool hasGeometry() const;
-        override void pick(int x, int y);
+        override void pick(int x, int y, int w, int h);
+
+        void pick(int x, int y, int w, int h, PickInfo* info);
+        void raise(int x, int y, int w, int h);
 
         void setHeightMapUri(const Uri& uri);
         const Uri& getHeightMapUri() const;
 
         static void bindProperty();
+        static void bindMethod();
 
     private:
         Uri heightMapUri_;

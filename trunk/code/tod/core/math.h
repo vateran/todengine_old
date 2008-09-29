@@ -8,6 +8,7 @@
 #define tod_max(a,b)    (((a) > (b)) ? (a) : (b))
 #define tod_abs(a)      (((a) < 0.0f) ? (-(a)) : (a))
 #define tod_tiny        (0.00001f)
+#define tod_pi          3.1415926535897932384626433832795
 
 namespace tod
 {
@@ -20,6 +21,15 @@ inline T tod_sqrt(T x)
         x = 0.0f;
     return static_cast<T>(sqrt(x));
 };
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+inline T tod_exp(T x)
+{
+    return static_cast<T>(exp(x));
+};
+
 
 //-----------------------------------------------------------------------------
 /**

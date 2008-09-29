@@ -9,7 +9,6 @@ from lib.NOHTree import *
 from lib.PropertyGrid import *
 from lib.SceneView import *
 from lib.CommandConsole import *
-from lib.TerrainEditTool import *
 
 def create(parent):
     return MainFrame(parent)
@@ -89,6 +88,10 @@ class MainFrame(wx.Frame):
 
     def __init__(self, parent):
         self._init_ctrls(parent)
+        
+        if MainFrame.s_instance == None:
+            MainFrame.s_instance = self
+        
         self.SetIcon(wx.Icon('data/tod.png', wx.BITMAP_TYPE_PNG))
         
         self.auimgr = wx.aui.AuiManager()
@@ -99,7 +102,7 @@ class MainFrame(wx.Frame):
         time_server = new('TimeServer', '/sys/server/time')
         trigger_server.add(time_server, 0)
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
-        self.renderer.setDisplayMode('w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        self.renderer.setDisplayMode('w[1024]h[768]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
         
         camera = new('CameraNode', '/usr/scene/camera')
@@ -149,7 +152,7 @@ class MainFrame(wx.Frame):
         rppass.clear_color = (0, 0, 255, 255)
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'ScenePass'
-        '''rt = new('RpRenderTarget', '/sys/server/renderpath/default/scene/rt')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/scene/rt')
         rt.texture_uri = 'managed://rt#scene'
         rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 1
@@ -216,7 +219,7 @@ class MainFrame(wx.Frame):
         #rppass.addTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rppass.addTexture('SceneMap', 'managed://rt#scene')
         #rppass.addTexture('SceneMap', 'managed://rt#bloomv_scene')
-        rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')'''
+        rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),
@@ -231,10 +234,7 @@ class MainFrame(wx.Frame):
         
         # CommandConsole
         self.commandConsole = CommandConsole(self, wx.NewId(), wx.DefaultPosition, wx.Size(300, 80), 0)
-        
-        # TerrainEditTool
-        self.terrainEditTool = TerrainEditTool(self)
-        
+       
         # SceneView
         self.sceneView = SceneView(self)
         self.sceneView.addViewPanel('Perspective View', get('/usr/scene/camera'))
@@ -249,11 +249,9 @@ class MainFrame(wx.Frame):
             Caption('Property').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
         self.auimgr.AddPane(self.commandConsole, wx.aui.AuiPaneInfo().
             Caption('Command Console').Dockable(True).Bottom().CloseButton(True).MinimizeButton(True))
-        self.auimgr.AddPane(self.terrainEditTool, wx.aui.AuiPaneInfo().MinSize(wx.Size(50, 50)).
-            Caption('Terrain Edit Tool').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
         self.auimgr.AddPane(self.sceneView, wx.aui.AuiPaneInfo().
             Caption('Render View').Center().CloseButton(False))
-        
+       
         self.auimgr.Update()
         
     def onSelChanged(self, event):
@@ -266,3 +264,8 @@ class MainFrame(wx.Frame):
     def update(self):
         self.sceneView.update()
  
+    @classmethod
+    def instance(self):
+        return MainFrame.s_instance
+    s_instance = None
+        

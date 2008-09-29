@@ -269,7 +269,7 @@ void SceneServer::doRenderPath(const Name& section_name)
 
 
 //-----------------------------------------------------------------------------
-void SceneServer::pick(int x, int y)
+void SceneServer::pick(int x, int y, int w, int h)
 {
     // find RpSection
     RpSection* section = RenderPath::instance()->findSection(STRING("default"));
@@ -283,7 +283,7 @@ void SceneServer::pick(int x, int y)
         {
             Group& group = groups_[shapes[shape_index]];
             SceneNode* scene_node = group.sceneNode_;
-            scene_node->pick(x, y);            
+            scene_node->pick(x, y, w, h);            
         }
     }
 }

@@ -18,14 +18,17 @@ class SceneViewPanel(wx.Panel):
     def OnPaint(self, event):
         mstat = wx.GetMouseState()
         x, y = self.ScreenToClient((mstat.GetX(), mstat.GetY()))
+        w, h = self.GetClientSizeTuple()
         if mstat.LeftDown():
-            self.sceneView.pick(x, y)
+            self.sceneView.pick(x, y, w, h)
 
         dc = wx.PaintDC(self)
         dc.SetBackgroundMode(wx.TRANSPARENT)
         self.sceneView.render()
         
     def OnMotion(self, event):
+        self.GetParent().OnMotion(self, event)
+
         x = event.GetX()
         y = event.GetY()
         if not event.AltDown():
@@ -60,6 +63,9 @@ class SceneViewPanel(wx.Panel):
 class SceneView(wx.aui.AuiNotebook):
     def __init__(self, parent):
         wx.aui.AuiNotebook.__init__(self, parent, style=wx.aui.AUI_NB_DEFAULT_STYLE | wx.aui.wx.NO_BORDER | wx.aui.AUI_NB_WINDOWLIST_BUTTON)
+        if SceneView.s_instance == None:
+            SceneView.s_instance = self
+        self.eventSubscriber = {}
         
     def addViewPanel(self, title, camera=0):
         panel = SceneViewPanel(self)
@@ -74,4 +80,22 @@ class SceneView(wx.aui.AuiNotebook):
             page.Refresh(False)
             i = i + 1
 
+    def addEventSubscriber(self, type, s):
+        print type, s
+        print type, s
+        if type in self.eventSubscriber.keys():
+            self.eventSubscriber[type].add(s)
+        else:
+            self.eventSubscriber[type] = [s]
 
+    def OnMotion(self, sv_panel, event):
+        try:
+            for s in self.eventSubscriber['Motion']:
+                s.OnMotion(sv_panel, event)
+        except:
+            pass
+
+    s_instance = None
+    @classmethod
+    def instance(self):
+        return SceneView.s_instance

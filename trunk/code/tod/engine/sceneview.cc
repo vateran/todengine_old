@@ -67,9 +67,9 @@ int SceneView::getWindowId() const
 
 
 //-----------------------------------------------------------------------------
-void SceneView::pick(int x, int y)
+void SceneView::pick(int x, int y, int w, int h)
 {
-    SceneServer::instance()->pick(x, y);
+    SceneServer::instance()->pick(x, y, w, h);
 }
 
 

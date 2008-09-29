@@ -2,19 +2,37 @@
 
 import wx
 import wx.lib.buttons
+import wx.aui
 import lib.NOHImageProvider as NOHImageProvider
-from todpython import *
+import lib.SceneView as SV
+import MainFrame
+from todpython import *    
+
+def initialize(parent, obj):
+    frame = TerrainEditTool(MainFrame.MainFrame.instance())
+    frame.initialize(obj)
+    MainFrame.MainFrame.instance().auimgr.AddPane(frame, wx.aui.AuiPaneInfo().MinSize(wx.Size(50, 50)).
+        Caption('Terrain Edit Tool').Dockable(True).Right().CloseButton(True).MinimizeButton(True).DestroyOnClose(True).Float())
+    MainFrame.MainFrame.instance().auimgr.Update()
+
 
 #-------------------------------------------------------------------------------
 class TerraformPanel(wx.Panel):
-    def __init__(self, parent):
+    def __init__(self, parent, obj):
         wx.Panel.__init__(self, parent, wx.NewId(), style=wx.NO_FULL_REPAINT_ON_RESIZE)
         
+        self.obj = obj
         self.b = wx.EmptyBitmap(1, 1)
         
         self._init_ctrls(self)
         
         self.toggleButtons = [self.raiseButton, self.lowerButton, self.levelButton, self.grabButton, self.smoothButton, self.erodeButton]
+
+        SV.SceneView.instance().addEventSubscriber('Motion', self)
+
+    def OnMotion(self, sv_panel, event):
+        w, h = sv_panel.GetClientSizeTuple()
+        self.obj.raiseTerrain(event.GetX(), event.GetY(), w, h)
         
     def OnTerraformToolButton(self, event):
         for b in self.toggleButtons:
@@ -195,4 +213,6 @@ class TerrainEditTool(wx.aui.AuiNotebook):
     def __init__(self, parent):
         wx.aui.AuiNotebook.__init__(self, parent,
             style=wx.aui.AUI_NB_DEFAULT_STYLE | wx.aui.wx.NO_BORDER | wx.aui.AUI_NB_WINDOWLIST_BUTTON)
-        self.AddPage(TerraformPanel(self), 'Terraform')
+
+    def initialize(self, obj):
+        self.AddPage(TerraformPanel(self, obj), 'Terraform')

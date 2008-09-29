@@ -101,14 +101,18 @@ void RpPass::draw_quad()
     m.setTranslation(0, 0, 0);
     v.identity();
     p.orthogonalOffsetCenterLH(0, 0, sw, sh, -10000, 10000);
-    Renderer::instance()->setTransform(TRANSFORM_WORLD, m);
-    Renderer::instance()->setTransform(TRANSFORM_VIEW, v);
-    Renderer::instance()->setTransform(TRANSFORM_PROJECTION, p);
+    Renderer::instance()->pushTransform(TRANSFORM_WORLD, m);
+    Renderer::instance()->pushTransform(TRANSFORM_VIEW, v);
+    Renderer::instance()->pushTransform(TRANSFORM_PROJECTION, p);
 
     // render quad
     Renderer::instance()->drawQuad(
         Rect(0, 0, static_cast<int>(sw), static_cast<int>(sh)),
             Color(255, 255, 255, 255));
+
+    Renderer::instance()->popTransform(TRANSFORM_WORLD);
+    Renderer::instance()->popTransform(TRANSFORM_VIEW);
+    Renderer::instance()->popTransform(TRANSFORM_PROJECTION);
 }
 
 

@@ -475,6 +475,10 @@
 								>
 							</File>
 							<File
+								RelativePath="..\..\code\tod\engine\terrainnode_method.cc"
+								>
+							</File>
+							<File
 								RelativePath="..\..\code\tod\engine\terrainsection.cc"
 								>
 							</File>

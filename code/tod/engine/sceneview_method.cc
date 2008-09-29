@@ -42,11 +42,13 @@ static void SceneView_i_getWindowId_v(SceneView* self, Parameter* param)
 
 
 //-----------------------------------------------------------------------------
-static void SceneView_v_pick_ii(SceneView* self, Parameter* param)
+static void SceneView_v_pick_iiii(SceneView* self, Parameter* param)
 {
     self->pick(
         param->in()->get<int>(0),
-        param->in()->get<int>(1));
+        param->in()->get<int>(1),
+        param->in()->get<int>(2),
+        param->in()->get<int>(3));
 }
 
 
@@ -100,7 +102,7 @@ void SceneView::bindMethod()
     BIND_METHOD(s_getSceneRootPath_v, SceneView_s_getSceneRootPath_v);
     BIND_METHOD(v_setWindowId_i, SceneView_v_setWindowId_i);
     BIND_METHOD(i_getWindowId_v, SceneView_i_getWindowId_v);
-    BIND_METHOD(v_pick_ii, SceneView_v_pick_ii);
+    BIND_METHOD(v_pick_iiii, SceneView_v_pick_iiii);
     BIND_METHOD(v_moveForward_f, SceneView_v_moveForward_f);
     BIND_METHOD(v_moveLeft_f, SceneView_v_moveLeft_f);
     BIND_METHOD(v_moveRight_f, SceneView_v_moveRight_f);

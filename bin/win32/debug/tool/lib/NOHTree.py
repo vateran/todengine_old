@@ -33,15 +33,22 @@ class NOHPopupMenu(wx.Menu):
         
         self.AppendSeparator()
         
+        self.run_editor_item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'Run Editor...')
+        self.run_editor_item.SetBitmap(self.ap.GetBitmap(wx.ART_FIND))
+        self.Bind(wx.EVT_MENU, self.OnRunEditor, id=self.run_editor_item.GetId())
+                
+        self.AppendSeparator()
+        
         item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'&Save ...')
         item.SetBitmap(self.ap.GetBitmap(wx.ART_FILE_SAVE))
         self.Bind(wx.EVT_MENU, self.OnSave, id=item.GetId())
 
         item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'&Load ...')
         item.SetBitmap(self.ap.GetBitmap(wx.ART_FILE_OPEN))
-
+        
     def setTargetObject(self, obj):
         self.targetObject = obj
+        self.run_editor_item.Enable(os.path.exists('plugins/' + self.targetObject.getTypeName()))
         
     def OnAddNode(self, event):
         frame = NodeCreator.create(self.parent)
@@ -54,6 +61,14 @@ class NOHPopupMenu(wx.Menu):
 
     def OnSave(self, event):
         serialize('managed://test#test.xml', self.targetObject)
+        
+    def OnRunEditor(self, event):
+        try:
+            plugins_module = __import__('plugins.' + self.targetObject.getTypeName())
+            module = getattr(plugins_module, self.targetObject.getTypeName())
+            module.initialize(self.parent, self.targetObject)
+        except:
+            raise
         
     def load_NOH_icons(self):
         pass

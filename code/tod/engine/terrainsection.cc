@@ -33,8 +33,7 @@ bool TerrainSection::build(int col, int row, const Vector3& scale, int uv_repeat
     vb_->create(col_ * row_,
         VERTEXCOMPONENT_COORD  |
         VERTEXCOMPONENT_NORMAL |
-        VERTEXCOMPONENT_UV0,
-        USAGE_DYNAMIC);
+        VERTEXCOMPONENT_UV0, 0);
 
     struct Vertex
     {

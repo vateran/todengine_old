@@ -72,6 +72,7 @@ class NOHPopupMenu(wx.Menu):
                 if os.path.exists('plugins/' + type_name):
                     plugins_module = __import__('plugins.' + type_name)
                     module = getattr(plugins_module, type_name)
+                    reload(module)
                     module.initialize(self.parent, self.targetObject)
                     break
         except:

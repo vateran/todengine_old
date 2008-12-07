@@ -108,17 +108,18 @@ class MainFrame(wx.Frame):
         camera = new('CameraNode', '/usr/scene/camera')
         camera.renderpath_section = 'default'
         camera.shader_uri = 'managed://shader#camera.fx'
-        camera.translation = (0, 6.0, 6.0)
+        camera.translation = (0, 0.0, 0.0)
         
         mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'EnvMapMesh'
-        mesh.scaling = (0.3, 0.3, 0.3)
-        mesh.translation = (0, 10, 0)
+        mesh.euler_rotation = (0, 0.4, 0)
+        mesh.scaling = (0.2, 0.2, 0.2)
+        mesh.translation = (0, -0.5, 2.5)
         mesh.mesh_uri = 'managed://mesh#skullocc.x'
-        #mesh.addTexture('EnvMap', 'managed://texture#uffizi_cross.dds')
-        mesh.addCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')
+        #mesh.setTexture('EnvMap', 'managed://texture#uffizi_cross.dds')
+        mesh.setCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')
         
         mesh = new('MeshNode', '/usr/scene/camera/skybox')
         mesh.euler_rotation = (0, 0, 0)
@@ -127,15 +128,15 @@ class MainFrame(wx.Frame):
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'SkyBox'
         mesh.mesh_uri = 'managed://mesh#alley_skybox.x'
-        mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
-        #mesh.addCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')
+        #mesh.setCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
+        mesh.setCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')
         
-        terrain = new('TerrainNode', '/usr/scene/terrain')
+        '''terrain = new('TerrainNode', '/usr/scene/terrain')
         terrain.heightmap_uri = 'managed://texture#hmap5x5_tile.png'
         terrain.shader_uri = 'managed://shader#terrain.fx'
         terrain.technique = 'Terrain'
         terrain.scaling = (1, 0.50, 1)
-        terrain.addTexture('DiffuseMap', 'managed://texture#grass.jpg')
+        terrain.setTexture('DiffuseMap', 'managed://texture#grass.jpg')
 
         tree = new('TreeNode', '/usr/scene/tree')
         tree.shader_uri = 'managed://shader#terrain.fx'
@@ -144,6 +145,7 @@ class MainFrame(wx.Frame):
         x = new('TreeNode', '/usr/scene/xesh')
         x.shader_uri = 'managed://shader#mesh.fx'
         x.technique = 'Mesh'
+        '''
         
         render_path = new('RenderPath', '/sys/server/renderpath')
         rpsection = new('RpSection', '/sys/server/renderpath/default')
@@ -164,7 +166,7 @@ class MainFrame(wx.Frame):
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'DownFilterPass'
-        rppass.addTexture('SceneMap', 'managed://rt#scene')
+        rppass.setTexture('SceneMap', 'managed://rt#scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/downscaled4x/rt')        
         rt.texture_uri = 'managed://rt#downscaled4x_scene'
         rt.texture_format = 'X8R8G8B8'
@@ -177,7 +179,7 @@ class MainFrame(wx.Frame):
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'BrightPass'
-        rppass.addTexture('SceneMap', 'managed://rt#downscaled4x_scene')
+        rppass.setTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/brightpass/rt')
         rt.texture_uri = 'managed://rt#brightpass_scene'
         rt.texture_format = 'X8R8G8B8'
@@ -190,7 +192,7 @@ class MainFrame(wx.Frame):
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#bloom.fx'
         rppass.technique = 'BloomHPass'
-        rppass.addTexture('SceneMap', 'managed://rt#brightpass_scene')
+        rppass.setTexture('SceneMap', 'managed://rt#brightpass_scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/bloom_h/rt')
         rt.texture_uri = 'managed://rt#bloomh_scene'
         rt.texture_format = 'X8R8G8B8'
@@ -203,7 +205,7 @@ class MainFrame(wx.Frame):
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#bloom.fx'
         rppass.technique = 'BloomVPass'
-        rppass.addTexture('SceneMap', 'managed://rt#bloomh_scene')
+        rppass.setTexture('SceneMap', 'managed://rt#bloomh_scene')
         rt = new('RpRenderTarget', '/sys/server/renderpath/default/bloom_v/rt')
         rt.texture_uri = 'managed://rt#bloomv_scene'
         rt.texture_format = 'X8R8G8B8'
@@ -216,10 +218,10 @@ class MainFrame(wx.Frame):
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'ComposeScenePass'
-        #rppass.addTexture('SceneMap', 'managed://rt#downscaled4x_scene')
-        rppass.addTexture('SceneMap', 'managed://rt#scene')
-        #rppass.addTexture('SceneMap', 'managed://rt#bloomv_scene')
-        rppass.addTexture('ToneMap', 'managed://rt#bloomv_scene')
+        #rppass.setTexture('SceneMap', 'managed://rt#downscaled4x_scene')
+        rppass.setTexture('SceneMap', 'managed://rt#scene')
+        #rppass.setTexture('SceneMap', 'managed://rt#bloomv_scene')
+        #rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),

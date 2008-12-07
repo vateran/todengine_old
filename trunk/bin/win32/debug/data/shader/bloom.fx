@@ -15,9 +15,11 @@ sampler_state
     MipFilter = None;
 };
 
+shared float2 PixelOffset;
+
 static const int g_cKernelSize = 13;
-static const float g_cWidth = 80;
-static const float g_cHeight = 60;
+static const float g_cWidth = 100;
+static const float g_cHeight = 75;
 
 float2 TexelKernel[g_cKernelSize] =
 {
@@ -66,7 +68,7 @@ void vsQuadMain(
 {    
     out_pos = mul(pos, WorldViewProjectionMatrix);
     out_diffuse = diffuse;
-    out_uv0 = uv0;
+    out_uv0 = uv0 + (PixelOffset * 0.5);
 }
 
 

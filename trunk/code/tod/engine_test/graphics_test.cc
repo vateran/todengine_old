@@ -318,7 +318,7 @@ void GraphicsTestCase::test_Scene()
 {
     try
     {
-        HWND hwnd = CreateDialog(
+        /*HWND hwnd = CreateDialog(
             GetModuleHandle(0),
             MAKEINTRESOURCE(IDD_RENDERTESTDIALOG),
             0,
@@ -410,7 +410,7 @@ void GraphicsTestCase::test_Scene()
         }
 
         DestroyWindow(hwnd);
-        renderer->detach();
+        renderer->detach();*/
     }
     catch(const tod::Exception& e)
     {

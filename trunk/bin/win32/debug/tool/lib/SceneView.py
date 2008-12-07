@@ -18,6 +18,17 @@ class SceneViewPanel(wx.Panel):
         self.Bind(wx.EVT_RIGHT_UP, self.OnRightUp, id=self.GetId())
         self.Bind(wx.EVT_RIGHT_DOWN, self.OnRightDown, id=self.GetId())
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown, id=self.GetId())
+        self.Bind(wx.EVT_SIZE, self.OnSize, id=self.GetId())
+
+        self.camera = None
+
+    def OnSize(self, event):
+        s = event.GetSize()
+        try:
+            if self.camera != None:
+                self.camera.aspect_ratio = ((float)(s.GetWidth()) / (float)(s.GetHeight()))
+        except:
+            pass
         
     def OnPaint(self, event):
         mstat = wx.GetMouseState()
@@ -87,7 +98,7 @@ class SceneView(wx.aui.AuiNotebook):
             SceneView.s_instance = self
         self.eventSubscriber = {}
         
-    def addViewPanel(self, title, camera=0):
+    def addViewPanel(self, title, camera=None):
         panel = SceneViewPanel(self)
         panel.setCamera(camera)
         self.AddPage(panel, title)

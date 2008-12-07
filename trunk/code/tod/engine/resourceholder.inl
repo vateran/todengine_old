@@ -50,3 +50,38 @@ T* ResourceHolder<T>::find(const Uri& uri)
         return 0;
     return find_iter->second;
 }
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+typename ResourceHolder<T>::NamedResources::iterator
+ResourceHolder<T>::begin()
+{
+    return namedResources_.begin();
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+typename ResourceHolder<T>::NamedResources::iterator ResourceHolder<T>::end()
+{
+    return namedResources_.end();
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+typename ResourceHolder<T>::NamedResources::const_iterator
+ResourceHolder<T>::begin() const
+{
+    return namedResources_.begin();
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+typename ResourceHolder<T>::NamedResources::const_iterator
+ResourceHolder<T>::end() const
+{
+    return namedResources_.end();
+}

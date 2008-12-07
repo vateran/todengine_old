@@ -31,11 +31,28 @@ namespace engine
         void eulerRotateY(float angle);
         void eulerRotateZ(float angle);
 
+        void setFOV(float fov);
+        float getFOV() const;
+        void setAspectRatio(float aspect);
+        float getAspectRatio() const;
+        void setNear(float z);
+        float getNear() const;
+        void setFar(float z);
+        float getFar() const;
+
         static void bindMethod();
+        static void bindProperty();
 
     private:
         Camera camera_;
+        float fov_;
+        float aspectRatio_;
+        float near_;
+        float far_;
     };
+
+#include "tod/engine/cameranode.inl"
+
 }
 }
 

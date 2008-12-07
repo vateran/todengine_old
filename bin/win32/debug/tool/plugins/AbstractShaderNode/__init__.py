@@ -20,3 +20,6 @@ class AbstractShaderNodeEditor(wx.Panel):
 
     def initialize(self, obj):
         self.obj = obj
+
+        for i in range(0, self.obj.getShaderParamNum()):
+            print rppass.getShaderParamDesc(oo)

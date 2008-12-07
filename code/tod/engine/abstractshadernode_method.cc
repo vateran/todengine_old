@@ -9,10 +9,10 @@ using namespace tod::engine;
 /**
     @in  param name, texture uri
 */
-static void AbstractShaderNode_v_addTexture_ss
+static void AbstractShaderNode_v_setTexture_ss
 (AbstractShaderNode* self, Parameter* param)
 {
-    self->addTexture(
+    self->setTexture(
         param->in()->get<String>(0).get(),
         param->in()->get<String>(1).get());
 }
@@ -22,10 +22,10 @@ static void AbstractShaderNode_v_addTexture_ss
 /**
 @in  param name, cube texture uri
 */
-static void AbstractShaderNode_v_addCubeTexture_ss
+static void AbstractShaderNode_v_setCubeTexture_ss
 (AbstractShaderNode* self, Parameter* param)
 {
-    self->addCubeTexture(
+    self->setCubeTexture(
         param->in()->get<String>(0).get(),
         param->in()->get<String>(1).get());
 }
@@ -34,6 +34,6 @@ static void AbstractShaderNode_v_addCubeTexture_ss
 //-----------------------------------------------------------------------------
 void AbstractShaderNode::bindMethod()
 {
-    BIND_METHOD(v_addTexture_ss, AbstractShaderNode_v_addTexture_ss);
-    BIND_METHOD(v_addCubeTexture_ss, AbstractShaderNode_v_addCubeTexture_ss);
+    BIND_METHOD(v_setTexture_ss, AbstractShaderNode_v_setTexture_ss);
+    BIND_METHOD(v_setCubeTexture_ss, AbstractShaderNode_v_setCubeTexture_ss);
 }

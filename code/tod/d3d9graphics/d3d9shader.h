@@ -32,7 +32,6 @@ namespace engine
         override void endPass();
 
         override void setTechnique(const String& name);
-
         override void setFloat(const String& name, float v);
         override void setMatrix(
             const String& name,
@@ -44,6 +43,9 @@ namespace engine
         override bool valid() const;
         override void onLostDevice();
         override void onRestoreDevice();
+
+        override uint32_t getParameterNum() const;
+        override ShaderParamDesc getParameterDesc(uint32_t index);
 
     private:
         IDirect3DDevice9* d3d9device_;

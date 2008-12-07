@@ -26,6 +26,10 @@ namespace engine
     class ResourceHolder : public ResourceHolderBase
     {
     public:
+        typedef ResourceRef<T> RefType;
+        typedef std::map<Uri, RefType> NamedResources;
+
+    public:
         bool empty() const;
         size_t size() const;
         void clear();
@@ -34,9 +38,10 @@ namespace engine
         void remove(const Uri& uri);
         T* find(const Uri& uri);
 
-    private:
-        typedef ResourceRef<T> RefType;
-        typedef std::map<Uri, RefType> NamedResources;
+        typename NamedResources::iterator begin();
+        typename NamedResources::iterator end();
+        typename NamedResources::const_iterator begin() const;
+        typename NamedResources::const_iterator end() const;
 
     private:
         NamedResources namedResources_;

@@ -47,7 +47,8 @@ void String::format(const char* s, va_list args)
         temp.resize(len);
     }
     resize(len);
-    MultiByteToWideChar(CP_ACP, 0, &temp[0], len, &(*this)[0], len);
+    if (len > 0)
+        MultiByteToWideChar(CP_ACP, 0, &temp[0], len, &(*this)[0], len);
 #else
 
 #endif

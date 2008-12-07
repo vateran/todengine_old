@@ -17,32 +17,49 @@ ShaderParams::~ShaderParams()
 
 
 //-----------------------------------------------------------------------------
-void ShaderParams::addTexture(const Name& name, const Uri& uri)
-{   
-    // load texture
-    Texture* texture = Renderer::instance()->newTexture(uri);
-    if (0 == texture)
-        return;
+void ShaderParams::setFloat(const Name& name, float value)
+{
+    // set shader parameter
+    typedef SimpleVariable<float> FloatVariable;
+    FloatVariable* f = getShaderParam<FloatVariable>(name);
+    *f = value;
+}
 
-    // add shader parameter
+
+//-----------------------------------------------------------------------------
+void ShaderParams::setTexture(const Name& name, const Uri& uri)
+{   
+    Texture* texture = 0;
+    if (uri.size())
+    {
+        // load texture
+        texture = Renderer::instance()->newTexture(uri);
+        if (0 == texture)
+            return;
+    }
+
+    // set shader parameter
     typedef SimpleVariable<Texture*> TextureVariable;
-    TextureVariable* t = addShaderParam<Texture*>(name);
+    TextureVariable* t = getShaderParam<TextureVariable>(name);
     *t = texture;
 }
 
 
 //-----------------------------------------------------------------------------
-void ShaderParams::addCubeTexture(const Name& name, const Uri& uri)
+void ShaderParams::setCubeTexture(const Name& name, const Uri& uri)
 {
-    // load texture
-    Texture* texture = Renderer::instance()->newCubeTexture(uri);
-    if (0 == texture)
-        return;
-    texture->preload();
+    Texture* texture = 0;
+    if (uri.size())
+    {
+        // load texture
+        texture = Renderer::instance()->newCubeTexture(uri);
+        if (0 == texture)
+            return;
+    }
 
     // add shader parameter
     typedef SimpleVariable<Texture*> TextureVariable;
-    TextureVariable* t = addShaderParam<Texture*>(name);
+    TextureVariable* t = getShaderParam<TextureVariable>(name);
     *t = texture;
 }
 
@@ -80,10 +97,13 @@ void ShaderParams::commit(Shader* shader)
         else if (v->getType() == TypeId<Texture*>::id())
         {
             typedef SimpleVariable<Texture*> TextureVariable;
-            TextureVariable* rv = static_cast<TextureVariable*>(v);
-            if ((*rv).get()->invalid())
-                (*rv).get()->preload();
-            shader->setTexture(i->first, rv->get());
+            Texture* t = *static_cast<TextureVariable*>(v);
+            if (t)
+            {
+                if (t->invalid())
+                    t->preload();
+            }
+            shader->setTexture(i->first, t);
         }
     }
     shader->commit();

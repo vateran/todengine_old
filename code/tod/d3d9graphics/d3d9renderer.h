@@ -59,6 +59,8 @@ namespace engine
 
         override void drawQuad(const Rect& r, const Color& color);
 
+        Texture* findTextureByD3D9Texture(IDirect3DBaseTexture9* texture);
+
     private:
         typedef std::stack<Texture*> RenderTargetStack;
         typedef std::stack<Shader*> ShaderStack;

@@ -8,33 +8,38 @@ texture SceneMap;
 texture ToneMap;
 
 float Luminance = 0.08f;
+float ExposureLevel = 2;
+float VinetteLevel = 1;
+
 static const float fMiddleGray = 0.18f;
 static const float fWhiteCutoff = 0.8f;
 
-static const float g_cWidth = 800;
-static const float g_cHeight = 600;
+static const float g_csWidth = 800;
+static const float g_csHeight = 600;
+
+shared float2 PixelOffset = float2( 1.0 / g_csWidth, 1.0 / g_csHeight );
 
 float2 PixelCoordsDownFilter[16] =
 {
-    { 1.5 / g_cWidth,  -1.5 / g_cHeight },
-    { 1.5 / g_cWidth,  -0.5 / g_cHeight },
-    { 1.5 / g_cWidth,   0.5 / g_cHeight },
-    { 1.5 / g_cWidth,   1.5 / g_cHeight },
+    { 1.5 / g_csWidth,  -1.5 / g_csHeight },
+    { 1.5 / g_csWidth,  -0.5 / g_csHeight },
+    { 1.5 / g_csWidth,   0.5 / g_csHeight },
+    { 1.5 / g_csWidth,   1.5 / g_csHeight },
 
-    { 0.5 / g_cWidth,  -1.5 / g_cHeight },
-    { 0.5 / g_cWidth,  -0.5 / g_cHeight },
-    { 0.5 / g_cWidth,   0.5 / g_cHeight },
-    { 0.5 / g_cWidth,   1.5 / g_cHeight },
+    { 0.5 / g_csWidth,  -1.5 / g_csHeight },
+    { 0.5 / g_csWidth,  -0.5 / g_csHeight },
+    { 0.5 / g_csWidth,   0.5 / g_csHeight },
+    { 0.5 / g_csWidth,   1.5 / g_csHeight },
 
-    {-0.5 / g_cWidth,  -1.5 / g_cHeight },
-    {-0.5 / g_cWidth,  -0.5 / g_cHeight },
-    {-0.5 / g_cWidth,   0.5 / g_cHeight },
-    {-0.5 / g_cWidth,   1.5 / g_cHeight },
+    {-0.5 / g_csWidth,  -1.5 / g_csHeight },
+    {-0.5 / g_csWidth,  -0.5 / g_csHeight },
+    {-0.5 / g_csWidth,   0.5 / g_csHeight },
+    {-0.5 / g_csWidth,   1.5 / g_csHeight },
 
-    {-1.5 / g_cWidth,  -1.5 / g_cHeight },
-    {-1.5 / g_cWidth,  -0.5 / g_cHeight },
-    {-1.5 / g_cWidth,   0.5 / g_cHeight },
-    {-1.5 / g_cWidth,   1.5 / g_cHeight },
+    {-1.5 / g_csWidth,  -1.5 / g_csHeight },
+    {-1.5 / g_csWidth,  -0.5 / g_csHeight },
+    {-1.5 / g_csWidth,   0.5 / g_csHeight },
+    {-1.5 / g_csWidth,   1.5 / g_csHeight },
 };
 
 
@@ -72,6 +77,20 @@ void vsQuad(
 }
 
 
+void vsCompose(
+    float4 pos              : POSITION,
+    float4 diffuse          : COLOR0,
+    float2 uv0              : TEXCOORD0,
+    out float4 out_pos      : POSITION,
+    out float4 out_diffuse  : COLOR0,
+    out float2 out_uv0      : TEXCOORD0)
+{    
+    out_pos = mul(pos, WorldViewProjectionMatrix);
+    out_diffuse = diffuse;
+    out_uv0 = uv0 + (PixelOffset * 0.5);
+}
+
+
 float4 psOpaque(
     float4 pos      : POSITION,
     float4 diffuse  : COLOR0,
@@ -102,7 +121,19 @@ float4 psCompose(
     float4 diffuse  : COLOR0,
     float2 uv0      : TEXCOORD0) : COLOR
 {
-    return (tex2D(SceneSampler, uv0) + tex2D(ToneSampler, uv0)) * diffuse;
+    float4 original = tex2D(SceneSampler, uv0);
+    float4 blur     = tex2D(ToneSampler, uv0);
+   
+    float4 color = lerp(original, blur, 0.4f);
+    
+    uv0 -= 0.5;
+    float vignette = 1 - dot(uv0, uv0);
+    color *= pow(vignette, VinetteLevel);
+    color *= ExposureLevel;
+    
+    return color;
+    
+    //return (tex2D(SceneSampler, uv0) + tex2D(ToneSampler, uv0)) * diffuse;
 }
 
 
@@ -159,7 +190,7 @@ technique ComposeScenePass
 {
     pass P0
     {
-        VertexShader = compile vs_2_0 vsQuad();
+        VertexShader = compile vs_2_0 vsCompose();
         PixelShader  = compile ps_2_0 psCompose();
         FillMode = Solid;
         CullMode = CCW;

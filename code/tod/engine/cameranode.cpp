@@ -1,5 +1,6 @@
 #include "tod/engine/cameranode.h"
 
+#include "tod/core/simplepropertybinder.h"
 #include "tod/engine/renderer.h"
 #include "tod/engine/shader.h"
 
@@ -9,7 +10,8 @@ using namespace tod::engine;
 IMPLEMENT_CLASS(CameraNode, AbstractCameraNode);
 
 //-----------------------------------------------------------------------------
-CameraNode::CameraNode()
+CameraNode::CameraNode():
+fov_(3.14f/4.0f), aspectRatio_(1.3333f), near_(0.1f), far_(1000.0f)
 {
 
 }
@@ -25,7 +27,7 @@ CameraNode::~CameraNode()
 //-----------------------------------------------------------------------------
 void CameraNode::renderCamera(SceneServer* scene_server)
 {
-    projection_.perspectiveFovLH(3.14f/4.0f, 1.3333f, 0.1f, 1000.0f);
+    projection_.perspectiveFovLH(fov_, aspectRatio_, near_, far_);
     view_ = camera_.getMatrix();
     //view_.inverse();
 
@@ -92,4 +94,14 @@ void CameraNode::eulerRotateZ(float angle)
 bool CameraNode::hasCamera() const
 {
     return true;
+}
+
+
+//-----------------------------------------------------------------------------
+void CameraNode::bindProperty()
+{
+    BIND_PROPERTY(float, fov, &setFOV, &getFOV);
+    BIND_PROPERTY(float, aspect_ratio, &setAspectRatio, &getAspectRatio);
+    BIND_PROPERTY(float, near, &setNear, &getNear);
+    BIND_PROPERTY(float, far, &setFar, &getFar);
 }

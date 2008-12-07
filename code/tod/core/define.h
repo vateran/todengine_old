@@ -10,6 +10,9 @@
 #pragma warning(disable:4819)
 #pragma warning(disable:4995)
 
+#include <windows.h>
+#include <strsafe.h>
+
 #define tod_sleep(t) Sleep(t);
 
 #endif

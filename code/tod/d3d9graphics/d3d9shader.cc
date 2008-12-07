@@ -7,6 +7,7 @@
 #include "tod/d3d9graphics/d3d9exception.h"
 #include "tod/d3d9graphics/d3d9texture.h"
 #include "tod/d3d9graphics/d3d9cubetexture.h"
+#include "tod/d3d9graphics/d3d9renderer.h"
 
 using namespace tod;
 using namespace tod::engine;
@@ -158,12 +159,13 @@ void D3D9Shader::setTexture(const String& name, Texture* t)
         GetParameterByName(0, name.toAnsiString().c_str());
     if (0 == h)
         return;
-    D3D9Texture* d3dt = DOWN_CAST<D3D9Texture*>(t);
-    if (d3dt)
+    
+    if (D3D9Texture* d3dt = DOWN_CAST<D3D9Texture*>(t))
         d3deffect_->SetTexture(h, d3dt->getDirect3DTexture9());
-    D3D9CubeTexture* d3dct = DOWN_CAST<D3D9CubeTexture*>(t);
-    if (d3dct)
+    else if (D3D9CubeTexture* d3dct = DOWN_CAST<D3D9CubeTexture*>(t))
         d3deffect_->SetTexture(h, d3dct->getDirect3DTexture9());
+    else
+        d3deffect_->SetTexture(h, 0);
 }
 
 
@@ -194,4 +196,88 @@ void D3D9Shader::onLostDevice()
 void D3D9Shader::onRestoreDevice()
 {
     d3deffect_->OnResetDevice();
+}
+
+
+//-----------------------------------------------------------------------------
+uint32_t D3D9Shader::getParameterNum() const
+{
+    D3DXEFFECT_DESC desc;
+    d3deffect_->GetDesc(&desc);
+    return desc.Parameters;
+}
+
+
+//-----------------------------------------------------------------------------
+#include "tod/core/define.h"
+ShaderParamDesc D3D9Shader::getParameterDesc(uint32_t index)
+{
+    D3DXHANDLE handle = d3deffect_->GetParameter(0, index);
+    D3DXPARAMETER_DESC d3ddesc;
+    d3deffect_->GetParameterDesc(handle, &d3ddesc);
+    
+    ShaderParamDesc result;
+    if (d3ddesc.Name)
+        result.name_ = d3ddesc.Name;
+    if (d3ddesc.Semantic)
+        result.semantic_ = d3ddesc.Semantic;
+    result.type_ = static_cast<ShaderParamDesc::Type>(d3ddesc.Type);
+
+    switch (d3ddesc.Type)
+    {
+    case D3DXPT_BOOL:
+        {
+            BOOL value;
+            d3deffect_->GetBool(handle, &value);
+            char_t buf[4];
+            tod_snprintf(buf, 4, STRING("%d"), value);
+            result.value_ = buf;
+            break;
+        }
+    case D3DXPT_INT:
+        {
+            INT value;
+            d3deffect_->GetInt(handle, &value);
+            char_t buf[16];
+            tod_snprintf(buf, 16, STRING("%d"), value);
+            result.value_ = buf;
+            break;
+        }
+    case D3DXPT_FLOAT:
+        {
+            FLOAT value;
+            d3deffect_->GetFloat(handle, &value);
+            char_t buf[32];
+            tod_snprintf(buf, 32, STRING("%.3f"), value);
+            result.value_ = buf;
+            break;
+        }
+    case D3DXPT_STRING:
+        {
+            LPCSTR value;
+            d3deffect_->GetString(handle, &value);
+            char_t buf[32];
+            tod_snprintf(buf, 32, STRING(""), value);
+            result.value_ = buf;
+            break;
+        }
+    case D3DXPT_TEXTURE:
+    case D3DXPT_TEXTURE1D:
+    case D3DXPT_TEXTURE2D:
+    case D3DXPT_TEXTURE3D:
+    case D3DXPT_TEXTURECUBE:
+        {
+            IDirect3DBaseTexture9* value = 0;
+            d3deffect_->GetTexture(handle, &value);
+            D3D9Renderer* r = dynamic_cast<D3D9Renderer*>(Renderer::instance());
+            Texture* texture = r->findTextureByD3D9Texture(value);
+            if (texture)
+                result.value_ = texture->getUri();
+            break;
+        }
+    default:
+        break;
+    }
+
+    return result;
 }

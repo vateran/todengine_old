@@ -56,6 +56,7 @@ namespace tod
         String extractExtension() const;
 
         bool operator < (const Uri& rhs) const;
+        operator const String& () const;
 
     private:
         String uri_;

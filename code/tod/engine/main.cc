@@ -43,6 +43,7 @@ void initialize_Engine(Module* module)
     REGISTER_TYPE(module, SceneNode);
     REGISTER_TYPE(module, TransformNode);
     REGISTER_TYPE(module, AbstractShaderNode);
+    REGISTER_TYPE(module, AbstractCameraNode);
     REGISTER_TYPE(module, ShaderNode);
     REGISTER_TYPE(module, MeshNode);
     REGISTER_TYPE(module, CameraNode);
@@ -64,6 +65,8 @@ void initialize_Engine(Module* module)
 
     static FormatStringConverter format_sc;
     ToString::instance()->addConverter(&format_sc);
+
+    ShaderParamTypeEnumerationInitializer::initialize();
 
     ilInit();
 }

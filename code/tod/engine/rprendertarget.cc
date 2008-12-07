@@ -27,6 +27,8 @@ RpRenderTarget::~RpRenderTarget()
 //-----------------------------------------------------------------------------
 void RpRenderTarget::preload()
 {
+    if (getTextureUri().empty() || getFormat() == Format::UNKNOWN)
+        return;
     if (texture_.valid() && texture_->valid())
         return;
     create_texture();

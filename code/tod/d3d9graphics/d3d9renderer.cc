@@ -365,6 +365,24 @@ void D3D9Renderer::drawQuad(const Rect& r, const Color& color)
 
 
 //-----------------------------------------------------------------------------
+Texture* D3D9Renderer::findTextureByD3D9Texture(IDirect3DBaseTexture9* texture)
+{
+    for (ResourceHolder<Texture>::NamedResources::iterator
+         i = textures_.begin();
+         i != textures_.end(); ++i)
+    {
+        D3D9Texture* t = i->second;
+        if (0 == t)
+            continue;
+        if (t->getDirect3DTexture9() == texture)
+            return t;
+    }
+
+    return 0;
+}
+
+
+//-----------------------------------------------------------------------------
 void D3D9Renderer::initialize_window(const DisplayMode& display_mode)
 {
     // finalize previous window handle

@@ -192,6 +192,10 @@
 						Name="shader"
 						>
 						<File
+							RelativePath="..\..\code\tod\engine\shader.cc"
+							>
+						</File>
+						<File
 							RelativePath="..\..\code\tod\engine\shader.h"
 							>
 						</File>
@@ -356,6 +360,10 @@
 							</File>
 							<File
 								RelativePath="..\..\code\tod\engine\cameranode.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\code\tod\engine\cameranode.inl"
 								>
 							</File>
 							<File

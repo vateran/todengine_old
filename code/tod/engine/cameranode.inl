@@ -1,56 +1,54 @@
 //-----------------------------------------------------------------------------
-inline const String& Uri::get() const
+inline void CameraNode::setFOV(float fov)
 {
-    return uri_;
+    fov_ = fov;
 }
 
 
 //-----------------------------------------------------------------------------
-inline const char_t* Uri::c_str() const
+inline float CameraNode::getFOV() const
 {
-    return uri_.c_str();
+    return fov_;
 }
 
 
 //-----------------------------------------------------------------------------
-inline const String& Uri::getProtocol() const
+inline void CameraNode::setAspectRatio(float aspect)
 {
-    return protocol_;
-}
-
-//-----------------------------------------------------------------------------
-inline const String& Uri::getPackage() const
-{
-    return managed_;
-}
-
-//-----------------------------------------------------------------------------
-inline const String& Uri::getIp() const
-{
-    return ip_;
-}
-
-//-----------------------------------------------------------------------------
-inline const String& Uri::getPort() const
-{
-    return port_;
-}
-
-//-----------------------------------------------------------------------------
-inline const String& Uri::getPath() const
-{
-    return path_;
-}
-
-//-----------------------------------------------------------------------------
-inline bool Uri::operator < (const Uri& rhs) const
-{
-    return uri_ < rhs.uri_;
+    aspectRatio_ = aspect;
 }
 
 
 //-----------------------------------------------------------------------------
-inline Uri::operator const String& () const
+inline float CameraNode::getAspectRatio() const
 {
-    return uri_;
+    return aspectRatio_;
+}
+
+
+//-----------------------------------------------------------------------------
+inline void CameraNode::setNear(float z)
+{
+    near_ = z;
+}
+
+
+//-----------------------------------------------------------------------------
+inline float CameraNode::getNear() const
+{
+    return near_;
+}
+
+
+//-----------------------------------------------------------------------------
+inline void CameraNode::setFar(float z)
+{
+    far_ = z;
+}
+
+
+//-----------------------------------------------------------------------------
+inline float CameraNode::getFar() const
+{
+    return far_;
 }

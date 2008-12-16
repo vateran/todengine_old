@@ -33,6 +33,8 @@ bool D3D9Mesh::preload
  bool split_vertex_for_optimal_tangents)
 {
     tod_assert(d3d9device_);
+    if (d3dmesh_)
+        return true;
 
     tod::Resource resource(getUri());
     if (!resource.open(
@@ -121,8 +123,8 @@ bool D3D9Mesh::preload
 
         ID3DXMesh* new_mesh = 0;
         d3dmesh_->CloneMesh(d3dmesh_->GetOptions(), new_decl, d3d9device_, &new_mesh);
-        D3DXComputeNormals(new_mesh, 0);
         SAFE_RELEASE(d3dmesh_);
+        D3DXComputeNormals(new_mesh, 0);        
         d3dmesh_ = new_mesh;
     }
     

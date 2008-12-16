@@ -36,7 +36,7 @@ namespace tod
     typedef uint32_t index_t;
     typedef uint32_t length_t;
 
-    typedef const char* type_id;
+    typedef int type_id;
 }
 
 #endif // TOD_CORE_TYPE_PRIMITIVETYPE_H

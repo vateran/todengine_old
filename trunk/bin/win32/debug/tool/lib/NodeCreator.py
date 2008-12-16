@@ -317,9 +317,10 @@ class NodeCreatorFrame(wx.Frame):
         
     def OnNodeNameTextEnter(self, event):
         self.nodeType.SetFocus()
+        self.editedNodeName = True
         
     def OnNodeNameText(self, event):
-        self.editedNodeName = True
+        pass
 
     def OnNodeTypeCombobox(self, event):
         self.generate_node_name_by_type(event.GetString())
@@ -339,10 +340,10 @@ class NodeCreatorFrame(wx.Frame):
         new_node_name = ''
         children = self.parentNode.getChildren()
         for child in children:
-            new_node_name = type + '_%02d' % (index,)
+            new_node_name = type + '%02d' % (index,)
             if child.getName().find(new_node_name) != -1:
                 index = index + 1
-        new_node_name = type + '_%02d' % (index,)
+        new_node_name = type + '%02d' % (index,)
         self.nodeName.SetValue(new_node_name)
 
     def error_msg(self, msg):

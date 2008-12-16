@@ -88,10 +88,9 @@ class MainFrame(wx.Frame):
 
     def __init__(self, parent):
         self._init_ctrls(parent)
-        
         if MainFrame.s_instance == None:
             MainFrame.s_instance = self
-        
+
         self.SetIcon(wx.Icon('data/tod.png', wx.BITMAP_TYPE_PNG))
         
         self.auimgr = wx.aui.AuiManager()
@@ -104,7 +103,7 @@ class MainFrame(wx.Frame):
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
         self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
-        
+
         camera = new('CameraNode', '/usr/scene/camera')
         camera.renderpath_section = 'default'
         camera.shader_uri = 'managed://shader#camera.fx'
@@ -221,7 +220,7 @@ class MainFrame(wx.Frame):
         #rppass.setTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rppass.setTexture('SceneMap', 'managed://rt#scene')
         #rppass.setTexture('SceneMap', 'managed://rt#bloomv_scene')
-        #rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')
+        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),

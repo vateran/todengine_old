@@ -19,9 +19,7 @@ namespace tod
     public:
         static type_id id()
         {
-            int b = typeid(T).before(typeid(T));
-            const char* a = typeid(T).raw_name();
-            return typeid(T).name();
+            return reinterpret_cast<int>(typeid(T).raw_name());
         }
         static bool check(type_id _id)
         {

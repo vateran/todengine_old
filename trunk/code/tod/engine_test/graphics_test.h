@@ -9,7 +9,7 @@ public:
     TODUNIT_BEGINE_TESTSUITE(GraphicsTestCase)
         TODUNIT_TEST(test_Format);
         TODUNIT_TEST(test_DisplayMode);
-        //TODUNIT_TEST(test_D3D9Renderer);
+        TODUNIT_TEST(test_D3D9Renderer);
         //TODUNIT_TEST(test_VertexBuffer);
         //TODUNIT_TEST(test_Mesh);
         TODUNIT_TEST(test_Scene);

@@ -213,16 +213,23 @@ PyObject* TodPython_serialize(PyObject* self, PyObject* args)
 //-----------------------------------------------------------------------------
 PyObject* TodPython_deserialize(PyObject* self, PyObject* args)
 {
-    TodNode* o = 0;
     char* uri = 0;
-    if (!PyArg_ParseTuple(args, "sO:serialize", &uri, &o))
+    char* name = 0;
+    if (!PyArg_ParseTuple(args, "ss:deserialize", &uri, &name))
         return PyErr_Format(PyExc_Exception, "mismatch argument");
 
     XmlSerializer s;
-    s.serialize(String(uri), o->node_);
+    Object* result_o = s.deserialize(String(uri), String(name));
+    if (0 == result_o)
+        return PyErr_Format(PyExc_Exception, "resource not found(%s)", uri);
 
-    Py_INCREF(Py_True);
-    return Py_True;
+    TodObject* o = reinterpret_cast<TodObject*>(
+        TodObjectType.tp_new(&TodObjectType, 0, 0));
+    if (0 == o)
+        return 0;
+    o->object_ = result_o;
+    return reinterpret_cast<PyObject*>(o);
+
 }
 
 
@@ -274,13 +281,3 @@ PyObject* TodPython_getTypeList(PyObject* self, PyObject* args)
     return result;
 
 }
-
-/*PyObject* dict = PyModule_GetDict(g_module);
-PyObject *key, *value;
-int pos = 0;
-while (PyDict_Next(dict, &pos, &key, &value))
-{
-PyObject* str_key = PyObject_Str(key);
-PyObject* str_value = PyObject_Str(value);
-printf("%s:%s\n", PyString_AsString(str_key), PyString_AsString(str_value));
-}*/

@@ -21,8 +21,9 @@ SingletonServer::~SingletonServer()
 //-----------------------------------------------------------------------------
 void SingletonServer::clear()
 {
+    singletons_.reverse();
     for (Singletons::iterator i = singletons_.begin();
-        i != singletons_.end();)
+         i != singletons_.end();)
     {
         SingletonBase* s = *i;
         i = singletons_.erase(i);

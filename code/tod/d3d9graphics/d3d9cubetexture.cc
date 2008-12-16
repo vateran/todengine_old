@@ -30,7 +30,8 @@ D3D9CubeTexture::~D3D9CubeTexture()
 bool D3D9CubeTexture::create(int width, int height, int mipmap_level, Format format, int usage)
 {
     tod_assert(d3d9device_);
-    tod_assert(d3d9texture_ == 0);
+    if (d3d9texture_)
+        return true;
 
     d3dusage_ = 0;
     D3DPOOL pool = D3DPOOL_MANAGED;

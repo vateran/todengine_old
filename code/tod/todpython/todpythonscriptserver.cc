@@ -38,6 +38,15 @@ static PyMethodDef TodPythonMethods[] =
 
 
 //-----------------------------------------------------------------------------
+static void clear_singletons()
+{
+    // if s_standAlone_ == true then this function called at exit Python
+    // SingletonServer::clear() must be called by current process(Python).
+    SingletonServer::instance()->clear();
+}
+
+
+//-----------------------------------------------------------------------------
 void TodPythonScriptServer::initialize()
 {
     USING_MODULE(Engine);
@@ -69,6 +78,7 @@ void TodPythonScriptServer::initialize()
         Kernel::instance()->create(STRING("TodPythonScriptServer"),
             STRING("/sys/server/script/python"));
         TodPythonScriptServer::s_standAlone_ = true;
+        Py_AtExit(clear_singletons);
     }
     else
     {
@@ -135,9 +145,10 @@ void initialize_TodPython(Module* module)
 //-----------------------------------------------------------------------------
 void finalize_TodPython(Module* module)
 {
-    Py_DECREF(g_module);
-    //if (s_standAlone_)
-    {
+    if (!TodPythonScriptServer::s_standAlone_)
+        Py_DECREF(g_module);
+    else
+    {   
         Py_Finalize();
     }
 }

@@ -1,5 +1,6 @@
 #include "tod/d3d9graphics/d3d9shader.h"
 
+#include "tod/core/define.h"
 #include "tod/core/assert.h"
 #include "tod/core/log.h"
 #include "tod/core/resource.h"
@@ -37,6 +38,9 @@ D3D9Shader::~D3D9Shader()
 bool D3D9Shader::preload()
 {
     tod_assert(d3d9device_);
+    tod_assert(d3deffectpool_);
+    if (d3deffect_)
+        return true;
 
     tod::Resource resource(getUri());
     if (!resource.open(
@@ -51,7 +55,7 @@ bool D3D9Shader::preload()
     HRESULT hr;
     if (FAILED(hr = D3DXCreateEffect(d3d9device_, &buffer[0],
         static_cast<UINT>(buffer.size()), 0, 0,
-        D3DXSHADER_DEBUG, d3deffectpool_, &d3deffect_, &compilation_error)))
+        0, d3deffectpool_, &d3deffect_, &compilation_error)))
     {
         tod_log_notice((STRING("%s\n"), compilation_error->GetBufferPointer()));
         THROW_D3D9EXCEPTION(
@@ -209,7 +213,6 @@ uint32_t D3D9Shader::getParameterNum() const
 
 
 //-----------------------------------------------------------------------------
-#include "tod/core/define.h"
 ShaderParamDesc D3D9Shader::getParameterDesc(uint32_t index)
 {
     D3DXHANDLE handle = d3deffect_->GetParameter(0, index);

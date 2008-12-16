@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <crtdbg.h>
 #include "tod/core/unittest.h"
 #include "tod/core/module.h"
 #include "tod/core/resourcemanager.h"
@@ -16,7 +17,7 @@ int APIENTRY WinMain
  __in_opt LPSTR lpCmdLine, __in int nShowCmd )
 {
     _CrtSetDbgFlag (_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF );
-    //_CrtSetBreakAlloc(1281);
+    _CrtSetBreakAlloc(156);
 
     USING_MODULE(Engine);
     USING_MODULE(D3D9Graphics);

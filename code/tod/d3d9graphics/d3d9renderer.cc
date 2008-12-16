@@ -34,10 +34,22 @@ d3dsprite_(0), windowHandle_(0)
 //-----------------------------------------------------------------------------
 D3D9Renderer::~D3D9Renderer()
 {
+    shaders_.clear();
+    textures_.clear();
+    vertexBuffers_.clear();
+    indexBuffers_.clear();
+    meshes_.clear();
+    quadVb_.release();
+    while (shaderStack_.size())
+        shaderStack_.pop();
+    while (renderTargetStack_.size())
+        renderTargetStack_.pop();
+
     SAFE_RELEASE(d3dsprite_);
     SAFE_RELEASE(d3deffectpool_);
     SAFE_RELEASE(d3dbasicRenderTarget_);
-    SAFE_RELEASE(d3d9device_);
+    //SAFE_RELEASE(d3d9device_);
+    DWORD s = d3d9device_->Release();
     SAFE_RELEASE(d3d9_);
     finalize_window();
 }

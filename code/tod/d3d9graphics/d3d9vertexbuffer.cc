@@ -28,7 +28,8 @@ D3D9VertexBuffer::~D3D9VertexBuffer()
 bool D3D9VertexBuffer::create(int num_vertice, int vertex_component, int usage)
 {
     tod_assert(d3d9device_);
-    tod_assert(0 == d3d9vb_);
+    if (d3d9vb_)
+        return true;
     
     usage_ = 0;
     numVertice_ = num_vertice;

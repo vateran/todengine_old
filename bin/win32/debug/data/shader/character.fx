@@ -9,7 +9,7 @@ shared float4x4 WorldViewProjectionMatrix;
 
 texture DiffuseMap;
 
-float4 g_lightDir = {0.0f, 0.0f, -1.0f, 1.0f};    //light Direction
+float4 g_lightDir = {0.0f, 0.0f, 1.0f, 1.0f};    //light Direction
 float4 g_materialAmbient : MATERIALAMBIENT = {0.1f, 0.1f, 0.1f, 1.0f};
 float4 g_materialDiffuse : MATERIALDIFFUSE = {0.8f, 0.8f, 0.8f, 1.0f};
 
@@ -38,7 +38,7 @@ struct VsOutput
 {
     float4 pos          : POSITION;
     float4 diffuse      : COLOR0;
-    float3 uv0          : TEXCOORD0;
+    float2 uv0          : TEXCOORD0;
 };
 
 
@@ -87,7 +87,7 @@ VsOutput CharacterVertexShaderMain(VsInput input, uniform int num_bones)
     output.diffuse.xyz = Diffuse(normal) * g_materialDiffuse.xyz;
     output.diffuse.w = 1.0f;
     
-    output.uv0 = float3(input.uv0, 0);
+    output.uv0 = input.uv0;
     
     return output;
 }
@@ -116,7 +116,7 @@ technique Character
     pass P0
     {
         VertexShader = vsArray[g_curNumBone];
-        //PixelShader  = compile ps_2_0 CharacterPixelShaderMain();
+        PixelShader  = compile ps_2_0 CharacterPixelShaderMain();
         //FillMode = Solid;
         //CullMode = CCW;
     }

@@ -11,8 +11,18 @@ static void ScriptServer_b_run_s(ScriptServer* self, Parameter* param)
         self->run(param->in()->get<String>(0).get());
 }
 
+
+//-----------------------------------------------------------------------------
+static void ScriptServer_b_runFile_s(ScriptServer* self, Parameter* param)
+{
+    param->out()->get<bool>(0) =
+        self->runFile(param->in()->get<String>(0).get());
+}
+
+
 //-----------------------------------------------------------------------------
 void ScriptServer::bindMethod()
 {
     BIND_METHOD(b_run_s, ScriptServer_b_run_s);
+    BIND_METHOD(b_runFile_s, ScriptServer_b_runFile_s);
 }

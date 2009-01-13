@@ -4,6 +4,7 @@
 #include "tod/core/simplepropertybinder.h"
 #include "tod/engine/timeserver.h"
 #include "tod/engine/shader.h"
+#include "tod/engine/texture.h"
 #include "tod/d3d9graphics/d3d9renderer.h"
 
 using namespace tod;
@@ -24,7 +25,8 @@ XFileNode::~XFileNode()
 
 }
 
-typedef std::vector<Matrix44> MatrixArray; 
+typedef std::vector<Matrix44> MatrixArray;
+typedef std::vector<Texture*> TextureArray;
 
 struct Bone : public D3DXFRAME
 {
@@ -55,7 +57,9 @@ struct MeshContainer : public D3DXMESHCONTAINER
     ULONG* vpRemap_;
     ULONG softwareRemapBegin_;
     ID3DXMesh* originMesh_;
-    ID3DXMesh* swmesh_;    
+    ID3DXMesh* swmesh_;
+
+    TextureArray textures_;
 };
 
 enum SkinMethod
@@ -93,7 +97,7 @@ public:
                                    LPD3DXMESHCONTAINER *ppNewMeshContainer)
     {
         HRESULT hr = S_OK;
-        bool manage_attributes = false;
+        bool manage_attributes = true;
 
         if (D3DXMESHTYPE_MESH != pMeshData->Type)
             return E_FAIL;
@@ -148,11 +152,19 @@ public:
         if (NumMaterials > 0 && manage_attributes == true)
         {
             mc->pMaterials = new D3DXMATERIAL[NumMaterials];
+            mc->textures_.resize(NumMaterials);
 
             for (ULONG i = 0; i < NumMaterials; ++i)
             {
                 mc->pMaterials[i].MatD3D = pMaterials[i].MatD3D;
-                mc->pMaterials[i].pTextureFilename = _strdup(pMaterials[i].pTextureFilename);
+                //mc->pMaterials[i].pTextureFilename = _strdup(pMaterials[i].pTextureFilename);
+
+                Uri uri = uri_.getProtocol() + String("://") +
+                    uri_.getPackage() + String("#") +
+                    uri_.extractPath() + String(pMaterials[i].pTextureFilename);
+                mc->textures_[i] = Renderer::instance()->newTexture(uri);
+                if (mc->textures_[i]->invalid())
+                    mc->textures_[i]->preload();
             }
         }
 
@@ -342,6 +354,8 @@ public:
 public:
     SkinMethod skinMethod_;
     MatrixArray* boneMatrices_;
+    TextureArray* textures_;
+    Uri uri_;
 };
 
 class XFile
@@ -369,6 +383,8 @@ public:
         AllocateHierarchy allocator;
         allocator.skinMethod_ = skinMethod_;
         allocator.boneMatrices_ = &boneMatrices_;
+        allocator.textures_ = &textures_;
+        allocator.uri_ = uri;
         if (FAILED(D3DXLoadMeshHierarchyFromXInMemory(
             &buffer[0], buffer.size(), option_, d3ddevice_,
             &allocator, 0, reinterpret_cast<D3DXFRAME**>(&root_), &animController_)))
@@ -530,6 +546,7 @@ private:
 
                     shader_->setMatrixArray("WorldMatrixArray", &boneMatrices_[0], mc->paletteEntryCount_);
                     shader_->setInt("g_curNumBone", mc->influenceCount_ - 1);
+                    shader_->setTexture("DiffuseMap", mc->textures_[0]);
                     shader_->commit();
 
                     uint32_t num_passes;
@@ -577,6 +594,7 @@ private:
 public:
     Shader* shader_;
     MatrixArray boneMatrices_;
+    TextureArray textures_;
 };
 
 XFile xfile;

@@ -11,14 +11,14 @@ bool ScriptServer::run(const String& str)
 }
 
 //-----------------------------------------------------------------------------
-bool ScriptServer::run(const String& str, Parameter* parameter)
+bool ScriptServer::call(const String& str, Parameter* parameter)
 {
     return false;
 }
 
 
 //-----------------------------------------------------------------------------
-bool ScriptServer::run(const Uri& uri)
+bool ScriptServer::runFile(const Uri& uri)
 {
     return false;
 }

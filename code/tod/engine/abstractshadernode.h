@@ -20,11 +20,13 @@ namespace engine
     public:
         AbstractShaderNode();
         virtual~AbstractShaderNode();
-        DECLARE_CLASS(AbstractShaderNode, TransformNode);
+        DECLARE_ABSTRACTCLASS(AbstractShaderNode, TransformNode);
 
         void setRpPass(const Name& name);
         const Name& getRpPass() const;
         int getRpPassIndex() const;
+
+        virtual Shader* getShader()=0;
 
         static void bindMethod();
         static void bindProperty();

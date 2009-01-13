@@ -22,6 +22,9 @@ Method::~Method()
 //-----------------------------------------------------------------------------
 void Method::setPrototype(const char_t* proto)
 {
+    if (prototype_.size())
+        return;
+
     prototype_ = proto;
 
     typedef boost::tokenizer<
@@ -35,6 +38,7 @@ void Method::setPrototype(const char_t* proto)
     ++i; ++i;
     String in_arg = *i;
 
+    parameter_.clear();
     build_paramter(out_arg, parameter_.out());
     build_paramter(in_arg, parameter_.in());
 }

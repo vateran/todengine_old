@@ -75,10 +75,15 @@ namespace engine
         virtual void endPass()=0;
 
         virtual void setTechnique(const String& name)=0;
+        virtual void setInt(const String& name, int v)=0;
         virtual void setFloat(const String& name, float v)=0;
         virtual void setMatrix(
             const String& name,
             const Matrix44& m)=0;
+        virtual void setMatrixArray(
+            const String& name,
+            const Matrix44* ma,
+            uint32_t count)=0;
         virtual void setTexture(const String& name, Texture* t)=0;
 
         virtual uint32_t getParameterNum() const=0;

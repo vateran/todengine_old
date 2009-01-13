@@ -254,7 +254,12 @@ void SceneServer::doRenderPath(const Name& section_name)
                 TRANSFORM_WORLD, group.modelTransform_);
             scene_node->renderShader(this, group.sceneContext_);
 
-            Shader* shader = Renderer::instance()->getShader();
+
+
+            scene_node->renderGeometry(this, group.sceneContext_);
+
+
+            /*Shader* shader = Renderer::instance()->getShader();
             uint32_t pass;
             shader->begin(pass);
             for (uint32_t i = 0; i < pass; ++i)
@@ -263,7 +268,7 @@ void SceneServer::doRenderPath(const Name& section_name)
                 scene_node->renderGeometry(this, group.sceneContext_);
                 shader->endPass();
             }    
-            shader->end();
+            shader->end();*/
         }
 
         pass->end();

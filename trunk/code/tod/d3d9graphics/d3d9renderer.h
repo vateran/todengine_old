@@ -59,6 +59,7 @@ namespace engine
 
         override void drawQuad(const Rect& r, const Color& color);
 
+        IDirect3DDevice9* getD3DDevice();
         Texture* findTextureByD3D9Texture(IDirect3DBaseTexture9* texture);
 
     private:

@@ -32,10 +32,15 @@ namespace engine
         override void endPass();
 
         override void setTechnique(const String& name);
+        override void setInt(const String& name, int v);
         override void setFloat(const String& name, float v);
         override void setMatrix(
             const String& name,
             const Matrix44& m);
+        override void setMatrixArray(
+            const String& name,
+            const Matrix44* ma,
+            uint32_t count);
         override void setTexture(const String& name, Texture* t);
 
         override void commit();

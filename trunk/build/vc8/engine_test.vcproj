@@ -184,6 +184,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\bin\win32\debug\data\shader\character.fx"
+			>
+		</File>
+		<File
 			RelativePath=".\engine_test.rc"
 			>
 		</File>

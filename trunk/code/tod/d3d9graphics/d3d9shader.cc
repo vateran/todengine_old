@@ -129,6 +129,19 @@ void D3D9Shader::setTechnique(const String& name)
 
 
 //-----------------------------------------------------------------------------
+void D3D9Shader::setInt(const String& name, int v)
+{
+    if (0 == d3deffect_)
+        return;
+    D3DXHANDLE h = d3deffect_->
+        GetParameterByName(0, name.toAnsiString().c_str());
+    if (0 == h)
+        return;
+    d3deffect_->SetInt(h, v);
+}
+
+
+//-----------------------------------------------------------------------------
 void D3D9Shader::setFloat(const String& name, float v)
 {
     if (0 == d3deffect_)
@@ -151,6 +164,20 @@ void D3D9Shader::setMatrix(const String& name, const Matrix44& m)
     if (0 == h)
         return;
     d3deffect_->SetMatrix(h, reinterpret_cast<const D3DXMATRIX*>(&m));
+}
+
+
+//-----------------------------------------------------------------------------
+void D3D9Shader::setMatrixArray
+(const String& name, const Matrix44* ma, uint32_t count)
+{
+    if (0 == d3deffect_)
+        return;
+    D3DXHANDLE h = d3deffect_->
+        GetParameterByName(0, name.toAnsiString().c_str());
+    if (0 == h)
+        return;
+    d3deffect_->SetMatrixArray(h, reinterpret_cast<const D3DXMATRIX*>(ma), count);
 }
 
 

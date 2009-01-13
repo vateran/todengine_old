@@ -108,8 +108,15 @@ class MainFrame(wx.Frame):
         camera.renderpath_section = 'default'
         camera.shader_uri = 'managed://shader#camera.fx'
         camera.translation = (0, 0.0, 0.0)
+
+        mesh = new('XFileNode', '/usr/scene/test')
+        mesh.mesh_uri = 'managed://mesh#tiny.x'
+        mesh.shader_uri = 'managed://shader#character.fx'
+        mesh.technique = 'Character'
+        mesh.scaling = (0.1, 0.1, 0.1)
+                
         
-        mesh = new('MeshNode', '/usr/scene/tiger')
+        '''mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'EnvMapMesh'
@@ -118,7 +125,7 @@ class MainFrame(wx.Frame):
         mesh.translation = (0, -0.5, 2.5)
         mesh.mesh_uri = 'managed://mesh#skullocc.x'
         #mesh.setTexture('EnvMap', 'managed://texture#uffizi_cross.dds')
-        mesh.setCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')
+        mesh.setCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')'''
         
         mesh = new('MeshNode', '/usr/scene/camera/skybox')
         mesh.euler_rotation = (0, 0, 0)

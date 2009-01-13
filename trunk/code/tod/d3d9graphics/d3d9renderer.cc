@@ -44,12 +44,10 @@ D3D9Renderer::~D3D9Renderer()
         shaderStack_.pop();
     while (renderTargetStack_.size())
         renderTargetStack_.pop();
-
     SAFE_RELEASE(d3dsprite_);
     SAFE_RELEASE(d3deffectpool_);
     SAFE_RELEASE(d3dbasicRenderTarget_);
-    //SAFE_RELEASE(d3d9device_);
-    DWORD s = d3d9device_->Release();
+    SAFE_RELEASE(d3d9device_);
     SAFE_RELEASE(d3d9_);
     finalize_window();
 }
@@ -373,6 +371,13 @@ void D3D9Renderer::drawQuad(const Rect& r, const Color& color)
 
     quadVb_->use();
     quadVb_->draw(PRIMITIVETYPE_TRIANGLESTRIP);
+}
+
+
+//-----------------------------------------------------------------------------
+IDirect3DDevice9* D3D9Renderer::getD3DDevice()
+{
+    return d3d9device_;
 }
 
 

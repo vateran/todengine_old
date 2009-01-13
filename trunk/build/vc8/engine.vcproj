@@ -539,18 +539,6 @@
 								>
 							</File>
 						</Filter>
-						<Filter
-							Name="xfilenode"
-							>
-							<File
-								RelativePath="..\..\code\tod\engine\xfilenode.cc"
-								>
-							</File>
-							<File
-								RelativePath="..\..\code\tod\engine\xfilenode.h"
-								>
-							</File>
-						</Filter>
 					</Filter>
 					<Filter
 						Name="sceneserver"

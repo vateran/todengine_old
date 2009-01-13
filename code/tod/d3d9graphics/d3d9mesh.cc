@@ -143,7 +143,7 @@ bool D3D9Mesh::draw()
     if (0 == d3dmesh_)
         return false;
 
-    //Shader* shader = Renderer::instance()->getShader();
+    Shader* shader = Renderer::instance()->getShader();
     
     for (DWORD i = 0; i < numMaterial_; ++i)
     {
@@ -168,7 +168,15 @@ bool D3D9Mesh::draw()
             shader->commit();
         }*/
 
-        d3dmesh_->DrawSubset(i);
+        uint32_t num_passes;
+        shader->begin(num_passes);
+        for (uint32_t pass = 0; pass < num_passes; ++pass)
+        {
+            shader->beginPass(pass);
+            d3dmesh_->DrawSubset(i);
+            shader->endPass();
+        }    
+        shader->end();
     }   
     return true;
 }

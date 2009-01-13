@@ -102,6 +102,13 @@ const String& ShaderNode::getTechnique() const
 
 
 //-----------------------------------------------------------------------------
+Shader* ShaderNode::getShader()
+{
+    return shader_;
+}
+
+
+//-----------------------------------------------------------------------------
 void ShaderNode::bindProperty()
 {
     BIND_PROPERTY(const Uri&, shader_uri, &setShaderUri, &getShaderUri);

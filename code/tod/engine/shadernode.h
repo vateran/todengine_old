@@ -36,6 +36,8 @@ namespace engine
         void setTechnique(const String& t);
         const String& getTechnique() const;
 
+        Shader* getShader();
+
         static void bindProperty();
 
     private:

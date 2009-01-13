@@ -100,9 +100,16 @@ class MainFrame(wx.Frame):
         trigger_server = get('/sys/server/trigger')
         time_server = new('TimeServer', '/sys/server/time')
         trigger_server.add(time_server, 0)
+        lua = new('TodLuaScriptServer', '/sys/server/script/lua')
+        trigger_server.add(lua, 0)
+
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
         self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
+
+
+        lua.runFile('managed://script#test.lua')
+
 
         camera = new('CameraNode', '/usr/scene/camera')
         camera.renderpath_section = 'default'
@@ -113,7 +120,9 @@ class MainFrame(wx.Frame):
         mesh.mesh_uri = 'managed://mesh#tiny.x'
         mesh.shader_uri = 'managed://shader#character.fx'
         mesh.technique = 'Character'
-        mesh.scaling = (0.1, 0.1, 0.1)
+        mesh.euler_rotation = (0.6, 1.2, 2)
+        mesh.scaling = (0.05, 0.05, 0.05)
+        mesh.translation = (0, 7, 40)
                 
         
         '''mesh = new('MeshNode', '/usr/scene/tiger')

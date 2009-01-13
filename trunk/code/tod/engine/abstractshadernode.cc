@@ -8,7 +8,7 @@
 using namespace tod;
 using namespace tod::engine;
 
-IMPLEMENT_CLASS(AbstractShaderNode, TransformNode);
+IMPLEMENT_ABSTRACTCLASS(AbstractShaderNode, TransformNode);
 
 //-----------------------------------------------------------------------------
 AbstractShaderNode::AbstractShaderNode():

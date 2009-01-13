@@ -11,6 +11,7 @@ IMPLEMENT_CLASS(TodPythonScriptServer, ScriptServer);
 INCLUDE_MODULE(Engine);
 INCLUDE_MODULE(D3D9Graphics);
 INCLUDE_MODULE(TodPython);
+INCLUDE_MODULE(TodLua);
 
 //-----------------------------------------------------------------------------
 static PyMethodDef TodPythonMethods[] =
@@ -52,6 +53,7 @@ void TodPythonScriptServer::initialize()
     USING_MODULE(Engine);
     USING_MODULE(D3D9Graphics);
     USING_MODULE(TodPython);
+    USING_MODULE(TodLua);
 
     // initialize TodPython module
     Py_SetProgramName("TodPython");
@@ -116,14 +118,14 @@ bool TodPythonScriptServer::run(const String& str)
 
 
 //-----------------------------------------------------------------------------
-bool TodPythonScriptServer::run(const String& str, Parameter* parameter)
+bool TodPythonScriptServer::call(const String& str, Parameter* parameter)
 {
     return false;
 }
 
 
 //-----------------------------------------------------------------------------
-bool TodPythonScriptServer::run(const Uri& uri)
+bool TodPythonScriptServer::runFile(const Uri& uri)
 {
     return false;
 }

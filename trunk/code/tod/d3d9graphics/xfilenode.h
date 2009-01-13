@@ -6,6 +6,7 @@
     @brief 
 */
 
+#include <d3dx9.h>
 #include "tod/engine/shapenode.h"
 #include "tod/engine/resourceref.h"
 
@@ -28,8 +29,13 @@ namespace engine
         override void unloadResource();
         override bool hasGeometry() const;
 
-    private:
+        void setMeshUri(const Uri& uri);
+        const Uri& getMeshUri() const;
 
+        static void bindProperty();
+
+    private:
+        Uri uri_;
     };
 }
 }

@@ -9,14 +9,14 @@ IMPLEMENT_SUPERCLASS(Object);
 //-----------------------------------------------------------------------------
 bool Object::isKindOf(const name_t* name)
 {
-    return getType().isKindOf(name);
+    return getType()->isKindOf(name);
 }
 
 
 //-----------------------------------------------------------------------------
-bool Object::isKindOf(const Type& type)
+bool Object::isKindOf(const Type* type)
 {
-    return getType().isKindOf(type);
+    return getType()->isKindOf(type);
 }
 
 

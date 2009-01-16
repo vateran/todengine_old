@@ -84,7 +84,7 @@ void XmlSerializer::begin_tag(Object* object, String& data, bool has_child)
     ++depth_;
 
     data += STRING("<");
-    data += object->getType().getName();
+    data += object->getType()->getName();
     serialize_properties(object, data);
     if (has_child)
         data += STRING(">\n");
@@ -101,7 +101,7 @@ void XmlSerializer::end_tag(Object* object, String& data, bool has_child)
         return;
     insert_tab(depth_, data);
     data += STRING("</");
-    data += object->getType().getName();
+    data += object->getType()->getName();
     data += STRING(">\n");
 }
 
@@ -109,7 +109,7 @@ void XmlSerializer::end_tag(Object* object, String& data, bool has_child)
 //-----------------------------------------------------------------------------
 void XmlSerializer::serialize_properties(Object* object, String& data)
 {
-    Type* type = &object->getType();
+    Type* type = object->getType();
     while (type)
     {
         for (Properties::iterator p = type->firstProperty();

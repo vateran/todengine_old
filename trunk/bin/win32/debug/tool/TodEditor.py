@@ -40,7 +40,7 @@ class BoaApp(wx.App):
         wx.EventLoop.SetActive(event_loop)
         while self.keepGoing_:
             self.update(event_loop)
-            self.triggerServer.trigger()
+            self.keepGoing_ = self.triggerServer.trigger()
             time.sleep(0.001)
         wx.EventLoop.SetActive(old)
 

@@ -42,9 +42,9 @@ namespace tod
 
         Type* getBase();
         const Name& getName() const;
-        bool equal(const Type& type) const;
+        bool equal(const Type* type) const;
         bool isKindOf(const name_t* name) const;
-        bool isKindOf(const Type& type) const;
+        bool isKindOf(const Type* type) const;
 
         bool addMethod(Method* method);
         void removeMethod(const name_t* name);
@@ -105,7 +105,7 @@ namespace tod
     /// declare AbstractClass macro
 #define DECLARE_SUPERABSTRACTCLASS(cls) \
     DECLARE_CLASSBASE(cls)\
-    virtual tod::Type& getType() { return TYPE; }\
+    virtual tod::Type* getType() { return &TYPE; }\
     static tod::AbstractConcreteType<cls> TYPE;
 /// declare AbstractClass macro
 #define DECLARE_ABSTRACTCLASS(cls, base_cls) \
@@ -114,7 +114,7 @@ namespace tod
 /// declare SuperClass macro
 #define DECLARE_SUPERCLASS(cls) \
     DECLARE_CLASSBASE(cls)\
-    virtual tod::Type& getType() { return TYPE; }\
+    virtual tod::Type* getType() { return &TYPE; }\
     static tod::ConcreteType<cls> TYPE;
 /// declare Class macro
 #define DECLARE_CLASS(cls, base_cls) public:\

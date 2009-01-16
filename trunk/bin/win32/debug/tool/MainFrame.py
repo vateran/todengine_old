@@ -107,10 +107,6 @@ class MainFrame(wx.Frame):
         self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
 
-
-        lua.runFile('managed://script#test.lua')
-
-
         camera = new('CameraNode', '/usr/scene/camera')
         camera.renderpath_section = 'default'
         camera.shader_uri = 'managed://shader#camera.fx'
@@ -120,9 +116,12 @@ class MainFrame(wx.Frame):
         mesh.mesh_uri = 'managed://mesh#tiny.x'
         mesh.shader_uri = 'managed://shader#character.fx'
         mesh.technique = 'Character'
-        mesh.euler_rotation = (0.6, 1.2, 2)
+        mesh.euler_rotation = (0, 3.1, 0)
         mesh.scaling = (0.05, 0.05, 0.05)
         mesh.translation = (0, 7, 40)
+
+        # test lua script
+        lua.runFile('managed://script#test.lua')
                 
         
         '''mesh = new('MeshNode', '/usr/scene/tiger')

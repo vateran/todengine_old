@@ -5,7 +5,7 @@ using namespace tod;
 IMPLEMENT_CLASS(ScriptServer, Node);
 
 //-----------------------------------------------------------------------------
-bool ScriptServer::run(const String& str)
+bool ScriptServer::run(const String& str, String* result)
 {
     return false;
 }
@@ -18,7 +18,7 @@ bool ScriptServer::call(const String& str, Parameter* parameter)
 
 
 //-----------------------------------------------------------------------------
-bool ScriptServer::runFile(const Uri& uri)
+bool ScriptServer::runFile(const Uri& uri, String* result)
 {
     return false;
 }

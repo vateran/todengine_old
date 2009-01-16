@@ -13,9 +13,9 @@ inline const Name& Type::getName() const
 
 
 //-----------------------------------------------------------------------------
-inline bool Type::equal(const Type& type) const
+inline bool Type::equal(const Type* type) const
 {
-    return this == &type;
+    return this == type;
 }
 
 

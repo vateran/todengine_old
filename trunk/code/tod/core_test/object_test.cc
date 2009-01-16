@@ -43,8 +43,8 @@ void ObjectTestCase::test_Object()
     TODUNIT_ASSERT(instance->isKindOf(STRING("Derived1")));
     TODUNIT_ASSERT(instance->isKindOf(STRING("Derived2")));
     TODUNIT_ASSERT(!instance->isKindOf(STRING("Super2")));
-    TODUNIT_ASSERT(instance->isKindOf(Derived1::TYPE));
-    TODUNIT_ASSERT(instance->isKindOf(Super::TYPE));
+    TODUNIT_ASSERT(instance->isKindOf(&Derived1::TYPE));
+    TODUNIT_ASSERT(instance->isKindOf(&Super::TYPE));
 
     // Object Memory foot print
     TODUNIT_ASSERT(sizeof(Object) == 4);
@@ -687,15 +687,15 @@ void ObjectTestCase::test_LinkNode()
     ToTest to;
     to.bindProperty();
     LinkNode link;
-    Property* hp_property1 = from.getType().findProperty(STRING("hp"));
-    Property* hp_property2 = to.getType().findProperty(STRING("hp"));
+    Property* hp_property1 = from.getType()->findProperty(STRING("hp"));
+    Property* hp_property2 = to.getType()->findProperty(STRING("hp"));
     link.connect(&from, hp_property1, &to, hp_property2);
 
     from.setHp(10);
     link.update();
     TODUNIT_ASSERT(to.getHp() == 10);
 
-    Property* mp_property2 = to.getType().findProperty(STRING("mp"));
+    Property* mp_property2 = to.getType()->findProperty(STRING("mp"));
     link.connect(&from, hp_property1, &to, mp_property2);
 
     from.setHp(102);
@@ -703,7 +703,7 @@ void ObjectTestCase::test_LinkNode()
     TODUNIT_ASSERT(to.getMp() == 102);
 
 
-    Property* dex_property2 = to.getType().findProperty(STRING("dex"));
+    Property* dex_property2 = to.getType()->findProperty(STRING("dex"));
     link.connect(&from, hp_property1, &to, dex_property2);
 
     from.setHp(888);
@@ -711,7 +711,7 @@ void ObjectTestCase::test_LinkNode()
     TODUNIT_ASSERT(to.getDex() == 888);
 
 
-    Property* str_property2 = to.getType().findProperty(STRING("str"));
+    Property* str_property2 = to.getType()->findProperty(STRING("str"));
     link.connect(&from, hp_property1, &to, str_property2);
 
     from.setHp(345);

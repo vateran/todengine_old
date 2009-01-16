@@ -19,7 +19,7 @@ namespace tod
         DECLARE_SUPERCLASS(Object);
 
         bool isKindOf(const name_t* name);
-        bool isKindOf(const Type& type);
+        bool isKindOf(const Type* type);
 
         static void bindMethod();
         static void bindProperty();

@@ -175,7 +175,7 @@ int set_property
 {
     // find property
     char* prop_name = PyString_AsString(name);
-    Property* prop = object->getType().
+    Property* prop = object->getType()->
         findProperty(String("%s", prop_name).c_str());
     if (0 == prop)
     {
@@ -400,7 +400,7 @@ PyObject* invoke_method
         "\'%s\' object has no method \'%s\'", method_name);
 
     // find method
-    Method* method = object->getType().
+    Method* method = object->getType()->
         findMethod(String("%s", method_name).c_str());
     if (0 == method)
         return PyErr_Format(PyExc_Exception,

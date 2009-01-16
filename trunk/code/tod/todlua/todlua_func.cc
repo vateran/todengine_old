@@ -268,7 +268,28 @@ int luacmd_Exit(lua_State* s)
 //-----------------------------------------------------------------------------
 int luacmd_Serialize(lua_State* s)
 {
-    return 0;
+    const char* uri = 0;
+    if ((2 != lua_gettop(s)) || !lua_isstring(s, 1) || !lua_istable(s, 2))
+    {
+        TOD_THROW_EXCEPTION(0, STRING("Usage is serialize(<uri>, <obj>)\n"));
+        lua_settop(s, 0);
+        lua_pushnil(s);
+        return 1;
+    }
+    
+    uri = lua_tostring(s, 1);
+    Node* node = dynamic_cast<Node*>
+        (TodLuaScriptServer::instance()->unpackFromStack(s, 2));
+    if (node)
+    {
+        Kernel::instance()->pushCwn(node);
+        XmlSerializer serializer;
+        serializer.serialize(String(uri), node);
+    }
+
+    lua_settop(s, 0);
+    lua_pushnil(s);
+    return 1;
 }
 
 

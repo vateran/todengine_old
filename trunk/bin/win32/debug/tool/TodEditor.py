@@ -18,6 +18,7 @@ class BoaApp(wx.App):
     def OnInit(self):
         self.keepGoing_ = True
         self.triggerServer = new('TriggerServer', '/sys/server/trigger')
+        self.triggerServer.setPeriod(0.001)
         
         PropertyGroup.addPropertyValueEditorType('', 'b', PropertyItemValueBool)
         PropertyGroup.addPropertyValueEditorType('property boolean editor', 's', PropertyItemValueString)
@@ -39,9 +40,8 @@ class BoaApp(wx.App):
         old = wx.EventLoop.GetActive()
         wx.EventLoop.SetActive(event_loop)
         while self.keepGoing_:
-            self.update(event_loop)
             self.keepGoing_ = self.triggerServer.trigger()
-            time.sleep(0.001)
+            self.update(event_loop)
         wx.EventLoop.SetActive(old)
 
 def main():

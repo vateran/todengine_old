@@ -9,3 +9,4 @@ t = getmodulelist()
 t = gettypelist(t[1])
 todprint(t)
 
+--serialize('managed://script#test.xml', f)

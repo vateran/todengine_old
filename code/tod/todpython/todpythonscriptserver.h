@@ -19,11 +19,11 @@ namespace tod
 
         static void initialize();
 
-        override bool run(const String& str);
+        override bool run(const String& str, String* result);
         override bool call(
             const String& str,
             Parameter* parameter);
-        override bool runFile(const Uri& uri);
+        override bool runFile(const Uri& uri, String* result);
 
     public:
         static bool s_standAlone_;

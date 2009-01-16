@@ -46,12 +46,12 @@ bool Type::isKindOf(const name_t* name) const
 
 
 //-----------------------------------------------------------------------------
-bool Type::isKindOf(const Type& type) const
+bool Type::isKindOf(const Type* type) const
 {
     const Type* cur_type = this;
     while (cur_type)
     {
-        if (cur_type == &type)
+        if (cur_type == type)
             return true;
         cur_type = cur_type->base_;
     }

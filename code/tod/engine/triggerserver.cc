@@ -9,7 +9,7 @@ IMPLEMENT_CLASS(TriggerServer, Node);
 
 //-----------------------------------------------------------------------------
 TriggerServer::TriggerServer():
-period_(0)
+period_(0), requestQuit_(false)
 {
     // empty
 }
@@ -19,6 +19,13 @@ period_(0)
 TriggerServer::~TriggerServer()
 {
     // empty
+}
+
+
+//-----------------------------------------------------------------------------
+void TriggerServer::quit()
+{
+    requestQuit_ = true;
 }
 
 
@@ -49,7 +56,7 @@ bool TriggerServer::trigger()
         t.sw_.reset();
     }
     TimeServer::instance()->sleep(period_);
-    return true;
+    return !requestQuit_;
 }
 
 

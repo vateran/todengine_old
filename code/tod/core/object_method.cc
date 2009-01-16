@@ -15,7 +15,7 @@ static void Object_b_isKindOf_v(Object* self, Parameter* param)
 //-----------------------------------------------------------------------------
 static void Object_s_getTypeName_v(Object* self, Parameter* param)
 {
-    param->out()->get<String>(0) = self->getType().getName();
+    param->out()->get<String>(0) = self->getType()->getName();
 }
 
 
@@ -26,7 +26,7 @@ static void Object_s_getTypeName_v(Object* self, Parameter* param)
 static void Object_l_getGenerations_v(Object* self, Parameter* param)
 {
     param->out()->clear();
-    Type* type = &self->getType();
+    Type* type = self->getType();
     while (type)
     {
         param->out()->add<String>(type->getName());
@@ -39,7 +39,7 @@ static void Object_l_getGenerations_v(Object* self, Parameter* param)
 static void Object_l_getPropertyNames_s(Object* self, Parameter* param)
 {
     param->out()->clear();
-    Type* type = self->getType().
+    Type* type = self->getType()->
         findTypeInGenerations(param->in()->get<Name>(0));
     if (0 == type)
         return;
@@ -55,7 +55,7 @@ static void Object_l_getPropertyNames_s(Object* self, Parameter* param)
 */
 static void Object_v_setProperty_ss(Object* self, Parameter* param)
 {
-    Property* property = self->getType().
+    Property* property = self->getType()->
         findProperty(param->in()->get<Name>(0));
     if (0 == property)
         return;
@@ -70,7 +70,7 @@ static void Object_v_setProperty_ss(Object* self, Parameter* param)
 */
 static void Object_sssb_getProperty_s(Object* self, Parameter* param)
 {
-    Property* property = self->getType().
+    Property* property = self->getType()->
         findProperty(param->in()->get<Name>(0));
     if (0 == property)
         return;

@@ -9,7 +9,7 @@ shared float4x4 WorldViewProjectionMatrix;
 
 texture DiffuseMap;
 
-float4 g_lightDir = {0.0f, 0.0f, 1.0f, 1.0f};    //light Direction
+float4 g_lightDir = {0.0f, 0.0f, 1.0f, 0.0f};    //light Direction
 float4 g_materialAmbient : MATERIALAMBIENT = {0.1f, 0.1f, 0.1f, 1.0f};
 float4 g_materialDiffuse : MATERIALDIFFUSE = {0.8f, 0.8f, 0.8f, 1.0f};
 
@@ -80,7 +80,7 @@ VsOutput CharacterVertexShaderMain(VsInput input, uniform int num_bones)
     normal += mul(input.normal, m);
     
     output.pos = mul(float4(pos.xyz, 1.0f), WorldViewProjectionMatrix);
-    //output.pos = mul(input.pos, WorldViewProjectionMatrix);
+    output.pos = mul(input.pos, WorldViewProjectionMatrix);
     
     normal = normalize(normal);
     

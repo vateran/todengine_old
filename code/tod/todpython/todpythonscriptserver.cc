@@ -109,7 +109,7 @@ TodPythonScriptServer::~TodPythonScriptServer()
 
 
 //-----------------------------------------------------------------------------
-bool TodPythonScriptServer::run(const String& str)
+bool TodPythonScriptServer::run(const String& str, String* result)
 {
     if (PyRun_SimpleString(str.toAnsiString().c_str()) == -1)
         return false;
@@ -125,7 +125,7 @@ bool TodPythonScriptServer::call(const String& str, Parameter* parameter)
 
 
 //-----------------------------------------------------------------------------
-bool TodPythonScriptServer::runFile(const Uri& uri)
+bool TodPythonScriptServer::runFile(const Uri& uri, String* result)
 {
     return false;
 }

@@ -32,7 +32,18 @@ namespace engine
         void setMeshUri(const Uri& uri);
         const Uri& getMeshUri() const;
 
+        void setInt(int a)
+        {
+            aa = a;
+        }
+        int getInt() const
+        {
+            return aa;
+        }
+        int aa;
+
         static void bindProperty();
+        static void bindMethod();
 
     private:
         Uri uri_;

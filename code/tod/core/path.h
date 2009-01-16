@@ -30,6 +30,7 @@ namespace tod
 
     public:
         Path();
+        Path(const char* path);
         Path(const char_t* path);
         Path(const Path& path);
         Path(const String& path);

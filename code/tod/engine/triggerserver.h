@@ -10,18 +10,23 @@
 #include "tod/core/time.h"
 #include "tod/core/ref.h"
 #include "tod/core/node.h"
+#include "tod/core/singleton3.h"
 #include "tod/engine/stopwatch.h"
 
 namespace tod
 {
 namespace engine
 {
-    class TriggerServer : public Node
+    class TriggerServer :
+        public Node,
+        public Singleton3<TriggerServer>
     {
     public:
         TriggerServer();
         virtual~TriggerServer();
         DECLARE_CLASS(TriggerServer, Node);
+
+        void quit();
 
         void add(Node* node, Time period);
         void remove(Node* node);        
@@ -53,6 +58,7 @@ namespace engine
     private:
         TargetNodes tnodes_;
         Time period_;
+        bool requestQuit_;
         
     };
 }

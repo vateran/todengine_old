@@ -57,6 +57,7 @@ void initialize_Engine(Module* module)
     REGISTER_TYPE(module, QuadTree::Element);
     
     TimeServer::setSingletonPath(STRING("/sys/server/time"));
+    TriggerServer::setSingletonPath(STRING("/sys/server/trigger"));
     Renderer::setSingletonPath(STRING("/sys/server/renderer"));
     RenderPath::setSingletonPath(STRING("/sys/server/renderpath"));
     SceneServer::setSingletonPath(STRING("/sys/server/scene"));

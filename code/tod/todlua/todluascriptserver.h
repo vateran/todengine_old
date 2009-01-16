@@ -13,11 +13,16 @@ extern "C"
 #include "lua/lualib.h"
 }
 
+#include "tod/core/singleton.h"
 #include "tod/core/scriptserver.h"
+
+#define TODLUA_METATABLES "_TodLuaMetaTables"
 
 namespace tod
 {
-    class TodLuaScriptServer : public ScriptServer
+    class TodLuaScriptServer :
+        public ScriptServer,
+        public Singleton<TodLuaScriptServer>
     {
     public:
         TodLuaScriptServer();
@@ -26,11 +31,21 @@ namespace tod
 
         static void initialize();
 
-        override bool run(const String& str);
+        override bool run(const String& str, String* result);
         override bool call(
             const String& str,
             Parameter* parameter);
-        override bool runFile(const Uri& uri);
+        override bool runFile(const Uri& uri, String* result);
+
+    public:
+        bool executeLuaChunk(String* result, int errfunc);
+        String generateStackTrace();
+        void stackToString(lua_State* s, int bottom, String* result);
+        bool thunkObject(lua_State* s, Object* obj);
+        Object* unpackFromStack(lua_State* s, int table_index);
+        bool stackToVariable(lua_State* s, Variable* v, int index);
+        bool stackToInparam(lua_State* s, Method* method);
+        bool outparamToStack(lua_State* s, Method* method);
 
     private:
         void reg_globalfunc(lua_CFunction func, const char* name);

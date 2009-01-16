@@ -611,6 +611,8 @@ void XFileNode::renderGeometry
 (SceneServer* scene_server, SceneContext* scene_context)
 {
     xfile.shader_ = getShader();
+    if (xfile.shader_ == 0)
+        return;
     xfile.advanceTime(0);
     xfile.draw();
 }
@@ -665,4 +667,21 @@ const Uri& XFileNode::getMeshUri() const
 void XFileNode::bindProperty()
 {
     BIND_PROPERTY(const Uri&, mesh_uri, &setMeshUri, &getMeshUri);
+}
+
+static void XFileNode_v_setInt_i(XFileNode* self, Parameter* param)
+{
+    self->setInt(param->in()->get<int>(0));
+}
+
+static void XFileNode_i_getInt_v(XFileNode* self, Parameter* param)
+{
+    param->out()->get<int>(0) = self->getInt();
+}
+
+#include "tod/core/methodbinder.h"
+void XFileNode::bindMethod()
+{
+    BIND_METHOD(v_setInt_i, XFileNode_v_setInt_i);
+    BIND_METHOD(i_getInt_v, XFileNode_i_getInt_v);
 }

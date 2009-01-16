@@ -109,9 +109,20 @@ void XmlSerializer::end_tag(Object* object, String& data, bool has_child)
 //-----------------------------------------------------------------------------
 void XmlSerializer::serialize_properties(Object* object, String& data)
 {
+    std::stack<Type*> t;
+
     Type* type = object->getType();
     while (type)
     {
+        t.push(type);
+        type = type->getBase();
+    }
+
+    while (t.size())
+    {
+        Type* type = t.top();
+        t.pop();
+
         for (Properties::iterator p = type->firstProperty();
             p != type->lastProperty(); ++p)
         {
@@ -124,8 +135,6 @@ void XmlSerializer::serialize_properties(Object* object, String& data)
             data += prop->toString(object);
             data += STRING("\"");
         }
-
-        type = type->getBase();
     }
 }
 

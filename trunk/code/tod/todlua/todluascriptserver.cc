@@ -4,6 +4,7 @@
 #include "tod/core/kernel.h"
 #include "tod/core/module.h"
 #include "tod/core/resource.h"
+#include "tod/engine/timeserver.h"
 #include "tod/todlua/todlua_extension.h"
 
 using namespace tod;
@@ -20,13 +21,14 @@ void TodLuaScriptServer::initialize()
     USING_MODULE(Engine);
     USING_MODULE(D3D9Graphics);
     USING_MODULE(TodLua);
+
 }
 
 
 //-----------------------------------------------------------------------------
 TodLuaScriptServer::TodLuaScriptServer():
 luaStateRoot_(0)
-{
+{   
     // Get a default Lua interpreter up and running then
     luaStateRoot_ = lua_open();
     if (0 == luaStateRoot_)
@@ -52,6 +54,7 @@ luaStateRoot_(0)
     reg_globalfunc(luacmd_Deserialize, "deserialize");
     reg_globalfunc(luacmd_GetModuleList, "getmodulelist");
     reg_globalfunc(luacmd_GetTypeList, "gettypelist");
+    reg_globalfunc(luacmd_WaitSec, "todwaitsec");
 
     // Setup environment
     lua_pushstring(luaStateRoot_, TODLUA_METATABLES);
@@ -66,6 +69,12 @@ luaStateRoot_(0)
 //-----------------------------------------------------------------------------
 TodLuaScriptServer::~TodLuaScriptServer()
 {
+    threads_.reverse();
+    for (TodLuaThreads::iterator i = threads_.begin();
+         i != threads_.end(); ++i)
+        delete *i;
+    threads_.clear();
+
     if (luaStateRoot_)
         lua_close(luaStateRoot_);
     luaStateRoot_ = 0;
@@ -90,6 +99,13 @@ bool TodLuaScriptServer::call(const String& str, Parameter* parameter)
 //-----------------------------------------------------------------------------
 bool TodLuaScriptServer::runFile(const Uri& uri, String* result)
 {
+    return runFile(luaStateRoot_, uri, result);
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::runFile(lua_State* s, const Uri& uri, String* result)
+{
     tod::Resource resource(uri);
     if (!resource.open(
         tod::Resource::OPEN_READ |
@@ -100,49 +116,77 @@ bool TodLuaScriptServer::runFile(const Uri& uri, String* result)
     resource.read(buffer);
 
     // push the error handler on stack
-    lua_pushstring(luaStateRoot_, "_TODLUASCRIPTSERVER_STACKDUMP");
-    lua_gettable(luaStateRoot_, LUA_GLOBALSINDEX);
-    int errfunc = lua_gettop(luaStateRoot_);
+    lua_pushstring(s, "_TODLUASCRIPTSERVER_STACKDUMP");
+    lua_gettable(s, LUA_GLOBALSINDEX);
+    int errfunc = lua_gettop(s);
 
     int status = luaL_loadbuffer(
-        luaStateRoot_, &buffer[0], buffer.size(), &buffer[0]);
+        s, &buffer[0], buffer.size(), "TodLua");
     if (0 == status)
     {   
-        return executeLuaChunk(result, errfunc);
+        return executeLuaChunk(s, result, errfunc);
     }
     else
     {   
         String desc;
-        stackToString(luaStateRoot_, 0, &desc);
+        stackToString(s, 0, &desc);
         if (result)
             *result = desc;
         TOD_THROW_EXCEPTION(0, desc);
-        lua_settop(luaStateRoot_, 0);
+        lua_settop(s, 0);
         return false;
     }
 }
 
 
 //-----------------------------------------------------------------------------
-bool TodLuaScriptServer::executeLuaChunk(String* result, int errfunc)
+void TodLuaScriptServer::newThread(const Uri& uri)
 {
-    int status = lua_pcall(luaStateRoot_, 0, LUA_MULTRET, errfunc);
+    TodLuaThread* new_thread = new TodLuaThread();
+    new_thread->runFile(luaStateRoot_, uri, 0);
+    threads_.push_back(new_thread);
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::trigger()
+{
+    for (TodLuaThreads::iterator i = threads_.begin();
+         i != threads_.end();)
+    {
+        TodLuaThread* t = *i;
+        if (!t->update())
+        {
+            delete t;
+            i = threads_.erase(i);
+        }
+        else
+            ++i;
+    }
+    
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::executeLuaChunk(lua_State* s, String* result, int errfunc)
+{
+    int status = lua_pcall(s, 0, 0, errfunc);
 
     // error occurred
     if (0 != status)
     {
-        String desc = generateStackTrace();
+        String desc = generateStackTrace(s);
         if (result)
             *result = desc;
-        TOD_THROW_EXCEPTION(0, desc);
-        lua_settop(luaStateRoot_, 0);
+        lua_settop(s, 0);
     }
     else
     {
         if (result)
         {
             result->clear();
-            stackToString(luaStateRoot_, 0, result);
+            stackToString(s, 0, result);
         }
     }
 
@@ -151,12 +195,12 @@ bool TodLuaScriptServer::executeLuaChunk(String* result, int errfunc)
 
 
 //-----------------------------------------------------------------------------
-String TodLuaScriptServer::generateStackTrace()
+String TodLuaScriptServer::generateStackTrace(lua_State* s)
 {
     String result;
 
     result = STRING("TodLuaScriptServer encounter a problem...\n");
-    result += String("%s", lua_tostring(luaStateRoot_, -1));
+    result += String("%s", lua_tostring(s, -1));
     result += STRING("\n\n-- Stack Trace --\n");
 
     lua_Debug debug_info;
@@ -165,9 +209,9 @@ String TodLuaScriptServer::generateStackTrace()
     const char* namewhat = 0;
     const char* funcname = 0;
     char_t buffer[1024];
-    while (lua_getstack(luaStateRoot_, level, &debug_info))
+    while (lua_getstack(s, level, &debug_info))
     {
-        if (lua_getinfo(luaStateRoot_, "nSl", &debug_info))
+        if (lua_getinfo(s, "nSl", &debug_info))
         {
             if (0 == debug_info.namewhat[0])
                 namewhat = "???";
@@ -179,11 +223,11 @@ String TodLuaScriptServer::generateStackTrace()
                 funcname = debug_info.name;
 
             tod_snprintf(buffer, 1024, STRING("%s(%d): %s (%s/%s)\n"),
-                debug_info.short_src,
+                String(debug_info.short_src).c_str(),
                 debug_info.currentline,
-                funcname,
-                namewhat,
-                debug_info.what);
+                String(funcname).c_str(),
+                String(namewhat).c_str(),
+                String(debug_info.what).c_str());
             buffer[sizeof(buffer) - 1] = 0;
             result += buffer;
 
@@ -580,6 +624,8 @@ void TodLuaScriptServer::reg_globalfunc(lua_CFunction func, const char* name)
 void initialize_TodLua(Module* module)
 {
     REGISTER_TYPE(module, TodLuaScriptServer);
+
+    TodLuaScriptServer::setSingletonPath("/sys/server/script/lua");
 }
 
 

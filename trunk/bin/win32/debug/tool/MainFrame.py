@@ -121,7 +121,7 @@ class MainFrame(wx.Frame):
         mesh.translation = (0, 7, 40)
 
         # test lua script
-        lua.runFile('managed://script#test.lua')
+        lua.newThread('managed://script#test.lua')
                 
         
         '''mesh = new('MeshNode', '/usr/scene/tiger')

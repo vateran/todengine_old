@@ -1,12 +1,10 @@
--- a = new("XFileNode", "/usr/scene/test2")
--- b = new("XFileNode", "/usr/scene/test3")
--- a:setInt(10)
--- a:setInt(a:getInt() + 10)
+todprint('이로 부터 10초후\n')
 
+todwaitsec(5)
 
-f = new('XFileNode', '/usr/scene/test2')
-t = getmodulelist()
-t = gettypelist(t[1])
-todprint(t)
+todprint('요게 나오고 3초후\n')
 
---serialize('managed://script#test.xml', f)
+todwaitsec(3)
+
+todprint('이게나온다\n')
+

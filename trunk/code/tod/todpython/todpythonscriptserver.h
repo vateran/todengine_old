@@ -2,7 +2,7 @@
 #define TOD_TODPYTHON_TODPYTHONSCRIPTSERVER_H
 /**
     @ingroup TodPythonScriptServer
-    @class tod::ScriptServer
+    @class tod::TodPythonScriptServer
     @brief
 */
 
@@ -30,4 +30,5 @@ namespace tod
     };
 }
 
-#endif // TOD_CORE_SCRIPT_SCRIPTSERVER_H
+#endif // TOD_TODPYTHON_TODPYTHONSCRIPTSERVER_H
+

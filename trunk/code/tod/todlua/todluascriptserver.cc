@@ -84,8 +84,7 @@ TodLuaScriptServer::~TodLuaScriptServer()
 //-----------------------------------------------------------------------------
 bool TodLuaScriptServer::run(const String& str, String* result)
 {
-    luaL_dostring(luaStateRoot_, str.toAnsiString().c_str());
-    return true;
+    return run(luaStateRoot_, str.toAnsiString().c_str(), str.size(), result);
 }
 
 
@@ -104,24 +103,15 @@ bool TodLuaScriptServer::runFile(const Uri& uri, String* result)
 
 
 //-----------------------------------------------------------------------------
-bool TodLuaScriptServer::runFile(lua_State* s, const Uri& uri, String* result)
+bool TodLuaScriptServer::run(lua_State* s, const char* buf, size_t size, String* result)
 {
-    tod::Resource resource(uri);
-    if (!resource.open(
-        tod::Resource::OPEN_READ |
-        tod::Resource::OPEN_BINARY))
-        return false;
-
-    dynamic_buffer_t buffer;
-    resource.read(buffer);
-
     // push the error handler on stack
     lua_pushstring(s, "_TODLUASCRIPTSERVER_STACKDUMP");
     lua_gettable(s, LUA_GLOBALSINDEX);
     int errfunc = lua_gettop(s);
 
     int status = luaL_loadbuffer(
-        s, &buffer[0], buffer.size(), "TodLua");
+        s, buf, size, "TodLua");
     if (0 == status)
     {   
         return executeLuaChunk(s, result, errfunc);
@@ -136,6 +126,23 @@ bool TodLuaScriptServer::runFile(lua_State* s, const Uri& uri, String* result)
         lua_settop(s, 0);
         return false;
     }
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::runFile(lua_State* s, const Uri& uri, String* result)
+{
+    tod::Resource resource(uri);
+    if (!resource.open(
+        tod::Resource::OPEN_READ |
+        tod::Resource::OPEN_BINARY))
+        return false;
+
+    dynamic_buffer_t buffer;
+    resource.read(buffer);
+
+    return run(s, &buffer[0], buffer.size(), result);    
 }
 
 

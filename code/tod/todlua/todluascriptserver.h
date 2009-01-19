@@ -44,6 +44,7 @@ namespace tod
         static void bindMethod();
 
     public:
+        bool run(lua_State* s, const char* buf, size_t size, String* result);
         bool runFile(lua_State* s, const Uri& uri, String* result);
         bool executeLuaChunk(lua_State* s, String* result, int errfunc);
         String generateStackTrace(lua_State* s);

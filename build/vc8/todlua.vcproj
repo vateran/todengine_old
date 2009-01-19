@@ -49,6 +49,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,7 +62,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="lua5.1_32.lib"
 				AdditionalLibraryDirectories="../../code/external/lua"
 			/>
 			<Tool
@@ -112,6 +112,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -124,7 +125,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="lua5.1_32.lib"
 				AdditionalLibraryDirectories="../../code/external/lua"
 			/>
 			<Tool
@@ -158,6 +158,18 @@
 				RelativePath="..\..\code\tod\todlua\todluascriptserver.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\tod\todlua\todluascriptserver_method.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\todlua\todluathread.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\todlua\todluathread.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="main"
@@ -168,6 +180,134 @@
 			</File>
 			<File
 				RelativePath="..\..\code\tod\todlua\todlua_func.cc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="lua"
+			>
+			<File
+				RelativePath="..\..\code\external\lua\src\lapi.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lapi.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lauxlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lbaselib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lcode.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\ldblib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\ldebug.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\ldo.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\ldump.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lfunc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lgc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\linit.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\liolib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\llex.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lmathlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lmem.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\loadlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lobject.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lopcodes.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\loslib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lparser.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lstate.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lstring.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lstrlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\ltable.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\ltablib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\ltm.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lua_conf.inc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lundump.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lvm.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\external\lua\src\lzio.c"
 				>
 			</File>
 		</Filter>

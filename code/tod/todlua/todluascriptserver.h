@@ -1,8 +1,8 @@
-#ifndef TOD_TODPYTHON_TODLUASCRIPTSERVER_H
-#define TOD_TODPYTHON_TODLUASCRIPTSERVER_H
+#ifndef TOD_TODLUA_TODLUASCRIPTSERVER_H
+#define TOD_TODLUA_TODLUASCRIPTSERVER_H
 /**
     @ingroup TodLuaScriptServer
-    @class tod::ScriptServer
+    @class tod::TodLuaScriptServer
     @brief
 */
 
@@ -13,8 +13,9 @@ extern "C"
 #include "lua/lualib.h"
 }
 
-#include "tod/core/singleton.h"
+#include "tod/core/singleton3.h"
 #include "tod/core/scriptserver.h"
+#include "tod/todlua/todluathread.h"
 
 #define TODLUA_METATABLES "_TodLuaMetaTables"
 
@@ -22,14 +23,14 @@ namespace tod
 {
     class TodLuaScriptServer :
         public ScriptServer,
-        public Singleton<TodLuaScriptServer>
+        public Singleton3<TodLuaScriptServer>
     {
     public:
         TodLuaScriptServer();
         virtual~TodLuaScriptServer();
         DECLARE_CLASS(TodLuaScriptServer, ScriptServer);
 
-        static void initialize();
+        void newThread(const Uri& uri);
 
         override bool run(const String& str, String* result);
         override bool call(
@@ -37,9 +38,15 @@ namespace tod
             Parameter* parameter);
         override bool runFile(const Uri& uri, String* result);
 
+        override bool trigger();
+
+        static void initialize();
+        static void bindMethod();
+
     public:
-        bool executeLuaChunk(String* result, int errfunc);
-        String generateStackTrace();
+        bool runFile(lua_State* s, const Uri& uri, String* result);
+        bool executeLuaChunk(lua_State* s, String* result, int errfunc);
+        String generateStackTrace(lua_State* s);
         void stackToString(lua_State* s, int bottom, String* result);
         bool thunkObject(lua_State* s, Object* obj);
         Object* unpackFromStack(lua_State* s, int table_index);
@@ -51,8 +58,12 @@ namespace tod
         void reg_globalfunc(lua_CFunction func, const char* name);
 
     private:
+        typedef std::list<TodLuaThread*> TodLuaThreads;
+
+    private:
         lua_State* luaStateRoot_;
+        TodLuaThreads threads_;
     };
 }
 
-#endif // TOD_CORE_SCRIPT_SCRIPTSERVER_H
+#endif // TOD_TODLUA_TODLUASCRIPTSERVER_H

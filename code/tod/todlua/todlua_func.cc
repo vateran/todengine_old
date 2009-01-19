@@ -15,7 +15,9 @@ using namespace tod;
 //-----------------------------------------------------------------------------
 int luacmd_StackDump(lua_State* s)
 {
-    TodLuaScriptServer::instance()->generateStackTrace();
+    String result;
+    result = TodLuaScriptServer::instance()->generateStackTrace(s);
+    TOD_THROW_EXCEPTION(0, result);
     lua_settop(s, 0);
     return 0;
 }
@@ -252,7 +254,7 @@ int luacmd_TodPrint(lua_State* s)
 
     String result;
     TodLuaScriptServer::instance()->stackToString(s, 0, &result);
-    tod_printf(result.c_str());
+    printf(result.toAnsiString().c_str());
     return 0;
 }
 
@@ -433,3 +435,24 @@ int luacmd_Panic(lua_State* s)
     return 1;
 }
 
+
+//-----------------------------------------------------------------------------
+int luacmd_WaitSec(lua_State* s)
+{
+    lua_pushlightuserdata(s, s);
+    lua_gettable(s, LUA_GLOBALSINDEX);
+    TodLuaThread* thread = thread = static_cast<TodLuaThread*>(lua_touserdata(s, -1));
+    if (0 == thread)
+    {
+        TOD_THROW_EXCEPTION(0, STRING("unable to get TodLuaThread object"));
+        lua_settop(s, 0);
+        lua_pushnil(s);
+        return 1;
+    }
+
+    thread->waitSecond(lua_tonumber(s, 1));
+    
+    lua_settop(s, 0);    
+
+    return (lua_yield(s, 0));
+}

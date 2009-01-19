@@ -34,5 +34,6 @@ extern int luacmd_GetTypeList(lua_State* s);
 extern int luacmd_Invoke(lua_State* s);
 extern int luacmd_Del(lua_State* s);
 extern int luacmd_Panic(lua_State* s);
+extern int luacmd_WaitSec(lua_State* s);
 
 #endif // TOD_TODLUA_TODLUAFUNC_H

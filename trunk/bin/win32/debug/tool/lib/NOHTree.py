@@ -106,6 +106,10 @@ class NOHTree(wx.TreeCtrl):
     
     def getSelectedNode(self):
         return get(self.getSelectionAbsolutePath())
+
+    def addNode(self, parent_item, node):
+        child_item = self.add_child_item(parent_item, node)
+        self.SelectItem(child_item)
             
     # Events -------------------------------------------------------------------
     def onExpending(self, event):
@@ -138,6 +142,7 @@ class NOHTree(wx.TreeCtrl):
         child_item = self.AppendItem(parent_item, unicode(child_node.getName()))
         self.SetItemHasChildren(child_item, child_node.getNumChildren() > 0)
         self.set_item_icon(child_item, child_node)
+        return child_item
         
     def get_absolute_path_by_item(self, item):
         if self.GetRootItem() == item:

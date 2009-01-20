@@ -114,8 +114,8 @@ class NodeCreatorFrame(wx.Frame):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Frame.__init__(self, id=wxID_NODECREATORFRAME,
-              name=u'NodeCreatorFrame', parent=prnt, pos=wx.Point(746, 167),
-              size=wx.Size(400, 500), style=wx.DEFAULT_FRAME_STYLE,
+              name=u'NodeCreatorFrame', parent=prnt, pos=wx.Point(813, 229),
+              size=wx.Size(408, 502), style=wx.DEFAULT_FRAME_STYLE,
               title=u'Node Creator')
         self.SetClientSize(wx.Size(392, 466))
         self.Center(wx.BOTH)
@@ -166,6 +166,7 @@ class NodeCreatorFrame(wx.Frame):
               id=wxID_NODECREATORFRAMENODENAME)
         self.nodeName.Bind(wx.EVT_TEXT, self.OnNodeNameText,
               id=wxID_NODECREATORFRAMENODENAME)
+        self.nodeName.Bind(wx.EVT_CHAR, self.OnNodeNameChar)
 
         self.nodeType = wx.ComboBox(choices=[],
               id=wxID_NODECREATORFRAMENODETYPE, name=u'nodeType',
@@ -309,6 +310,8 @@ class NodeCreatorFrame(wx.Frame):
         pushcwn(self.parentNode)
         new_node = new(node_type, node_name)
         popcwn()
+        
+        self.GetParent().addNode(self.parentNode, new_node)
 
         self.Destroy()
 
@@ -316,8 +319,7 @@ class NodeCreatorFrame(wx.Frame):
         self.Destroy()
         
     def OnNodeNameTextEnter(self, event):
-        self.nodeType.SetFocus()
-        self.editedNodeName = True
+        self.nodeType.SetFocus()        
         
     def OnNodeNameText(self, event):
         pass
@@ -332,6 +334,10 @@ class NodeCreatorFrame(wx.Frame):
         tname = self.nodeTypeTree.GetItemText(event.GetItem())
         self.nodeType.SetValue(tname)
         self.generate_node_name_by_type(tname)
+        
+    def OnNodeNameChar(self, event):
+        self.editedNodeName = True
+        event.Skip()
         
     def generate_node_name_by_type(self, type):
         if self.editedNodeName:

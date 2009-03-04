@@ -9,11 +9,11 @@
 using namespace tod;
 
 IMPLEMENT_CLASS(TodPythonScriptServer, ScriptServer);
+
 INCLUDE_MODULE(Engine);
+INCLUDE_MODULE(D3D9Graphics);
 INCLUDE_MODULE(TodPython);
 INCLUDE_MODULE(TodLua);
-INCLUDE_MODULE(TodGameBryo);
-INCLUDE_MODULE(ProjectJJ);
 
 //-----------------------------------------------------------------------------
 static PyMethodDef TodPythonMethods[] =
@@ -74,10 +74,9 @@ void TodPythonScriptServer::initialize()
 
     // initialize DynamicModules
     USING_MODULE(Engine);
+    USING_MODULE(D3D9Graphics);
     USING_MODULE(TodPython);
     USING_MODULE(TodLua);
-    USING_MODULE(TodGameBryo);
-    USING_MODULE(ProjectJJ);
 
     if (0 == Kernel::instance()->lookup(STRING("/sys/server/script/python")))
     {

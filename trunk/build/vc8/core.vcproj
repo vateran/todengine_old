@@ -44,7 +44,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -192,6 +192,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\tod\core\resourcecache.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\resourcecache.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\resourceentry.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\resourceentry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\resourceentry_method.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\tod\core\resourceimplementator.h"
 				>
 			</File>
@@ -204,11 +224,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\tod\core\resourcemanager_method.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\tod\core\resourceprotocol.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\code\tod\core\resourceprotocol.inl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\resourcestorage.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\resourcestorage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\resourcestorage_method.cc"
 				>
 			</File>
 		</Filter>
@@ -229,6 +265,18 @@
 			</File>
 			<File
 				RelativePath="..\..\code\tod\core\node_method.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\nodeeventpublisher.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\nodeeventpublisher.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\nodeeventsubscriber.h"
 				>
 			</File>
 			<File
@@ -464,6 +512,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\tod\core\singletonbase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\singletonbase.inl"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\tod\core\singletonserver.cc"
 				>
 			</File>
@@ -534,6 +590,34 @@
 			<Filter
 				Name="log"
 				>
+			</Filter>
+			<Filter
+				Name="tinyxml"
+				>
+				<File
+					RelativePath="..\..\code\external\tinyxml\tinystr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\external\tinyxml\tinystr.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\external\tinyxml\tinyxml.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\external\tinyxml\tinyxml.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\external\tinyxml\tinyxmlerror.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\external\tinyxml\tinyxmlparser.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

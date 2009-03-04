@@ -14,6 +14,7 @@ extern "C"
 }
 
 #include "tod/core/uri.h"
+#include "tod/core/parameter.h"
 #include "tod/engine/stopwatch.h"
 
 namespace tod
@@ -21,6 +22,12 @@ namespace tod
     class TodLuaThread
     {
     public:
+        enum ReturnCode
+        {
+            RETURNCODE_OK,
+            RETURNCODE_YIELD,
+            RETURNCODE_ERROR,
+        };
         enum YieldMode
         {
             YIELDMODE_NONE,
@@ -33,14 +40,17 @@ namespace tod
         virtual~TodLuaThread();
 
         bool update();
-        bool runFile(lua_State* s, const Uri& uri, String* result);
+        ReturnCode call(lua_State* s, const String& str, Parameter* param);
+        ReturnCode runFile(lua_State* s, const Uri& uri, String* result);
 
         void waitSecond(const Time& sec);
+        void waitFrame(int frame);
 
         void setYieldMode(YieldMode m);
         YieldMode getYieldMode() const;
 
     private:
+        int key_;
         lua_State* luaStateRoot_;
         lua_State* luaState_;
         YieldMode yieldMode_;
@@ -51,6 +61,9 @@ namespace tod
             int waitFrame_;
             float waitTime_;
         };
+
+    public:
+        static int s_curFrame_;
     };
 }
 

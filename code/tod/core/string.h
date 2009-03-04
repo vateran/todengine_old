@@ -12,35 +12,36 @@
 
 namespace tod
 {
-#ifdef UNICODE
     class String : public std::wstring
     {
     public:
-        String() {}        
-        String(const String& s):std::wstring(s) {}
+        String() {}
+        String(const std::string& s);
         String(const std::wstring& s):std::wstring(s) {}
-        String(const char_t* s, ...);
         String(const char* s, ...);
+        String(const wchar_t* s, ...);
         String(const String& s, size_type offset, size_type count):
             std::wstring(s, offset, count) {}
         
         void format(const char* s, ...);
         void format(const char* s, va_list args);
 
-        void format(const char_t* s, ...);
-        void format(const char_t* s, va_list args);
+        void format(const wchar_t* s, ...);
+        void format(const wchar_t* s, va_list args);
+        
+        std::string toAnsiString() const;
 
+        /**
+            Utilities
+        */
+        //@{
         int toInt() const;
         float toFloat() const;
         double toDouble() const;
-        std::string toAnsiString() const;
+        String extractPath() const;
+        void replace(const String& src_str, const String& dst_str);
+        //@}
     };
-#else
-    class String : public std::string
-    {
-    public:
-    };
-#endif
 }
 
 #endif // TOD_CORE_TYPE_STRING_H

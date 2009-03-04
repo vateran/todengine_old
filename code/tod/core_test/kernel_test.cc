@@ -22,7 +22,7 @@ public:
 IMPLEMENT_CLASS(Sorceress, Node);
 void initialize_module(Module* module)
 {
-    module->addType(STRING("Sorceress"), &Sorceress::TYPE);
+    module->addType(Kernel::instance(), STRING("Sorceress"), &Sorceress::TYPE);
 }
 Module TestModule(STRING("TestModule"), initialize_module, 0);
 

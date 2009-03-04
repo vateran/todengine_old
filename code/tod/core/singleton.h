@@ -7,16 +7,10 @@
 */
 
 #include "tod/core/singletonserver.h"
+#include "tod/core/singletonbase.h"
 
 namespace tod
 {
-    class SingletonBase
-    {
-    public:
-        SingletonBase() {}
-        virtual~SingletonBase() {}
-    };
-
     template <typename T>
     class Singleton : public SingletonBase
     {

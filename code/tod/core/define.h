@@ -37,6 +37,9 @@
 #define tod_atoi64 _wtoi64
 #define tod_vscprintf _vscwprintf
 #define tod_vsprintf vswprintf_s
+#define tod_getcwd _wgetcwd
+#define tod_chdir _wchdir
+
 
 #define ___FILE___      WIDEN(__FILE__)
 #define ___FUNCSIG___   WIDEN(__FUNCSIG__)
@@ -59,6 +62,8 @@
 #define tod_atoi64 _atoi64
 #define tod_vscprintf _vscprintf
 #define tod_vsprintf vsprintf_s
+#define tod_getcwd _getcwd
+#define tod_chdir _chdir
 
 #define ___FILE___ __FILE__
 #define ___FUNCSIG___ __FUNCSIG__

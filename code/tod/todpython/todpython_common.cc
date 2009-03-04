@@ -58,9 +58,52 @@ PyObject* build_value(Variable* variable)
     }
     else if (TypeId<String>::check(variable->getType()))
     {
+#ifdef _UNICODE
+        return Py_BuildValue("u",
+            reinterpret_cast<SimpleVariable<String>*>(variable)->get().c_str());
+#else
         return Py_BuildValue("s",
-            reinterpret_cast<SimpleVariable<String>*>(variable)->
-            get().toAnsiString().c_str());
+            reinterpret_cast<SimpleVariable<String>*>(variable)->get().c_str());
+#endif
+    }
+    else if (TypeId<Uri>::check(variable->getType()))
+    {
+#ifdef _UNICODE
+        return Py_BuildValue("u",
+            reinterpret_cast<SimpleVariable<Uri>*>(variable)->get().c_str());
+#else
+        return Py_BuildValue("s",
+            reinterpret_cast<SimpleVariable<Uri>*>(variable)->get().c_str());
+#endif
+    }
+    else if (TypeId<Vector3>::check(variable->getType()))
+    {
+        Vector3* v = &reinterpret_cast<SimpleVariable<Vector3>*>(variable)->get();
+        return Py_BuildValue("(d, d, d)", v->x_, v->y_, v->z_);
+    }
+    else if (TypeId<Color>::check(variable->getType()))
+    {
+        Color* c = &reinterpret_cast<SimpleVariable<Color>*>(variable)->get();
+        return Py_BuildValue("(i, i, i, i)", c->r_, c->g_, c->b_, c->a_);
+    }
+    else if (TypeId<Object*>::check(variable->getType()))
+    {
+        Object* object = reinterpret_cast<SimpleVariable<Object*>*>(variable)->get();
+        if (0 == object)
+        {
+            Py_INCREF(Py_None);
+            return Py_None;
+        }
+        TodObject* o = reinterpret_cast<TodObject*>(
+            TodObjectType.tp_new(&TodObjectType, 0, 0));
+        if (0 == o)
+        {
+            Py_INCREF(Py_None);
+            return Py_None;
+        }
+        o->object_ = object;
+        o->createdByPython_ = true;
+        return reinterpret_cast<PyObject*>(o);
     }
     else if (TypeId<Node*>::check(variable->getType()))
     {
@@ -92,24 +135,46 @@ PyObject* build_input_paramter
     for (index_t a = 0; a < num_args; ++a)
     {
         PyObject* arg = PyTuple_GET_ITEM(args, a);
-        if (TypeId<int>::check(v->get(a)->getType()))
+        if (TypeId<bool>::check(v->get(a)->getType()))
+        {
+            typedef bool type;
+            if (PyBool_Check(arg))
+            {
+                v->get<type>(a) = PyInt_AsLong(arg)?true:false;
+                continue;
+            }
+            else if (PyInt_Check(arg))
+            {
+                v->get<type>(a) = PyInt_AsLong(arg)?true:false;
+                continue;
+            }
+            else if (PyFloat_Check(arg))
+            {
+                v->get<type>(a) = PyFloat_AsDouble(arg)?true:false;
+                continue;
+            }
+            
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'int\'",
+                method_name, arg->ob_type->tp_name);
+        }
+        else if (TypeId<int>::check(v->get(a)->getType()))
         {
             typedef int type;
             if (PyInt_Check(arg))
             {
                 v->get<type>(a) = PyInt_AsLong(arg);
+                continue;
             }
             else if (PyFloat_Check(arg))
             {
                 v->get<type>(a) = static_cast<int>(PyFloat_AsDouble(arg));
+                continue;
             }
-            else
-            {
-                return PyErr_Format(PyExc_TypeError,
-                    "%s() : cannot convert parameter from \'%s\' to \'int\'",
-                    method_name, arg->ob_type->tp_name);
-                return 0;
-            }
+            
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'int\'",
+                method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<float>::check(v->get(a)->getType()))
         {
@@ -117,31 +182,114 @@ PyObject* build_input_paramter
             if (PyInt_Check(arg))
             {
                 v->get<type>(a) = static_cast<type>(PyInt_AsLong(arg));
+                continue;
             }
             else if (PyFloat_Check(arg))
             {
                 v->get<type>(a) = static_cast<type>(PyFloat_AsDouble(arg));
+                continue;
             }
-            else
-            {
-                return PyErr_Format(PyExc_TypeError,
-                    "%s() : cannot convert parameter from \'%s\' to \'float\'",
-                    method_name, arg->ob_type->tp_name);
-                return 0;
-            }
+            
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'float\'",
+                method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<String>::check(v->get(a)->getType()))
         {
             if (PyString_Check(arg))
             {
                 v->get<String>(a) = String("%s", PyString_AsString(arg));
+                continue;
             }
-            else
+            else if (PyUnicode_Check(arg))
             {
-                return PyErr_Format(PyExc_TypeError,
-                    "%s() : cannot convert parameter from \'%s\' to \'String\'",
-                    method_name, arg->ob_type->tp_name);
+                v->get<String>(a) = String((char_t*)(PyUnicode_AS_DATA(arg)));
+                continue;
             }
+            
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'String\'",
+                method_name, arg->ob_type->tp_name);
+        }
+        else if (TypeId<Uri>::check(v->get(a)->getType()))
+        {
+            if (PyString_Check(arg))
+            {
+                v->get<Uri>(a) = String("%s", PyString_AsString(arg));
+                continue;
+            }
+            else if (PyUnicode_Check(arg))
+            {
+                v->get<Uri>(a) = String((char_t*)(PyUnicode_AS_DATA(arg)));
+                continue;
+            }
+            
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'Uri\'",
+                method_name, arg->ob_type->tp_name);
+        }
+        else if (TypeId<Vector3>::check(v->get(a)->getType()))
+        {
+            if (PyTuple_Check(arg))
+            {
+                Vector3& tv = v->get<Vector3>(a).get();
+                if (PyTuple_Size(arg) == 3)
+                {
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        float value = 0;
+                        PyObject* o = PyTuple_GET_ITEM(arg, i);
+                        if (PyInt_Check(o))
+                            value = static_cast<float>(PyInt_AsLong(arg));
+                        else if (PyFloat_Check(o))
+                            value = static_cast<float>(PyFloat_AsDouble(arg));
+                        tv.a_[i] = value;
+                    }
+                    continue;
+                }
+            }
+            
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'Vector3\'",
+                method_name, arg->ob_type->tp_name);
+        }
+        else if (TypeId<Color>::check(v->get(a)->getType()))
+        {
+            if (PyTuple_Check(arg))
+            {
+                Color& tc = v->get<Color>(a).get();
+                if (PyTuple_Size(arg) == 4)
+                {
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        int value = 0;
+                        PyObject* o = PyTuple_GET_ITEM(arg, i);
+                        if (PyInt_Check(o))
+                            value = PyInt_AsLong(arg);
+                        else if (PyFloat_Check(o))
+                            value = static_cast<int>(PyFloat_AsDouble(arg));
+                        tc.array_[i] = value;
+                    }
+                    continue;
+                }
+            }
+            
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'Color\'",
+                method_name, arg->ob_type->tp_name);
+        }
+        else if (TypeId<Object*>::check(v->get(a)->getType()))
+        {
+            if (PyObject_TypeCheck(arg, &TodObjectType))
+            {
+                TodObject* o = reinterpret_cast<TodObject*>(arg);
+                v->get<Object*>(a) = o->object_;
+                continue;
+            }
+            
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'TodObject\'",
+                method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<Node*>::check(v->get(a)->getType()))
         {
@@ -149,13 +297,11 @@ PyObject* build_input_paramter
             {
                 TodNode* o = reinterpret_cast<TodNode*>(arg);
                 v->get<Node*>(a) = *o->node_;
+                continue;
             }
-            else
-            {
-                return PyErr_Format(PyExc_TypeError,
-                    "%s() : cannot convert parameter from \'%s\' to \'TodNode\'",
-                    method_name, arg->ob_type->tp_name);
-            }
+            return PyErr_Format(PyExc_TypeError,
+                "%s() : cannot convert parameter from \'%s\' to \'TodNode\'",
+                method_name, arg->ob_type->tp_name);
         }
         else
         {

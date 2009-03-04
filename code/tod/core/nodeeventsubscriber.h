@@ -8,11 +8,12 @@
 
 namespace tod
 {
+    class Node;
     class NodeEventSubscriber
     {
     public:
-        virtual void onAddNode(Node* node);
-        virtual void onRemoveNode(Node* node);
+        virtual void onAttachTo(Node* parent, Node* child) {}
+        virtual void onDetachFrom(Node* parent, Node* child) {}
     };
 }
 

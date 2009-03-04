@@ -31,8 +31,9 @@ namespace tod
         bool open(int mode);
         void close();
         int write(const buffer_t* buffer, length_t len);
+		int write(const dynamic_buffer_t& buffer);
         int read(buffer_t* buffer, length_t len);
-        int read(dynamic_buffer_t& buffer);
+        int read(dynamic_buffer_t* buffer);
         int size() const;
 
     private:

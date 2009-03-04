@@ -36,6 +36,7 @@ namespace tod
         virtual Object* create() const=0;
         virtual void bindMethod()=0;
         virtual void bindProperty()=0;
+        virtual bool isAbstract() const=0;
 
         Type* findTypeInGenerations(const Name& name);
         Type* findTypeInGenerations(const name_t* name);
@@ -67,7 +68,7 @@ namespace tod
         Properties::const_iterator firstProperty() const;
         Properties::const_iterator lastProperty() const;
         bool hasBindedProperty() const;
-
+        
         void setFlag(Flag index, bool enable);
 
     private:
@@ -86,6 +87,7 @@ namespace tod
         override Object* create() const;
         override void bindMethod();
         override void bindProperty();
+        override bool isAbstract() const;
     };
 
     template <typename T>
@@ -94,6 +96,7 @@ namespace tod
     public:
         ConcreteType(const name_t* name, Type* base);
         override Object* create() const;
+        override bool isAbstract() const;
     };
 
 #include "tod/core/type.inl"

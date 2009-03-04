@@ -44,12 +44,13 @@ namespace engine
         struct Target 
         {
             Target(Node* node, Time period):
-            node_(node), period_(period), sw_(true) {}
+            node_(node), period_(period), sw_(true)
+            { sw_.start(); }
             bool operator < (const Target& rhs) const
             { return node_ < rhs.node_; }
             bool operator == (const Target& rhs) const
             { return node_ == rhs.node_; }
-            RefNode node_;
+            Node* node_;
             Time period_;
             StopWatch sw_;
         };

@@ -49,7 +49,7 @@ bool D3D9Shader::preload()
         return false;
 
     dynamic_buffer_t buffer;
-    resource.read(buffer);
+    resource.read(&buffer);
 
     ID3DXBuffer* compilation_error;
     HRESULT hr;

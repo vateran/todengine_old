@@ -105,8 +105,8 @@ bool TimeServer::trigger()
     else
     {
         s_delta_ = static_cast<Time>
-            (getSystemTime() - s_prevSystemTime_.QuadPart) / 1000.0f;
-        s_time_ += s_delta_ * s_scale_;
+            (getSystemTime() - s_prevSystemTime_.QuadPart) / 1000.0f * s_scale_;
+        s_time_ += s_delta_;
         s_prevSystemTime_ = s_currentSystemTime_;
 
     }

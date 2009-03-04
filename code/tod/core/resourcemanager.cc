@@ -6,6 +6,8 @@
 
 using namespace tod;
 
+IMPLEMENT_CLASS(ResourceManager, Object);
+
 //-----------------------------------------------------------------------------
 ResourceManager::ResourceManager()
 {
@@ -33,6 +35,12 @@ void ResourceManager::initialize(const path_t* base_path)
         ResourceProtocols::value_type(STRING("http"),
         new HttpResourceProtocol()));*/
     setBasePath(base_path);
+
+    for (ResourceProtocols::iterator rpi = protocols_.begin();
+         rpi != protocols_.end(); ++rpi)
+    {
+        rpi->second->findStorages(&storages_);
+    }
 }
 
 
@@ -42,7 +50,39 @@ void ResourceManager::finalize()
     for (ResourceProtocols::iterator iter = protocols_.begin();
          iter != protocols_.end(); ++iter)
          delete iter->second;
+    protocols_.clear();
+    for (ResourceStorages::iterator rpi = storages_.begin();
+         rpi != storages_.end(); ++rpi)
+        delete *rpi;
+    protocols_.clear();
     basePath_.clear();
+}
+
+
+//-----------------------------------------------------------------------------
+ResourceStorage* ResourceManager::findStorage(const String& name)
+{
+    for (ResourceStorages::iterator rpi = storages_.begin();
+         rpi != storages_.end(); ++rpi)
+    {
+        if ((*rpi)->getName() == name)
+            return *rpi;
+    }
+    return 0;
+}
+
+
+//-----------------------------------------------------------------------------
+ResourceStorages::iterator ResourceManager::firstStorage()
+{
+    return storages_.begin();
+}
+
+
+//-----------------------------------------------------------------------------
+ResourceStorages::iterator ResourceManager::lastStorage()
+{
+    return storages_.end();
 }
 
 
@@ -53,6 +93,13 @@ void ResourceManager::setBasePath(const path_t* path)
     for (ResourceProtocols::iterator iter = protocols_.begin();
         iter != protocols_.end(); ++iter)
         iter->second->setBasePath(path);
+}
+
+
+//-----------------------------------------------------------------------------
+const String& ResourceManager::getBasePath() const
+{
+    return basePath_;
 }
 
 

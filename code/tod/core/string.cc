@@ -7,6 +7,15 @@
 using namespace tod;
 
 //-----------------------------------------------------------------------------
+String::String(const std::string& s)
+{
+    int len = static_cast<int>(s.size()); 
+    resize(len);
+    MultiByteToWideChar(CP_ACP, 0, &s[0], len, &(*this)[0], len);
+}
+
+
+//-----------------------------------------------------------------------------
 String::String(const char* s, ...)
 {
     va_list args;
@@ -16,7 +25,7 @@ String::String(const char* s, ...)
 
 
 //-----------------------------------------------------------------------------
-String::String(const char_t* s, ...)
+String::String(const wchar_t* s, ...)
 {
     va_list args;
     va_start(args, s);
@@ -56,7 +65,7 @@ void String::format(const char* s, va_list args)
 
 
 //-----------------------------------------------------------------------------
-void String::format(const char_t* s, ...)
+void String::format(const wchar_t* s, ...)
 {
     va_list args;
     va_start(args, s);
@@ -65,7 +74,7 @@ void String::format(const char_t* s, ...)
 
 
 //-----------------------------------------------------------------------------
-void String::format(const char_t* s, va_list args)
+void String::format(const wchar_t* s, va_list args)
 {
     int len = tod_vscprintf(s, args) + 1;
     resize(len);
@@ -108,4 +117,33 @@ std::string String::toAnsiString() const
 #else
 
 #endif
+}
+
+
+//-----------------------------------------------------------------------------
+String String::extractPath() const
+{
+    String result;
+    size_t p = this->rfind(STRING("/"), this->size());
+    if (-1 == p)
+        result = *this;
+    else
+        result = this->substr(0, p);
+    return result;
+}
+
+
+//-----------------------------------------------------------------------------
+void String::replace(const String& src_str, const String& dst_str)
+{
+    size_t b = this->find(src_str);
+    size_t s = 0;
+    while (b != -1)
+    {
+        String head(this->substr(s, b));
+        String tail(this->substr(b + src_str.size(), -1));
+        *this = head + dst_str + tail;
+
+        b = this->find(src_str);
+    }
 }

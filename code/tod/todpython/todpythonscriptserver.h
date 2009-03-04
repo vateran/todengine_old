@@ -7,6 +7,7 @@
 */
 
 #include "tod/core/scriptserver.h"
+#include "tod/core/nodeeventsubscriber.h"
 
 namespace tod
 {
@@ -24,6 +25,17 @@ namespace tod
             const String& str,
             Parameter* parameter);
         override bool runFile(const Uri& uri, String* result);
+
+    private:
+        class NodeEventSubscriberImpl : public NodeEventSubscriber
+        {
+        public:
+            void onAttachTo(Node* parent, Node* child);
+            void onDetachFrom(Node* parent, Node* child);
+        };
+
+    public:
+        static NodeEventSubscriberImpl nodeEventSubscriber_;
 
     public:
         static bool s_standAlone_;

@@ -74,6 +74,20 @@ inline float Vector3::dotprod(const Vector3& v) const
 
 
 //-----------------------------------------------------------------------------
+inline bool Vector3::operator == (const Vector3& v) const
+{
+    return ((x_ == v.x_) && (y_ == v.y_) && (z_ == v.z_));
+}
+
+
+//-----------------------------------------------------------------------------
+inline bool Vector3::operator != (const Vector3& v) const
+{
+    return !((*this) == v);
+}
+
+
+//-----------------------------------------------------------------------------
 inline Vector3 Vector3::operator - ()
 {
     return Vector3(-x_, -y_, -z_);

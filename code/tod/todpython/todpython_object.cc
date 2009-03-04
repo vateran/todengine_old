@@ -16,7 +16,8 @@ PyObject* TodObject_new(PyTypeObject* type, PyObject* args, PyObject* keys)
 void TodObject_dealloc(PyObject* self)
 {
     TodObject* o = reinterpret_cast<TodObject*>(self);
-    delete o->object_;
+    if (o->createdByPython_)
+        delete o->object_;
     self->ob_type->tp_free(self);
 }
 

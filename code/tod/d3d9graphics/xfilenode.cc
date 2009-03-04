@@ -378,7 +378,7 @@ public:
             return false;
 
         dynamic_buffer_t buffer;
-        resource.read(buffer);
+        resource.read(&buffer);
 
         AllocateHierarchy allocator;
         allocator.skinMethod_ = skinMethod_;

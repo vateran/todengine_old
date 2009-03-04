@@ -1,6 +1,10 @@
 #include "tod/core/uri.h"
 
+#include <list>
+#include <direct.h>
 #include "tod/core/define.h"
+#include "tod/core/assert.h"
+#include "tod/core/resourcemanager.h"
 
 using namespace tod;
 
@@ -187,4 +191,58 @@ void Uri::setPort(const char_t* port)
 void Uri::setPath(const char_t* path)
 {
     path_ = path;
+}
+
+
+//-----------------------------------------------------------------------------
+String Uri::makePhysicalAbsolutePath() const
+{
+    String apath;
+#ifdef _WIN32
+
+    char_t cwd[MAX_PATH];
+    apath += tod_getcwd(cwd, 256);
+    apath += STRING("/") + ResourceManager::instance()->getBasePath();
+
+    apath += STRING("/") + managed_;
+    make_absolutepath(&apath);
+    apath += STRING("/") + path_;
+
+#endif
+
+    return apath;
+}
+
+
+//-----------------------------------------------------------------------------
+void Uri::make_absolutepath(String* path) const
+{
+	size_t nbegin = 0;
+	std::list<String> pathes;
+	for (size_t i = 0; i < path->size(); ++i)
+	{
+		if (path->at(i) == STRING('/') ||
+            path->at(i) == STRING('\\') &&
+            nbegin != i)
+		{
+            String name(path->substr(nbegin, i - nbegin));
+            nbegin = i + 1;
+            if (name == STRING("."))
+                continue;
+            else if (name == STRING(".."))
+                pathes.pop_back();
+            else
+			    pathes.push_back(name);
+		}
+	}
+    pathes.push_back(path->substr(nbegin, -1));
+
+	*path = "";
+    while (pathes.size())
+    {
+        *path += pathes.front();
+        pathes.pop_front();
+		if (pathes.size() > 0)
+			*path += STRING("/");
+	}
 }

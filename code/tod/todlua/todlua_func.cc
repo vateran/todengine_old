@@ -4,13 +4,14 @@
 #include "tod/core/define.h"
 #include "tod/core/kernel.h"
 #include "tod/core/module.h"
+#include "tod/core/color.h"
+#include "tod/core/simpleproperty.h"
 #include "tod/core/resourcemanager.h"
 #include "tod/core/xmlserializer.h"
 #include "tod/engine/triggerserver.h"
 #include "tod/todlua/todluascriptserver.h"
 
 using namespace tod;
-
 
 //-----------------------------------------------------------------------------
 int luacmd_StackDump(lua_State* s)
@@ -24,21 +25,10 @@ int luacmd_StackDump(lua_State* s)
 
 
 //-----------------------------------------------------------------------------
-int luacmd_ResRoot(lua_State* s)
+int luacmd_Res(lua_State* s)
 {
-    const char* resource_root = 0;
-    if ((1 != lua_gettop(s)) || !lua_isstring(s, -1))
-    {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is resroot(<path>)\n"));
-        lua_settop(s, 0);
-        lua_pushnil(s);
-        return 1;
-    }
-
-    resource_root = lua_tostring(s, -1);
-    lua_settop(s, 0);
-
-    ResourceManager::instance()->initialize(String("%s", resource_root).c_str());
+    TodLuaScriptServer::instance()->
+        thunkObject(s, ResourceManager::instance(), false);
     return 1;
 }
 
@@ -68,7 +58,7 @@ int luacmd_NewObj(lua_State* s)
     else
     {
         // create thunk and leave it on stack
-        TodLuaScriptServer::instance()->thunkObject(s, new_obj);
+        TodLuaScriptServer::instance()->thunkObject(s, new_obj, true);
     }
 
     return 1;
@@ -103,7 +93,7 @@ int luacmd_New(lua_State* s)
     else
     {
         // create thunk and leave it on stack
-        TodLuaScriptServer::instance()->thunkObject(s, new_node);
+        TodLuaScriptServer::instance()->thunkObject(s, new_node, true);
     }
 
     return 1;
@@ -128,14 +118,12 @@ int luacmd_Get(lua_State* s)
     Node* exist_node = Kernel::instance()->lookup(String(path).c_str());
     if (0 == exist_node)
     {
-        TOD_THROW_EXCEPTION(0,
-            String("Could not find node at '%s'\n", path));
         lua_pushnil(s);
     }
     else
     {
         // create thunk and leave it on stack
-        TodLuaScriptServer::instance()->thunkObject(s, exist_node);
+        TodLuaScriptServer::instance()->thunkObject(s, exist_node, false);
     }
 
     return 1;
@@ -193,7 +181,7 @@ int luacmd_Ls(lua_State* s)
          i != node->lastChildNode(); ++i, ++index)
     {
         lua_pushstring(s, i->second->getName().toAnsiString().c_str());
-        TodLuaScriptServer::instance()->thunkObject(s, node);
+        TodLuaScriptServer::instance()->thunkObject(s, node, false);
         lua_settable(s, -3);
     }
 
@@ -298,7 +286,51 @@ int luacmd_Serialize(lua_State* s)
 //-----------------------------------------------------------------------------
 int luacmd_Deserialize(lua_State* s)
 {
-    return 0;
+    const char* uri = 0;
+    const char* new_name = 0;
+    XmlSerializer serializer;
+
+    if (lua_gettop(s) == 2)
+    {
+        if (!lua_istable(s, 1) || !lua_isstring(s, 2))
+            goto ON_ARG_ERROR;
+    }
+    else if (lua_gettop(s) == 3)
+    {
+        if (!lua_istable(s, 1) || !lua_isstring(s, 2) || !lua_isstring(s, 3))
+            goto ON_ARG_ERROR;
+    }
+    else
+        goto ON_ARG_ERROR;
+    
+    Node* parent_node = dynamic_cast<Node*>
+        (TodLuaScriptServer::instance()->unpackFromStack(s, 1));
+    uri = lua_tostring(s, 2);
+    if (lua_gettop(s) == 3)
+        new_name = lua_tostring(s, 3);
+    
+    Object* result_o = 0;
+    if (new_name)
+        result_o = serializer.deserialize(
+            parent_node, String(uri), String(new_name).c_str());
+    else
+        result_o = serializer.deserialize(parent_node, String(uri), 0);
+    if (0 == result_o)
+    {
+        lua_settop(s, 0);
+        lua_pushnil(s);
+        return 1;
+    }
+
+    // create thunk and leave it on stack
+    TodLuaScriptServer::instance()->thunkObject(s, result_o, false);
+    return 1;
+
+ON_ARG_ERROR:
+    TOD_THROW_EXCEPTION(0, STRING("Usage is deserialize(<parent>, <uri>, <new name>)\n"));
+    lua_settop(s, 0);
+    lua_pushnil(s);
+    return 1;
 }
 
 
@@ -413,9 +445,168 @@ int luacmd_Invoke(lua_State* s)
     return method->getParameter()->out()->size();
 }
 
+//-----------------------------------------------------------------------------
+bool set_property__(lua_State* s, Object* obj, Property* prop)
+{
+    if (TypeId<bool>::check(prop->getType()))
+    {   
+        if (lua_isboolean(s, 3))
+        {
+            typedef bool type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            ap->set(obj, (lua_toboolean(s, 3)>0)?true:false);
+        }
+    }
+    else if (TypeId<int>::check(prop->getType()))
+    {   
+        if (lua_isnumber(s, 3))
+        {
+            typedef int type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            ap->set(obj, static_cast<type>(lua_tonumber(s, 3)));
+        }
+    }
+    else if (TypeId<__int64>::check(prop->getType()))
+    {   
+        if (lua_isnumber(s, 3))
+        {
+            typedef __int64 type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            ap->set(obj, static_cast<type>(lua_tonumber(s, 3)));
+        }
+    }
+    else if (TypeId<float>::check(prop->getType()))
+    {   
+        if (lua_isnumber(s, 3))
+        {
+            typedef float type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            ap->set(obj, static_cast<type>(lua_tonumber(s, 3)));
+        }
+    }
+    else if (TypeId<double>::check(prop->getType()))
+    {   
+        if (lua_isnumber(s, 3))
+        {
+            typedef double type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            ap->set(obj, static_cast<type>(lua_tonumber(s, 3)));
+        }
+    }
+    else if (TypeId<const Vector3&>::check(prop->getType()))
+    {   
+        if (lua_istable(s, 3))
+        {
+            typedef const Vector3& type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            
+            Vector3 v;
+            for (int i = 0; i < 3; ++i)
+            {
+                lua_rawgeti(s, 3, 1 + i);
+                if (!lua_isnumber(s, 4))
+                    return false;
+                double value = lua_tonumber(s, 4);
+                lua_pop(s, 1);
+                v.a_[i] = static_cast<float>(value);
+            }
+            ap->set(obj, v);
+        }
+    }
+    else if (TypeId<const Color&>::check(prop->getType()))
+    {   
+        if (lua_istable(s, 3))
+        {
+            typedef const Color& type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            
+            Color c;
+            for (int i = 0; i < 4; ++i)
+            {
+                lua_rawgeti(s, 3, 1 + i);
+                if (!lua_isnumber(s, 4))
+                    return false;
+                double value = lua_tonumber(s, 4);
+                lua_pop(s, 1);
+                c.array_[i] = static_cast<uint8_t>(value);
+            }
+            ap->set(obj, c);
+        }
+    }
+    else if (TypeId<const String&>::check(prop->getType()))
+    {   
+        if (lua_isstring(s, 3))
+        {
+            typedef const String& type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            ap->set(obj, String(lua_tostring(s, 3)));
+        }
+    }
+    else if (TypeId<const Uri&>::check(prop->getType()))
+    {   
+        if (lua_isstring(s, 3))
+        {
+            typedef const Uri& type;
+            typedef SimpleProperty<type> AdaptiveProperty;
+            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+            ap->set(obj, Uri(lua_tostring(s, 3)));
+        }
+    }
+    else
+        return false;
+    return true;
+}
+
 
 //-----------------------------------------------------------------------------
-int luacmd_Del(lua_State* s)
+int luacmd_SetProperty(lua_State* s)
+{
+    // get node instance form the table in stack
+    Object* obj = TodLuaScriptServer::instance()->unpackFromStack(s, 1);
+    if (0 == obj)
+    {
+        TOD_THROW_EXCEPTION(0, STRING("invalid object"));
+        lua_settop(s, 0);
+        lua_pushnil(s);
+        return 1;
+    }
+
+    // find corresponding property
+    const char* name = lua_tostring(s, 2);
+    Type* type = obj->getType();
+    Property* prop = type->findProperty(String(name));
+    if (0 == prop)
+    {
+        TOD_THROW_EXCEPTION(0, String("could not found property(%s)", name));
+        lua_settop(s, 0);
+        lua_pushnil(s);
+        return 1;
+    }
+
+    if (!set_property__(s, obj, prop))
+    {
+        TOD_THROW_EXCEPTION(0, String("mismatch property type(%s)", name));
+        lua_settop(s, 0);
+        lua_pushnil(s);
+        return 1;
+    }
+
+    lua_settop(s, 0);
+    lua_pushnil(s);
+    return 1;
+}
+
+
+//-----------------------------------------------------------------------------
+int luacmd_GetProperty(lua_State* s)
 {
     // get node instance form the table in stack
     Object* obj = TodLuaScriptServer::instance()->unpackFromStack(s, 1);
@@ -424,7 +615,42 @@ int luacmd_Del(lua_State* s)
         TOD_THROW_EXCEPTION(0, STRING("invalid object"));
         return 0;
     }
+    
+    // find corresponding property
+    Property* prop = static_cast<Property*>(lua_touserdata(s, lua_upvalueindex(1)));
+    if (0 == prop)
+    {
+        TOD_THROW_EXCEPTION(0, STRING("invalid prop name"));
+        return 0;
+    }
 
+    lua_settop(s, 0);
+    TodLuaScriptServer::instance()->propertyToStack(s, obj, prop);
+    return 1;
+}
+
+
+//-----------------------------------------------------------------------------
+int luacmd_Del(lua_State* s)
+{
+    // get node instance form the table in stack
+    TodLuaObject* result =
+        static_cast<TodLuaObject*>
+            (lua_touserdata(s, 1));
+
+    Node* node = dynamic_cast<Node*>(result->object_);
+    if (node)
+    {
+        node->release();
+    }
+    else
+    {
+        if (result->createdByLua_)
+            delete result->object_;
+    }
+
+    lua_settop(s, 0);
+    lua_pushnil(s);
     return 1;
 }
 
@@ -440,7 +666,7 @@ int luacmd_Panic(lua_State* s)
 int luacmd_WaitSec(lua_State* s)
 {
     lua_pushlightuserdata(s, s);
-    lua_gettable(s, LUA_GLOBALSINDEX);
+    lua_gettable(s, LUA_REGISTRYINDEX);
     TodLuaThread* thread = thread = static_cast<TodLuaThread*>(lua_touserdata(s, -1));
     if (0 == thread)
     {
@@ -451,6 +677,28 @@ int luacmd_WaitSec(lua_State* s)
     }
 
     thread->waitSecond(lua_tonumber(s, 1));
+    
+    lua_settop(s, 0);    
+
+    return (lua_yield(s, 0));
+}
+
+
+//-----------------------------------------------------------------------------
+int luacmd_WaitFrame(lua_State* s)
+{
+    lua_pushlightuserdata(s, s);
+    lua_gettable(s, LUA_REGISTRYINDEX);
+    TodLuaThread* thread = thread = static_cast<TodLuaThread*>(lua_touserdata(s, -1));
+    if (0 == thread)
+    {
+        TOD_THROW_EXCEPTION(0, STRING("unable to get TodLuaThread object"));
+        lua_settop(s, 0);
+        lua_pushnil(s);
+        return 1;
+    }
+
+    thread->waitFrame(static_cast<int>(lua_tonumber(s, 1)));
     
     lua_settop(s, 0);    
 

@@ -9,6 +9,8 @@
 #include "tod/core/define.h"
 #include "tod/core/serializer.h"
 
+class TiXmlNode;
+
 namespace tod
 {
     class Object;
@@ -18,9 +20,10 @@ namespace tod
         XmlSerializer();
 
         override bool serialize(const Uri& uri, Object* object);
-        override Object* deserialize(const Uri& uri, const Name& name);
+        override Object* deserialize(Node* parent, const Uri& uri, const char_t* name);
 
     private:
+        Object* deserialize_node(TiXmlNode* node, const char_t* name);
         bool serialize_class_hierarchy(Object* object, String& data);
         void begin_tag(Object* object, String& data, bool has_child);
         void end_tag(Object* object, String& data, bool has_child);
@@ -29,6 +32,7 @@ namespace tod
 
     private:
         int depth_;
+        Object* desObj_;
     };
 }
 

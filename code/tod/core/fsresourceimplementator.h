@@ -17,16 +17,27 @@ namespace tod
     {
     public:
         FsResourceImplementator(const String& path);
+        virtual~FsResourceImplementator();
 
         override bool open(int mode);
         override void close();
+		override int write(const dynamic_buffer_t& buffer);
         override int write(const buffer_t* buffer, length_t len);
         override int read(buffer_t* buffer, length_t len);
         override int size() const;
 
+        override bool isUpdated() const;
+        override void reload();
+
     private:
-        mutable std::fstream file_;
+        uint64_t get_mtime() const;
+
+    private:		
+        mutable std::fstream file_;        
         String path_;
+
+        dynamic_buffer_t buffer_;
+        uint64_t mtime_;
     };
 }
 

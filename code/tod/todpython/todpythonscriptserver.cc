@@ -4,19 +4,21 @@
 #include "tod/core/kernel.h"
 #include "tod/core/module.h"
 #include "tod/core/resourcemanager.h"
+#include "tod/core/nodeeventpublisher.h"
 
 using namespace tod;
 
 IMPLEMENT_CLASS(TodPythonScriptServer, ScriptServer);
 INCLUDE_MODULE(Engine);
-INCLUDE_MODULE(D3D9Graphics);
 INCLUDE_MODULE(TodPython);
 INCLUDE_MODULE(TodLua);
+INCLUDE_MODULE(TodGameBryo);
+INCLUDE_MODULE(ProjectJJ);
 
 //-----------------------------------------------------------------------------
 static PyMethodDef TodPythonMethods[] =
 {   
-    { "resroot",  TodPython_resroot, METH_VARARGS, "set resource root" },
+    { "res",  TodPython_res, METH_VARARGS, "get ResourceManager" },
     { "newobj",  TodPython_newobject, METH_VARARGS, "create new nonamed TodObject" },
     { "new",  TodPython_new, METH_VARARGS, "create new TodNode" },
     { "get",  TodPython_get, METH_VARARGS, "get TobObject from NOH" },
@@ -39,7 +41,7 @@ static PyMethodDef TodPythonMethods[] =
 
 
 //-----------------------------------------------------------------------------
-static void clear_singletons()
+static void at_Exit()
 {
     // if s_standAlone_ == true then this function called at exit Python
     // SingletonServer::clear() must be called by current process(Python).
@@ -50,11 +52,6 @@ static void clear_singletons()
 //-----------------------------------------------------------------------------
 void TodPythonScriptServer::initialize()
 {
-    USING_MODULE(Engine);
-    USING_MODULE(D3D9Graphics);
-    USING_MODULE(TodPython);
-    USING_MODULE(TodLua);
-
     // initialize TodPython module
     Py_SetProgramName("TodPython");
     //PySys_SetArgv();
@@ -75,17 +72,37 @@ void TodPythonScriptServer::initialize()
     Py_INCREF(&TodNodeType);
     PyModule_AddObject(g_module, "TodNode", (PyObject*)(&TodNodeType));
 
+    // initialize DynamicModules
+    USING_MODULE(Engine);
+    USING_MODULE(TodPython);
+    USING_MODULE(TodLua);
+    USING_MODULE(TodGameBryo);
+    USING_MODULE(ProjectJJ);
+
     if (0 == Kernel::instance()->lookup(STRING("/sys/server/script/python")))
     {
         Kernel::instance()->create(STRING("TodPythonScriptServer"),
             STRING("/sys/server/script/python"));
         TodPythonScriptServer::s_standAlone_ = true;
-        Py_AtExit(clear_singletons);
+        Py_AtExit(at_Exit);
     }
     else
     {
         TodPythonScriptServer::s_standAlone_ = false;
     }
+}
+
+
+//-----------------------------------------------------------------------------
+void TodPythonScriptServer::NodeEventSubscriberImpl::onAttachTo
+(Node* parent, Node* child)
+{
+}
+
+//-----------------------------------------------------------------------------
+void TodPythonScriptServer::NodeEventSubscriberImpl::onDetachFrom
+(Node* parent, Node* child)
+{
 }
 
 
@@ -104,7 +121,6 @@ TodPythonScriptServer::TodPythonScriptServer()
 //-----------------------------------------------------------------------------
 TodPythonScriptServer::~TodPythonScriptServer()
 {
-    
 }
 
 
@@ -135,6 +151,8 @@ bool TodPythonScriptServer::runFile(const Uri& uri, String* result)
 PyObject* g_module = 0;
 TodNodes g_todobjects;
 bool TodPythonScriptServer::s_standAlone_ = false;
+TodPythonScriptServer::NodeEventSubscriberImpl
+TodPythonScriptServer::nodeEventSubscriber_;
 
 
 //-----------------------------------------------------------------------------
@@ -147,12 +165,8 @@ void initialize_TodPython(Module* module)
 //-----------------------------------------------------------------------------
 void finalize_TodPython(Module* module)
 {
-    if (!TodPythonScriptServer::s_standAlone_)
-        Py_DECREF(g_module);
-    else
-    {   
+    if (TodPythonScriptServer::s_standAlone_)
         Py_Finalize();
-    }
 }
 
 //-----------------------------------------------------------------------------

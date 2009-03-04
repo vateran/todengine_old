@@ -2,6 +2,7 @@
 template <typename T>
 Singleton<T>::Singleton()
 {
+    // empty
 }
 
 
@@ -9,7 +10,11 @@ Singleton<T>::Singleton()
 template <typename T>
 Singleton<T>::~Singleton()
 {
-    SingletonServer::instance()->unregisterSingleton(this);
+    if (this == s_instance)
+    {
+        SingletonServer::instance()->unregisterSingleton(this);
+        s_instance = 0;
+    }
 }
 
 

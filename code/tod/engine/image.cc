@@ -54,7 +54,7 @@ bool Image::preload()
         tod::Resource::OPEN_BINARY))
         return false;
     dynamic_buffer_t buffer;
-    resource.read(buffer);
+    resource.read(&buffer);
 
     // figure out file format from file extension
     ILenum file_format;

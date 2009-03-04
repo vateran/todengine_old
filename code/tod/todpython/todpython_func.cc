@@ -45,14 +45,14 @@ TodNode* new_todnode(const typename_t* type_name, const Path& path)
 
 
 //-----------------------------------------------------------------------------
-PyObject* TodPython_resroot(PyObject* self, PyObject* args)
-{
-    char* resource_root = 0;
-    if (!PyArg_ParseTuple(args, "s:resroot", &resource_root))
-        return PyErr_Format(PyExc_Exception, "mismatch argument");
-    ResourceManager::instance()->initialize(String("%s", resource_root).c_str());
-    Py_INCREF(Py_True);
-    return Py_True;
+PyObject* TodPython_res(PyObject* self, PyObject* args)
+{   
+    TodObject* o = reinterpret_cast<TodObject*>(
+        TodObjectType.tp_new(&TodObjectType, 0, 0));
+    if (0 == o)
+        return 0;
+    o->object_ = ResourceManager::instance();
+    return reinterpret_cast<PyObject*>(o);
 }
 
 
@@ -69,6 +69,7 @@ PyObject* TodPython_newobject(PyObject* self, PyObject* args)
     if (0 == o)
         return 0;
     o->object_ = Kernel::instance()->create(String("%s", type_name).c_str());
+    o->createdByPython_ = true;
     if (0 == o->object_)
     {
         Py_DECREF(o);
@@ -206,30 +207,45 @@ PyObject* TodPython_serialize(PyObject* self, PyObject* args)
         return PyErr_Format(PyExc_Exception, "mismatch argument");
 
     XmlSerializer s;
-    s.serialize(String(uri), o->node_);
-
-    Py_INCREF(Py_True);
-    return Py_True;
+    if (s.serialize(String(uri), o->node_))
+    {
+        Py_INCREF(Py_True);
+        return Py_True;
+    }
+    else
+    {
+        Py_INCREF(Py_False);
+        return Py_False;
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 PyObject* TodPython_deserialize(PyObject* self, PyObject* args)
 {
+    TodNode* parent_o = 0;
     char* uri = 0;
     char* name = 0;
-    if (!PyArg_ParseTuple(args, "ss:deserialize", &uri, &name))
+    if (!PyArg_ParseTuple(args, "Os|s:deserialize", &parent_o, &uri, &name))
         return PyErr_Format(PyExc_Exception, "mismatch argument");
 
     XmlSerializer s;
-    Object* result_o = s.deserialize(String(uri), String(name));
+    Object* result_o = 0;
+    if (name)
+        result_o = s.deserialize(
+            parent_o->node_, String(uri), String(name).c_str());
+    else
+        result_o = s.deserialize(parent_o->node_, String(uri), 0);
     if (0 == result_o)
         return PyErr_Format(PyExc_Exception, "resource not found(%s)", uri);
 
     TodObject* o = reinterpret_cast<TodObject*>(
         TodObjectType.tp_new(&TodObjectType, 0, 0));
     if (0 == o)
-        return 0;
+    {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
     o->object_ = result_o;
     return reinterpret_cast<PyObject*>(o);
 

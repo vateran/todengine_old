@@ -65,11 +65,3 @@ class GameSceneViewPanel(SceneViewPanel):
         if kc == wx.WXK_RIGHT or kc == 68:
             self.camera.moveSideward(dist)
 
-    def setSceneRoot(self, scene_root):
-        self.sceneRoot = scene_root
-        self.sceneView.setSceneRoot(scene_root)
-        
-    def setCamera(self, camera):
-        self.camera = camera
-        self.sceneView.setCamera(camera)  
-

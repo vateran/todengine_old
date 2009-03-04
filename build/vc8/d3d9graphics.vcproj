@@ -44,7 +44,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -62,6 +62,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="d3d9.lib d3dx9.lib"
 				OutputFile="$(SolutionDir)../../lib/win32/$(ProjectName)_d.lib"
 				AdditionalLibraryDirectories=""
 			/>

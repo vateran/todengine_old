@@ -7,6 +7,8 @@
 */
 
 #include "tod/core/uri.h"
+#include "tod/core/resourcestorage.h"
+#include "tod/core/resourceentry.h"
 
 namespace tod
 {
@@ -18,6 +20,9 @@ namespace tod
 
         virtual ResourceImplementator* create(const Uri& uri)=0;
         virtual bool destroy(const Uri& uri)=0;
+
+        virtual bool findStorages(ResourceStorages* rs)=0;
+        virtual bool findEntries(ResourceEntries* re, const String& path, bool file)=0;
 
         void setBasePath(const path_t* path);
         const String& getBasePath() const;

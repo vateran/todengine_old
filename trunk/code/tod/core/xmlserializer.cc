@@ -1,7 +1,10 @@
 #include "tod/core/xmlserializer.h"
 
+#include "tinyxml/tinyxml.h"
+#include "tod/core/exception.h"
 #include "tod/core/node.h"
 #include "tod/core/resource.h"
+#include "tod/core/kernel.h"
 
 using namespace tod;
 
@@ -35,9 +38,104 @@ bool XmlSerializer::serialize(const Uri& uri, Object* object)
 
 
 //-----------------------------------------------------------------------------
-Object* XmlSerializer::deserialize(const Uri& uri, const Name& name)
+Object* XmlSerializer::deserialize
+(Node* parent, const Uri& uri, const char_t* name)
 {
-    return 0;
+    tod::Resource resource(uri);
+    if (!resource.open(
+        tod::Resource::OPEN_READ |
+        tod::Resource::OPEN_BINARY))
+        return false;
+
+    dynamic_buffer_t buffer;
+    buffer.resize(resource.size() + 1);
+    resource.read(&buffer[0], buffer.size());
+
+    TiXmlDocument doc;
+    doc.Parse(&buffer[0]);
+    if (doc.Error())
+    {
+        TOD_THROW_EXCEPTION(0, String("uri[%s]:(%d/%d)\nDescription: %s",
+            uri.get().toAnsiString().c_str(),
+            doc.ErrorRow(), doc.ErrorCol(), doc.ErrorDesc()));
+        return 0;
+    }
+
+    if (parent)
+        Kernel::instance()->pushCwn(parent);
+
+    desObj_ = 0;
+    deserialize_node(doc.FirstChild(), name);
+
+    if (parent)
+        Kernel::instance()->popCwn();
+    
+    return desObj_;
+}
+
+
+//-----------------------------------------------------------------------------
+Object* XmlSerializer::deserialize_node(TiXmlNode* node, const char_t* name)
+{
+    Node* new_node = 0;
+    const char_t* change_name = name;
+    if (node->Type() == TiXmlNode::ELEMENT)
+    {
+        TiXmlElement* element = node->ToElement();
+        const char* type_name = element->Value();
+        const char* node_name = element->Attribute("name");
+        if (change_name)
+        {
+            new_node = Kernel::instance()->
+                create(String(type_name).c_str(), change_name);
+            change_name = 0;
+        }
+        else
+        {
+            new_node = Kernel::instance()->
+                create(String(type_name).c_str(), String(node_name));
+        }
+        
+        if (0 == new_node)
+        {
+            TOD_THROW_EXCEPTION(0,
+                String("could not create node(%s,%s)",
+                    type_name, node_name));
+            return 0;
+        }
+        if (0 == desObj_)
+            desObj_ = new_node;
+
+        Type* type = new_node->getType();
+        for (Properties::iterator pi = type->firstProperty();
+             pi != type->lastProperty(); ++pi)
+        {
+            Property* prop = pi->second;
+            if (prop->isReadOnly())
+                continue;
+            if (pi->first == STRING("name"))
+                continue;
+            const char* value =
+                element->Attribute(prop->getName().toAnsiString().c_str());
+            if (value)
+                prop->fromString(new_node, String(value).c_str());
+        }
+    }
+
+    if (node->NextSibling() != 0)
+        if (0 == deserialize_node(node->NextSibling(), change_name))
+            return 0;
+
+    if (new_node)
+        Kernel::instance()->pushCwn(new_node);
+
+    if (node->FirstChild() != 0)
+        if (0 == deserialize_node(node->FirstChild(), change_name))
+            return 0;
+
+    if (new_node)
+        Kernel::instance()->popCwn();
+    return new_node;
 }
 
 

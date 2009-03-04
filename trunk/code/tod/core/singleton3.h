@@ -9,15 +9,21 @@
 #include "tod/core/assert.h"
 #include "tod/core/path.h"
 #include "tod/core/kernel.h"
+#include "tod/core/singleton.h"
+#include "tod/core/singletonbase.h"
 
 namespace tod
 {
     template <typename T>
-    class Singleton3
+    class Singleton3 : public SingletonBase
     {
     public:
         Singleton3();
         virtual~Singleton3();
+
+        override int addRefSingleton();
+        override int releaseSingleton();
+        override int getRefSingleton() const;
 
         static void setSingletonPath(const Path& path);
 

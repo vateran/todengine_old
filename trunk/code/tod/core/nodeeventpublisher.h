@@ -7,7 +7,7 @@
 */
 
 #include <list>
-#include "tod/core/nodeevent.h"
+#include "tod/core/nodeeventsubscriber.h"
 #include "tod/core/singleton.h"
 
 namespace tod
@@ -15,8 +15,11 @@ namespace tod
     class NodeEventPublisher : public Singleton<NodeEventPublisher>
     {
     public:
-        void onAddNode(Node* node);
-        void onRemoveNode(Node* node);
+        void add(NodeEventSubscriber* s);
+        void remove(NodeEventSubscriber* s);
+
+        void onAttachTo(Node* parent, Node* child);
+        void onDetachFrom(Node* parent, Node* child);
 
     private:
         typedef std::list<NodeEventSubscriber*> NodeEventSubscribers;

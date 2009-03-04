@@ -8,6 +8,14 @@ Variable* SimpleVariable<T>::clone()
 
 //-----------------------------------------------------------------------------
 template <typename T>
+T& SimpleVariable<T>::get()
+{
+    return data_;
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
 const T& SimpleVariable<T>::get() const
 {
     return data_;

@@ -55,8 +55,15 @@ namespace tod
         String extractFileName() const;
         String extractExtension() const;
 
+        String makePhysicalAbsolutePath() const;
+
         bool operator < (const Uri& rhs) const;
+		bool operator == (const Uri& rhs) const;
+		bool operator != (const Uri& rhs) const;
         operator const String& () const;
+
+    private:
+        void make_absolutepath(String* path) const;
 
     private:
         String uri_;

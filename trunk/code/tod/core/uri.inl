@@ -48,6 +48,17 @@ inline bool Uri::operator < (const Uri& rhs) const
     return uri_ < rhs.uri_;
 }
 
+//-----------------------------------------------------------------------------
+inline bool Uri::operator == (const Uri& rhs) const
+{
+	return (uri_ == rhs.uri_);
+}
+
+//-----------------------------------------------------------------------------
+inline bool Uri::operator != (const Uri& rhs) const
+{
+	return !((*this) == rhs);
+}
 
 //-----------------------------------------------------------------------------
 inline Uri::operator const String& () const

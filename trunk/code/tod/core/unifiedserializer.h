@@ -18,7 +18,7 @@ namespace tod
     {
     public:
         override bool serialize(const Uri& uri, Object* object);
-        override Object* deserialize(const Uri& uri, const Name& name);
+        override Object* deserialize(Node* parent, const Uri& uri, const char_t* name);
 
     private:
         typedef std::map<Name, Serializer*> Serializers;

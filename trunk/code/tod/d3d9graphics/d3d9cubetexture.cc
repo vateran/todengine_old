@@ -66,7 +66,7 @@ bool D3D9CubeTexture::preload()
         return false;
 
     dynamic_buffer_t buffer;
-    resource.read(buffer);
+    resource.read(&buffer);
 
     D3DXIMAGE_INFO img_info;
     HRESULT hr;

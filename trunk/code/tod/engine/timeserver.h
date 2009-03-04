@@ -42,6 +42,7 @@ namespace engine
         override bool trigger();
         
         static void bindProperty();
+        static void bindMethod();
         
     private:
         static bool s_pause_;

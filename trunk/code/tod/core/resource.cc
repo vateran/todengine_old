@@ -6,58 +6,80 @@
 using namespace tod;
 
 //-----------------------------------------------------------------------------
-Resource::Resource(const Uri& uri)
+Resource::Resource(const Uri& uri):ri_(0)
 {
-    ri_ = ResourceManager::instance()->create(uri);
+    if (uri.size())
+        ri_ = ResourceManager::instance()->create(uri);
 }
 
 
 //-----------------------------------------------------------------------------
 Resource::~Resource()
 {
-    delete ri_;
+    if (ri_)
+        ri_->close();
 }
 
 
 //-----------------------------------------------------------------------------
 bool Resource::open(int mode)
 {
-    return ri_->open(mode);
+    if (ri_)
+        return ri_->open(mode);
+    return false;
 }
 
 
 //-----------------------------------------------------------------------------
 void Resource::close()
 {
-    ri_->close();
+    if (ri_)
+        ri_->close();
+}
+
+
+//-----------------------------------------------------------------------------
+int Resource::write(const dynamic_buffer_t& buffer)
+{
+    if (ri_)
+	    return ri_->write(buffer);
+    return 0;
 }
 
 
 //-----------------------------------------------------------------------------
 int Resource::write(const buffer_t* buffer, length_t len)
 {
-    return ri_->write(buffer, len);
+    if (ri_)
+        return ri_->write(buffer, len);
+    return 0;
 }
 
 
 //-----------------------------------------------------------------------------
 int Resource::read(buffer_t* buffer, length_t len)
 {
-    return ri_->read(buffer, len);
+    if (ri_)
+        return ri_->read(buffer, len);
+    return 0;
 }
 
 
 //-----------------------------------------------------------------------------
-int Resource::read(dynamic_buffer_t& buffer)
+int Resource::read(dynamic_buffer_t* buffer)
 {
+    if (0 == buffer)
+        return 0;
     int s = size();
-    buffer.resize(s);
-    return read(&buffer[0], s);
+    buffer->resize(s);
+    return read(&(*buffer)[0], s);
 }
 
 
 //-----------------------------------------------------------------------------
 int Resource::size() const
 {
-    return ri_->size();
+    if (ri_)
+        return ri_->size();
+    return 0;
 }

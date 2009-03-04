@@ -9,9 +9,9 @@ using namespace tod;
 //-----------------------------------------------------------------------------
 Kernel::Kernel()
 {
-    addModule(new BuiltinModule(STRING("Builtin")));
+    addModule(new BuiltinModule(this, STRING("Builtin")));
     root_ = create_node(STRING("Node"), STRING(""));
-    pushCwn(root_);    
+    pushCwn(root_);
 }
 
 
@@ -20,9 +20,17 @@ Kernel::~Kernel()
 {
     while (cwn_.size())
         popCwn();
+    root_.release();
+
+    for (Modules::iterator i = modules_.begin();
+         i != modules_.end(); ++i)
+        i->second->finalize();
     Module* module = findModule(STRING("Builtin"));
     tod_assert(module);
     delete module;
+
+    modules_.clear();
+    types_.clear();
 }
 
 
@@ -32,7 +40,11 @@ Object* Kernel::create(const typename_t* type_name)
     Types::iterator find_iter = types_.find(type_name);
     if (types_.end() == find_iter)
         return 0;
-    return find_iter->second->create(type_name);
+    Object* new_obj = find_iter->second->create(type_name);
+    Node* new_node = dynamic_cast<Node*>(new_obj);
+    if (new_node)
+        --new_node->refCount_;
+    return new_obj;
 }
 
 
@@ -73,6 +85,8 @@ Node* Kernel::lookup(const Path& path)
 {
     if (path == STRING("/"))
         return root_;
+    if (path.isAbsolute())
+        return root_->relativeNode(path);
     return cwn_.top()->relativeNode(path);
 }
 
@@ -107,13 +121,8 @@ void Kernel::addModule(Module* module)
     if (0 == module)
         return;
     
-    module->initialize();
     modules_.insert(Modules::value_type(module->getName(), module));
-
-    // insert type names in module to Kernel::types_ for Object creation
-    for (Module::Types::iterator iter = module->firstType();
-         iter != module->lastType(); ++iter)    
-        types_.insert(Types::value_type(iter->first, module));
+    module->initialize();
 }
 
 
@@ -128,6 +137,14 @@ Module* Kernel::findModule(const name_t* name)
 
 
 //-----------------------------------------------------------------------------
+void Kernel::addType(const name_t* type_name, Module* module)
+{
+    // insert type names in module to Kernel::types_ for Object creation
+    types_.insert(Types::value_type(type_name, module));
+}
+
+
+//-----------------------------------------------------------------------------
 Node* Kernel::create_node(const Name& type_name, const Name& name)
 {
     Types::iterator find_iter = types_.find(type_name);
@@ -138,6 +155,6 @@ Node* Kernel::create_node(const Name& type_name, const Name& name)
     if (0 == new_node)
         return 0;
     new_node->setName(name);
-    new_node->refCount_ = 0;
+    --new_node->refCount_;
     return new_node;
 }

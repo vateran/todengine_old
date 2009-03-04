@@ -44,6 +44,8 @@ namespace tod
         Modules::const_iterator lastModule() const;
         size_t getNumModules() const;
 
+        void addType(const name_t* type_name, Module* module);
+
         Node* getRoot();
 
     private:        

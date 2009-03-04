@@ -10,7 +10,45 @@ Singleton3<T>::Singleton3()
 template <typename T>
 Singleton3<T>::~Singleton3()
 {
-    // empty
+    if (this == s_instance)
+    {
+        SingletonServer::instance()->unregisterSingleton(this);
+        s_instance = 0;
+        s_path.clear();
+    }
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+int Singleton3<T>::addRefSingleton()
+{
+    T* t = dynamic_cast<T*>(this);
+    if (t)
+        return t->addRef();
+    return 0;
+}        
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+int Singleton3<T>::releaseSingleton()
+{
+    T* t = dynamic_cast<T*>(this);
+    if (t)
+        return t->release();
+    return 0;
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+int Singleton3<T>::getRefSingleton() const
+{
+    const T* t = dynamic_cast<const T*>(this);
+    if (t)
+        return t->getRef();
+    return 0;
 }
 
 
@@ -19,6 +57,8 @@ template <typename T>
 void Singleton3<T>::setSingletonPath(const Path& path)
 {
     s_path = path;
+    if (!T::TYPE.isAbstract())
+        instance();
 }
 
 
@@ -31,6 +71,7 @@ T* Singleton3<T>::instance()
         return s_instance;
     s_instance = dynamic_cast<T*>(
         Kernel::instance()->create(T::TYPE.getName().c_str(), s_path));
+    SingletonServer::instance()->registerSingleton(s_instance);
     return s_instance;
 }
 

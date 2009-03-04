@@ -22,6 +22,7 @@ namespace tod
         override Variable* clone();
         override type_id getType() const;
 
+        T& get();
         const T& get() const;
 
         type& operator = (const T& v);

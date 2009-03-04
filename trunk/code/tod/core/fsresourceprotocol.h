@@ -14,14 +14,40 @@ namespace tod
     class FsResourceProtocol : public ResourceProtocol
     {
     public:
+		FsResourceProtocol();
         virtual~FsResourceProtocol();
 
-        ResourceImplementator* create(const Uri& uri);
-        bool destroy(const Uri& uri);
+        override ResourceImplementator* create(const Uri& uri);
+        override bool destroy(const Uri& uri);
+
+        override bool findStorages(ResourceStorages* rs);
+        override bool findEntries(ResourceEntries* re, const String& path, bool file);
+
+    private:
+        template <typename T>
+        struct ConvertCharacterFunctor
+        {
+            ConvertCharacterFunctor(const T& src, const T& dst):
+            src_(src), dst_(dst) {}
+            T operator () (const T& ch) const
+            {
+                if (ch == src_)
+                    return dst_;
+                return ch;
+            }
+            T src_;
+            T dst_;
+        };
 
     private:
         void make_path(const Uri& uri);
-        String combine_path(const Uri& uri);
+        void filetime_to_unixtime(const FILETIME& ft, time_t* t);
+		void push_cwd();
+		void pop_cwd();
+
+	private:
+		String baseAbsPath_;
+		String curAbsPath_;
     };
 }
 

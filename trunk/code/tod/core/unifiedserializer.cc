@@ -10,7 +10,8 @@ bool UnifiedSerializer::serialize(const Uri& uri, Object* object)
 
 
 //-----------------------------------------------------------------------------
-Object* UnifiedSerializer::deserialize(const Uri& uri, const Name& name)
+Object* UnifiedSerializer::deserialize
+(Node* parent, const Uri& uri, const char_t* name)
 {
     return 0;
 }

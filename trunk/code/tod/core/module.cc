@@ -1,5 +1,6 @@
 #include "tod/core/module.h"
 
+#include "tod/core/kernel.h"
 #include "tod/core/type.h"
 #include "tod/core/object.h"
 
@@ -11,13 +12,14 @@ Module::Module
  InitializeModuleFunc init_func, FinalizeModuleFunc fin_func):
 name_(name), initializeModuleFunc_(init_func), finalizeModuleFunc_(fin_func)
 {
+    // empty
 }
 
 
 //-----------------------------------------------------------------------------
 Module::~Module()
 {
-    finalize();
+    // empty
 }
 
 //-----------------------------------------------------------------------------
@@ -48,9 +50,10 @@ Object* Module::create(const Name& type_name)
 
 
 //-----------------------------------------------------------------------------
-void Module::addType(const name_t* type_name, Type* type)
+void Module::addType(Kernel* kernel, const name_t* type_name, Type* type)
 {
     types_.insert(Types::value_type(type_name, type));
+    kernel->addType(type_name, this);
     if (!type->hasBindedMethod())
         type->bindMethod();
     if (!type->hasBindedProperty())

@@ -23,11 +23,12 @@ namespace tod
     };
 
     class Object;
+    class Node;
     class Serializer
     {
     public:
         virtual bool serialize(const Uri& uri, Object* object)=0;
-        virtual Object* deserialize(const Uri& uri, const Name& name)=0;
+        virtual Object* deserialize(Node* parent, const Uri& uri, const char_t* name)=0;
     };
 }
 

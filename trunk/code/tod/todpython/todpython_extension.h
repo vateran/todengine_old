@@ -22,8 +22,9 @@ struct TodObject
     PyObject_HEAD
     tod::Object* object_;
     PyObject* attrName_;
-
-    TodObject():attrName_(0) {}
+    bool createdByPython_;
+    
+    TodObject():attrName_(0), createdByPython_(false) {}
 };
 
 extern PyTypeObject TodObjectType;
@@ -46,7 +47,7 @@ extern PyObject* g_module;
 extern TodNodes g_todobjects;
 extern PyTypeObject TodNodeType;
 
-extern PyObject* TodPython_resroot(PyObject* self, PyObject* args);
+extern PyObject* TodPython_res(PyObject* self, PyObject* args);
 extern PyObject* TodPython_new(PyObject* self, PyObject* args);
 extern PyObject* TodPython_get(PyObject* self, PyObject* args);
 extern PyObject* TodPython_delete(PyObject* self, PyObject* args);

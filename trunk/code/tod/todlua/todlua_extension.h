@@ -14,10 +14,11 @@ extern "C"
 struct TodLuaObject
 {
     tod::Object* object_;
+    bool createdByLua_;
 };
 
 extern int luacmd_StackDump(lua_State* s);
-extern int luacmd_ResRoot(lua_State* s);
+extern int luacmd_Res(lua_State* s);
 extern int luacmd_NewObj(lua_State* s);
 extern int luacmd_New(lua_State* s);
 extern int luacmd_Get(lua_State* s);
@@ -32,8 +33,11 @@ extern int luacmd_Deserialize(lua_State* s);
 extern int luacmd_GetModuleList(lua_State* s);
 extern int luacmd_GetTypeList(lua_State* s);
 extern int luacmd_Invoke(lua_State* s);
+extern int luacmd_SetProperty(lua_State* s);
+extern int luacmd_GetProperty(lua_State* s);
 extern int luacmd_Del(lua_State* s);
 extern int luacmd_Panic(lua_State* s);
 extern int luacmd_WaitSec(lua_State* s);
+extern int luacmd_WaitFrame(lua_State* s);
 
 #endif // TOD_TODLUA_TODLUAFUNC_H

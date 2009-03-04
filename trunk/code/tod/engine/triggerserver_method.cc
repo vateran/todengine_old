@@ -34,10 +34,18 @@ static void TriggerServer_f_getPeriod_v(TriggerServer* self, Parameter* param)
 
 
 //-----------------------------------------------------------------------------
+static void TriggerServer_v_quit_v(TriggerServer* self, Parameter* param)
+{
+    self->quit();
+}
+
+
+//-----------------------------------------------------------------------------
 void TriggerServer::bindMethod()
 {
     BIND_METHOD(v_add_of, TriggerServer_v_add_of);
     BIND_METHOD(v_remove_o, TriggerServer_v_remove_o);
     BIND_METHOD(v_setPeriod_f, TriggerServer_v_setPeriod_f);
     BIND_METHOD(f_getPeriod_v, TriggerServer_f_getPeriod_v);
+    BIND_METHOD(v_quit_v, TriggerServer_v_quit_v);
 }

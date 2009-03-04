@@ -18,7 +18,7 @@ period_(0), requestQuit_(false)
 //-----------------------------------------------------------------------------
 TriggerServer::~TriggerServer()
 {
-    // empty
+    tnodes_.clear();
 }
 
 
@@ -33,13 +33,23 @@ void TriggerServer::quit()
 void TriggerServer::add(Node* node, Time period)
 {
     tnodes_.push_back(Target(node, period));
+    addRefSingleton();
 }
 
 
 //-----------------------------------------------------------------------------
 void TriggerServer::remove(Node* node)
 {
-    tnodes_.remove(Target(node, 0));
+    for (TargetNodes::iterator i = tnodes_.begin();
+         i != tnodes_.end(); ++i)
+    {
+        if ((*i).node_ == node)
+        {
+            tnodes_.erase(i);
+            releaseSingleton();
+            return;
+        }
+    }
 }
 
 
@@ -53,7 +63,7 @@ bool TriggerServer::trigger()
         if (t.sw_.elapse() < t.period_)
             continue;
         t.node_->trigger();
-        t.sw_.reset();
+        t.sw_.restart();
     }
     TimeServer::instance()->sleep(period_);
     return !requestQuit_;

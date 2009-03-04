@@ -2,6 +2,9 @@
 
 #include "boost/tokenizer.hpp"
 #include "tod/core/node.h"
+#include "tod/core/uri.h"
+#include "tod/core/vector3.h"
+#include "tod/core/color.h"
 
 using namespace tod;
 
@@ -77,6 +80,18 @@ void Method::build_paramter(const String& s, Variables* v)
             break;
         case 's':
             v->add<String>(STRING(""));
+            break;
+        case 'u':
+            v->add<Uri>(Uri());
+            break;
+        case 't':
+            v->add<Vector3>(Vector3());
+            break;
+        case 'c':
+            v->add<Color>(Color());
+            break;
+        case 'q':
+            v->add<Object*>(0);
             break;
         case 'o':
             v->add<Node*>(0);

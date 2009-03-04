@@ -27,7 +27,7 @@ void SingletonServer::clear()
     {
         SingletonBase* s = *i;
         i = singletons_.erase(i);
-        delete s;
+        s->releaseSingleton();
     }
 }
 
@@ -35,6 +35,7 @@ void SingletonServer::clear()
 //-----------------------------------------------------------------------------
 void SingletonServer::registerSingleton(SingletonBase* singleton)
 {
+    singleton->addRefSingleton();
     singletons_.push_back(singleton);
 }
 
@@ -43,6 +44,8 @@ void SingletonServer::registerSingleton(SingletonBase* singleton)
 void SingletonServer::unregisterSingleton(SingletonBase* singleton)
 {
     singletons_.remove(singleton);
+    if (singleton->getRefSingleton() > 0)
+        singleton->releaseSingleton();
 }
 
 

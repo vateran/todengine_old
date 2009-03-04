@@ -1,9 +1,11 @@
 #include "tod/todlua/todluascriptserver.h"
 
 #include "tod/core/exception.h"
+#include "tod/core/color.h"
 #include "tod/core/kernel.h"
 #include "tod/core/module.h"
 #include "tod/core/resource.h"
+#include "tod/core/simpleproperty.h"
 #include "tod/engine/timeserver.h"
 #include "tod/todlua/todlua_extension.h"
 
@@ -40,7 +42,7 @@ luaStateRoot_(0)
 
     // Get a global table of TodEngine functions up
     reg_globalfunc(luacmd_StackDump, "_TODLUASCRIPTSERVER_STACKDUMP");
-    reg_globalfunc(luacmd_ResRoot, "resroot");
+    reg_globalfunc(luacmd_Res, "res");
     reg_globalfunc(luacmd_NewObj, "newobj");
     reg_globalfunc(luacmd_New, "new");
     reg_globalfunc(luacmd_Get, "get");
@@ -55,10 +57,18 @@ luaStateRoot_(0)
     reg_globalfunc(luacmd_GetModuleList, "getmodulelist");
     reg_globalfunc(luacmd_GetTypeList, "gettypelist");
     reg_globalfunc(luacmd_WaitSec, "todwaitsec");
+    reg_globalfunc(luacmd_WaitFrame, "todwaitframe");
 
     // Setup environment
     lua_pushstring(luaStateRoot_, TODLUA_METATABLES);
     lua_newtable(luaStateRoot_);
+    lua_settable(luaStateRoot_, LUA_GLOBALSINDEX);
+
+    lua_pushstring(luaStateRoot_, TODLUA_OBJECTMETATABLES);
+    lua_newtable(luaStateRoot_);
+    lua_pushstring(luaStateRoot_, "__gc");
+    lua_pushcfunction(luaStateRoot_, luacmd_Del);
+    lua_settable(luaStateRoot_, -3);
     lua_settable(luaStateRoot_, LUA_GLOBALSINDEX);
 
     // clear stack
@@ -91,7 +101,7 @@ bool TodLuaScriptServer::run(const String& str, String* result)
 //-----------------------------------------------------------------------------
 bool TodLuaScriptServer::call(const String& str, Parameter* parameter)
 {
-    return false;
+    return call(luaStateRoot_, str, parameter);
 }
 
 
@@ -114,7 +124,11 @@ bool TodLuaScriptServer::run(lua_State* s, const char* buf, size_t size, String*
         s, buf, size, "TodLua");
     if (0 == status)
     {   
-        return executeLuaChunk(s, result, errfunc);
+        //return executeLuaChunk(s, result, errfunc);
+        executeLuaChunk(s, result, errfunc);
+
+        lua_gc(s, LUA_GCCOLLECT, 0);
+        return true;
     }
     else
     {   
@@ -140,9 +154,64 @@ bool TodLuaScriptServer::runFile(lua_State* s, const Uri& uri, String* result)
         return false;
 
     dynamic_buffer_t buffer;
-    resource.read(buffer);
+    resource.read(&buffer);
 
     return run(s, &buffer[0], buffer.size(), result);    
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::call(lua_State* s, const String& str, Parameter* parameter)
+{
+    lua_getglobal(s, str.toAnsiString().c_str());
+    if (!lua_isfunction(s, -1))
+    {
+        TOD_THROW_EXCEPTION(0,
+            String("Could not found function '%s'",
+                str.toAnsiString().c_str()));
+        lua_settop(s, 0);
+        return false;
+    }
+
+    size_t pnum = 0;
+    if (parameter)
+    {
+        pnum = parameter->in()->size();
+        if (!variablesToStack(s, parameter->in()))
+            return false;
+    }
+
+    if (lua_pcall(s, pnum, 1, 0) != 0)
+    {
+        parameter->out()->clear();
+        parameter->out()->add<String>(
+            TodLuaScriptServer::instance()->generateStackTrace(s));
+        return false;
+    }
+
+    parameter->out()->clear();
+
+    if (lua_istable(s, -1))
+    {
+        pnum = lua_objlen(s, -1);
+        for (size_t pi = 1; pi <= pnum; ++pi)
+        {   
+            lua_rawgeti(s, -1, pi);
+            if (!stackToNewVariable(s, parameter->out(), -1))
+            {
+                lua_settop(s, 0);
+                return false;
+            }
+            lua_pop(s, 1);
+        }
+    }
+    else
+    {
+        stackToNewVariable(s, parameter->out(), -1);
+    }
+
+    lua_settop(s, 0);
+    return true;
 }
 
 
@@ -150,8 +219,40 @@ bool TodLuaScriptServer::runFile(lua_State* s, const Uri& uri, String* result)
 void TodLuaScriptServer::newThread(const Uri& uri)
 {
     TodLuaThread* new_thread = new TodLuaThread();
-    new_thread->runFile(luaStateRoot_, uri, 0);
-    threads_.push_back(new_thread);
+
+    TodLuaThread::ReturnCode r = new_thread->runFile(luaStateRoot_, uri, 0);
+
+    switch (r)
+    {
+    case TodLuaThread::RETURNCODE_OK:
+    case TodLuaThread::RETURNCODE_ERROR:
+        delete new_thread;
+        break;
+    case TodLuaThread::RETURNCODE_YIELD:
+        threads_.push_back(new_thread);
+        break;
+    }
+}
+
+
+//-----------------------------------------------------------------------------
+void TodLuaScriptServer::newThreadCall(const String& str, Parameter* parameter)
+{
+    TodLuaThread* new_thread = new TodLuaThread();
+
+    TodLuaThread::ReturnCode r =
+        new_thread->call(luaStateRoot_, str, parameter);
+
+    switch (r)
+    {
+    case TodLuaThread::RETURNCODE_OK:
+    case TodLuaThread::RETURNCODE_ERROR:
+        delete new_thread;
+        break;
+    case TodLuaThread::RETURNCODE_YIELD:
+        threads_.push_back(new_thread);
+        break;
+    }
 }
 
 
@@ -170,7 +271,8 @@ bool TodLuaScriptServer::trigger()
         else
             ++i;
     }
-    
+
+    ++TodLuaThread::s_curFrame_;
     return true;
 }
 
@@ -251,8 +353,6 @@ String TodLuaScriptServer::generateStackTrace(lua_State* s)
 //-----------------------------------------------------------------------------
 void TodLuaScriptServer::stackToString(lua_State* s, int bottom, String* result)
 {
-    int aa = 0;
-
     while (bottom < lua_gettop(s))
     {
         switch (lua_type(s, -1))
@@ -275,6 +375,13 @@ void TodLuaScriptServer::stackToString(lua_State* s, int bottom, String* result)
             case LUA_TLIGHTUSERDATA:
             {
                 *result += STRING("<userdata>");
+                break;
+            }
+            case LUA_TFUNCTION:
+            {
+                lua_getupvalue(s, -1, 1);
+                TodLuaScriptServer::instance()->
+                    stackToString(s, lua_gettop(s) - 1, result);
                 break;
             }
             case LUA_TNIL:
@@ -312,48 +419,50 @@ void TodLuaScriptServer::stackToString(lua_State* s, int bottom, String* result)
                     *result += STRING("{ ");
                     lua_pushnil(s);
 
-                    aa = lua_gettop(s);
-
                     bool firstItem = true;
                     while (lua_next(s, -2) != 0)
                     {
-                        aa = lua_gettop(s);
-
                         if (!firstItem)
                             *result += STRING(", ");
                         else
                             firstItem = false;
                         TodLuaScriptServer::instance()->
                             stackToString(s, lua_gettop(s) - 1, result);
-
-                        aa = lua_gettop(s);
-
                     }
                     *result += STRING(" }");
                 }
                 break;
             }
             default:
-                //result += STRING("???");
+                *result += STRING("???");
                 break;  
         }
-        aa = lua_gettop(s);
         lua_pop(s, 1);
-        aa = lua_gettop(s);
     }
 }
 
 
 //-----------------------------------------------------------------------------
-bool TodLuaScriptServer::thunkObject(lua_State* s, Object* obj)
+bool TodLuaScriptServer::thunkObject
+(lua_State* s, Object* obj, bool creation_by_lua)
 {
     lua_newtable(s);
+
     lua_pushstring(s, "_");
     TodLuaObject* result =
         static_cast<TodLuaObject*>
             (lua_newuserdata(s, sizeof(TodLuaObject)));
     memset(result, 0, sizeof(TodLuaObject));
     result->object_ = obj;
+    result->createdByLua_ = creation_by_lua;
+    Node* node = dynamic_cast<Node*>(obj);
+    if (node)
+        node->addRef();
+
+    lua_pushstring(s, TODLUA_OBJECTMETATABLES);
+    lua_gettable(s, LUA_GLOBALSINDEX);
+    lua_setmetatable(s, -2);
+
     lua_settable(s, -3);
 
     // get todlua type table        
@@ -367,7 +476,8 @@ bool TodLuaScriptServer::thunkObject(lua_State* s, Object* obj)
     }
 
     // find the corresponding type metatable in TODLUA_METATABLES
-    const char* type_name = obj->getType()->getName().toAnsiString().c_str();
+    std::string tname(obj->getType()->getName().toAnsiString());
+    const char* type_name = tname.c_str();
     lua_pushstring(s, type_name);
     lua_gettable(s, -2);
 
@@ -375,7 +485,7 @@ bool TodLuaScriptServer::thunkObject(lua_State* s, Object* obj)
     {
         // pop the nil off the stack
         lua_pop(s, 1);
-
+        
         // metatable
         lua_pushstring(s, type_name);
         lua_newtable(s);
@@ -395,14 +505,26 @@ bool TodLuaScriptServer::thunkObject(lua_State* s, Object* obj)
                 lua_pushcclosure(s, luacmd_Invoke, 1);
                 lua_settable(s, -3);
             }
+            for (Properties::iterator p = cur_type->firstProperty();
+                 p != cur_type->lastProperty(); ++p)
+            {
+                Property* prop = p->second;
+                String name("");
+                name += prop->getName();
+                lua_pushstring(s, name.toAnsiString().c_str());
+                lua_pushlightuserdata(s, prop);
+                lua_pushcclosure(s, luacmd_GetProperty, 1);
+                lua_settable(s, -3);
+            }
             cur_type = cur_type->getBase();
         }
+        
         // insert ("__index", table) to metatable
         lua_settable(s, -3);
 
-        // insert ("__dc", luacmd_Del) to metatable
-        lua_pushstring(s, "__gc");
-        lua_pushcfunction(s, luacmd_Del);
+        // insert ("__newindex", luacmd_SetProperty) to metatable
+        lua_pushstring(s, "__newindex");
+        lua_pushcfunction(s, luacmd_SetProperty);
         lua_settable(s, -3);
 
         // insert (type_name, metatable) to TODLUA_METATABLES
@@ -425,6 +547,10 @@ bool TodLuaScriptServer::thunkObject(lua_State* s, Object* obj)
 Object* TodLuaScriptServer::unpackFromStack(lua_State* s, int table_index)
 {
     Object* obj = 0;
+
+    int t = lua_gettop(s);
+    if (0 == t)
+        return 0;
 
     lua_pushstring(s, "_");
     lua_rawget(s, table_index);
@@ -454,9 +580,12 @@ bool TodLuaScriptServer::stackToVariable(lua_State* s, Variable* v, int index)
             return false;
 
         typedef bool type;
-        typedef SimpleVariable<type> AdaptiveVaraible;
-        AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
-        *av = (lua_tonumber(s, index) > 0)?true:false;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        if (lua_isboolean(s, index))
+            *av = (lua_toboolean(s, index) > 0)?true:false;
+        else
+            *av = (lua_tonumber(s, index) > 0)?true:false;
     }
     else if (TypeId<int>::check(v->getType()))
     {
@@ -464,8 +593,8 @@ bool TodLuaScriptServer::stackToVariable(lua_State* s, Variable* v, int index)
             return false;
 
         typedef int type;
-        typedef SimpleVariable<type> AdaptiveVaraible;
-        AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         *av = static_cast<type>(lua_tonumber(s, index));
     }
     else if (TypeId<__int64>::check(v->getType()))
@@ -474,8 +603,8 @@ bool TodLuaScriptServer::stackToVariable(lua_State* s, Variable* v, int index)
             return false;
 
         typedef __int64 type;
-        typedef SimpleVariable<type> AdaptiveVaraible;
-        AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         *av = static_cast<type>(lua_tonumber(s, index));
     }
     else if (TypeId<float>::check(v->getType()))
@@ -484,8 +613,8 @@ bool TodLuaScriptServer::stackToVariable(lua_State* s, Variable* v, int index)
             return false;
 
         typedef float type;
-        typedef SimpleVariable<type> AdaptiveVaraible;
-        AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         *av = static_cast<type>(lua_tonumber(s, index));
     }
     else if (TypeId<double>::check(v->getType()))
@@ -494,8 +623,8 @@ bool TodLuaScriptServer::stackToVariable(lua_State* s, Variable* v, int index)
             return false;
 
         typedef float type;
-        typedef SimpleVariable<type> AdaptiveVaraible;
-        AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         *av = static_cast<type>(lua_tonumber(s, index));
     }
     else if (TypeId<String>::check(v->getType()))
@@ -504,23 +633,115 @@ bool TodLuaScriptServer::stackToVariable(lua_State* s, Variable* v, int index)
             return false;
 
         typedef String type;
-        typedef SimpleVariable<type> AdaptiveVaraible;
-        AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         *av = lua_tostring(s, index);
+    }
+    else if (TypeId<Uri>::check(v->getType()))
+    {
+        if (!lua_isstring(s, index))
+            return false;
+
+        typedef Uri type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        *av = String(lua_tostring(s, index));
+    }
+    else if (TypeId<Vector3>::check(v->getType()))
+    {
+        if (!lua_istable(s, index))
+            return false;
+        if (lua_objlen(s, index) != 3)
+            return false;
+
+        typedef Vector3 type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        Vector3& tv(av->get());
+
+        for (size_t i = 0; i < 3; ++i)
+        {
+            lua_rawgeti(s, index, i + 1);
+            tv.a_[i] = static_cast<float>(lua_tonumber(s, -1));
+            lua_pop(s, 1);
+        }
+    }
+    else if (TypeId<Color>::check(v->getType()))
+    {
+        if (!lua_istable(s, index))
+            return false;
+        if (lua_objlen(s, index) != 4)
+            return false;
+
+        typedef Color type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        Color& tc(av->get());
+
+        for (size_t i = 0; i < 4; ++i)
+        {
+            lua_rawgeti(s, index, i + 1);
+            tc.array_[i] = static_cast<uint8_t>(lua_tonumber(s, -1));
+            lua_pop(s, 1);
+        }
+    }
+    else if (TypeId<Object*>::check(v->getType()))
+    {
+        if (!lua_istable(s, index))
+            return false;
+
+        Object* obj =
+            TodLuaScriptServer::instance()->
+                unpackFromStack(s, index);
+
+        typedef Object* type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        *av = obj;
     }
     else if (TypeId<Node*>::check(v->getType()))
     {
-        if (!lua_isuserdata(s, index))
-        {
-            typedef Node* type;
-            typedef SimpleVariable<type> AdaptiveVaraible;
-            AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
-            *av = static_cast<type>(lua_touserdata(s, index));
-        }
-        else if (!lua_istable(s, index))
-        {
-            // Ã³¸®¿ä¸Á
-        }
+        if (!lua_istable(s, index))
+            return false;
+
+        Object* obj =
+            TodLuaScriptServer::instance()->
+                unpackFromStack(s, index);
+
+        typedef Node* type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        *av = dynamic_cast<Node*>(obj);
+    }
+    else
+        return false;
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::stackToNewVariable
+(lua_State* s, Variables* vs, int index)
+{
+    if (lua_isboolean(s, index))
+    {
+        typedef bool type;
+        vs->add<type>((lua_tonumber(s, index) > 0)?true:false);
+    }
+    else if (lua_isnumber(s, index))
+    {
+        typedef double type;
+        vs->add<type>(lua_tonumber(s, index));
+    }
+    else if (lua_isstring(s, index))
+    {
+        typedef String type;
+        vs->add<type>(lua_tostring(s, index));
+    }
+    else if (lua_isuserdata(s, index))
+    {
+        typedef Node* type;
+        vs->add<type>(static_cast<type>(lua_touserdata(s, index)));
     }
     else
         return false;
@@ -547,8 +768,8 @@ bool TodLuaScriptServer::stackToInparam(lua_State* s, Method* method)
         {
             TOD_THROW_EXCEPTION(0,
                 String("InputArgumentTypeMismatchError: "
-                    "Cannot convert parameter %d\n",
-                        method->getName().toAnsiString().c_str(), i));
+                    "Cannot convert parameter method[%s](%d parameter)\n",
+                        method->getName().toAnsiString().c_str(), i + 1));
             return false;
         }
     }
@@ -558,11 +779,6 @@ bool TodLuaScriptServer::stackToInparam(lua_State* s, Method* method)
 
 
 //-----------------------------------------------------------------------------
-#define TODLUA_PUSHNUMBER(t) do {\
-    typedef t type;\
-    typedef SimpleVariable<type> AdaptiveVaraible;\
-    AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);\
-    lua_pushnumber(s, av->get()); } while (0)
 bool TodLuaScriptServer::outparamToStack(lua_State* s, Method* method)
 {
     // empty output parameter
@@ -583,35 +799,230 @@ bool TodLuaScriptServer::outparamToStack(lua_State* s, Method* method)
     for (size_t i = 0; i < num_vars; ++i)
     {
         Variable* v = vars->get(i);
-        if (TypeId<bool>::check(v->getType()))
-        {
-            typedef bool type;
-            typedef SimpleVariable<type> AdaptiveVaraible;
-            AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
-            lua_pushboolean(s, av->get());
-        }
-        else if (TypeId<int>::check(v->getType()))
-            TODLUA_PUSHNUMBER(int);
-        else if (TypeId<__int64>::check(v->getType()))
-        {
-            typedef __int64 type;
-            typedef SimpleVariable<type> AdaptiveVaraible;
-            AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
-            lua_pushnumber(s, static_cast<double>(av->get()));
-        }
-        else if (TypeId<float>::check(v->getType()))
-            TODLUA_PUSHNUMBER(float);
-        else if (TypeId<double>::check(v->getType()))
-            TODLUA_PUSHNUMBER(double);
-        else if (TypeId<String>::check(v->getType()))
-        {
-            typedef String type;
-            typedef SimpleVariable<type> AdaptiveVaraible;
-            AdaptiveVaraible* av = static_cast<AdaptiveVaraible*>(v);
-            lua_pushstring(s, av->get().toAnsiString().c_str());
-        }
+        if (!variableToStack(s, v))
+            return false;
     }
 
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::variablesToStack(lua_State* s, Variables* vs)
+{
+    size_t pnum = vs->size();
+    for (size_t pi = 0; pi < pnum; ++pi)
+    {
+        if (!variableToStack(s, vs->get(pi)))
+            return false;
+    }
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::variableToStack(lua_State* s, Variable* v)
+{
+    if (TypeId<bool>::check(v->getType()))
+    {   
+        typedef bool type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        lua_pushboolean(s, av->get());
+    }
+    else if (TypeId<int>::check(v->getType()))
+    {   
+        typedef int type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        lua_pushinteger(s, av->get());
+    }
+    else if (TypeId<__int64>::check(v->getType()))
+    {   
+        typedef __int64 type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        lua_pushnumber(s, static_cast<double>(av->get()));
+    }
+    else if (TypeId<float>::check(v->getType()))
+    {   
+        typedef float type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        lua_pushnumber(s, av->get());
+    }
+    else if (TypeId<double>::check(v->getType()))
+    {   
+        typedef double type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        lua_pushnumber(s, av->get());
+    }
+    else if (TypeId<String>::check(v->getType()))
+    {   
+        typedef String type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        lua_pushstring(s, av->get().toAnsiString().c_str());
+    }
+    else if (TypeId<Vector3>::check(v->getType()))
+    {   
+        typedef Vector3 type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        const Vector3& v(av->get());
+
+        lua_newtable(s);
+        lua_pushnumber(s, 1);
+        lua_pushnumber(s, v.x_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, 2);
+        lua_pushnumber(s, v.y_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, 3);
+        lua_pushnumber(s, v.z_);
+        lua_settable(s, -3);
+    }
+    else if (TypeId<Color>::check(v->getType()))
+    {
+        typedef Color type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        const Color& c(av->get());
+
+        lua_newtable(s);
+        lua_pushnumber(s, 1);
+        lua_pushnumber(s, c.r_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, 2);
+        lua_pushnumber(s, c.g_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, 3);
+        lua_pushnumber(s, c.b_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, c.a_);
+        lua_settable(s, -3);
+    }
+    else if (TypeId<Object*>::check(v->getType()))
+    {   
+        typedef Object* type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        thunkObject(s, av->get(), true);
+    }
+    else if (TypeId<Node*>::check(v->getType()))
+    {   
+        typedef Node* type;
+        typedef SimpleVariable<type> AdaptiveVariable;
+        AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
+        thunkObject(s, av->get(), false);
+    }
+    else
+        return false;
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+bool TodLuaScriptServer::propertyToStack
+(lua_State* s, Object* obj, Property* prop)
+{   
+    if (TypeId<bool>::check(prop->getType()))
+    {   
+        typedef bool type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        lua_pushboolean(s, ap->get(obj));
+    }
+    else if (TypeId<int>::check(prop->getType()))
+    {   
+        typedef int type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        lua_pushinteger(s, ap->get(obj));
+    }
+    else if (TypeId<__int64>::check(prop->getType()))
+    {   
+        typedef __int64 type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        lua_pushnumber(s, static_cast<double>(ap->get(obj)));
+    }
+    else if (TypeId<float>::check(prop->getType()))
+    {   
+        typedef float type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        lua_pushnumber(s, ap->get(obj));
+    }
+    else if (TypeId<double>::check(prop->getType()))
+    {   
+        typedef double type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        lua_pushnumber(s, ap->get(obj));
+    }
+    else if (TypeId<String>::check(prop->getType()))
+    {
+        typedef String type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        lua_pushstring(s, ap->get(obj).toAnsiString().c_str());
+    }
+    else if (TypeId<Vector3>::check(prop->getType()))
+    {
+        typedef Vector3 type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        const Vector3& v(ap->get(obj));
+
+        lua_newtable(s);
+        lua_pushnumber(s, 1);
+        lua_pushnumber(s, v.x_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, 2);
+        lua_pushnumber(s, v.y_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, 3);
+        lua_pushnumber(s, v.z_);
+        lua_settable(s, -3);
+    }
+    else if (TypeId<Color>::check(prop->getType()))
+    {
+        typedef Color type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        const Color& c(ap->get(obj));
+
+        lua_newtable(s);
+        lua_pushnumber(s, 1);
+        lua_pushnumber(s, c.r_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, 2);
+        lua_pushnumber(s, c.g_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, 3);
+        lua_pushnumber(s, c.b_);
+        lua_settable(s, -3);
+        lua_pushnumber(s, c.a_);
+        lua_settable(s, -3);
+    }
+    else if (TypeId<Object*>::check(prop->getType()))
+    {   
+        typedef Object* type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        thunkObject(s, ap->get(obj), true);
+    }
+    else if (TypeId<Node*>::check(prop->getType()))
+    {   
+        typedef Node* type;
+        typedef SimpleProperty<type> AdaptiveProperty;
+        AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
+        thunkObject(s, ap->get(obj), false);
+    }
+    else
+        return false;
     return true;
 }
 

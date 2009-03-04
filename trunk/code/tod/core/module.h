@@ -14,6 +14,7 @@ namespace tod
 {
     class Type;
     class Object;
+    class Kernel;
     class Module
     {
     public:
@@ -33,7 +34,7 @@ namespace tod
         
         Object* create(const Name& type_name);
 
-        void addType(const name_t* type_name, Type* type);
+        void addType(Kernel* kernel, const name_t* type_name, Type* type);
 
         const Name& getName() const;
         size_t getNumTypes() const;
@@ -57,7 +58,8 @@ namespace tod
 #include "tod/core/module.inl"
 
 /// Register Type macro
-#define REGISTER_TYPE(m, cls) m->addType(STRING(#cls), &cls::TYPE);
+#define REGISTER_TYPE(m, cls) m->addType(\
+    tod::Kernel::instance(), STRING(#cls), &cls::TYPE);
 /// Declare Module macro
 #define DECLARE_MODULE(name) \
     extern "C" void Use##name##Module()\

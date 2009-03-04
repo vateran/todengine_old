@@ -54,6 +54,9 @@ namespace tod
         ConstNodeIterator firstChildNode() const;
         ConstNodeIterator lastChildNode() const;
 
+        virtual void onSetName(const name_t* name);
+        virtual void onAttachTo(Node* parent);
+        virtual void onDetachFrom(Node* parent);
         virtual void onAddNode(Node* node);
         virtual void onRemoveNode(Node* node);
 

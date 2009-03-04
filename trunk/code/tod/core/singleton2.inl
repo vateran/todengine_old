@@ -3,7 +3,9 @@ template <typename T>
 Singleton2<T>::Singleton2()
 {
     if (0 == s_instance)
+    {
         s_instance = dynamic_cast<T*>(this);
+    }
 }
 
 
@@ -12,7 +14,9 @@ template <typename T>
 Singleton2<T>::~Singleton2()
 {
     if (s_instance == this)
+    {
         s_instance = 0;
+    }
 }
 
 

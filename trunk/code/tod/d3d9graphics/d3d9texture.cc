@@ -73,7 +73,7 @@ bool D3D9Texture::preload()
         return false;
 
     dynamic_buffer_t buffer;
-    resource.read(buffer);
+    resource.read(&buffer);
 
     HRESULT hr;
     if (FAILED(hr = D3DXCreateTextureFromFileInMemoryEx(d3d9device_,

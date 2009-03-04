@@ -120,6 +120,14 @@ void AbstractConcreteType<T>::bindProperty()
 
 //-----------------------------------------------------------------------------
 template <typename T>
+bool AbstractConcreteType<T>::isAbstract() const
+{
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
 ConcreteType<T>::ConcreteType(const name_t* name, Type* base):
 AbstractConcreteType<T>(name, base)
 {
@@ -132,4 +140,12 @@ template <typename T>
 Object* ConcreteType<T>::create() const
 {
     return new T();
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+bool ConcreteType<T>::isAbstract() const
+{
+    return false;
 }

@@ -1,6 +1,7 @@
 #include "tod/core/node.h"
 
 #include "tod/core/simplepropertybinder.h"
+#include "tod/core/nodeeventpublisher.h"
 
 using namespace tod;
 
@@ -10,15 +11,21 @@ IMPLEMENT_CLASS(Node, Object);
 Node::Node():
 refCount_(1), parent_(0)
 {
-    // empty
+    NodeEventPublisher::instance()->addRefSingleton();
 }
 
 
 //-----------------------------------------------------------------------------
 Node::~Node()
-{
+{   
     if (parent_)
+    {
         parent_->onRemoveNode(this);
+        onDetachFrom(parent_);
+        NodeEventPublisher::instance()->onDetachFrom(parent_, this);
+    }
+
+    NodeEventPublisher::instance()->releaseSingleton();
 }
 
 
@@ -27,8 +34,22 @@ int Node::release()
 {
     if (--refCount_ == 0)
     {
+        // clear children
+        for (Nodes::iterator iter = firstChildNode();
+             iter != lastChildNode(); ++iter)
+        {
+            Node* node = iter->second;
+            node->parent_ = 0;
+        }
+        children_.clear();
+
+        // detach
         if (parent_)
+        {
             parent_->onRemoveNode(this);
+            onDetachFrom(parent_);
+            NodeEventPublisher::instance()->onDetachFrom(parent_, this);
+        }
         delete this;
         return 0;
     }
@@ -52,6 +73,8 @@ void Node::setName(const name_t* name)
     }
     else
         name_ = name;
+
+    onSetName(name);
 }
 
 
@@ -85,6 +108,8 @@ void Node::attach(Node* child)
     children_.insert(Nodes::value_type(child->getName(), child));
     child->parent_ = this;
     onAddNode(child);
+    child->onAttachTo(this);
+    NodeEventPublisher::instance()->onAttachTo(this, child);
 }
 
 
@@ -95,8 +120,15 @@ Node::NodeIterator Node::detach()
     parent_ = 0;
     if (parent)
     {
-        parent->onRemoveNode(this);
-        parent->children_.erase(parent->children_.find(getName()));
+        Nodes::iterator fi = parent->children_.find(getName());
+        if (parent->children_.end() != fi)
+        {
+            Nodes::iterator next_i = parent->children_.erase(fi);
+            NodeEventPublisher::instance()->onDetachFrom(parent, this);
+            this->onDetachFrom(parent);
+            parent->onRemoveNode(this);
+            return next_i;
+        }
     }
     return lastChildNode();
 }
@@ -140,6 +172,26 @@ Node* Node::relativeNode(const Path& path)
     }
 }
 
+
+//-----------------------------------------------------------------------------
+void Node::onSetName(const name_t* name)
+{
+    // empty
+}
+
+
+//-----------------------------------------------------------------------------
+void Node::onAttachTo(Node* parent)
+{
+    // empty
+}
+
+
+//-----------------------------------------------------------------------------
+void Node::onDetachFrom(Node* parent)
+{
+    // empty
+}
 
 //-----------------------------------------------------------------------------
 void Node::onAddNode(Node* node)

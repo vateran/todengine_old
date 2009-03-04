@@ -303,7 +303,7 @@ public:
     }
     override const char_t* getTypeKeyword() const
     {
-        return STRING("s");
+        return STRING("uri");
     }
     override const String& toString(Object* object, Property* property)
     {
@@ -354,8 +354,10 @@ public:
         Tokenizer tok(str_, sep);
         Tokenizer::iterator i = tok.begin();
         Vector3 v;
-        for (int c = 0; c < 3; ++c)
-            v.set(c, static_cast<float>(tod_atof((i++)->c_str())));
+        int c = 0;
+        for (Tokenizer::iterator i = tok.begin();
+             i != tok.end(); ++i, ++c)
+            v.set(c, static_cast<float>(tod_atof(i->c_str())));
         p->set(object, v);
     }
 

@@ -16,6 +16,8 @@ namespace tod
     template <typename T, int SIZE, int INVALID=SIZE>
     class Enumeration
     {
+		typedef Enumeration<T, SIZE, INVALID> my_type;
+
     public:
         typedef std::map<String, T> StringMap;
         typedef stdext::hash_map<T, String> ValueMap;
@@ -38,6 +40,10 @@ namespace tod
         {
             // empty
         }
+		Enumeration(const my_type& value) : value_(value.value_)
+		{
+			// empty
+		}
         Enumeration(const int& value)
         {
             value_ = static_cast<T>(value);
@@ -101,7 +107,7 @@ namespace tod
         {
             return !(*this == lhs);
         }
-        operator T& () const
+        operator const T& () const
         {
             return value_;
         }

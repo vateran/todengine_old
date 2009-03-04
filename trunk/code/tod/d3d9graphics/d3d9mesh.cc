@@ -43,7 +43,7 @@ bool D3D9Mesh::preload
         return false;
 
     dynamic_buffer_t buffer;
-    resource.read(buffer);
+    resource.read(&buffer);
 
     // load
     HRESULT hr;

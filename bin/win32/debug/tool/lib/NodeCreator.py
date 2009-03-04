@@ -245,6 +245,9 @@ class NodeCreatorFrame(wx.Frame):
         
         self.build_module_list()
         self.build_type_list()
+
+    def setSelectedItem(self, item):
+        self.selectedItem = item
         
     def setParentNode(self, node):
         self.parentNode = node
@@ -311,7 +314,7 @@ class NodeCreatorFrame(wx.Frame):
         new_node = new(node_type, node_name)
         popcwn()
         
-        self.GetParent().addNode(self.parentNode, new_node)
+        self.GetParent().addNode(self.selectedItem, new_node)
 
         self.Destroy()
 

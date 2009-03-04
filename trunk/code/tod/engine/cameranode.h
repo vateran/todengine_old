@@ -24,8 +24,7 @@ namespace engine
         override bool hasCamera() const;
 
         void moveForward(float dist);
-        void moveLeft(float dist);
-        void moveRight(float dist);
+        void moveSideward(float dist);
 
         void eulerRotateX(float angle);
         void eulerRotateY(float angle);
@@ -39,6 +38,8 @@ namespace engine
         float getNear() const;
         void setFar(float z);
         float getFar() const;
+
+        void onChangedWindowSize(int width, int height);
 
         static void bindMethod();
         static void bindProperty();

@@ -13,14 +13,14 @@ IMPLEMENT_CLASS(CameraNode, AbstractCameraNode);
 CameraNode::CameraNode():
 fov_(3.14f/4.0f), aspectRatio_(1.3333f), near_(0.1f), far_(1000.0f)
 {
-
+    // empty
 }
 
 
 //-----------------------------------------------------------------------------
 CameraNode::~CameraNode()
 {
-
+    // empty
 }
 
 
@@ -46,16 +46,7 @@ void CameraNode::moveForward(float dist)
 
 
 //-----------------------------------------------------------------------------
-void CameraNode::moveLeft(float dist)
-{
-    camera_.translateX(-dist);
-    setTranslation(camera_.getEye());
-    setTransform(camera_.getMatrix());
-}
-
-
-//-----------------------------------------------------------------------------
-void CameraNode::moveRight(float dist)
+void CameraNode::moveSideward(float dist)
 {
     camera_.translateX(dist);
     setTranslation(camera_.getEye());
@@ -87,6 +78,15 @@ void CameraNode::eulerRotateZ(float angle)
     camera_.rotateZ(angle);
     setTranslation(camera_.getEye());
     setTransform(camera_.getMatrix());
+}
+
+
+//-----------------------------------------------------------------------------
+void CameraNode::onChangedWindowSize(int width, int height)
+{
+    aspectRatio_ =
+        static_cast<float>(width) / 
+        static_cast<float>(height);
 }
 
 

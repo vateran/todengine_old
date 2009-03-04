@@ -9,6 +9,7 @@ import glob
 from lib.NOHTree import *
 from lib.PropertyGrid import *
 from lib.SceneView import *
+from lib.GameSceneViewPanel import *
 from lib.CommandConsole import *
 from lib.FileDialog import *
 
@@ -110,13 +111,8 @@ class MainFrame(wx.Frame):
         trigger_server.add(time_server, 0)
         lua = new('TodLuaScriptServer', '/sys/server/script/lua')
         trigger_server.add(lua, 0)
-        gb = new('GameBryoEngine', '/sys/server/gamebryoengine')
-        gb.createRenderer(self.GetHandle(), 1600, 1200, False)
-        trigger_server.add(gb, 0)
         
-        lua.runFile('managed://script#startup.lua')
-
-        '''self.renderer = new('D3D9Renderer', '/sys/server/renderer')
+        self.renderer = new('D3D9Renderer', '/sys/server/renderer')
         self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         new('TransformNode', '/usr/scene')
 
@@ -131,11 +127,7 @@ class MainFrame(wx.Frame):
         mesh.technique = 'Character'
         mesh.euler_rotation = (0, 3.1, 0)
         mesh.scaling = (0.05, 0.05, 0.05)
-        mesh.translation = (0, 7, 40)
-
-        # test lua script
-        lua.newThread('managed://script#test.lua')'''
-                
+        mesh.translation = (0, 7, 40)                
         
         '''mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
@@ -174,7 +166,7 @@ class MainFrame(wx.Frame):
         x.technique = 'Mesh'
         '''
         
-        '''render_path = new('RenderPath', '/sys/server/renderpath')
+        render_path = new('RenderPath', '/sys/server/renderpath')
         rpsection = new('RpSection', '/sys/server/renderpath/default')
         
         rppass = new('RpPass', '/sys/server/renderpath/default/scene')
@@ -248,7 +240,7 @@ class MainFrame(wx.Frame):
         #rppass.setTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rppass.setTexture('SceneMap', 'managed://rt#scene')
         #rppass.setTexture('SceneMap', 'managed://rt#bloomv_scene')
-        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')'''
+        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),
@@ -266,7 +258,7 @@ class MainFrame(wx.Frame):
        
         # SceneView
         self.sceneView = SceneView(self)
-        self.sceneView.addViewPanel('Perspective View', get('/usr/scene'), get('/usr/scene/camera'))        
+        self.sceneView.addViewPanel('Render View', get('/usr/scene'), get('/usr/scene/camera'), GameSceneViewPanel)
         
         # AddPanes
         self.auimgr.AddPane(self.nohTree, wx.aui.AuiPaneInfo().

@@ -4,6 +4,7 @@ import sys, os
 import wx
 import lib.NOHImageProvider as NOHImageProvider
 import lib.NodeCreator as NodeCreator
+import lib.FileDialog as FileDialog
 from todpython import *
 
 # ------------------------------------------------------------------------------
@@ -12,59 +13,90 @@ class NOHPopupMenu(wx.Menu):
         wx.Menu.__init__(self, title)
         self.parent = parent
         self.ap = wx.ArtProvider()
-        
-        item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'Add Node\tAlt-A')
-        item.SetBitmap(self.ap.GetBitmap(wx.ART_NEW))
-        self.Bind(wx.EVT_MENU, self.OnAddNode, id=item.GetId())
-        
-        self.AppendSeparator()
-        
-        item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'Rename\tF2')
-        item.SetBitmap(self.ap.GetBitmap(wx.ART_HELP_SETTINGS))
-        item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'Cut\tCtrl-X')
-        item.SetBitmap(self.ap.GetBitmap(wx.ART_CUT))
-        item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'Copy\tCtrl-C')
-        item.SetBitmap(self.ap.GetBitmap(wx.ART_COPY))
-        item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'Paste\tCtrl-V')
-        item.SetBitmap(self.ap.GetBitmap(wx.ART_PASTE))
-        item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'Delete\tDel')
-        item.SetBitmap(self.ap.GetBitmap(wx.ART_DELETE))
-        self.Bind(wx.EVT_MENU, self.OnDeleteNode, id=item.GetId())
-        
-        self.AppendSeparator()
-        
-        self.run_editor_item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'Run Editor...')
-        self.run_editor_item.SetBitmap(self.ap.GetBitmap(wx.ART_FIND))
-        self.Bind(wx.EVT_MENU, self.OnRunEditor, id=self.run_editor_item.GetId())
-                
-        self.AppendSeparator()
-        
-        item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'&Save ...')
-        item.SetBitmap(self.ap.GetBitmap(wx.ART_FILE_SAVE))
-        self.Bind(wx.EVT_MENU, self.OnSave, id=item.GetId())
 
-        item = self.Append(help='', id=wx.NewId(), kind=wx.ITEM_NORMAL, text=u'&Load ...')
-        item.SetBitmap(self.ap.GetBitmap(wx.ART_FILE_OPEN))
+        self.menuData = [(u'Add Node\tAlt-A', self.ap.GetBitmap(wx.ART_NEW), self.OnAddNode),
+            None,
+            (u'Rename\tF2', self.ap.GetBitmap(wx.ART_HELP_SETTINGS), self.OnRename),
+            (u'Cut\tCtrl-X', self.ap.GetBitmap(wx.ART_CUT), self.OnCut),
+            (u'Copy\tCtrl-C', self.ap.GetBitmap(wx.ART_COPY), self.OnCopy),
+            (u'Paste\tCtrl-V', self.ap.GetBitmap(wx.ART_PASTE), self.OnPaste),
+            (u'Delete\tDel', self.ap.GetBitmap(wx.ART_DELETE), self.OnDeleteNode),
+            None,
+            (u'Run Editor...', self.ap.GetBitmap(wx.ART_FIND), self.OnRunEditor),
+            None,
+            (u'&Save ...', self.ap.GetBitmap(wx.ART_FILE_SAVE), self.OnSave),
+            (u'&Load ...', self.ap.GetBitmap(wx.ART_FILE_OPEN), self.OnLoad)]
+
+        for md in self.menuData:
+            if md == None:
+                self.AppendSeparator()
+            else:
+                mi = wx.MenuItem(self, wx.NewId(), md[0])
+                mi.SetBitmap(md[1])
+                self.AppendItem(mi)
+                self.Bind(wx.EVT_MENU, md[2], id=mi.GetId())
+
+        self.runEditorMenuItem = self.FindItemByPosition(8)
+
+    def setSelectedItem(self, item):
+        self.selectedItem = item
         
     def setTargetObject(self, obj):
         self.targetObject = obj
-        self.run_editor_item.Enable(False)
+        self.runEditorMenuItem.Enable(False)
         for type_name in obj.getGenerations():
             if os.path.exists('plugins/' + type_name):
-                self.run_editor_item.Enable(True)
+                self.runEditorMenuItem.Enable(True)
                 break
         
     def OnAddNode(self, event):
         frame = NodeCreator.create(self.parent)
+        frame.setSelectedItem(self.selectedItem)
         frame.setParentNode(self.targetObject)
         frame.Show()
 
+    def OnRename(self, event):
+        self.parent.SelectItem(self.selectedItem)
+        self.parent.EditLabel(self.selectedItem)
+
+    def OnCut(self, event):
+        event.Skip()
+
+    def OnCopy(self, event):
+        event.Skip()
+
+    def OnPaste(self, event):
+        event.Skip()
+
     def OnDeleteNode(self, event):
+        parent_node = self.targetObject.getParent()
+        parent_item = self.parent.GetItemParent(self.selectedItem)
+        # delete node
         self.targetObject.detach()
         del self.targetObject
+        # update parent
+        self.parent.Delete(self.selectedItem)
+        self.parent.SetItemHasChildren(parent_item, parent_node.getNumChildren() > 0)
 
     def OnSave(self, event):
-        serialize('managed://test#test.xml', self.targetObject)
+        fd = FileDialog.FileDialog(self.parent)
+        fd.setupSaveMode()
+        fd.setFileName(self.targetObject.getName() + '.xml')
+        if fd.ShowModal() == wx.ID_OK:
+            if len(fd.getUri()) != 0:
+                if serialize(fd.getUri(), self.targetObject):
+                    md = wx.MessageDialog(self.parent, fd.getUri() + ' saved', 'Information', wx.OK)
+                    md.ShowModal()
+
+    def OnLoad(self, event):
+        fd = FileDialog.FileDialog(self.parent)
+        fd.setupOpenMode()
+        if fd.ShowModal() == wx.ID_OK:
+            obj = deserialize(self.targetObject, fd.getUri())
+            if obj != None:
+                self.parent.Collapse(self.selectedItem)
+                self.parent.SetItemHasChildren(self.selectedItem, True)
+                self.parent.Expand(self.selectedItem)
         
     def OnRunEditor(self, event):
         try:
@@ -90,9 +122,12 @@ class NOHTree(wx.TreeCtrl):
         
         self.popupMenu = NOHPopupMenu(self)
         
-        self.Bind(wx.EVT_TREE_ITEM_EXPANDING, self.onExpending, id=id)
-        self.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.onRClick, id=id)
+        self.Bind(wx.EVT_TREE_ITEM_EXPANDING, self.OnExpending, id=id)
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown, id=self.GetId())
+        self.Bind(wx.EVT_TREE_END_LABEL_EDIT, self.OnEndLabelEdit, id=self.GetId())
+        self.Bind(wx.EVT_TREE_ITEM_MENU, self.OnItemMenu, id=self.GetId())
+        self.Bind(wx.EVT_TREE_BEGIN_DRAG, self.OnBeginDrag, id=self.GetId())
+        self.Bind(wx.EVT_TREE_END_DRAG, self.OnEndDrag, id=self.GetId())
         
     # public members -----------------------------------------------------------
     def build(self, root_path):
@@ -109,16 +144,18 @@ class NOHTree(wx.TreeCtrl):
 
     def addNode(self, parent_item, node):
         child_item = self.add_child_item(parent_item, node)
+        self.SetItemHasChildren(parent_item, True)
         self.SelectItem(child_item)
             
     # Events -------------------------------------------------------------------
-    def onExpending(self, event):
+    def OnExpending(self, event):
         self.expend_item(event.GetItem())
         
-    def onRClick(self, event):
+    def OnItemMenu(self, event):
         tpath = self.get_absolute_path_by_item(event.GetItem())
         if len(tpath) == 0:
             return
+        self.popupMenu.setSelectedItem(event.GetItem())
         self.popupMenu.setTargetObject(get(str(tpath)))
         self.PopupMenu(self.popupMenu)
         
@@ -128,6 +165,32 @@ class NOHTree(wx.TreeCtrl):
             node = self.getSelectedNode()
             node.detach()
             del node
+            self.Delete(event.GetItem())
+
+    def OnEndLabelEdit(self, event):
+        if event.IsEditCancelled():
+            return
+        node = self.getSelectedNode()
+        node.setName(str(event.GetLabel()))
+
+    def OnBeginDrag(self, event):
+        self.beginDragItem = event.GetItem()
+        event.Allow()
+        event.Skip()
+
+    def OnEndDrag(self, event):
+        self.endDragItem = event.GetItem()
+        if self.beginDragItem == self.endDragItem:
+            return
+        src_node = self.get_node_by_item(self.beginDragItem)
+        dst_node = self.get_node_by_item(self.endDragItem)
+        src_node.detach()
+        dst_node.attach(src_node)
+        self.Delete(self.beginDragItem)
+        self.AppendItem(self.endDragItem, unicode(src_node.getName()))
+        self.SetItemHasChildren(self.endDragItem, True)
+        self.set_item_icon(self.beginDragItem, src_node)
+        self.Expand(self.endDragItem)
     
     # private members-----------------------------------------------------------
     def expend_item(self, item):
@@ -158,6 +221,9 @@ class NOHTree(wx.TreeCtrl):
         if root_item_text != '/':
             path += root_item_text + path
         return path
+
+    def get_node_by_item(self, item):
+        return get(self.get_absolute_path_by_item(item))
     
     def set_item_icon(self, item, node):
         self.SetItemImage(item, 0)

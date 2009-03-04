@@ -3,6 +3,7 @@
 from todpython import *
 import wx
 import lib.CommandConsole as CommandConsole
+import lib.FileDialog as FileDialog
 
 split_control_width = 4
 
@@ -72,7 +73,11 @@ class PropertyItemValue(wx.Window):
     def updateValue(self):
         prop_name, prop_value, prop_type, readonly = self.object.getProperty(self.propertyName)
         self.update_value(prop_value)
-        
+
+    def GetArrangeSize(self):
+        w, h = self.GetSize()
+        return wx.Size(w, h + 1)
+
     
 #-------------------------------------------------------------------------------
 class PropertyItemValueString(PropertyItemValue):
@@ -103,7 +108,8 @@ class PropertyItemValueString(PropertyItemValue):
     def update_textctrl_size(self):
         w, h = self.GetSize()
         self.textCtrl.SetSize(wx.Size(w - 20, h))
-        
+
+
 #-------------------------------------------------------------------------------
 class PropertyItemValueBool(PropertyItemValue):
     def __init__(self, parent, id, pos, size, style, name, value, readonly):
@@ -125,6 +131,155 @@ class PropertyItemValueBool(PropertyItemValue):
         self.checkBox.SetLabel(value)
         self.checkBox.Refresh()
 
+
+#-------------------------------------------------------------------------------
+class PropertyItemValueVector3(PropertyItemValue):
+    def __init__(self, parent, id, pos, size, style, name, value, readonly):
+        PropertyItemValue.__init__(self, parent, id, pos, size, style, name, value, readonly)
+        self.SetForegroundColour(wx.Colour(167, 166, 170))
+
+        self.checkbox = PropertyGridGroupTreeItemButton(self, wx.Point(4, 4))
+        self.checkbox.SetValue(False)
+
+        self.style = style | wx.NO_BORDER | wx.TE_PROCESS_ENTER
+        if readonly:
+            self.style |= wx.TE_READONLY
+        self.textCtrl =  wx.TextCtrl(self, wx.NewId(), value, wx.Point(14, 0),
+            wx.Size(0, 0), style=self.style)
+        self.update_textctrl_size()
+        if readonly:
+            self.textCtrl.SetForegroundColour(wx.Colour(167, 166, 170))
+        self.textCtrl.Bind(wx.EVT_TEXT_ENTER, self.OnTextEnter, id=self.textCtrl.GetId())
+        self.bindProprtyItemEvents(self.textCtrl)
+        
+        self.Bind(wx.EVT_SIZE, self.OnSize, id=self.GetId())
+        self.checkbox.Bind(wx.EVT_CHECKBOX, self.OnExpand, id=self.checkbox.GetId())
+
+        self.textCtrls = []
+        self.subWindow = None
+        self.curHeight = size[1] - 1
+        self.value = value.split(' ')
+
+    def OnTextEnter(self, event):
+        self.sync_text_values(True)
+        self.setValue(str(self.textCtrl.GetValue()))
+
+    def OnSubTextEnter(self, event):
+        self.sync_text_values(False)
+        self.setValue(str(self.textCtrl.GetValue()))
+
+    def OnSubTextMouseWheel(self, event):
+        t = event.GetEventObject()
+        if event.GetWheelRotation() > 0:
+            t.SetValue(str(float(t.GetValue()) + 10))
+        else:
+            t.SetValue(str(float(t.GetValue()) - 10))
+        self.sync_text_values(False)
+        self.setValue(str(self.textCtrl.GetValue()))
+
+    def sync_text_values(self, dir):        
+        if len(self.textCtrls) == 0:
+            return
+        if dir:
+            self.value = self.textCtrl.GetValue().split(' ')
+            for i in range(0, 3):
+                t = self.textCtrls[i]
+                t.SetValue(self.value[i])
+        else:
+            value = ''
+            for i in range(0, 3):
+                t = self.textCtrls[i]
+                value = value + t.GetValue() + ' '
+            self.textCtrl.SetValue(value)
+    
+    def OnSize(self, event):
+        self.update_textctrl_size()
+
+    def OnExpand(self, event):
+        height = PropertyGroup.lineHeight - 1
+        # expanded
+        if event.IsChecked():
+            self.subWindow = wx.Window(self, wx.NewId(), wx.Point(0, self.textCtrl.GetSize().GetHeight() - 1),
+                    wx.Size(self.GetSize().GetWidth(), 0), 0)
+            self.subWindow.SetBackgroundColour(wx.Colour(241, 239, 226))
+            y = 1
+            for i in range(0, 3):
+                textctrl = wx.TextCtrl(self.subWindow, wx.NewId(), self.value[i], 
+                        wx.Point(14, y), wx.Size(self.subWindow.GetSize().GetWidth(), height - 1),
+                        name=str(i), style=self.style)
+                self.textCtrls.append(textctrl)
+                textctrl.Bind(wx.EVT_TEXT_ENTER, self.OnSubTextEnter, id=textctrl.GetId())
+                textctrl.Bind(wx.EVT_MOUSEWHEEL, self.OnSubTextMouseWheel, id=textctrl.GetId())
+                y += height
+            self.curHeight = height * 4
+            w, h = self.GetSize()
+            self.SetSize(wx.Size(w, self.curHeight))
+            w, h = self.subWindow.GetSize()
+            self.subWindow.SetSize(wx.Size(w, height * 3 + 1))
+        # collapsed
+        else:
+            if self.subWindow != None:
+                self.subWindow.Destroy()
+            self.textCtrls = []
+            w, h = self.GetSize()
+            self.curHeight = height
+            self.SetSize(wx.Size(w, self.curHeight - 1))
+
+        self.GetParent().GetParent().GetParent().arrange()    
+
+    def GetArrangeSize(self):
+        return wx.Size(self.GetSize().GetWidth(), self.curHeight)
+
+    def update_value(self, value):
+        self.textCtrl.SetValue(value)
+           
+    def update_textctrl_size(self):
+        w, h = self.GetSize()
+        self.textCtrl.SetSize(wx.Size(w - 20, PropertyGroup.lineHeight - 1))
+
+
+#-------------------------------------------------------------------------------
+class PropertyItemValueUri(PropertyItemValue):
+    def __init__(self, parent, id, pos, size, style, name, value, readonly):
+        PropertyItemValue.__init__(self, parent, id, pos, size, style, name, value, readonly)
+
+        self.findButton = wx.Button(self, wx.NewId(), '...', wx.Point(0, 0), wx.Size(16, 16))
+        self.Bind(wx.EVT_BUTTON, self.OnFindButton, id=self.findButton.GetId())
+
+        style |= wx.NO_BORDER | wx.TE_PROCESS_ENTER
+        if readonly:
+            style |= wx.TE_READONLY
+        self.textCtrl =  wx.TextCtrl(self, wx.NewId(), value, wx.Point(0, 0),
+            wx.Size(0, 0), style=style)
+        self.update_textctrl_size()
+        if readonly:
+            self.textCtrl.SetForegroundColour(wx.Colour(167, 166, 170))
+        self.textCtrl.Bind(wx.EVT_TEXT_ENTER, self.OnTextEnter, id=self.textCtrl.GetId())
+        self.bindProprtyItemEvents(self.textCtrl)        
+        self.Bind(wx.EVT_SIZE, self.OnSize, id=self.GetId())
+
+    def OnTextEnter(self, event):
+        self.setValue(str(self.textCtrl.GetValue()))
+        
+    def update_value(self, value):
+        self.textCtrl.SetValue(value)
+
+    def OnSize(self, event):
+        self.update_textctrl_size()
+
+    def OnFindButton(self, event):
+        fd = FileDialog.FileDialog(self)
+        fd.setupOpenMode()
+        if fd.ShowModal() == wx.ID_OK:
+            self.update_value(fd.getUri())
+            self.setValue(fd.getUri())
+        
+    def update_textctrl_size(self):
+        w, h = self.GetSize()
+        self.textCtrl.SetSize(wx.Size(w - 40, h))
+        self.findButton.SetPosition(wx.Point(w - 36, 0))
+
+
 #-------------------------------------------------------------------------------
 class PropertyGridGroupTreeItemButton(wx.CheckBox):
     def __init__(self, parent, pos):
@@ -145,12 +300,12 @@ class PropertyGridGroupTreeItemButton(wx.CheckBox):
             render.DrawTreeItemButton(self, dc, r)
 
 
-
 #-------------------------------------------------------------------------------
 class PropertyGroup(wx.Panel):
     headerWidth = 16
     headerHeight = 18
     lineHeight = 18
+    sashRatio = 1.0 / 3
     font = None
     propertyEditorType = {}
         
@@ -166,7 +321,7 @@ class PropertyGroup(wx.Panel):
             wx.Size(size[0] - PropertyGroup.headerWidth, size[1] - PropertyGroup.headerHeight), 0, '')
         self.namePanel = wx.Panel(self.sw, id=wx.NewId())
         self.valuePanel = wx.Panel(self.sw, id=wx.NewId())
-        self.sw.SplitVertically(self.namePanel, self.valuePanel, self.sw.GetSize().GetWidth() / 2)
+        self.sw.SplitVertically(self.namePanel, self.valuePanel, self.sw.GetSize().GetWidth() * PropertyGroup.sashRatio)
         self.sw.SetSashSize(1)
         self.sw.SetMinimumPaneSize(20)
         self.sw.Bind(wx.EVT_SPLITTER_SASH_POS_CHANGED,
@@ -174,16 +329,15 @@ class PropertyGroup(wx.Panel):
         
         self.bestWidth = size.GetWidth()
         self.curY = 0
-        self.sashRatio = 0.5
         self.item = []
-        
+
         self.Bind(wx.EVT_PAINT, self.OnPaint, id=self.GetId())
         self.Bind(wx.EVT_SIZE, self.OnSize, id=self.GetId())
         self.treeItemButton.Bind(wx.EVT_CHECKBOX, self.OnTreeItemButton,
               id=self.treeItemButton.GetId())
               
     def addProperty(self, object, name, value, type, readonly):
-        w = self.GetSize().GetWidth() / 2
+        w = self.GetSize().GetWidth()
         item_name = ProperyItemName(self.namePanel, wx.NewId(),
             wx.Point(0, self.curY),
             wx.Size(w, self.lineHeight), 0, '', name, readonly)
@@ -215,24 +369,36 @@ class PropertyGroup(wx.Panel):
         return PropertyGroup.propertyEditorType[type][1]
         
     def update_sash_ratio(self, pos):
-        self.sashRatio = float(pos) / float(self.sw.GetSize().GetWidth())
-        
+        PropertyGroup.sashRatio = float(pos) / float(self.sw.GetSize().GetWidth())
+
+    def arrange(self):
+        self.curY = 1
+        for item_name, item_value in self.item:
+            w, h = item_value.GetArrangeSize()
+            item_name.SetPosition(wx.Point(0, self.curY))
+            item_value.SetPosition(wx.Point(1, self.curY))
+            self.curY += h
+
+        self.SetSize(self.GetBestSize())
+        self.GetParent().layoutPropertyGroups()
+                
     def SetSashPosition(self, pos):
         self.sw.SetSashPosition(pos)
         self.setSashPos(pos)
         
     def OnSplitterSashPosChanged(self, event):
         pos = event.GetSashPosition()
+        self.update_sash_ratio(pos)
         self.setSashPos(pos)
         self.GetParent().OnSplitterSashPosChanged(self, pos)
-        
+                
     def setSashPos(self, pos):
         value_panel_w = self.valuePanel.GetSize().GetWidth()
         for item_name, item_value in self.item:
             # change size item_name
             w, h = item_name.GetSize()
-            item_name.SetSize(wx.Size(pos, h))
-            # change size item_name
+            item_name.SetSize(wx.Size(self.GetSize()[0], h))
+            # change size item_value
             w, h = item_value.GetSize()
             item_value.SetSize(wx.Size(value_panel_w, h))
             
@@ -246,7 +412,7 @@ class PropertyGroup(wx.Panel):
     def OnSize(self, event):
         w, h = self.GetSize()
         self.sw.SetSize(wx.Size(w - PropertyGroup.headerWidth, h - PropertyGroup.headerHeight))
-        self.SetSashPosition(w / 2)
+        self.SetSashPosition(w * PropertyGroup.sashRatio)
         
     def OnTreeItemButton(self, event):
         self.SetSize(self.GetBestSize())
@@ -392,7 +558,7 @@ class PropertyGrid(wx.Panel):
             for prop_name in prop_names:
                 prop_name, prop_value, prop_type, readonly = object.getProperty(prop_name)
                 group.addProperty(object, prop_name, prop_value, prop_type, readonly)
-        self.objectListComboBox.SetValue(object.getTypeName())
+        self.objectListComboBox.SetValue(object.getAbsolutePath())
         self.list.OnSize(0)        
 
     def addGroup(self, name):
@@ -418,3 +584,4 @@ class PropertyGrid(wx.Panel):
     @classmethod
     def instance(self):
         return PropertyGrid.s_instance
+

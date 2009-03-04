@@ -16,12 +16,13 @@ modules ={'Frame1': [0, '', 'none://Frame1.py'],
 
 class BoaApp(wx.App):
     def OnInit(self):
-        self.keepGoing_ = True
         self.triggerServer = new('TriggerServer', '/sys/server/trigger')
         self.triggerServer.setPeriod(0.001)
         
         PropertyGroup.addPropertyValueEditorType('', 'b', PropertyItemValueBool)
-        PropertyGroup.addPropertyValueEditorType('property boolean editor', 's', PropertyItemValueString)
+        PropertyGroup.addPropertyValueEditorType('property string editor', 's', PropertyItemValueString)
+        PropertyGroup.addPropertyValueEditorType('property vector3 editor', 'vector3', PropertyItemValueVector3)
+        PropertyGroup.addPropertyValueEditorType('property uri editor', 'uri', PropertyItemValueUri)
         
         self.main = MainFrame.create(None)
         self.main.app = self
@@ -39,8 +40,7 @@ class BoaApp(wx.App):
         event_loop = wx.EventLoop()
         old = wx.EventLoop.GetActive()
         wx.EventLoop.SetActive(event_loop)
-        while self.keepGoing_:
-            self.keepGoing_ = self.triggerServer.trigger()
+        while self.triggerServer.trigger():
             self.update(event_loop)
         wx.EventLoop.SetActive(old)
 
@@ -49,7 +49,8 @@ def main():
         app_name, resource_root = sys.argv[1]
         resroot(resource_root)
     except:
-        resroot('../data')
+        rm = res()
+        rm.initialize('../data')
     
     application = BoaApp(0)
     application.MainLoop()

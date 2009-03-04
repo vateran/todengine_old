@@ -12,7 +12,7 @@ IMPLEMENT_CLASS(SceneView, Node);
 
 //-----------------------------------------------------------------------------
 SceneView::SceneView():
-windowId_(0)
+windowId_(0), root_(0), camera_(0)
 {
     // empty
 }
@@ -37,18 +37,32 @@ void SceneView::render(SceneServer* scene_server)
 }
 
 //-----------------------------------------------------------------------------
-void SceneView::setSceneRootPath(const Path& path)
+void SceneView::setSceneRoot(Node* root)
 {
-    sceneRootPath_ = path;
+    root_ = root;
     sceneContext_.setRootSceneNode(
-        dynamic_cast<SceneNode*>(Kernel::instance()->lookup(sceneRootPath_)));
+        dynamic_cast<SceneNode*>(root_));
 }
 
 
 //-----------------------------------------------------------------------------
-const Path& SceneView::getSceneRootPath() const
+Node* SceneView::getSceneRoot() const
 {
-    return sceneRootPath_;
+    return root_;
+}
+
+
+//-----------------------------------------------------------------------------
+void SceneView::setCamera(CameraNode* camera)
+{
+    camera_ = camera;
+}
+
+
+//-----------------------------------------------------------------------------
+CameraNode* SceneView::getCamera() const
+{
+    return camera_;
 }
 
 
@@ -76,48 +90,38 @@ void SceneView::pick(int x, int y, int w, int h)
 //-----------------------------------------------------------------------------
 void SceneView::moveForward(float dst)
 {
-    camera_.translateZ(dst);
+    camera_->moveForward(dst);
 }
 
 
 //-----------------------------------------------------------------------------
-void SceneView::moveLeft(float dst)
+void SceneView::moveSideward(float dst)
 {
-    camera_.translateX(-dst);
-}
-
-
-//-----------------------------------------------------------------------------
-void SceneView::moveRight(float dst)
-{
-    camera_.translateX(dst);
+    camera_->moveSideward(dst);
 }
 
 
 //-----------------------------------------------------------------------------
 void SceneView::viewEulerRotationX(float x)
 {
-    camera_.rotateX(x);
+    camera_->eulerRotateX(x);
 }
 
 //-----------------------------------------------------------------------------
 void SceneView::viewEulerRotationY(float y)
 {
-    camera_.rotateY(y);
+    camera_->eulerRotateY(y);
 }
 
 
 //-----------------------------------------------------------------------------
 void SceneView::viewEulerRotationZ(float z)
 {
-    camera_.rotateZ(z);
+    camera_->eulerRotateZ(z);
 }
 
 
 //-----------------------------------------------------------------------------
 void SceneView::bindProperty()
 {
-    BIND_PROPERTY(
-        const Path&, scene_root_path,
-        &setSceneRootPath, &getSceneRootPath);
 }

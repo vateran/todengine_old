@@ -14,16 +14,32 @@ static void SceneView_v_render_v(SceneView* self, Parameter* param)
 
 
 //-----------------------------------------------------------------------------
-static void SceneView_v_setSceneRootPath_s(SceneView* self, Parameter* param)
+static void SceneView_v_setSceneRoot_o(SceneView* self, Parameter* param)
 {
-    self->setSceneRootPath(param->in()->get<String>(0).get());
+    self->setSceneRoot(param->in()->get<Node*>(0).get());
 }
 
 
 //-----------------------------------------------------------------------------
-static void SceneView_s_getSceneRootPath_v(SceneView* self, Parameter* param)
+static void SceneView_o_getSceneRoot_v(SceneView* self, Parameter* param)
 {
-    param->out()->get<String>(0) = self->getSceneRootPath();
+    param->out()->get<Node*>(0) = self->getSceneRoot();
+}
+
+
+//-----------------------------------------------------------------------------
+static void SceneView_v_setCamera_o(SceneView* self, Parameter* param)
+{
+    self->setCamera(
+        dynamic_cast<CameraNode*>
+            (param->in()->get<Node*>(0).get()));
+}
+
+
+//-----------------------------------------------------------------------------
+static void SceneView_o_getCamera_v(SceneView* self, Parameter* param)
+{
+    param->out()->get<Node*>(0) = self->getCamera();
 }
 
 
@@ -62,14 +78,7 @@ static void SceneView_v_moveForward_f(SceneView* self, Parameter* param)
 //-----------------------------------------------------------------------------
 static void SceneView_v_moveLeft_f(SceneView* self, Parameter* param)
 {
-    self->moveLeft(param->in()->get<float>(0));
-}
-
-
-//-----------------------------------------------------------------------------
-static void SceneView_v_moveRight_f(SceneView* self, Parameter* param)
-{
-    self->moveRight(param->in()->get<float>(0));
+    self->moveSideward(param->in()->get<float>(0));
 }
 
 
@@ -98,14 +107,15 @@ static void SceneView_v_viewEulerRotationZ_f(SceneView* self, Parameter* param)
 void SceneView::bindMethod()
 {
     BIND_METHOD(v_render_v, SceneView_v_render_v);
-    BIND_METHOD(v_setSceneRootPath_s, SceneView_v_setSceneRootPath_s);
-    BIND_METHOD(s_getSceneRootPath_v, SceneView_s_getSceneRootPath_v);
+    BIND_METHOD(v_setSceneRoot_o, SceneView_v_setSceneRoot_o);
+    BIND_METHOD(o_getSceneRoot_v, SceneView_o_getSceneRoot_v);
+    BIND_METHOD(v_setCamera_o, SceneView_v_setCamera_o);
+    BIND_METHOD(o_getCamera_v, SceneView_o_getCamera_v);
     BIND_METHOD(v_setWindowId_i, SceneView_v_setWindowId_i);
     BIND_METHOD(i_getWindowId_v, SceneView_i_getWindowId_v);
     BIND_METHOD(v_pick_iiii, SceneView_v_pick_iiii);
     BIND_METHOD(v_moveForward_f, SceneView_v_moveForward_f);
-    BIND_METHOD(v_moveLeft_f, SceneView_v_moveLeft_f);
-    BIND_METHOD(v_moveRight_f, SceneView_v_moveRight_f);
+    BIND_METHOD(v_moveSideward_f, SceneView_v_moveLeft_f);
     BIND_METHOD(v_viewEulerRotationX_f, SceneView_v_viewEulerRotationX_f);
     BIND_METHOD(v_viewEulerRotationY_f, SceneView_v_viewEulerRotationY_f);
     BIND_METHOD(v_viewEulerRotationZ_f, SceneView_v_viewEulerRotationZ_f);

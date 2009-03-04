@@ -13,16 +13,9 @@ static void CameraNode_v_moveForward_f(CameraNode* self, Parameter* param)
 
 
 //-----------------------------------------------------------------------------
-static void CameraNode_v_moveLeft_f(CameraNode* self, Parameter* param)
+static void CameraNode_v_moveSideward_f(CameraNode* self, Parameter* param)
 {
-    self->moveLeft(param->in()->get<float>(0));
-}
-
-
-//-----------------------------------------------------------------------------
-static void CameraNode_v_moveRight_f(CameraNode* self, Parameter* param)
-{
-    self->moveRight(param->in()->get<float>(0));
+    self->moveSideward(param->in()->get<float>(0));
 }
 
 
@@ -48,12 +41,22 @@ static void CameraNode_v_eulerRotateZ_f(CameraNode* self, Parameter* param)
 
 
 //-----------------------------------------------------------------------------
+static void CameraNode_v_onChangedWindowSize_ii
+(CameraNode* self, Parameter* param)
+{
+    self->onChangedWindowSize(
+        param->in()->get<int>(0),
+        param->in()->get<int>(1));
+}
+
+
+//-----------------------------------------------------------------------------
 void CameraNode::bindMethod()
 {   
     BIND_METHOD(v_moveForward_f, CameraNode_v_moveForward_f);
-    BIND_METHOD(v_moveLeft_f, CameraNode_v_moveLeft_f);
-    BIND_METHOD(v_moveRight_f, CameraNode_v_moveRight_f);
+    BIND_METHOD(v_moveSideward_f, CameraNode_v_moveSideward_f);
     BIND_METHOD(v_eulerRotateX_f, CameraNode_v_eulerRotateX_f);
     BIND_METHOD(v_eulerRotateY_f, CameraNode_v_eulerRotateY_f);
     BIND_METHOD(v_eulerRotateZ_f, CameraNode_v_eulerRotateZ_f);
+    BIND_METHOD(v_onChangedWindowSize_ii, CameraNode_v_onChangedWindowSize_ii);
 }

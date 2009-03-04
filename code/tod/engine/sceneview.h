@@ -10,8 +10,10 @@
 #include "tod/core/transform44.h"
 #include "tod/core/matrix44.h"
 #include "tod/core/object.h"
+#include "tod/core/node.h"
 #include "tod/core/path.h"
 #include "tod/engine/camera.h"
+#include "tod/engine/cameranode.h"
 #include "tod/engine/scenecontext.h"
 
 namespace tod
@@ -28,16 +30,17 @@ namespace engine
 
         void render(SceneServer* scene_server);
 
-        void setSceneRootPath(const Path& path);
-        const Path& getSceneRootPath() const;
+        void setSceneRoot(Node* root);
+        Node* getSceneRoot() const;
+        void setCamera(CameraNode* camera);
+        CameraNode* getCamera() const;
         void setWindowId(int window_id);
         int getWindowId() const;
 
         void pick(int x, int y, int w, int h);
 
         void moveForward(float dst);
-        void moveLeft(float dst);
-        void moveRight(float dst);
+        void moveSideward(float dst);
 
         void viewEulerRotationX(float x);
         void viewEulerRotationY(float y);
@@ -48,9 +51,9 @@ namespace engine
 
     private:
         int windowId_;
-        Path sceneRootPath_;
+        Node* root_;
+        CameraNode* camera_;
         SceneContext sceneContext_;
-        Camera camera_;
     };
 }
 }

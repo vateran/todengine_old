@@ -115,7 +115,11 @@ class NOHPopupMenu(wx.Menu):
 
 # ------------------------------------------------------------------------------
 class NOHTree(wx.TreeCtrl):
+    s_instance = None
     def __init__(self, parent, id, pos, size, style):
+        if NOHTree.s_instance == None:
+            s_instance = self
+
         wx.TreeCtrl.__init__(self, parent, id, pos, size, style)
         self.ip = NOHImageProvider.NOHImageProvider('data/NOHTreeImages')
         self.SetImageList(self.ip.getImageList())
@@ -146,6 +150,20 @@ class NOHTree(wx.TreeCtrl):
         child_item = self.add_child_item(parent_item, node)
         self.SetItemHasChildren(parent_item, True)
         self.SelectItem(child_item)
+
+    def selectNode(self, node):
+        item = self.GetRootItem()
+        path = node.getAbsolutePath()
+        path_split = path.split('/')[1:]
+        for p in path_split:
+            self.Expand(item)
+            (child, cookie) = self.GetFirstChild(item)
+            while child.IsOk():
+                if self.GetItemText(child) == p:
+                    item = child
+                    break
+                (child, cookie) = self.GetNextChild(item, cookie)
+        self.SelectItem(item)            
             
     # Events -------------------------------------------------------------------
     def OnExpending(self, event):
@@ -238,3 +256,8 @@ class NOHTree(wx.TreeCtrl):
             self.SetItemImage(item, self.ip.getImage(node.getName()))
         except:
             pass
+
+    @classmethod
+    def instance(self):
+        return NOHTree.s_instance
+

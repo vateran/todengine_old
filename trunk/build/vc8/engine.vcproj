@@ -628,6 +628,18 @@
 							>
 						</File>
 					</Filter>
+					<Filter
+						Name="pick"
+						>
+						<File
+							RelativePath="..\..\code\tod\engine\pick.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\code\tod\engine\pick.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter

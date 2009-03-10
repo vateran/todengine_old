@@ -40,7 +40,7 @@ namespace engine
 
 #define THROW_D3D9EXCEPTION(code, hr, desc) do {\
     tod::Exception e(\
-        code, ___LINE___, ___FILE___, ___FUNCTION___, STRING(""));\
+        code, ___LINE___, ___FILE___, ___FUNCTION___, "");\
         D3D9Exception(hr, e, desc); } while (0);
 }
 }

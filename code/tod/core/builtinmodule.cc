@@ -9,15 +9,15 @@
 using namespace tod;
 
 //-----------------------------------------------------------------------------
-BuiltinModule::BuiltinModule(Kernel* kernel, const name_t* name):
+BuiltinModule::BuiltinModule(Kernel* kernel, const char_t* name):
 Module(name, 0, 0)
 {
-    addType(kernel, STRING("Object"), &Object::TYPE);
-    addType(kernel, STRING("Node"), &Node::TYPE);
-    addType(kernel, STRING("LinkNode"), &LinkNode::TYPE);
-    addType(kernel, STRING("ResourceManager"), &ResourceManager::TYPE);
-    addType(kernel, STRING("ResourceStorage"), &ResourceStorage::TYPE);
-    addType(kernel, STRING("ResourceEntry"), &ResourceEntry::TYPE);
+    addType(kernel, "Object", &Object::TYPE);
+    addType(kernel, "Node", &Node::TYPE);
+    addType(kernel, "LinkNode", &LinkNode::TYPE);
+    addType(kernel, "ResourceManager", &ResourceManager::TYPE);
+    addType(kernel, "ResourceStorage", &ResourceStorage::TYPE);
+    addType(kernel, "ResourceEntry", &ResourceEntry::TYPE);
 }
 
 //-----------------------------------------------------------------------------

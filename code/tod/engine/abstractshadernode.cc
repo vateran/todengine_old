@@ -26,16 +26,16 @@ AbstractShaderNode::~AbstractShaderNode()
 
 
 //-----------------------------------------------------------------------------
-void AbstractShaderNode::setRpPass(const Name& name)
+void AbstractShaderNode::setRpPass(const String& name)
 {
 
 }
 
 
 //-----------------------------------------------------------------------------
-const Name& AbstractShaderNode::getRpPass() const
+const String& AbstractShaderNode::getRpPass() const
 {
-    static Name n;
+    static String n;
     return n;
 }
 
@@ -50,6 +50,6 @@ int AbstractShaderNode::getRpPassIndex() const
 //-----------------------------------------------------------------------------
 void AbstractShaderNode::bindProperty()
 {
-    BIND_PROPERTY(const Name&, rppass_name, &setRpPass, &getRpPass);
+    BIND_PROPERTY(const String&, rppass_name, &setRpPass, &getRpPass);
     BIND_PROPERTY(int, rppass_index, 0, &getRpPassIndex);
 }

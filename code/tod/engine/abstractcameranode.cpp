@@ -22,14 +22,14 @@ AbstractCameraNode::~AbstractCameraNode()
 
 
 //-----------------------------------------------------------------------------
-void AbstractCameraNode::setRenderPathSection(const Name& name)
+void AbstractCameraNode::setRenderPathSection(const String& name)
 {
     renderPathSection_ = name;
 }
 
 
 //-----------------------------------------------------------------------------
-const Name& AbstractCameraNode::getRenderPathSection() const
+const String& AbstractCameraNode::getRenderPathSection() const
 {
     return renderPathSection_;
 }
@@ -66,7 +66,7 @@ const Matrix44& AbstractCameraNode::getProjectionMatrix() const
 //-----------------------------------------------------------------------------
 void AbstractCameraNode::bindProperty()
 {
-    BIND_PROPERTY(const Name&, renderpath_section,
+    BIND_PROPERTY(const String&, renderpath_section,
         &setRenderPathSection, &getRenderPathSection);
     BIND_PROPERTY(const Matrix44&, view_matrix,
         &setViewMatrix, &getViewMatrix);

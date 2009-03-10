@@ -8,7 +8,7 @@ using namespace tod;
 
 //-----------------------------------------------------------------------------
 Module::Module
-(const name_t* name,
+(const char_t* name,
  InitializeModuleFunc init_func, FinalizeModuleFunc fin_func):
 name_(name), initializeModuleFunc_(init_func), finalizeModuleFunc_(fin_func)
 {
@@ -40,7 +40,7 @@ void Module::finalize()
 
 
 //-----------------------------------------------------------------------------
-Object* Module::create(const Name& type_name)
+Object* Module::create(const String& type_name)
 {
     Types::iterator find_iter = types_.find(type_name);
     if (types_.end() == find_iter)
@@ -50,7 +50,7 @@ Object* Module::create(const Name& type_name)
 
 
 //-----------------------------------------------------------------------------
-void Module::addType(Kernel* kernel, const name_t* type_name, Type* type)
+void Module::addType(Kernel* kernel, const char_t* type_name, Type* type)
 {
     types_.insert(Types::value_type(type_name, type));
     kernel->addType(type_name, this);

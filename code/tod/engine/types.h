@@ -19,7 +19,7 @@ namespace engine
         USAGE_QUERY_SRGBWRITE                   = (0x00040000L),
         USAGE_QUERY_POSTPIXELSHADER_BLENDING    = (0x00080000L),
         USAGE_QUERY_VERTEXTEXTURE               = (0x00100000L),
-        USAGE_QUERY_WRAPANDMIP	                = (0x00200000L),
+        USAGE_QUERY_WRAPANDMIP                    = (0x00200000L),
         USAGE_WRITEONLY          = (0x00000008L),
         USAGE_SOFTWAREPROCESSING = (0x00000010L),
         USAGE_DONOTCLIP          = (0x00000020L),

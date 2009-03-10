@@ -76,12 +76,12 @@ TodLuaThread::ReturnCode TodLuaThread::call
 
     key_ = luaL_ref(luaStateRoot_, LUA_REGISTRYINDEX);
 
-    lua_getglobal(luaState_, str.toAnsiString().c_str());
+    lua_getglobal(luaState_, str);
     if (!lua_isfunction(luaState_, -1))
     {
         TOD_THROW_EXCEPTION(0,
             String("Could not found function '%s'",
-                str.toAnsiString().c_str()));
+                str.c_str()));
         lua_settop(luaState_, 0);
         return RETURNCODE_ERROR;
     }
@@ -157,7 +157,7 @@ TodLuaThread::ReturnCode TodLuaThread::runFile
 
 ON_ERROR:
     {
-        String result("file(%s):\n", uri.get().toAnsiString().c_str());
+        String result("file(%s):\n", uri.get().c_str());
         result += TodLuaScriptServer::instance()->
             generateStackTrace(luaState_);
         TOD_THROW_EXCEPTION(0, result);

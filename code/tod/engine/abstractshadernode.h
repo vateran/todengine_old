@@ -22,8 +22,8 @@ namespace engine
         virtual~AbstractShaderNode();
         DECLARE_ABSTRACTCLASS(AbstractShaderNode, TransformNode);
 
-        void setRpPass(const Name& name);
-        const Name& getRpPass() const;
+        void setRpPass(const String& name);
+        const String& getRpPass() const;
         int getRpPassIndex() const;
 
         virtual Shader* getShader()=0;

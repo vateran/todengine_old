@@ -42,7 +42,7 @@ void Resource::close()
 int Resource::write(const dynamic_buffer_t& buffer)
 {
     if (ri_)
-	    return ri_->write(buffer);
+        return ri_->write(buffer);
     return 0;
 }
 

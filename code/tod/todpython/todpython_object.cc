@@ -38,7 +38,7 @@ PyObject* TodObject_call(PyObject* self, PyObject* args, PyObject* keys)
     TodObject* o = reinterpret_cast<TodObject*>(self);
     if (0 == o->object_)
         return PyErr_Format(PyExc_Exception, "invalid TodObject");
-    return invoke_method(o->object_, o->attrName_, STRING(""), args, keys);
+    return invoke_method(o->object_, o->attrName_, "", args, keys);
 }
 
 
@@ -47,7 +47,7 @@ int TodObject_setattro(TodObject* self, PyObject* name, PyObject* value)
 {
     if (self->object_)
     {
-        set_property(self->object_, STRING(""), name, value);
+        set_property(self->object_, "", name, value);
     }
     return 0;
 }

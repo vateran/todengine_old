@@ -19,8 +19,8 @@ namespace engine
         virtual~AbstractCameraNode();
         DECLARE_CLASS(AbstractCameraNode, ShaderNode);
 
-        void setRenderPathSection(const Name& name);
-        const Name& getRenderPathSection() const;
+        void setRenderPathSection(const String& name);
+        const String& getRenderPathSection() const;
 
         void setViewMatrix(const Matrix44& m);
         void setProjectionMatrix(const Matrix44& m);
@@ -32,7 +32,7 @@ namespace engine
     protected:
         Matrix44 view_;
         Matrix44 projection_;
-        Name renderPathSection_;
+        String renderPathSection_;
     };
 }
 }

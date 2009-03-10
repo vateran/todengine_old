@@ -58,8 +58,8 @@ namespace tod
         String makePhysicalAbsolutePath() const;
 
         bool operator < (const Uri& rhs) const;
-		bool operator == (const Uri& rhs) const;
-		bool operator != (const Uri& rhs) const;
+        bool operator == (const Uri& rhs) const;
+        bool operator != (const Uri& rhs) const;
         operator const String& () const;
 
     private:

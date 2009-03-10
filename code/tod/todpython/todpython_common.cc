@@ -327,7 +327,7 @@ int set_property
     {
         PyErr_Format(PyExc_AttributeError,
             "\'%s\' object has no property \'%s\'",
-            path.toAnsiString().c_str(), prop_name);
+            path.c_str(), prop_name);
         return -1;
     }
 
@@ -444,7 +444,7 @@ int set_property
     {
         if (PyString_Check(value))
         {
-            typedef SimpleProperty<const Name&> AdaptiveProperty;
+            typedef SimpleProperty<const String&> AdaptiveProperty;
             AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
             ap->set(object, String("%s", PyString_AsString(value)).c_str());
         }
@@ -551,7 +551,7 @@ PyObject* invoke_method
     if (0 == method)
         return PyErr_Format(PyExc_Exception,
             "\'%s\' object has no method \'%s\'",
-            path.toAnsiString().c_str(), method_name);
+                path.c_str(), method_name);
 
     // make input parameter
     index_t num_args = static_cast<index_t>(PyTuple_Size(args));
@@ -559,7 +559,7 @@ PyObject* invoke_method
     if (num_args != param->in()->size())
         return PyErr_Format(PyExc_TypeError,
             "%s() takes exactly %d argument (%d given)",
-            method_name, param->in()->size(), num_args);
+                method_name, param->in()->size(), num_args);
     if (!build_input_paramter(param->in(), args, method_name))
         return 0;
 

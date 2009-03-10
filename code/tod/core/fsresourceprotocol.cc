@@ -76,20 +76,19 @@ bool FsResourceProtocol::destroy(const Uri& uri)
 bool FsResourceProtocol::findStorages(ResourceStorages* rs)
 {
 #ifdef WIN32
-    WIN32_FIND_DATA fdata;
+    WIN32_FIND_DATAA fdata;
 
-    HANDLE h = FindFirstFile((getBasePath() + STRING("/*")).c_str(), &fdata);
+    HANDLE h = FindFirstFileA(getBasePath() + "/*", &fdata);
     while (h != INVALID_HANDLE_VALUE)
-    {
-        
+    {        
         if (fdata.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) {}
-        else if (tod_strcmp(fdata.cFileName, STRING(".")) == 0 ||
-            tod_strcmp(fdata.cFileName, STRING("..")) == 0) {}
+        else if (tod_strcmp(fdata.cFileName, ".") == 0 ||
+            tod_strcmp(fdata.cFileName, "..") == 0) {}
         else if (fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
         {
             rs->push_back(new ResourceStorage(fdata.cFileName, this));
         }
-        if (!FindNextFile(h, &fdata))
+        if (!FindNextFileA(h, &fdata))
             break;
     }
 
@@ -114,16 +113,16 @@ bool FsResourceProtocol::findEntries
 (ResourceEntries* re, const String& path, bool file)
 {
 #ifdef WIN32
-    WIN32_FIND_DATA fdata;
+    WIN32_FIND_DATAA fdata;
 
-    String query(getBasePath() + STRING("/") + path);
+    String query(getBasePath() + "/" + path);
     String base_path(query.extractPath());
-    HANDLE h = FindFirstFile(query.c_str(), &fdata);
+    HANDLE h = FindFirstFileA(query, &fdata);
     while (h != INVALID_HANDLE_VALUE)
     {
         if (fdata.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) {}
-        else if (tod_strcmp(fdata.cFileName, STRING(".")) == 0 ||
-            tod_strcmp(fdata.cFileName, STRING("..")) == 0) {}
+        else if (tod_strcmp(fdata.cFileName, ".") == 0 ||
+            tod_strcmp(fdata.cFileName, "..") == 0) {}
         else if (!(fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == file)
         {
             __int64 size = fdata.nFileSizeHigh;
@@ -133,11 +132,11 @@ bool FsResourceProtocol::findEntries
             time_t t;
             filetime_to_unixtime(fdata.ftLastWriteTime, &t);
 
-            SHFILEINFO fi;
-            String tpath(base_path + STRING("/") + fdata.cFileName);
+            SHFILEINFOA fi;
+            String tpath(base_path + "/" + fdata.cFileName);
             std::transform(tpath.begin(), tpath.end(), tpath.begin(),
-                ConvertCharacterFunctor<char_t>(STRING('/'), STRING('\\')));
-            SHGetFileInfo(tpath.c_str(), FILE_ATTRIBUTE_NORMAL, &fi, sizeof(fi),
+                ConvertCharacterFunctor<char_t>('/', '\\'));
+            SHGetFileInfoA(tpath, FILE_ATTRIBUTE_NORMAL, &fi, sizeof(fi),
                 SHGFI_EXETYPE | SHGFI_ICON | SHGFI_ICONLOCATION | SHGFI_SHELLICONSIZE |
                 SHGFI_SMALLICON | SHGFI_TYPENAME);
 
@@ -145,7 +144,7 @@ bool FsResourceProtocol::findEntries
                 ResourceEntry(fdata.cFileName, fi.szTypeName,
                     file, false, size, t, this));
         }
-        if (!FindNextFile(h, &fdata))
+        if (!FindNextFileA(h, &fdata))
             break;
     }
 
@@ -159,12 +158,12 @@ bool FsResourceProtocol::findEntries
 void FsResourceProtocol::make_path(const Uri& uri)
 {
     tod_chdir(getBasePath().c_str());
-    String tpath(uri.getPackage() + STRING("/") + uri.extractPath());
+    String tpath(uri.getPackage() + "/" + uri.extractPath());
 
     size_t i = 0;
     while (i < tpath.size())
     {
-        i = tpath.find(STRING('/'), i);
+        i = tpath.find('/', i);
         String dir(tpath, 0, i);
         tod_mkdir(dir.c_str());
         if (-1 == i)

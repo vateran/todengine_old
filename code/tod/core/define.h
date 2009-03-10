@@ -5,46 +5,18 @@
 
 #if defined(__WIN32__)
 
+#pragma warning(disable:4311)
+#pragma warning(disable:4267)
+#pragma warning(disable:4819)
+#pragma warning(disable:4995)
+
+#define WIN32_LEAN_AND_MEAN
+
+#include <Windows.h>
+#include <direct.h>
+#include <strsafe.h>
+
 #define tod_sleep(t) Sleep(t);
-
-#else
-
-#define tod_sleep(t)
-
-#endif  // __WIN32__
-
-#define IN
-#define OUT
-#define INOUT
-
-#ifdef UNICODE
-#define TOD_UNICODE
-#define STRING(s) L##s
-#define WIDEN(x) STRING(x)
-#define tod_printf wprintf
-#define tod_snprintf StringCchPrintfW
-#define tod_strlen wcslen
-#define tod_mkdir _wmkdir
-#define tod_strcmp wcscmp
-#define tod_strncmp wcsncmp
-#define tod_stricmp _wcsicmp
-#define tod_atoi _wtoi
-#define tod_atof _wtof
-#define tod_atoi64 _wtoi64
-#define tod_vscprintf _vscwprintf
-#define tod_vsprintf vswprintf_s
-#define tod_getcwd _wgetcwd
-#define tod_chdir _wchdir
-
-#define ___FILE___      WIDEN(__FILE__)
-#define ___FUNCSIG___   WIDEN(__FUNCSIG__)
-#define ___FUNCTION___  WIDEN(__FUNCTION__)
-#define ___LINE___      __LINE__
-#define ___DATE___      WIDEN(__DATE__)
-#define ___TIME___      WIDEN(__TIME__)
-
-#else   // UNICODE
-#define STRING(s) s
 #define tod_printf printf
 #define tod_snprintf StringCchPrintfA
 #define tod_strlen strlen
@@ -60,14 +32,36 @@
 #define tod_getcwd _getcwd
 #define tod_chdir _chdir
 
+#else
+
+#define tod_sleep(t)
+#define tod_printf printf
+#define tod_snprintf snprintf
+#define tod_strlen strlen
+#define tod_mkdir mkdir
+#define tod_strcmp strcmp
+#define tod_strncmp strncmp
+#define tod_stricmp stricmp
+#define tod_atoi atoi
+#define tod_atof atof
+#define tod_atoi64 atoi64
+#define tod_vscprintf vscprintf
+#define tod_vsprintf vsprintf
+#define tod_getcwd getcwd
+#define tod_chdir chdir
+
+#endif  // __WIN32__
+
+#define IN
+#define OUT
+#define INOUT
+
 #define ___FILE___ __FILE__
 #define ___FUNCSIG___ __FUNCSIG__
 #define ___FUNCTION___ __FUNCTION__
 #define ___LINE___  __LINE__
 #define ___DATE___  __DATE__
 #define ___TIME___  __TIME__
-
-#endif
 
 #define tod_MAKEFOURCC(ch0, ch1, ch2, ch3)\
     ((uint32_t)(uint8_t)(ch0) |\

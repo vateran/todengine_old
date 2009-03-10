@@ -60,19 +60,19 @@ bool Image::preload()
     ILenum file_format;
     String ext = getUri().extractExtension();
     boost::to_lower(ext);
-    if (ext == STRING("bmp"))
+    if (ext == "bmp")
         file_format = IL_BMP;
-    else if (ext == STRING("tga"))
+    else if (ext == "tga")
         file_format = IL_TGA;
-    else if (ext == STRING("png"))
+    else if (ext == "png")
         file_format = IL_PNG;
-    else if (ext == STRING("jpg"))
+    else if (ext == "jpg")
         file_format = IL_JPG;
-    else if (ext == STRING("dds"))
+    else if (ext == "dds")
         file_format = IL_DDS;
-    else if (ext == STRING("tif"))
+    else if (ext == "tif")
         file_format = IL_TIF;
-    else if (ext == STRING("tga"))
+    else if (ext == "tga")
         file_format = IL_TGA;
     
     ilBindImage(id_);

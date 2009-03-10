@@ -76,7 +76,7 @@ bool D3D9CubeTexture::preload()
     {
         THROW_D3D9EXCEPTION(
             D3D9GRAPHICSEXCEPTIONCODE_D3DXCREATETEXTUREFROMFILEINMEMORYEXERROR,
-            hr, String(STRING("D3DXCreateCubeTextureFromFileInMemoryEx[%s]"),
+            hr, String("D3DXCreateCubeTextureFromFileInMemoryEx[%s]",
             getUri().c_str()));
         return false;
     }

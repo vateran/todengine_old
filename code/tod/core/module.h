@@ -24,7 +24,7 @@ namespace tod
 
     public:
         Module(
-            const name_t* name,
+            const char_t* name,
             InitializeModuleFunc init_func,
             FinalizeModuleFunc fin_func);
         virtual~Module();
@@ -32,11 +32,11 @@ namespace tod
         virtual void initialize();
         virtual void finalize();
         
-        Object* create(const Name& type_name);
+        Object* create(const String& type_name);
 
-        void addType(Kernel* kernel, const name_t* type_name, Type* type);
+        void addType(Kernel* kernel, const char_t* type_name, Type* type);
 
-        const Name& getName() const;
+        const String& getName() const;
         size_t getNumTypes() const;
 
         Types::iterator firstType();
@@ -46,7 +46,7 @@ namespace tod
 
     private:
         /// Module's name
-        Name name_;
+        String name_;
         /// Types
         Types types_;
         /// Initialize Module Function Pointer
@@ -59,13 +59,13 @@ namespace tod
 
 /// Register Type macro
 #define REGISTER_TYPE(m, cls) m->addType(\
-    tod::Kernel::instance(), STRING(#cls), &cls::TYPE);
+    tod::Kernel::instance(), #cls, &cls::TYPE);
 /// Declare Module macro
 #define DECLARE_MODULE(name) \
     extern "C" void Use##name##Module()\
     {\
         static Module s_##name##_module(\
-        STRING(#name), initialize_##name, finalize_##name);\
+        #name, initialize_##name, finalize_##name);\
         tod::Kernel::instance()->addModule(&s_##name##_module);\
     }
 /// Include Moudle macro

@@ -33,10 +33,9 @@ namespace tod
         int addRef();
         int release();
         int getRef() const;
-
-        void setName(const name_t* name);
-        void setName(const Name& name);
-        const Name& getName() const;
+        
+        void setName(const String& name);
+        const String& getName() const;
         Path getAbsolutePath();
 
         Node* getParent();
@@ -44,7 +43,6 @@ namespace tod
         NodeIterator detach();
         template <typename DERIVED>
         void clearChildren();
-        Node* findChild(const name_t* name);
         Node* findChild(const String& name);
         Node* relativeNode(const Path& path);
 
@@ -54,7 +52,7 @@ namespace tod
         ConstNodeIterator firstChildNode() const;
         ConstNodeIterator lastChildNode() const;
 
-        virtual void onSetName(const name_t* name);
+        virtual void onSetName(const String& name);
         virtual void onAttachTo(Node* parent);
         virtual void onDetachFrom(Node* parent);
         virtual void onAddNode(Node* node);
@@ -69,7 +67,7 @@ namespace tod
     private:
         int refCount_;
         Node* parent_;
-        Name name_;
+        String name_;
         Nodes children_;
 
     private:

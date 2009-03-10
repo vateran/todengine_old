@@ -52,7 +52,7 @@ bool D3D9VertexBuffer::create(int num_vertice, int vertex_component, int usage)
         stride_ * numVertice_, usage_, 0, d3dpool_, &d3d9vb_, 0)))
     {
         THROW_D3D9EXCEPTION(D3D9GRAPHICSEXCEPTIONCODE_CREATEVERTEXBUFFERERROR,
-            hr, STRING("d3d9device_->CreateVertexBuffer"));
+            hr, "d3d9device_->CreateVertexBuffer");
         return false;
     }
     return true;

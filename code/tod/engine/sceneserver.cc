@@ -221,14 +221,14 @@ void SceneServer::renderCameraScenes()
 
 
 //-----------------------------------------------------------------------------
-void SceneServer::doRenderPath(const Name& section_name)
+void SceneServer::doRenderPath(const String& section_name)
 {
     // find RpSection
     RpSection* section = RenderPath::instance()->findSection(section_name);
     if (0 == section)
     {
         TOD_THROW_EXCEPTION(0,
-        String(STRING("findSection(%s) failed"), section_name.c_str()));
+            String("findSection(%s failed)", section_name.c_str()));
         return;
     }
 
@@ -280,7 +280,7 @@ void SceneServer::doRenderPath(const Name& section_name)
 void SceneServer::pick(int x, int y, int w, int h)
 {
     // find RpSection
-    RpSection* section = RenderPath::instance()->findSection(STRING("default"));
+    RpSection* section = RenderPath::instance()->findSection("default");
 
     // iteration RpPasses of RpSection
     for (uint32_t pass_index = 0; pass_index < section->getNumPass();

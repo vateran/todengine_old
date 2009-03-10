@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
-inline void Property::setName(const name_t* name)
+inline void Property::setName(const char_t* name)
 {
     name_ = name;
 }
 
 
 //-----------------------------------------------------------------------------
-inline const Name& Property::getName() const
+inline const String& Property::getName() const
 {
     return name_;
 }

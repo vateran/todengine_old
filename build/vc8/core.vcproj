@@ -1039,7 +1039,17 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							AdditionalIncludeDirectories="../../code/external/iconv;../../code/external/iconv/src"
-							DisableSpecificWarnings="4018, 4244, 4273, 4090, 4996"
+							PreprocessorDefinitions="LIBICONV_STATIC"
+							DisableSpecificWarnings="4018, 4244, 4090, 4996"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							PreprocessorDefinitions="LIBICONV_STATIC"
+							DisableSpecificWarnings="4018, 4244, 4090, 4996"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1212,16 +1222,34 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset.h"
+					RelativePath="..\..\code\external\iconv\src\libcharset\include\libcharset.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset\include\libcharset.h"
+					RelativePath="..\..\code\external\iconv\src\libcharset.h"
 					>
 				</File>
 				<File
 					RelativePath="..\..\code\external\iconv\src\localcharset.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							PreprocessorDefinitions="LIBCHARSET_STATIC"
+							DisableSpecificWarnings="4996"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							PreprocessorDefinitions="LIBCHARSET_STATIC"
+							DisableSpecificWarnings="4996"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\code\external\iconv\src\localcharset.h"
@@ -1296,37 +1324,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset\lib\relocatable.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\code\external\iconv\src\relocatable.c"
 					>
 				</File>
 				<File
 					RelativePath="..\..\code\external\iconv\src\relocatable.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset\lib\relocatable.h"
 					>
 				</File>
 				<File
@@ -1544,6 +1546,10 @@
 			</File>
 			<File
 				RelativePath="..\..\code\tod\core\string.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\string.inl"
 				>
 			</File>
 			<File

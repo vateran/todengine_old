@@ -21,7 +21,7 @@ namespace tod
 
         override bool open(int mode);
         override void close();
-		override int write(const dynamic_buffer_t& buffer);
+        override int write(const dynamic_buffer_t& buffer);
         override int write(const buffer_t* buffer, length_t len);
         override int read(buffer_t* buffer, length_t len);
         override int size() const;
@@ -32,7 +32,7 @@ namespace tod
     private:
         uint64_t get_mtime() const;
 
-    private:		
+    private:        
         mutable std::fstream file_;        
         String path_;
 

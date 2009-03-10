@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-inline const Name& Module::getName() const
+inline const String& Module::getName() const
 {
     return name_;
 }

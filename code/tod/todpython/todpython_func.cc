@@ -20,7 +20,7 @@ TodNode* find_todnode(const Path& path)
 
 
 //-----------------------------------------------------------------------------
-TodNode* new_todnode(const typename_t* type_name, const Path& path)
+TodNode* new_todnode(const typechar_t* type_name, const Path& path)
 {
     TodNode* exist_o = find_todnode(path);
     if (exist_o)
@@ -155,7 +155,7 @@ PyObject* TodPython_ls(PyObject* self, PyObject* args)
          i != node->lastChildNode(); ++i, ++index)
     {
         PyTuple_SET_ITEM(children_names, index,
-            PyString_FromString(i->second->getName().toAnsiString().c_str()));
+            PyString_FromString(i->second->getName()));
     }
     return children_names;
 }
@@ -262,9 +262,7 @@ PyObject* TodPython_getModuleList(PyObject* self, PyObject* args)
          m != Kernel::instance()->lastModule(); ++m, ++i)
     {
         Module* module = m->second;
-        PyTuple_SET_ITEM(result, i,
-            PyString_FromString(
-                module->getName().toAnsiString().c_str()));
+        PyTuple_SET_ITEM(result, i, PyString_FromString(module->getName()));
     }
 
     return result;
@@ -293,8 +291,7 @@ PyObject* TodPython_getTypeList(PyObject* self, PyObject* args)
          t != module->lastType(); ++t, ++i)
     {
         const Type* type = t->second;
-        PyTuple_SET_ITEM(result, i,
-            PyString_FromString(type->getName().toAnsiString().c_str()));
+        PyTuple_SET_ITEM(result, i, PyString_FromString(type->getName()));
     }
 
     return result;

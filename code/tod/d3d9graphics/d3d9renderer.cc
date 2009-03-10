@@ -27,7 +27,7 @@ d3dsprite_(0), windowHandle_(0)
     if (0 == d3d9_)
         TOD_THROW_EXCEPTION(
             D3D9GRAPHICSEXCEPTIONCODE_COULDNOTCREATED3D9,
-            STRING("Could not create IDirect3D9"));
+            "Could not create IDirect3D9");
 }
 
 
@@ -220,7 +220,7 @@ void D3D9Renderer::setDisplayMode(const DisplayMode& display_mode)
         D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
         &d3dpp_, &d3d9device_)))
         THROW_D3D9EXCEPTION(D3D9GRAPHICSEXCEPTIONCODE_COULDNOTCREATED3D9DEVICE,
-            hr, STRING("d3d9_->CreateDevice"));
+            hr, "d3d9_->CreateDevice");
     d3d9device_->GetRenderTarget(0, &d3dbasicRenderTarget_);
 
     // create ID3DXEffectPool
@@ -228,17 +228,17 @@ void D3D9Renderer::setDisplayMode(const DisplayMode& display_mode)
     if (FAILED(hr = D3DXCreateEffectPool(&d3deffectpool_)))
         THROW_D3D9EXCEPTION
             (D3D9GRAPHICSEXCEPTIONCODE_COULDNOTCREATED3D9EFFECTPOOL,
-            hr, STRING("D3DXCreateEffectPool"));
+            hr, "D3DXCreateEffectPool");
 
     // create ID3DXSprite
     SAFE_RELEASE(d3dsprite_);
     if (FAILED(hr = D3DXCreateSprite(d3d9device_, &d3dsprite_)))
         THROW_D3D9EXCEPTION
             (D3D9GRAPHICSEXCEPTIONCODE_COULDNOTCREATED3DSPRITE,
-            hr, STRING("D3DXSprite"));
+            hr, "D3DXSprite");
 
     quadVb_.release();
-    quadVb_ = newVertexBuffer(STRING("managed://stock#quad"));
+    quadVb_ = newVertexBuffer("managed://stock#quad");
     quadVb_->create(4,
         VERTEXCOMPONENT_COORD |
         VERTEXCOMPONENT_COLOR |
@@ -408,29 +408,29 @@ void D3D9Renderer::initialize_window(const DisplayMode& display_mode)
     if (display_mode.getTitle().empty())
         TOD_THROW_EXCEPTION(
             D3D9GRAPHICSEXCEPTIONCODE_TITLEISEMPTY,
-            STRING("Title paramter is empty"));
+            "Title paramter is empty");
 
     // register application's window
     String title = display_mode.getTitle();
-    WNDCLASSEX wc =
+    WNDCLASSEXA wc =
     {
         sizeof(WNDCLASSEX), CS_CLASSDC, message_proc, 0, 0,
         GetModuleHandle(0), 0, 0, 0, 0, title.c_str(), 0
     };
-    if (!RegisterClassEx(&wc))
+    if (!RegisterClassExA(&wc))
         TOD_THROW_EXCEPTION(
             D3D9GRAPHICSEXCEPTIONCODE_COULDNOTREGISTERWINDOW,
-            STRING("Could not register window"));
+            "Could not register window");
 
     // Create the application's window.
-    windowHandle_ = CreateWindow(display_mode.getTitle().c_str(),
-        display_mode.getTitle().c_str(), 
+    windowHandle_ = CreateWindowA(display_mode.getTitle(),
+        display_mode.getTitle(), 
         WS_OVERLAPPEDWINDOW, 0, 0,
         display_mode.getWidth(), display_mode.getHeight(), 0, 0, wc.hInstance, 0);
     if (0 == windowHandle_)
         TOD_THROW_EXCEPTION(
             D3D9GRAPHICSEXCEPTIONCODE_COULDNOTCREATEWINDOW,
-            STRING("Could not create rendering window"));
+            "Could not create rendering window");
     RECT rect = { 0, 0, display_mode.getWidth(), display_mode.getHeight() };
     AdjustWindowRectEx(
         &rect, GetWindowStyle(windowHandle_),
@@ -448,7 +448,7 @@ void D3D9Renderer::finalize_window()
     if (windowHandle_)
         DestroyWindow(windowHandle_);
     windowHandle_ = 0;
-    UnregisterClass(displayMode_.getTitle().c_str(), GetModuleHandle(0));
+    UnregisterClassA(displayMode_.getTitle(), GetModuleHandle(0));
 }
 
 //-----------------------------------------------------------------------------

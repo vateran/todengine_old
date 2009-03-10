@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-inline const Name& Method::getName()
+inline const String& Method::getName()
 {
     return name_;
 }

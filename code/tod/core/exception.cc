@@ -86,7 +86,7 @@ const String& Exception::getDescription() const
 //-----------------------------------------------------------------------------
 String Exception::getFullDescription() const
 {
-    return String(STRING("%s(%d) : Exception(%d):%s: %s"),
+    return String("%s(%d : Exception(%d):%s: %s)",
         file_.c_str(), line_, errorCode_,
         function_.c_str(), description_.c_str());
 }
@@ -98,11 +98,10 @@ void ThrowExceptionHandler::handle(const Exception& e)
 }
 
 //-----------------------------------------------------------------------------
-#include <windows.h>
 void MessageBoxExceptionHandler::handle(const Exception& e)
 {
-    String s(STRING("%s(%d) :\n\nException(%d):%s:\n%s"),
+    String s("%s(%d :\n\nException(%d):%s:\n%s)",
         e.getFile().c_str(), e.getLine(), e.getErrorCode(),
         e.getFunction().c_str(), e.getDescription().c_str());
-    MessageBox(0, s.c_str(), STRING("TodEngine Exception"), MB_OK);
+    MessageBoxA(0, s, "TodEngine Exception", MB_OK);
 }

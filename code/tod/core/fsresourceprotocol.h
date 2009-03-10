@@ -14,7 +14,7 @@ namespace tod
     class FsResourceProtocol : public ResourceProtocol
     {
     public:
-		FsResourceProtocol();
+        FsResourceProtocol();
         virtual~FsResourceProtocol();
 
         override ResourceImplementator* create(const Uri& uri);
@@ -42,12 +42,12 @@ namespace tod
     private:
         void make_path(const Uri& uri);
         void filetime_to_unixtime(const FILETIME& ft, time_t* t);
-		void push_cwd();
-		void pop_cwd();
+        void push_cwd();
+        void pop_cwd();
 
-	private:
-		String baseAbsPath_;
-		String curAbsPath_;
+    private:
+        String baseAbsPath_;
+        String curAbsPath_;
     };
 }
 

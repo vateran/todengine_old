@@ -34,7 +34,7 @@ namespace tod
 
 #define BIND_PROPERTY(ptype, name, setter, getter) \
     static SimplePropertyBinder<type, ptype> s_##name##_property;\
-    s_##name##_property.setName(STRING(#name));\
+    s_##name##_property.setName(#name);\
     s_##name##_property.bind(setter, getter);\
     TYPE.addProperty(&s_##name##_property);
 }

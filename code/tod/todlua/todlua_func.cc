@@ -39,7 +39,7 @@ int luacmd_NewObj(lua_State* s)
     const char* type_name = 0;
     if ((1 != lua_gettop(s)) || !lua_isstring(s, -1))
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is newobj(<typename>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is newobj(<typename>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -72,7 +72,7 @@ int luacmd_New(lua_State* s)
     const char* path = 0;
     if ((2 != lua_gettop(s)) || !lua_isstring(s, -1) || !lua_isstring(s, -2))
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is new(<typename>, <path>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is new(<typename>, <path>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -106,7 +106,7 @@ int luacmd_Get(lua_State* s)
     const char* path = 0;
     if ((1 != lua_gettop(s)) || !lua_isstring(s, -1))
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is get(<path>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is get(<path>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -135,7 +135,7 @@ int luacmd_Delete(lua_State* s)
 {   
     if ((1 != lua_gettop(s)))
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is delete(<path>) or delete(<obj>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is delete(<path>) or delete(<obj>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -160,7 +160,7 @@ int luacmd_Delete(lua_State* s)
     }
     else
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is delete(<path>) or delete(<obj>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is delete(<path>) or delete(<obj>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -180,7 +180,7 @@ int luacmd_Ls(lua_State* s)
     for (Node::NodeIterator i = node->firstChildNode();
          i != node->lastChildNode(); ++i, ++index)
     {
-        lua_pushstring(s, i->second->getName().toAnsiString().c_str());
+        lua_pushstring(s, i->second->getName());
         TodLuaScriptServer::instance()->thunkObject(s, node, false);
         lua_settable(s, -3);
     }
@@ -194,7 +194,7 @@ int luacmd_PushCwn(lua_State* s)
 {
     if ((1 != lua_gettop(s)) || !lua_istable(s, -1))
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is pushcwn(<node>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is pushcwn(<node>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -209,7 +209,7 @@ int luacmd_PushCwn(lua_State* s)
     else
     {
         TOD_THROW_EXCEPTION(0,
-            STRING("Usage is pushcwn(<node>), given object is not 'node' type\n"));
+            "Usage is pushcwn(<node>), given object is not 'node' type\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -234,7 +234,7 @@ int luacmd_TodPrint(lua_State* s)
 {
     if ((1 != lua_gettop(s)))
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is todprint(<string>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is todprint(<string>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -242,7 +242,7 @@ int luacmd_TodPrint(lua_State* s)
 
     String result;
     TodLuaScriptServer::instance()->stackToString(s, 0, &result);
-    printf(result.toAnsiString().c_str());
+    printf(result.c_str());
     return 0;
 }
 
@@ -261,7 +261,7 @@ int luacmd_Serialize(lua_State* s)
     const char* uri = 0;
     if ((2 != lua_gettop(s)) || !lua_isstring(s, 1) || !lua_istable(s, 2))
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is serialize(<uri>, <obj>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is serialize(<uri>, <obj>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -327,7 +327,7 @@ int luacmd_Deserialize(lua_State* s)
     return 1;
 
 ON_ARG_ERROR:
-    TOD_THROW_EXCEPTION(0, STRING("Usage is deserialize(<parent>, <uri>, <new name>)\n"));
+    TOD_THROW_EXCEPTION(0, "Usage is deserialize(<parent>, <uri>, <new name>)\n");
     lua_settop(s, 0);
     lua_pushnil(s);
     return 1;
@@ -345,7 +345,7 @@ int luacmd_GetModuleList(lua_State* s)
     {
         Module* module = m->second;
         lua_pushinteger(s, i);
-        lua_pushstring(s, module->getName().toAnsiString().c_str());
+        lua_pushstring(s, module->getName());
         lua_settable(s, -3);
     }
 
@@ -358,7 +358,7 @@ int luacmd_GetTypeList(lua_State* s)
 {
     if ((1 != lua_gettop(s)) || !lua_isstring(s, -1))
     {
-        TOD_THROW_EXCEPTION(0, STRING("Usage is get(<module name>)\n"));
+        TOD_THROW_EXCEPTION(0, "Usage is get(<module name>)\n");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -385,7 +385,7 @@ int luacmd_GetTypeList(lua_State* s)
     {
         const Type* type = t->second;
         lua_pushinteger(s, i);
-        lua_pushstring(s, type->getName().toAnsiString().c_str());
+        lua_pushstring(s, type->getName());
         lua_settable(s, -3);
     }
 
@@ -400,7 +400,7 @@ int luacmd_Invoke(lua_State* s)
     Object* obj = TodLuaScriptServer::instance()->unpackFromStack(s, 1);
     if (0 == obj)
     {
-        TOD_THROW_EXCEPTION(0, STRING("invalid object"));
+        TOD_THROW_EXCEPTION(0, "invalid object");
         return 0;
     }
     
@@ -408,7 +408,7 @@ int luacmd_Invoke(lua_State* s)
     Method* method = static_cast<Method*>(lua_touserdata(s, lua_upvalueindex(1)));
     if (0 == method)
     {
-        TOD_THROW_EXCEPTION(0, STRING("invalid method name"));
+        TOD_THROW_EXCEPTION(0, "invalid method name");
         return 0;
     }
 
@@ -418,7 +418,7 @@ int luacmd_Invoke(lua_State* s)
     {
         TOD_THROW_EXCEPTION(0,
             String("InputArgumentError: %s() takes exactly %d argument (%d given)\n",
-                method->getName().toAnsiString().c_str(), num_inarg, lua_gettop(s) - 1));
+                method->getName().c_str(), num_inarg, lua_gettop(s) - 1));
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -573,7 +573,7 @@ int luacmd_SetProperty(lua_State* s)
     Object* obj = TodLuaScriptServer::instance()->unpackFromStack(s, 1);
     if (0 == obj)
     {
-        TOD_THROW_EXCEPTION(0, STRING("invalid object"));
+        TOD_THROW_EXCEPTION(0, "invalid object");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -612,7 +612,7 @@ int luacmd_GetProperty(lua_State* s)
     Object* obj = TodLuaScriptServer::instance()->unpackFromStack(s, 1);
     if (0 == obj)
     {
-        TOD_THROW_EXCEPTION(0, STRING("invalid object"));
+        TOD_THROW_EXCEPTION(0, "invalid object");
         return 0;
     }
     
@@ -620,7 +620,7 @@ int luacmd_GetProperty(lua_State* s)
     Property* prop = static_cast<Property*>(lua_touserdata(s, lua_upvalueindex(1)));
     if (0 == prop)
     {
-        TOD_THROW_EXCEPTION(0, STRING("invalid prop name"));
+        TOD_THROW_EXCEPTION(0, "invalid prop name");
         return 0;
     }
 
@@ -670,7 +670,7 @@ int luacmd_WaitSec(lua_State* s)
     TodLuaThread* thread = thread = static_cast<TodLuaThread*>(lua_touserdata(s, -1));
     if (0 == thread)
     {
-        TOD_THROW_EXCEPTION(0, STRING("unable to get TodLuaThread object"));
+        TOD_THROW_EXCEPTION(0, "unable to get TodLuaThread object");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;
@@ -692,7 +692,7 @@ int luacmd_WaitFrame(lua_State* s)
     TodLuaThread* thread = thread = static_cast<TodLuaThread*>(lua_touserdata(s, -1));
     if (0 == thread)
     {
-        TOD_THROW_EXCEPTION(0, STRING("unable to get TodLuaThread object"));
+        TOD_THROW_EXCEPTION(0, "unable to get TodLuaThread object");
         lua_settop(s, 0);
         lua_pushnil(s);
         return 1;

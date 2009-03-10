@@ -35,7 +35,7 @@ luaStateRoot_(0)
     luaStateRoot_ = lua_open();
     if (0 == luaStateRoot_)
         TOD_THROW_EXCEPTION(0,
-            STRING("Could not create the Lua5 interpreter"));
+            "Could not create the Lua5 interpreter");
 
     // Setup a panic handler
     lua_atpanic(luaStateRoot_, luacmd_Panic);
@@ -94,7 +94,7 @@ TodLuaScriptServer::~TodLuaScriptServer()
 //-----------------------------------------------------------------------------
 bool TodLuaScriptServer::run(const String& str, String* result)
 {
-    return run(luaStateRoot_, str.toAnsiString().c_str(), str.size(), result);
+    return run(luaStateRoot_, str.c_str(), str.size(), result);
 }
 
 
@@ -163,12 +163,11 @@ bool TodLuaScriptServer::runFile(lua_State* s, const Uri& uri, String* result)
 //-----------------------------------------------------------------------------
 bool TodLuaScriptServer::call(lua_State* s, const String& str, Parameter* parameter)
 {
-    lua_getglobal(s, str.toAnsiString().c_str());
+    lua_getglobal(s, str.c_str());
     if (!lua_isfunction(s, -1))
     {
         TOD_THROW_EXCEPTION(0,
-            String("Could not found function '%s'",
-                str.toAnsiString().c_str()));
+            String("Could not found function '%s'", str.c_str()));
         lua_settop(s, 0);
         return false;
     }
@@ -308,9 +307,9 @@ String TodLuaScriptServer::generateStackTrace(lua_State* s)
 {
     String result;
 
-    result = STRING("TodLuaScriptServer encounter a problem...\n");
+    result = "TodLuaScriptServer encounter a problem...\n";
     result += String("%s", lua_tostring(s, -1));
-    result += STRING("\n\n-- Stack Trace --\n");
+    result += "\n\n-- Stack Trace --\n";
 
     lua_Debug debug_info;
 
@@ -331,7 +330,7 @@ String TodLuaScriptServer::generateStackTrace(lua_State* s)
             else
                 funcname = debug_info.name;
 
-            tod_snprintf(buffer, 1024, STRING("%s(%d): %s (%s/%s)\n"),
+            tod_snprintf(buffer, 1024, "%s(%d: %s (%s/%s))\n",
                 String(debug_info.short_src).c_str(),
                 debug_info.currentline,
                 String(funcname).c_str(),
@@ -342,7 +341,7 @@ String TodLuaScriptServer::generateStackTrace(lua_State* s)
 
         }
         else
-            result += STRING("Failed to generate stack trace.\n");
+            result += "Failed to generate stack trace.\n";
         ++level;
     }
 
@@ -360,9 +359,9 @@ void TodLuaScriptServer::stackToString(lua_State* s, int bottom, String* result)
             case LUA_TBOOLEAN:
             {
                 if (lua_toboolean(s, -1)) 
-                    *result += STRING("true");
+                    *result += "true";
                 else 
-                    *result += STRING("false");
+                    *result += "false";
                 break;  
             }
             case LUA_TNUMBER:
@@ -374,7 +373,7 @@ void TodLuaScriptServer::stackToString(lua_State* s, int bottom, String* result)
             case LUA_TUSERDATA:
             case LUA_TLIGHTUSERDATA:
             {
-                *result += STRING("<userdata>");
+                *result += "<userdata>";
                 break;
             }
             case LUA_TFUNCTION:
@@ -386,7 +385,7 @@ void TodLuaScriptServer::stackToString(lua_State* s, int bottom, String* result)
             }
             case LUA_TNIL:
             {
-                *result += STRING("<nil>");
+                *result += "<nil>";
                 break;
             }
             case LUA_TTABLE:
@@ -404,7 +403,7 @@ void TodLuaScriptServer::stackToString(lua_State* s, int bottom, String* result)
                     {
                         // assume it's a thunk
                         *result += String("<thunk path='%s'>",
-                            node->getAbsolutePath().toAnsiString().c_str());
+                            node->getAbsolutePath().c_str());
                     }
                     else
                     {
@@ -416,25 +415,25 @@ void TodLuaScriptServer::stackToString(lua_State* s, int bottom, String* result)
                 else
                 {
                     lua_pop(s, 1);
-                    *result += STRING("{ ");
+                    *result += "{ ";
                     lua_pushnil(s);
 
                     bool firstItem = true;
                     while (lua_next(s, -2) != 0)
                     {
                         if (!firstItem)
-                            *result += STRING(", ");
+                            *result += ", ";
                         else
                             firstItem = false;
                         TodLuaScriptServer::instance()->
                             stackToString(s, lua_gettop(s) - 1, result);
                     }
-                    *result += STRING(" }");
+                    *result += " }";
                 }
                 break;
             }
             default:
-                *result += STRING("???");
+                *result += "???";
                 break;  
         }
         lua_pop(s, 1);
@@ -471,14 +470,12 @@ bool TodLuaScriptServer::thunkObject
 
     if (!lua_istable(s, -1))
     {
-        TOD_THROW_EXCEPTION(0, STRING("todlua type table not found!"));
+        TOD_THROW_EXCEPTION(0, "todlua type table not found!");
         return 1;
     }
 
-    // find the corresponding type metatable in TODLUA_METATABLES
-    std::string tname(obj->getType()->getName().toAnsiString());
-    const char* type_name = tname.c_str();
-    lua_pushstring(s, type_name);
+    // find the corresponding type metatable in TODLUA_METATABLES    
+    lua_pushstring(s, obj->getType()->getName());
     lua_gettable(s, -2);
 
     if (!lua_istable(s, -1))
@@ -487,7 +484,7 @@ bool TodLuaScriptServer::thunkObject
         lua_pop(s, 1);
         
         // metatable
-        lua_pushstring(s, type_name);
+        lua_pushstring(s, obj->getType()->getName());
         lua_newtable(s);
 
         lua_pushstring(s, "__index");
@@ -500,7 +497,7 @@ bool TodLuaScriptServer::thunkObject
                  m != cur_type->lastMethod(); ++m)
             {
                 Method* method = m->second;
-                lua_pushstring(s, method->getName().toAnsiString().c_str());
+                lua_pushstring(s, method->getName());
                 lua_pushlightuserdata(s, method);
                 lua_pushcclosure(s, luacmd_Invoke, 1);
                 lua_settable(s, -3);
@@ -511,7 +508,7 @@ bool TodLuaScriptServer::thunkObject
                 Property* prop = p->second;
                 String name("");
                 name += prop->getName();
-                lua_pushstring(s, name.toAnsiString().c_str());
+                lua_pushstring(s, name);
                 lua_pushlightuserdata(s, prop);
                 lua_pushcclosure(s, luacmd_GetProperty, 1);
                 lua_settable(s, -3);
@@ -530,7 +527,7 @@ bool TodLuaScriptServer::thunkObject
         // insert (type_name, metatable) to TODLUA_METATABLES
         lua_settable(s, -3);
 
-        lua_pushstring(s, type_name);
+        lua_pushstring(s, obj->getType()->getName());
         lua_gettable(s, -2);
     }
 
@@ -769,7 +766,7 @@ bool TodLuaScriptServer::stackToInparam(lua_State* s, Method* method)
             TOD_THROW_EXCEPTION(0,
                 String("InputArgumentTypeMismatchError: "
                     "Cannot convert parameter method[%s](%d parameter)\n",
-                        method->getName().toAnsiString().c_str(), i + 1));
+                        method->getName().c_str(), i + 1));
             return false;
         }
     }
@@ -863,7 +860,7 @@ bool TodLuaScriptServer::variableToStack(lua_State* s, Variable* v)
         typedef String type;
         typedef SimpleVariable<type> AdaptiveVariable;
         AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
-        lua_pushstring(s, av->get().toAnsiString().c_str());
+        lua_pushstring(s, av->get());
     }
     else if (TypeId<Vector3>::check(v->getType()))
     {   
@@ -967,7 +964,7 @@ bool TodLuaScriptServer::propertyToStack
         typedef String type;
         typedef SimpleProperty<type> AdaptiveProperty;
         AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
-        lua_pushstring(s, ap->get(obj).toAnsiString().c_str());
+        lua_pushstring(s, ap->get(obj));
     }
     else if (TypeId<Vector3>::check(prop->getType()))
     {

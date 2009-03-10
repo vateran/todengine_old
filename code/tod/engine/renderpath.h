@@ -27,7 +27,7 @@ namespace engine
         virtual~RenderPath();
         DECLARE_CLASS(RenderPath, Node);
 
-        RpSection* findSection(const Name& name);
+        RpSection* findSection(const String& name);
 
         void validate();
     };

@@ -41,7 +41,7 @@ namespace tod
 
 #define BIND_CONTAINER_PROPERTY(keytype, valuetype, name, inserter, remover, searcher) \
     static ContainerProperty<type, keytype, valuetype> s_##name##_property;\
-    s_##name##_property.setName(STRING(#name));\
+    s_##name##_property.setName(#name);\
     s_##name##_property.bind(inserter, remover, searcher);\
     TYPE.addProperty(&s_##name##_property);
 }

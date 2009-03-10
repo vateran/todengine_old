@@ -22,7 +22,7 @@ int APIENTRY WinMain
     USING_MODULE(Engine);
     USING_MODULE(D3D9Graphics);
 
-    ResourceManager::instance()->initialize(STRING("data"));
+    ResourceManager::instance()->initialize("data");
 
     tod::TestSuite test_suite;
     test_suite.addTestCase<TimeTestCase>();

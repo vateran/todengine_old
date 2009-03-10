@@ -58,7 +58,7 @@ int Node::release()
 
 
 //-----------------------------------------------------------------------------
-void Node::setName(const name_t* name)
+void Node::setName(const String& name)
 {
     if (parent_)
     {
@@ -93,7 +93,7 @@ Path Node::getAbsolutePath()
     String path;
     while (!s.empty())
     {
-        path += STRING("/");
+        path += "/";
         path += s.top()->getName();
         s.pop();
     }
@@ -135,7 +135,7 @@ Node::NodeIterator Node::detach()
 
 
 //-----------------------------------------------------------------------------
-Node* Node::findChild(const name_t* name)
+Node* Node::findChild(const String& name)
 {
     Nodes::iterator iter = children_.find(name);
     if (children_.end() == iter)
@@ -145,18 +145,11 @@ Node* Node::findChild(const name_t* name)
 
 
 //-----------------------------------------------------------------------------
-Node* Node::findChild(const String& name)
-{
-    return findChild(name.c_str());
-}
-
-
-//-----------------------------------------------------------------------------
 Node* Node::relativeNode(const Path& path)
 {
-    if (path == STRING("."))
+    if (path == ".")
         return this;
-    else if (path == STRING(".."))
+    else if (path == "..")
         return getParent();
     else
     {
@@ -174,7 +167,7 @@ Node* Node::relativeNode(const Path& path)
 
 
 //-----------------------------------------------------------------------------
-void Node::onSetName(const name_t* name)
+void Node::onSetName(const String& name)
 {
     // empty
 }
@@ -219,5 +212,5 @@ bool Node::trigger()
 void Node::bindProperty()
 {
     BIND_PROPERTY(size_t, num_children, 0, &getNumChildren);
-    BIND_PROPERTY(const Name&, name, &setName, &getName);
+    BIND_PROPERTY(const String&, name, &setName, &getName);
 }

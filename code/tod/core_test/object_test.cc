@@ -38,11 +38,11 @@ IMPLEMENT_CLASS(Derived2, Derived1);
 void ObjectTestCase::test_Object()
 {
     Super* instance = new Derived2;
-    TODUNIT_ASSERT(tod_strcmp(instance->toString(), STRING("Derived2")) == 0);
-    TODUNIT_ASSERT(instance->isKindOf(STRING("Super")));
-    TODUNIT_ASSERT(instance->isKindOf(STRING("Derived1")));
-    TODUNIT_ASSERT(instance->isKindOf(STRING("Derived2")));
-    TODUNIT_ASSERT(!instance->isKindOf(STRING("Super2")));
+    TODUNIT_ASSERT(tod_strcmp(instance->toString(), "Derived2") == 0);
+    TODUNIT_ASSERT(instance->isKindOf("Super"));
+    TODUNIT_ASSERT(instance->isKindOf("Derived1"));
+    TODUNIT_ASSERT(instance->isKindOf("Derived2"));
+    TODUNIT_ASSERT(!instance->isKindOf("Super2"));
     TODUNIT_ASSERT(instance->isKindOf(&Derived1::TYPE));
     TODUNIT_ASSERT(instance->isKindOf(&Super::TYPE));
 
@@ -286,16 +286,16 @@ void FighterMethodBinder::Fighter_v_setVelocity_f
 //-----------------------------------------------------------------------------
 void ObjectTestCase::test_CreateObjectByConcreteType()
 {
-    Module module(STRING("TestModule"), 0, 0);
+    Module module("TestModule", 0, 0);
     Module* m = &module;
     REGISTER_TYPE(m, Actor);
     REGISTER_TYPE(m, Fighter);
 
-    Fighter* fighter = DOWN_CAST<Fighter*>(module.create(STRING("Fighter")));
+    Fighter* fighter = DOWN_CAST<Fighter*>(module.create("Fighter"));
     TODUNIT_ASSERT(fighter != 0);
-    TODUNIT_ASSERT(fighter->isKindOf(STRING("Actor")));
-    TODUNIT_ASSERT(fighter->isKindOf(STRING("Fighter")));
-    TODUNIT_ASSERT(fighter->TYPE.getName() == STRING("Fighter"));
+    TODUNIT_ASSERT(fighter->isKindOf("Actor"));
+    TODUNIT_ASSERT(fighter->isKindOf("Fighter"));
+    TODUNIT_ASSERT(fighter->TYPE.getName() == "Fighter");
     TODUNIT_ASSERT(fighter->isKindOf(fighter->getType()));
 
     delete fighter;
@@ -304,19 +304,19 @@ void ObjectTestCase::test_CreateObjectByConcreteType()
 //-----------------------------------------------------------------------------
 void ObjectTestCase::test_PrimitiveTypeProperty()
 {
-    Module module(STRING("TestModule"), 0, 0);
+    Module module("TestModule", 0, 0);
     Module* m = &module;
     REGISTER_TYPE(m, Actor);
     REGISTER_TYPE(m, Fighter);
 
-    Fighter* fighter = DOWN_CAST<Fighter*>(module.create(STRING("Fighter")));
+    Fighter* fighter = DOWN_CAST<Fighter*>(module.create("Fighter"));
     if (!Fighter::TYPE.hasBindedProperty())
         fighter->bindProperty();
 
     typedef SimpleProperty<const int&> IntProperty;
     IntProperty* property =
         static_cast<IntProperty*>
-        (fighter->TYPE.findProperty(STRING("hp")));
+        (fighter->TYPE.findProperty("hp"));
     property->set(fighter, 10);
     TODUNIT_ASSERT(property->get(fighter) == 10);
     TODUNIT_ASSERT(fighter->Hp() == 10);
@@ -329,24 +329,24 @@ void ObjectTestCase::test_PrimitiveTypeProperty()
 //-----------------------------------------------------------------------------
 void ObjectTestCase::test_CustomPrimitiveTypeProperty()
 {
-    Module module(STRING("TestModule"), 0, 0);
+    Module module("TestModule", 0, 0);
     Module* m = &module;
     REGISTER_TYPE(m, Actor);
     REGISTER_TYPE(m, Fighter);
 
-    Fighter* fighter = DOWN_CAST<Fighter*>(module.create(STRING("Fighter")));
+    Fighter* fighter = DOWN_CAST<Fighter*>(module.create("Fighter"));
     if (!Fighter::TYPE.hasBindedProperty())
         fighter->bindProperty();
 
     typedef SimpleProperty<const String&> StringProperty;
     StringProperty* string_property =
         static_cast<StringProperty*>
-        (fighter->TYPE.findProperty(STRING("name")));
-    string_property->set(fighter, STRING("fighter"));
-    TODUNIT_ASSERT(string_property->get(fighter) == STRING("fighter"));
-    TODUNIT_ASSERT(fighter->getName() == STRING("fighter"));
-    fighter->setName(STRING("fighter haha"));
-    TODUNIT_ASSERT(string_property->get(fighter) == STRING("fighter haha"));
+        (fighter->TYPE.findProperty("name"));
+    string_property->set(fighter, "fighter");
+    TODUNIT_ASSERT(string_property->get(fighter) == "fighter");
+    TODUNIT_ASSERT(fighter->getName() == "fighter");
+    fighter->setName("fighter haha");
+    TODUNIT_ASSERT(string_property->get(fighter) == "fighter haha");
 
     delete fighter;
 }
@@ -354,21 +354,21 @@ void ObjectTestCase::test_CustomPrimitiveTypeProperty()
 //-----------------------------------------------------------------------------
 void ObjectTestCase::test_StructTypeProperty()
 {
-    Module module(STRING("TestModule"), 0, 0);
+    Module module("TestModule", 0, 0);
     Module* m = &module;
     REGISTER_TYPE(m, Actor);
     REGISTER_TYPE(m, Fighter);
 
-    Fighter* fighter = DOWN_CAST<Fighter*>(module.create(STRING("Fighter")));
+    Fighter* fighter = DOWN_CAST<Fighter*>(module.create("Fighter"));
     if (!Fighter::TYPE.hasBindedProperty())
         fighter->bindProperty();
 
     typedef SimpleProperty<const int&> IntProperty;
     StructProperty* struct_property = 
         static_cast<StructProperty*>
-            (fighter->TYPE.findProperty(STRING("test_struct")));
+            (fighter->TYPE.findProperty("test_struct"));
     IntProperty* property = static_cast<IntProperty*>
-        (struct_property->findProperty(STRING("h1")));
+        (struct_property->findProperty("h1"));
     property->set(fighter, 10);
     TODUNIT_ASSERT(fighter->getH1() == 10);
     fighter->setH1(20);
@@ -376,9 +376,9 @@ void ObjectTestCase::test_StructTypeProperty()
 
     StructProperty* n_struct_property =
         static_cast<StructProperty*>
-            (struct_property->findProperty(STRING("test_n")));
+            (struct_property->findProperty("test_n"));
     property = static_cast<IntProperty*>
-        (n_struct_property->findProperty(STRING("n")));
+        (n_struct_property->findProperty("n"));
     property->set(fighter, 10);
     TODUNIT_ASSERT(fighter->getN() == 10);
     fighter->setN(20);
@@ -390,27 +390,27 @@ void ObjectTestCase::test_StructTypeProperty()
 //-----------------------------------------------------------------------------
 void ObjectTestCase::test_EnumTypeProperty()
 {
-    Module module(STRING("TestModule"), 0, 0);
+    Module module("TestModule", 0, 0);
     Module* m = &module;
     REGISTER_TYPE(m, Actor);
     REGISTER_TYPE(m, Fighter);
 
-    Fighter* fighter = DOWN_CAST<Fighter*>(module.create(STRING("Fighter")));
+    Fighter* fighter = DOWN_CAST<Fighter*>(module.create("Fighter"));
     if (!Fighter::TYPE.hasBindedProperty())
         fighter->bindProperty();
 
     typedef EnumProperty<Fighter::CharacterType> FighterCharacterTypeEnumProperty;
     FighterCharacterTypeEnumProperty* property = 
         static_cast<FighterCharacterTypeEnumProperty*>
-        (fighter->TYPE.findProperty(STRING("character_type")));
+        (fighter->TYPE.findProperty("character_type"));
 
     property->set(fighter, Fighter::CHARACTERTYPE_SORCERESS);
     TODUNIT_ASSERT(fighter->getCharacterType() == Fighter::CHARACTERTYPE_SORCERESS);
     fighter->setCharacterType(Fighter::CHARACTERTYPE_FIGHTER);
     TODUNIT_ASSERT(property->get(fighter) == Fighter::CHARACTERTYPE_FIGHTER);
-    property->set(fighter, STRING("CHARACTERTYPE_SORCERESS"));
+    property->set(fighter, "CHARACTERTYPE_SORCERESS");
     TODUNIT_ASSERT(fighter->getCharacterType() == Fighter::CHARACTERTYPE_SORCERESS);
-    property->set(fighter, STRING("CHARACTERTYPE_FIGHTER"));
+    property->set(fighter, "CHARACTERTYPE_FIGHTER");
     TODUNIT_ASSERT(fighter->getCharacterType() == Fighter::CHARACTERTYPE_FIGHTER);
 
     delete fighter;
@@ -419,20 +419,20 @@ void ObjectTestCase::test_EnumTypeProperty()
 //-----------------------------------------------------------------------------
 void ObjectTestCase::test_ListTypeProperty()
 {
-    Module module(STRING("TestModule"), 0, 0);
+    Module module("TestModule", 0, 0);
     Module* m = &module;
     REGISTER_TYPE(m, Actor);
     REGISTER_TYPE(m, Fighter);
     REGISTER_TYPE(m, Weapon);
 
-    Fighter* fighter = DOWN_CAST<Fighter*>(module.create(STRING("Fighter")));
+    Fighter* fighter = DOWN_CAST<Fighter*>(module.create("Fighter"));
     if (!Fighter::TYPE.hasBindedProperty())
         fighter->bindProperty();
 
     typedef ContainerProperty<Fighter, int, Weapon*> WeaponListProperty;
     WeaponListProperty* property = 
         static_cast<WeaponListProperty*>
-            (fighter->TYPE.findProperty(STRING("weapon_list")));
+            (fighter->TYPE.findProperty("weapon_list"));
     property->insert(fighter, 0);
     Weapon* weapon = property->search(fighter, 0);
     if (!Weapon::TYPE.hasBindedProperty())
@@ -442,7 +442,7 @@ void ObjectTestCase::test_ListTypeProperty()
     typedef SimpleProperty<const int&> IntProperty;
     IntProperty* price_property = 
         static_cast<IntProperty*>
-            (weapon->TYPE.findProperty(STRING("price")));
+            (weapon->TYPE.findProperty("price"));
     price_property->set(weapon, 100);
     TODUNIT_ASSERT(weapon->getPrice() == 100);
 
@@ -461,12 +461,12 @@ void ObjectTestCase::test_DictionaryTypeProperty()
 //-----------------------------------------------------------------------------
 void ObjectTestCase::test_ReflectionMethod()
 {
-    Module module(STRING("TestModule"), 0, 0);
+    Module module("TestModule", 0, 0);
     Module* m = &module;
     REGISTER_TYPE(m, Actor);
     REGISTER_TYPE(m, Fighter);
 
-    Fighter* fighter = DOWN_CAST<Fighter*>(module.create(STRING("Fighter")));
+    Fighter* fighter = DOWN_CAST<Fighter*>(module.create("Fighter"));
     if (!Fighter::TYPE.hasBindedMethod())
         fighter->bindMethod();
 
@@ -477,20 +477,20 @@ void ObjectTestCase::test_ReflectionMethod()
 
     // reflective method invocation
     fighter->Hp(30);
-    Method* attack_method = Fighter::TYPE.findMethod(STRING("attack"));
+    Method* attack_method = Fighter::TYPE.findMethod("attack");
     TODUNIT_ASSERT(attack_method);
     attack_method->getParameter()->in()->get<int>(0) = 10;
     attack_method->invoke(fighter);
     TODUNIT_ASSERT(attack_method->getParameter()->out()->get<int>(0) == 20);
     TODUNIT_ASSERT(fighter->Hp() == 20);
     
-    Method* selfheal_method = Fighter::TYPE.findMethod(STRING("selfHeal"));
+    Method* selfheal_method = Fighter::TYPE.findMethod("selfHeal");
     TODUNIT_ASSERT(selfheal_method);
     selfheal_method->getParameter()->in()->get<int>(0) = 100;
     selfheal_method->invoke(fighter);
     TODUNIT_ASSERT(fighter->Hp() == 120);
 
-    Method* setvelocity_method = Fighter::TYPE.findMethod(STRING("setVelocity"));
+    Method* setvelocity_method = Fighter::TYPE.findMethod("setVelocity");
     TODUNIT_ASSERT(setvelocity_method);
     setvelocity_method->getParameter()->in()->get<float>(0) = 2.0f;
     setvelocity_method->invoke(fighter);
@@ -511,9 +511,9 @@ void ObjectTestCase::test_Node()
     Node* child1 = new Node();
     Node* child2 = new Node();
     Node* child3 = new Node();
-    child1->setName(STRING("test1"));
-    child2->setName(STRING("test2"));
-    child3->setName(STRING("test3"));
+    child1->setName("test1");
+    child2->setName("test2");
+    child3->setName("test3");
 
     // reference count test
     root->attach(child1);
@@ -527,9 +527,9 @@ void ObjectTestCase::test_Node()
     TODUNIT_ASSERT(child3->getRef() == 1);
 
     // noh path test
-    TODUNIT_ASSERT(child1->getAbsolutePath() == STRING("/test1"));
-    TODUNIT_ASSERT(child2->getAbsolutePath() == STRING("/test2"));
-    TODUNIT_ASSERT(child3->getAbsolutePath() == STRING("/test2/test3"));
+    TODUNIT_ASSERT(child1->getAbsolutePath() == "/test1");
+    TODUNIT_ASSERT(child2->getAbsolutePath() == "/test2");
+    TODUNIT_ASSERT(child3->getAbsolutePath() == "/test2/test3");
 
     child3->detach();
 
@@ -542,11 +542,11 @@ void ObjectTestCase::test_Node()
     child1 = new Node();
     child2 = new Node();
     child3 = new Node();
-    warrior1->setName(STRING("warrior1"));
-    warrior2->setName(STRING("warrior2"));
-    child1->setName(STRING("test1"));
-    child2->setName(STRING("test2"));
-    child3->setName(STRING("test3"));
+    warrior1->setName("warrior1");
+    warrior2->setName("warrior2");
+    child1->setName("test1");
+    child2->setName("test2");
+    child3->setName("test3");
 
     root->attach(warrior1);
     warrior1->release();
@@ -687,15 +687,15 @@ void ObjectTestCase::test_LinkNode()
     ToTest to;
     to.bindProperty();
     LinkNode link;
-    Property* hp_property1 = from.getType()->findProperty(STRING("hp"));
-    Property* hp_property2 = to.getType()->findProperty(STRING("hp"));
+    Property* hp_property1 = from.getType()->findProperty("hp");
+    Property* hp_property2 = to.getType()->findProperty("hp");
     link.connect(&from, hp_property1, &to, hp_property2);
 
     from.setHp(10);
     link.update();
     TODUNIT_ASSERT(to.getHp() == 10);
 
-    Property* mp_property2 = to.getType()->findProperty(STRING("mp"));
+    Property* mp_property2 = to.getType()->findProperty("mp");
     link.connect(&from, hp_property1, &to, mp_property2);
 
     from.setHp(102);
@@ -703,7 +703,7 @@ void ObjectTestCase::test_LinkNode()
     TODUNIT_ASSERT(to.getMp() == 102);
 
 
-    Property* dex_property2 = to.getType()->findProperty(STRING("dex"));
+    Property* dex_property2 = to.getType()->findProperty("dex");
     link.connect(&from, hp_property1, &to, dex_property2);
 
     from.setHp(888);
@@ -711,7 +711,7 @@ void ObjectTestCase::test_LinkNode()
     TODUNIT_ASSERT(to.getDex() == 888);
 
 
-    Property* str_property2 = to.getType()->findProperty(STRING("str"));
+    Property* str_property2 = to.getType()->findProperty("str");
     link.connect(&from, hp_property1, &to, str_property2);
 
     from.setHp(345);

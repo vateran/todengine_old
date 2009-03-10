@@ -19,8 +19,8 @@ namespace tod
     class Property
     {
     public:
-        void setName(const name_t* name);
-        const Name& getName() const;
+        void setName(const char_t* name);
+        const String& getName() const;
         const String& toString(Object* object);
         void fromString(Object* object, const char_t* value);
         const char_t* getTypeKeyword() const;
@@ -29,7 +29,7 @@ namespace tod
         virtual type_id getType() const;
 
     private:
-        Name name_;
+        String name_;
     };
 
 #include "tod/core/property.inl"

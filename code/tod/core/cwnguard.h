@@ -24,7 +24,7 @@ namespace tod
             Node* node = Kernel::instance()->lookup(path);
             if (0 == node)
                 TOD_THROW_EXCEPTION(0, String(
-                    STRING("\'%s\' not found node in NOH"), path.c_str()));
+                    "\'%s\' not found node in NOH", path.c_str()));
             Kernel::instance()->pushCwn(node);
         }
         ~CwnGuard()

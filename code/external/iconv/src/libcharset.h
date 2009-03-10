@@ -41,7 +41,7 @@ extern "C" {
    prefixes should be directory names without trailing slash (i.e. use ""
    instead of "/").  */
 extern LIBCHARSET_DLL_EXPORTED void libcharset_set_relocation_prefix (const char *orig_prefix,
-					      const char *curr_prefix);
+                          const char *curr_prefix);
 
 
 #ifdef __cplusplus

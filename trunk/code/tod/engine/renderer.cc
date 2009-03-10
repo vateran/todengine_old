@@ -73,44 +73,44 @@ void Renderer::set_transform(Transform type, const Matrix44& m)
     {
     case TRANSFORM_WORLD:        
         {
-            shader->setMatrix(STRING("WorldMatrix"), m);
+            shader->setMatrix("WorldMatrix", m);
 
             Matrix44 inv(m);
             inv.inverse(0);
-            shader->setMatrix(STRING("InvWorldMatrix"), inv);
+            shader->setMatrix("InvWorldMatrix", inv);
         }
         break;
     case TRANSFORM_VIEW:
         {
-            shader->setMatrix(STRING("ViewMatrix"), m);
+            shader->setMatrix("ViewMatrix", m);
 
             Matrix44 inv(m);
             inv.inverse(0);
-            shader->setMatrix(STRING("InvViewMatrix"), inv);
+            shader->setMatrix("InvViewMatrix", inv);
 
             inv = m;
             inv.m41_ = inv.m42_ = inv.m43_ = 0;
             inv.inverse(0);
-            shader->setMatrix(STRING("RevViewMatrix"), inv);
+            shader->setMatrix("RevViewMatrix", inv);
         }
         break;
     case TRANSFORM_PROJECTION:
-        shader->setMatrix(STRING("ProjectionMatrix"), m);
+        shader->setMatrix("ProjectionMatrix", m);
         break;
     }
     
     Matrix44 mv(getTransform(TRANSFORM_WORLD));
     mv *= getTransform(TRANSFORM_VIEW);
-    shader->setMatrix(STRING("WorldViewMatrix"), mv);
+    shader->setMatrix("WorldViewMatrix", mv);
     Matrix44 mvp(mv);
     mvp *= getTransform(TRANSFORM_PROJECTION);
-    shader->setMatrix(STRING("WorldViewProjectionMatrix"), mvp);
+    shader->setMatrix("WorldViewProjectionMatrix", mvp);
 
     // inverse
     mv.inverse(0);
-    shader->setMatrix(STRING("InvWorldViewMatrix"), mv);
+    shader->setMatrix("InvWorldViewMatrix", mv);
     mvp.inverse(0);
-    shader->setMatrix(STRING("InvWorldViewProjectionMatrix"), mvp);
+    shader->setMatrix("InvWorldViewProjectionMatrix", mvp);
 
     shader->commit();
 }

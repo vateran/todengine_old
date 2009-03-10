@@ -64,12 +64,12 @@ void TestSuite::run()
         for (Errors::iterator iter = errors.begin();
              iter != errors.end(); ++iter)
         {
-            tod_printf(STRING("%s Failed:\n"), iter->testCaseName_.c_str());
-            tod_printf(STRING("%s(%d):\n"),
+            tod_printf("%s Failed:\n", iter->testCaseName_.c_str());
+            tod_printf("%s(%d):\n",
                 iter->snapShot_.fileName_.c_str(), 
                 iter->snapShot_.line_);
-            tod_printf(STRING("    %s:\n"), iter->testCaller_->getName().c_str());
-            tod_printf(STRING("        %s\n"), iter->snapShot_.expression_.c_str());
+            tod_printf("    %s:\n", iter->testCaller_->getName().c_str());
+            tod_printf("        %s\n", iter->snapShot_.expression_.c_str());
             printf("\n");
         }
     }

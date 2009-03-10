@@ -16,7 +16,7 @@ namespace tod
     template <typename T, int SIZE, int INVALID=SIZE>
     class Enumeration
     {
-		typedef Enumeration<T, SIZE, INVALID> my_type;
+        typedef Enumeration<T, SIZE, INVALID> my_type;
 
     public:
         typedef std::map<String, T> StringMap;
@@ -27,7 +27,7 @@ namespace tod
     public:
         Enumeration():value_(static_cast<T>(INVALID))
         {
-        }
+        }        
         Enumeration(const char_t* str)
         {
             fromString(str);
@@ -40,10 +40,10 @@ namespace tod
         {
             // empty
         }
-		Enumeration(const my_type& value) : value_(value.value_)
-		{
-			// empty
-		}
+        Enumeration(const my_type& value):value_(value.value_)
+        {
+            // empty
+        }
         Enumeration(const int& value)
         {
             value_ = static_cast<T>(value);
@@ -107,6 +107,14 @@ namespace tod
         {
             return !(*this == lhs);
         }
+        bool operator == (const char_t* lhs) const
+        {
+            return value_ == from_string(lhs);
+        }
+        bool operator != (const char_t* lhs) const
+        {
+            return !(*this == lhs);
+        }
         operator const T& () const
         {
             return value_;
@@ -119,7 +127,7 @@ namespace tod
         }
 
     private:
-        T from_string(const char_t* str)
+        T from_string(const char_t* str) const
         {
             StringMap::iterator find_iter = stringMap_.find(str);
             if (stringMap_.end() == find_iter)

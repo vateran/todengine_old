@@ -26,10 +26,10 @@ namespace tod
         virtual~TestCaller();
 
         override void call();
-        override const Name& getName() const;
+        override const String& getName() const;
 
     private:
-        Name name_;
+        String name_;
         MyTestCase* testCase_;
         MyTestMethod testMethod_;
     };
@@ -39,11 +39,11 @@ namespace tod
 #define TODUNIT_BEGINE_TESTSUITE(name) typedef name MyTestCase;\
     typedef tod::TestCaller<name> MyTestCaller;\
     void addTest(MyTestCaller* test) { testCallers_.push_back(test); }\
-    override const tod::char_t* toString() const { return STRING(#name); }\
+    override const tod::char_t* toString() const { return #name; }\
     name() {
 
 #define TODUNIT_TEST(name) addTest(\
-    new MyTestCaller(this, &MyTestCase::name, STRING(#name)));
+    new MyTestCaller(this, &MyTestCase::name, #name));
 
 #define TODUNIT_END_TESTSUITE() }
 

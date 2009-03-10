@@ -28,8 +28,8 @@ namespace tod
         Kernel();
         ~Kernel();
 
-        Object* create(const typename_t* type_name);
-        Node* create(const typename_t* type_name, const Path& path);
+        Object* create(const typechar_t* type_name);
+        Node* create(const typechar_t* type_name, const Path& path);
         Node* lookup(const Path& path);
 
         void pushCwn(Node* object);
@@ -37,14 +37,14 @@ namespace tod
         Node* getCwn();
 
         void addModule(Module* module);
-        Module* findModule(const name_t* name);
+        Module* findModule(const char_t* name);
         Modules::iterator firstModule();
         Modules::iterator lastModule();
         Modules::const_iterator firstModule() const;
         Modules::const_iterator lastModule() const;
         size_t getNumModules() const;
 
-        void addType(const name_t* type_name, Module* module);
+        void addType(const char_t* type_name, Module* module);
 
         Node* getRoot();
 
@@ -52,7 +52,7 @@ namespace tod
         typedef std::stack<Node::RefNode> Cwn;
 
     private:
-        Node* create_node(const Name& type_name, const Name& name);
+        Node* create_node(const String& type_name, const String& name);
 
     private:
         Node::RefNode root_;

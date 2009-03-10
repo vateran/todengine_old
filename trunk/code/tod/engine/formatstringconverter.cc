@@ -17,7 +17,7 @@ type_id FormatStringConverter::getTypeId()
 //-----------------------------------------------------------------------------
 const char_t* FormatStringConverter::getTypeKeyword() const
 {
-    return STRING("format");
+    return "format";
 }
 
 

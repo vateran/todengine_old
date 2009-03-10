@@ -16,7 +16,7 @@ namespace tod
         virtual~TestCallerBase() {}
 
         virtual void call()=0;
-        virtual const Name& getName() const=0;
+        virtual const String& getName() const=0;
     };
 }
 

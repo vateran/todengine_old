@@ -53,8 +53,8 @@ const ResourceEntries& ResourceStorage::findEntries
 {
     entries_.clear();
 
-    String tpath(name_ + STRING("/") + path);
-    tpath.replace(STRING("//"), STRING("/"));
+    String tpath(name_ + "/" + path);
+    tpath.replace("//", "/");
         
     protocol_->findEntries(&entries_, tpath, file);
     return entries_;

@@ -40,61 +40,61 @@ void DisplayMode::set(const char_t* mode)
     typedef boost::tokenizer<
         boost::char_separator<char_t>,
         DisplayMode::const_iterator, DisplayMode> Tokenizer;
-    boost::char_separator<char_t> sep(STRING("[]"));
+    boost::char_separator<char_t> sep("[]");
     Tokenizer tok(begin(), end(), sep);
     for (Tokenizer::iterator iter = tok.begin();
          iter != tok.end(); ++iter)
     {
-        if (*iter == STRING("w"))
+        if (*iter == "w")
         {
             ++iter;
             if (iter != tok.end())
                 width_ = iter->toInt();
         }
-        else if (*iter == STRING("h"))
+        else if (*iter == "h")
         {
             ++iter;
             if (iter != tok.end())
                 height_ = iter->toInt();
         }
-        else if (*iter == STRING("f"))
+        else if (*iter == "f")
         {
             ++iter;
             if (iter != tok.end())
                 format_ = *iter;
         }
-        else if (*iter == STRING("sbuf"))
+        else if (*iter == "sbuf")
         {
             ++iter;
             if (iter != tok.end())
                 sbuf_ = iter->toInt();
         }
-        else if (*iter == STRING("zbuf"))
+        else if (*iter == "zbuf")
         {
             ++iter;
             if (iter != tok.end())
                 zbuf_ = iter->toInt();
         }
-        else if (*iter == STRING("fullscreen"))
+        else if (*iter == "fullscreen")
         {
             ++iter;
             if (iter != tok.end())
             {
-                if (*iter == STRING("true"))
+                if (*iter == "true")
                     fullscreen_ = true;
                 else
                     fullscreen_ = false;
             }
         }
-        else if (*iter == STRING("vsync"))
+        else if (*iter == "vsync")
         {
             ++iter;
-            if (*iter == STRING("true"))
+            if (*iter == "true")
                 vsync_ = true;
             else
                 vsync_ = false;
         }
-        else if (*iter == STRING("title"))
+        else if (*iter == "title")
         {
             ++iter;
             if (iter != tok.end())

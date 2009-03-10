@@ -64,9 +64,9 @@ namespace tod
 #include "tod/core/testcase.inl"
 
 #define TODUNIT_ASSERT(e) do { if (!(e)) { \
-    throw CurrentSnapShot(STRING("assert"),\
+    throw CurrentSnapShot("assert",\
     ___DATE___, ___TIME___, ___FILE___, ___FUNCTION___,\
-    ___FUNCTION___, ___LINE___, STRING(#e));\
+    ___FUNCTION___, ___LINE___, #e);\
     } } while (0);
 
 }

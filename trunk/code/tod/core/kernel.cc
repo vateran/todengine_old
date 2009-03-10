@@ -9,8 +9,8 @@ using namespace tod;
 //-----------------------------------------------------------------------------
 Kernel::Kernel()
 {
-    addModule(new BuiltinModule(this, STRING("Builtin")));
-    root_ = create_node(STRING("Node"), STRING(""));
+    addModule(new BuiltinModule(this, "Builtin"));
+    root_ = create_node("Node", "");
     pushCwn(root_);
 }
 
@@ -25,7 +25,7 @@ Kernel::~Kernel()
     for (Modules::iterator i = modules_.begin();
          i != modules_.end(); ++i)
         i->second->finalize();
-    Module* module = findModule(STRING("Builtin"));
+    Module* module = findModule("Builtin");
     tod_assert(module);
     delete module;
 
@@ -35,7 +35,7 @@ Kernel::~Kernel()
 
 
 //-----------------------------------------------------------------------------
-Object* Kernel::create(const typename_t* type_name)
+Object* Kernel::create(const typechar_t* type_name)
 {
     Types::iterator find_iter = types_.find(type_name);
     if (types_.end() == find_iter)
@@ -49,7 +49,7 @@ Object* Kernel::create(const typename_t* type_name)
 
 
 //-----------------------------------------------------------------------------
-Node* Kernel::create(const typename_t* type_name, const Path& path)
+Node* Kernel::create(const typechar_t* type_name, const Path& path)
 {
     Node* cur;
     if (path.isAbsolute())
@@ -66,7 +66,7 @@ Node* Kernel::create(const typename_t* type_name, const Path& path)
             if (++e == path.end())
                 new_node = create_node(type_name, *token);
             else
-                new_node = create_node(STRING("Node"), *token);
+                new_node = create_node("Node", *token);
             if (0 == new_node)
                 return 0;
             cur->attach(new_node);
@@ -83,7 +83,7 @@ Node* Kernel::create(const typename_t* type_name, const Path& path)
 //-----------------------------------------------------------------------------
 Node* Kernel::lookup(const Path& path)
 {
-    if (path == STRING("/"))
+    if (path == "/")
         return root_;
     if (path.isAbsolute())
         return root_->relativeNode(path);
@@ -127,7 +127,7 @@ void Kernel::addModule(Module* module)
 
 
 //-----------------------------------------------------------------------------
-Module* Kernel::findModule(const name_t* name)
+Module* Kernel::findModule(const char_t* name)
 {
     Modules::iterator find_iter = modules_.find(name);
     if (modules_.end() == find_iter)
@@ -137,7 +137,7 @@ Module* Kernel::findModule(const name_t* name)
 
 
 //-----------------------------------------------------------------------------
-void Kernel::addType(const name_t* type_name, Module* module)
+void Kernel::addType(const char_t* type_name, Module* module)
 {
     // insert type names in module to Kernel::types_ for Object creation
     types_.insert(Types::value_type(type_name, module));
@@ -145,7 +145,7 @@ void Kernel::addType(const name_t* type_name, Module* module)
 
 
 //-----------------------------------------------------------------------------
-Node* Kernel::create_node(const Name& type_name, const Name& name)
+Node* Kernel::create_node(const String& type_name, const String& name)
 {
     Types::iterator find_iter = types_.find(type_name);
     if (types_.end() == find_iter)

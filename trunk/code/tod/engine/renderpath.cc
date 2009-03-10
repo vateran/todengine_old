@@ -22,7 +22,7 @@ RenderPath::~RenderPath()
 
 
 //-----------------------------------------------------------------------------
-RpSection* RenderPath::findSection(const Name& name)
+RpSection* RenderPath::findSection(const String& name)
 {
     return dynamic_cast<RpSection*>(findChild(name));
 }

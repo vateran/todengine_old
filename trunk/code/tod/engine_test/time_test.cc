@@ -13,7 +13,7 @@ void TimeTestCase::test_TimeServer()
 {
     typedef Ref<TimeServer> RefTimeServer;
     RefTimeServer ts = Kernel::instance()->
-        create(STRING("TimeServer"), STRING("/sys/server/time"));
+        create("TimeServer", "/sys/server/time");
 
     bool pause = false;
     //while (1)
@@ -42,7 +42,7 @@ void TimeTestCase::test_StopWatch()
 {
     typedef Ref<TimeServer> RefTimeServer;
     RefTimeServer ts = Kernel::instance()->
-        create(STRING("TimeServer"), STRING("/sys/server/time"));
+        create("TimeServer", "/sys/server/time");
 
     StopWatch sw(true);
     bool pause = false;

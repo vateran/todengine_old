@@ -56,11 +56,11 @@ void initialize_Engine(Module* module)
     REGISTER_TYPE(module, TreeNode);
     REGISTER_TYPE(module, QuadTree::Element);
     
-    TimeServer::setSingletonPath(STRING("/sys/server/time"));
-    TriggerServer::setSingletonPath(STRING("/sys/server/trigger"));
-    Renderer::setSingletonPath(STRING("/sys/server/renderer"));
-    RenderPath::setSingletonPath(STRING("/sys/server/renderpath"));
-    SceneServer::setSingletonPath(STRING("/sys/server/scene"));
+    TimeServer::setSingletonPath("/sys/server/time");
+    TriggerServer::setSingletonPath("/sys/server/trigger");
+    Renderer::setSingletonPath("/sys/server/renderer");
+    RenderPath::setSingletonPath("/sys/server/renderpath");
+    SceneServer::setSingletonPath("/sys/server/scene");
 
     static FormatStringConverter format_sc;
     ToString::instance()->addConverter(&format_sc);

@@ -58,7 +58,7 @@ bool D3D9IndexBuffer::create(uint32_t num_indices, int usage, Format format)
         numIndices_ * stride_, usage, format, d3dpool_, &d3d9ib_, 0)))
     {
         THROW_D3D9EXCEPTION(D3D9GRAPHICSEXCEPTIONCODE_CREATEINDEXBUFFERERROR,
-            hr, STRING("d3d9device_->CreateIndexBuffer"));
+            hr, "d3d9device_->CreateIndexBuffer");
         return false;
     }
 

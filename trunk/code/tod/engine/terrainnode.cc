@@ -302,7 +302,7 @@ int TerrainNode::getTerrainSize() const
 void TerrainNode::setTexture(const Uri& uri)
 {
     diffuseUri_ = uri;
-    ShaderParams::setTexture(STRING("DiffuseMap"), uri);
+    ShaderParams::setTexture("DiffuseMap", uri);
 }
 
 

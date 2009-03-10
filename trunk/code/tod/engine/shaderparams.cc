@@ -17,7 +17,7 @@ ShaderParams::~ShaderParams()
 
 
 //-----------------------------------------------------------------------------
-void ShaderParams::setFloat(const Name& name, float value)
+void ShaderParams::setFloat(const String& name, float value)
 {
     // set shader parameter
     typedef SimpleVariable<float> FloatVariable;
@@ -27,7 +27,7 @@ void ShaderParams::setFloat(const Name& name, float value)
 
 
 //-----------------------------------------------------------------------------
-void ShaderParams::setTexture(const Name& name, const Uri& uri)
+void ShaderParams::setTexture(const String& name, const Uri& uri)
 {   
     Texture* texture = 0;
     if (uri.size())
@@ -46,7 +46,7 @@ void ShaderParams::setTexture(const Name& name, const Uri& uri)
 
 
 //-----------------------------------------------------------------------------
-void ShaderParams::setCubeTexture(const Name& name, const Uri& uri)
+void ShaderParams::setCubeTexture(const String& name, const Uri& uri)
 {
     Texture* texture = 0;
     if (uri.size())
@@ -65,7 +65,7 @@ void ShaderParams::setCubeTexture(const Name& name, const Uri& uri)
 
 
 //-----------------------------------------------------------------------------
-Variable* ShaderParams::findShaderParam(const Name& name)
+Variable* ShaderParams::findShaderParam(const String& name)
 {
     Params::iterator find_iter = params_.find(name);
     if (params_.end() == find_iter)

@@ -35,8 +35,8 @@ void GraphicsTestCase::test_Format()
     TODUNIT_ASSERT(sizeof(Format) == 4);
     Format format;
     format = Format::A1R5G5B5;
-    TODUNIT_ASSERT(format.toString() == STRING("A1R5G5B5"));
-    format = STRING("R8G8B8");
+    TODUNIT_ASSERT(format.toString() == "A1R5G5B5");
+    format = "R8G8B8";
     TODUNIT_ASSERT(format == Format::R8G8B8);
 
     Format::Value values[] =
@@ -67,14 +67,14 @@ void GraphicsTestCase::test_Format()
 void GraphicsTestCase::test_DisplayMode()
 {
     DisplayMode display_mode(
-        STRING("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]vsync[false]"));
+        "w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]vsync[false]");
     TODUNIT_ASSERT(display_mode.getWidth() == 640);
     TODUNIT_ASSERT(display_mode.getHeight() == 480);
     TODUNIT_ASSERT(display_mode.getFormat() == Format::A8R8G8B8);
     TODUNIT_ASSERT(display_mode.getDepthAndStencilFormat() == Format::D24S8);
     TODUNIT_ASSERT(!display_mode.isFullscreen());
     TODUNIT_ASSERT(display_mode.isWindowed());
-    TODUNIT_ASSERT(display_mode.getTitle() == STRING("test"));
+    TODUNIT_ASSERT(display_mode.getTitle() == "test");
     TODUNIT_ASSERT(!display_mode.isVSync());
 }
 
@@ -97,8 +97,8 @@ void GraphicsTestCase::test_D3D9Renderer()
 
     typedef Ref<Renderer> RefRenderer;
     RefRenderer renderer = Kernel::instance()->create(
-        STRING("D3D9Renderer"), STRING("/sys/server/renderer"));
-    renderer->setDisplayMode(STRING("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]"));
+        "D3D9Renderer", "/sys/server/renderer");
+    renderer->setDisplayMode("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]");
     DestroyWindow(hwnd);
     renderer->detach();
 }
@@ -118,8 +118,8 @@ void GraphicsTestCase::test_VertexBuffer()
 
         typedef Ref<Renderer> RefRenderer;
         RefRenderer renderer = Kernel::instance()->create(
-            STRING("D3D9Renderer"), STRING("/sys/server/renderer"));
-        renderer->setDisplayMode(STRING("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]"));
+            "D3D9Renderer", "/sys/server/renderer");
+        renderer->setDisplayMode("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]");
 
         struct CUSTOMVERTEX
         {
@@ -135,7 +135,7 @@ void GraphicsTestCase::test_VertexBuffer()
             3.0f,  3.0f, 0.0f,  D3DCOLOR_XRGB(255, 255, 0), 1, 0,
         };
         VertexBuffer* vb = renderer->newVertexBuffer(
-            STRING("managed://test#test.vb"));
+            "managed://test#test.vb");
         vb->create(4,
             VERTEXCOMPONENT_COORD |
             VERTEXCOMPONENT_COLOR |
@@ -146,14 +146,14 @@ void GraphicsTestCase::test_VertexBuffer()
         vb->unlock();
 
         Shader* shader = renderer->newShader(
-            STRING("managed://shader#test_shader00.fx"));
+            "managed://shader#test_shader00.fx");
         shader->preload();
 
         Texture* texture = renderer->newTexture(
-            STRING("managed://texture#t0.jpg"));
+            "managed://texture#t0.jpg");
         texture->preload();
 
-        shader->setTexture(STRING("Diffuse"), texture);
+        shader->setTexture("Diffuse", texture);
 
         while (!GetAsyncKeyState(VK_ESCAPE))
         {
@@ -175,11 +175,11 @@ void GraphicsTestCase::test_VertexBuffer()
             Matrix44 matProj;
             matProj.perspectiveFovLH(3.14f/4.0f, 1.0f, 1.0f, 100.0f);
 
-            shader->setTechnique(STRING("Test"));
+            shader->setTechnique("Test");
 
             // 각 Matrix 를 shader 파라메터로 전달한다.
             Matrix44 m = matWorld * matView * matProj;
-            shader->setMatrix(STRING("WorldViewProjectionMatrix"), m);            
+            shader->setMatrix("WorldViewProjectionMatrix", m);            
             shader->commit();
 
             // effect 를 적용하여 그린다.
@@ -211,10 +211,10 @@ void GraphicsTestCase::test_VertexBuffer()
     }
     catch(const tod::Exception& e)
     {
-        String s(STRING("%s(%d) :\n\nException(%d):%s:\n%s"),
+        String s("%s(%d :\n\nException(%d):%s:\n%s"),
             e.getFile().c_str(), e.getLine(), e.getErrorCode(),
             e.getFunction().c_str(), e.getDescription().c_str());
-        MessageBox(0, s.c_str(), STRING("TodEngine Exception"), MB_OK);
+        MessageBox(0, s.c_str(), "TodEngine Exception", MB_OK);
     }
 }
 
@@ -233,21 +233,21 @@ void GraphicsTestCase::test_Mesh()
 
         typedef Ref<Renderer> RefRenderer;
         RefRenderer renderer = Kernel::instance()->create(
-            STRING("D3D9Renderer"), STRING("/sys/server/renderer"));
-        renderer->setDisplayMode(STRING("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]"));
+            "D3D9Renderer", "/sys/server/renderer");
+        renderer->setDisplayMode("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]");
 
-        Mesh* mesh = renderer->newMesh(STRING("managed://mesh#tiger.x"));
+        Mesh* mesh = renderer->newMesh("managed://mesh#tiger.x");
         mesh->preload(true, true, true);
 
         Shader* shader = renderer->newShader(
-            STRING("managed://shader#test_shader01.fx"));
+            "managed://shader#test_shader01.fx");
         shader->preload();
 
         Texture* texture = renderer->newTexture(
-            STRING("managed://texture#tiger.dds"));
+            "managed://texture#tiger.dds");
         texture->preload();
 
-        shader->setTexture(STRING("Diffuse"), texture);
+        shader->setTexture("Diffuse", texture);
 
         while (!GetAsyncKeyState(VK_ESCAPE))
         {
@@ -269,12 +269,12 @@ void GraphicsTestCase::test_Mesh()
             Matrix44 matProj;
             matProj.perspectiveFovLH(3.14f/4.0f, 1.0f, 1.0f, 100.0f);
 
-            shader->setTechnique(STRING("Test"));
+            shader->setTechnique("Test");
 
             // 각 Matrix 를 shader 파라메터로 전달한다.
             Matrix44 m = matWorld * matView * matProj;
-            shader->setMatrix(STRING("WorldViewProjectionMatrix"), m);
-            shader->setFloat(STRING("Time"), timeGetTime() / 1000.0f);
+            shader->setMatrix("WorldViewProjectionMatrix", m);
+            shader->setFloat("Time", timeGetTime() / 1000.0f);
             shader->commit();
 
             // effect 를 적용하여 그린다.
@@ -305,10 +305,10 @@ void GraphicsTestCase::test_Mesh()
     }
     catch(const tod::Exception& e)
     {
-        String s(STRING("%s(%d) :\n\nException(%d):%s:\n%s"),
+        String s("%s(%d :\n\nException(%d):%s:\n%s"),
             e.getFile().c_str(), e.getLine(), e.getErrorCode(),
             e.getFunction().c_str(), e.getDescription().c_str());
-        MessageBox(0, s.c_str(), STRING("TodEngine Exception"), MB_OK);
+        MessageBox(0, s.c_str(), "TodEngine Exception", MB_OK);
     }
 }
 
@@ -326,64 +326,64 @@ void GraphicsTestCase::test_Scene()
         ShowWindow(hwnd, SW_NORMAL);
 
         Ref<TimeServer> ts= Kernel::instance()->create(
-            STRING("TimeServer"), STRING("/sys/server/time"));
+            "TimeServer", "/sys/server/time");
 
         typedef Ref<Renderer> RefRenderer;
         RefRenderer renderer = Kernel::instance()->create(
-            STRING("D3D9Renderer"), STRING("/sys/server/renderer"));
-        renderer->setDisplayMode(STRING("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]"));
+            "D3D9Renderer", "/sys/server/renderer");
+        renderer->setDisplayMode("w[640]h[480]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]");
 
         typedef Ref<SceneServer> RefSceneServer;
         RefSceneServer scene_server = Kernel::instance()->create(
-            STRING("SceneServer"), STRING("/sys/server/sceneserver"));
+            "SceneServer", "/sys/server/sceneserver");
         typedef Ref<TransformNode> RefTransformNode;
         RefTransformNode scene_root = Kernel::instance()->create(
-            STRING("TransformNode"), STRING("/usr/scene"));
+            "TransformNode", "/usr/scene");
         typedef Ref<MeshNode> RefMeshNode;
         RefMeshNode mesh_node = Kernel::instance()->create(
-            STRING("MeshNode"), STRING("/usr/scene/mesh"));
-        mesh_node->setShaderUri(STRING("managed://shader#mesh.fx"));
-        mesh_node->setTechnique(STRING("Mesh"));
-        mesh_node->setMeshUri(STRING("managed://mesh#tiger.x"));
+            "MeshNode", "/usr/scene/mesh");
+        mesh_node->setShaderUri("managed://shader#mesh.fx");
+        mesh_node->setTechnique("Mesh");
+        mesh_node->setMeshUri("managed://mesh#tiger.x");
 
         Ref<TimeNode> time_node = Kernel::instance()->create(
-            STRING("TimeNode"), STRING("/usr/scene/time"));
+            "TimeNode", "/usr/scene/time");
         Ref<LinkNode> r_link = Kernel::instance()->create(
-            STRING("LinkNode"), STRING("/usr/scene/r_link"));
+            "LinkNode", "/usr/scene/r_link");
         CompositeProperty<const Vector3&>* r_property =
             static_cast<CompositeProperty<const Vector3&>*>(mesh_node->
-                getType().findProperty(STRING("euler_rotation")));
-        Property* ry_property = r_property->findProperty(STRING("y"));
+                getType().findProperty("euler_rotation"));
+        Property* ry_property = r_property->findProperty("y");
         Property* time_property = time_node->
-            getType().findProperty(STRING("time"));
+            getType().findProperty("time");
         r_link->connect(time_node, time_property, mesh_node, ry_property);
 
         Ref<CameraNode> camera_node = Kernel::instance()->create(
-            STRING("CameraNode"), STRING("/usr/scene/camera"));
-        camera_node->setRenderPathSection(STRING("default"));
-        camera_node->setShaderUri(STRING("managed://shader#hdr.fx"));
+            "CameraNode", "/usr/scene/camera");
+        camera_node->setRenderPathSection("default");
+        camera_node->setShaderUri("managed://shader#hdr.fx");
         camera_node->setTranslation(Vector3(0, -10, 0));
 
         typedef Ref<RenderPath> RefRenderPath;
         RefRenderPath rp = Kernel::instance()->create(
-            STRING("RenderPath"), STRING("/usr/renderpath"));
+            "RenderPath", "/usr/renderpath");
         Ref<RpSection> default_section = Kernel::instance()->create(
-            STRING("RpSection"), STRING("/usr/renderpath/default"));
+            "RpSection", "/usr/renderpath/default");
         Ref<RpPass> final_scene_pass = Kernel::instance()->create(
-            STRING("RpPass"),
-            STRING("/usr/renderpath/default/final_scene"));
+            "RpPass",
+            "/usr/renderpath/default/final_scene");
         final_scene_pass->setClearColor(Color(0, 0, 255, 255));
         final_scene_pass->setDrawQuad(true);
-        final_scene_pass->setShaderUri(STRING("managed://shader#hdr.fx"));
-        final_scene_pass->setTechnique(STRING("ComposeScene"));
+        final_scene_pass->setShaderUri("managed://shader#hdr.fx");
+        final_scene_pass->setTechnique("ComposeScene");
         SimpleVariable<float>* time_shader_param =
             static_cast<SimpleVariable<float>*>(
-            final_scene_pass->addShaderParam<float>(STRING("Time")));
+            final_scene_pass->addShaderParam<float>("Time"));
         Ref<RpRenderTarget> final_scene = Kernel::instance()->create(
-            STRING("RpRenderTarget"),
-            STRING("/usr/renderpath/default/final_scene/rt"));
-        final_scene->setTextureUri(STRING("managed://rt#final_scene"));
-        final_scene->setFormat(STRING("X8R8G8B8"));
+            "RpRenderTarget",
+            "/usr/renderpath/default/final_scene/rt");
+        final_scene->setTextureUri("managed://rt#final_scene");
+        final_scene->setFormat("X8R8G8B8");
         
         SceneContext scene_context;
         scene_context.setRootSceneNode(scene_root);
@@ -414,9 +414,9 @@ void GraphicsTestCase::test_Scene()
     }
     catch(const tod::Exception& e)
     {
-        String s(STRING("%s(%d) :\n\nException(%d):%s:\n%s"),
+        String s("%s(%d :\n\nException(%d):%s:\n%s"),
             e.getFile().c_str(), e.getLine(), e.getErrorCode(),
             e.getFunction().c_str(), e.getDescription().c_str());
-        MessageBox(0, s.c_str(), STRING("TodEngine Exception"), MB_OK);
+        MessageBox(0, s.c_str(), "TodEngine Exception", MB_OK);
     }
 }

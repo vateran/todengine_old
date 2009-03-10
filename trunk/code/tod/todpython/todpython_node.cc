@@ -26,8 +26,7 @@ void TodNode_dealloc(PyObject* self)
 //-----------------------------------------------------------------------------
 PyObject* TodNode_repr(TodNode* self)
 {
-    return PyString_FromString((*self->node_)->
-        getAbsolutePath().toAnsiString().c_str());
+    return PyString_FromString((*self->node_)->getAbsolutePath());
 }
 
 

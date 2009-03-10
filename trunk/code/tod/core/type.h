@@ -31,26 +31,26 @@ namespace tod
         };
 
     public:
-        Type(const name_t* name, Type* base);
+        Type(const char_t* name, Type* base);
 
         virtual Object* create() const=0;
         virtual void bindMethod()=0;
         virtual void bindProperty()=0;
         virtual bool isAbstract() const=0;
 
-        Type* findTypeInGenerations(const Name& name);
-        Type* findTypeInGenerations(const name_t* name);
+        Type* findTypeInGenerations(const String& name);
+        Type* findTypeInGenerations(const char_t* name);
 
         Type* getBase();
-        const Name& getName() const;
+        const String& getName() const;
         bool equal(const Type* type) const;
-        bool isKindOf(const name_t* name) const;
+        bool isKindOf(const char_t* name) const;
         bool isKindOf(const Type* type) const;
 
         bool addMethod(Method* method);
-        void removeMethod(const name_t* name);
-        Method* findMethod(const Name& name);
-        Method* findMethod(const name_t* name);
+        void removeMethod(const char_t* name);
+        Method* findMethod(const String& name);
+        Method* findMethod(const char_t* name);
         size_t computeMethodSize() const;
         Methods::iterator firstMethod();
         Methods::iterator lastMethod();
@@ -59,9 +59,9 @@ namespace tod
         bool hasBindedMethod() const;
 
         bool addProperty(Property* property);
-        void removeProperty(const name_t* name);
-        Property* findProperty(const Name& name);
-        Property* findProperty(const name_t* name);
+        void removeProperty(const char_t* name);
+        Property* findProperty(const String& name);
+        Property* findProperty(const char_t* name);
         size_t computePropertySize() const;
         Properties::iterator firstProperty();
         Properties::iterator lastProperty();
@@ -72,7 +72,7 @@ namespace tod
         void setFlag(Flag index, bool enable);
 
     private:
-        Name name_;
+        String name_;
         Type* base_;
         Properties properties_;
         Methods methods_;
@@ -83,7 +83,7 @@ namespace tod
     class AbstractConcreteType : public Type
     {
     public:
-        AbstractConcreteType(const name_t* name, Type* base);
+        AbstractConcreteType(const char_t* name, Type* base);
         override Object* create() const;
         override void bindMethod();
         override void bindProperty();
@@ -94,7 +94,7 @@ namespace tod
     class ConcreteType : public AbstractConcreteType<T>
     {
     public:
-        ConcreteType(const name_t* name, Type* base);
+        ConcreteType(const char_t* name, Type* base);
         override Object* create() const;
         override bool isAbstract() const;
     };
@@ -104,7 +104,7 @@ namespace tod
 /// declare ClassBase macro
 #define DECLARE_CLASSBASE(cls) public:\
     typedef cls type;\
-    virtual const tod::name_t* toString() const { return STRING(#cls); }
+    virtual const tod::char_t* toString() const { return #cls; }
     /// declare AbstractClass macro
 #define DECLARE_SUPERABSTRACTCLASS(cls) \
     DECLARE_CLASSBASE(cls)\
@@ -126,16 +126,16 @@ namespace tod
 
 /// impletemt SuperAbstractClass macro
 #define IMPLEMENT_SUPERABSTRACTCLASS(cls) \
-    tod::AbstractConcreteType<cls> cls::TYPE(STRING(#cls), 0);
+    tod::AbstractConcreteType<cls> cls::TYPE(#cls, 0);
 /// impletemt AbstractClass macro
 #define IMPLEMENT_ABSTRACTCLASS(cls, base_cls) \
-    tod::AbstractConcreteType<cls> cls::TYPE(STRING(#cls), &base_cls::TYPE);
+    tod::AbstractConcreteType<cls> cls::TYPE(#cls, &base_cls::TYPE);
 /// impletemt SuperClass macro
 #define IMPLEMENT_SUPERCLASS(cls) \
-    tod::ConcreteType<cls> cls::TYPE(STRING(#cls), 0);
+    tod::ConcreteType<cls> cls::TYPE(#cls, 0);
 /// impletemt Class macro
 #define IMPLEMENT_CLASS(cls, base_cls) \
-    tod::ConcreteType<cls> cls::TYPE(STRING(#cls), &base_cls::TYPE);
+    tod::ConcreteType<cls> cls::TYPE(#cls, &base_cls::TYPE);
 
 }
 

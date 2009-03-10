@@ -28,8 +28,8 @@ namespace engine
         void begin();
         void end();
 
-        void setAlias(const Name& alias);
-        const Name& getAlias() const;
+        void setAlias(const String& alias);
+        const String& getAlias() const;
 
         void setTextureUri(const Uri& uri);
         const Uri& getTextureUri() const;
@@ -49,7 +49,7 @@ namespace engine
 
     private:
         ResourceRef<Texture> texture_;
-        Name alias_;
+        String alias_;
         Uri uri_;
         Format format_;
         float relativeSize_;

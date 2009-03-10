@@ -59,7 +59,7 @@ void Method::build_paramter(const String& s, Variables* v)
 {
     for (size_t i = 0; i < s.size(); ++i)
     {
-        switch (s[i])
+        switch (s.at(i))
         {
         case 'v':
             continue;
@@ -79,7 +79,7 @@ void Method::build_paramter(const String& s, Variables* v)
             v->add<double>(0);
             break;
         case 's':
-            v->add<String>(STRING(""));
+            v->add<String>("");
             break;
         case 'u':
             v->add<Uri>(Uri());

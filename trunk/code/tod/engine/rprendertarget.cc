@@ -69,14 +69,14 @@ void RpRenderTarget::end()
 
 
 //-----------------------------------------------------------------------------
-void RpRenderTarget::setAlias(const Name& alias)
+void RpRenderTarget::setAlias(const String& alias)
 {
     alias_ = alias;
 }
 
 
 //-----------------------------------------------------------------------------
-const Name& RpRenderTarget::getAlias() const
+const String& RpRenderTarget::getAlias() const
 {
     return alias_;
 }
@@ -138,7 +138,7 @@ Texture* RpRenderTarget::getTexture()
 void RpRenderTarget::bindProperty()
 {
     BIND_PROPERTY(float, relative_size, &setRelativeSize, &getRelativeSize);
-    BIND_PROPERTY(const Name&, alias, &setAlias, &getAlias);
+    BIND_PROPERTY(const String&, alias, &setAlias, &getAlias);
     BIND_PROPERTY(const Uri&, texture_uri, &setTextureUri, &getTextureUri);
     BIND_PROPERTY(const Format&, texture_format, &setFormat, &getFormat);
 }

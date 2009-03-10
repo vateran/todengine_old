@@ -14,77 +14,77 @@ D3D9Exception::D3D9Exception
     switch (hresult)
     {
     case D3DERR_WRONGTEXTUREFORMAT:
-        description = STRING("Wrong texture format");
+        description = "Wrong texture format";
         break;
     case D3DERR_UNSUPPORTEDCOLOROPERATION:
-        description = STRING("Unsupported color operation");
+        description = "Unsupported color operation";
         break;
     case D3DERR_UNSUPPORTEDCOLORARG:
-        description = STRING("Unsupported color argument");
+        description = "Unsupported color argument";
         break;
     case D3DERR_UNSUPPORTEDALPHAOPERATION:
-        description = STRING("Unsupported alpha operation");
+        description = "Unsupported alpha operation";
         break;
     case D3DERR_UNSUPPORTEDALPHAARG:
-        description = STRING("Unsupported alpha argument");
+        description = "Unsupported alpha argument";
         break;
     case D3DERR_TOOMANYOPERATIONS:
-        description = STRING("Too many operations");
+        description = "Too many operations";
         break;
     case D3DERR_CONFLICTINGTEXTUREFILTER:
-        description = STRING("Conflicting texture filter");
+        description = "Conflicting texture filter";
         break;
     case D3DERR_UNSUPPORTEDFACTORVALUE:
-        description = STRING("Unsupported factor value");
+        description = "Unsupported factor value";
         break;
     case D3DERR_CONFLICTINGRENDERSTATE:
-        description = STRING("Conflicting render state");
+        description = "Conflicting render state";
         break;
     case D3DERR_UNSUPPORTEDTEXTUREFILTER:
-        description = STRING("Unsupported texture filter");
+        description = "Unsupported texture filter";
         break;
     case D3DERR_CONFLICTINGTEXTUREPALETTE:
-        description = STRING("Conflicting texture palette");
+        description = "Conflicting texture palette";
         break;
     case D3DERR_DRIVERINTERNALERROR:
-        description = STRING("Driver internal error");
+        description = "Driver internal error";
         break;
     case D3DERR_NOTFOUND:
-        description = STRING("Not found");
+        description = "Not found";
         break;
     case D3DERR_MOREDATA:
-        description = STRING("More data");
+        description = "More data";
         break;
     case D3DERR_DEVICELOST:
-        description = STRING("Device lost");
+        description = "Device lost";
         break;
     case D3DERR_DEVICENOTRESET:
-        description = STRING("Device not reset");
+        description = "Device not reset";
         break;
     case D3DERR_NOTAVAILABLE:
-        description = STRING("Not available");
+        description = "Not available";
         break;
     case D3DERR_OUTOFVIDEOMEMORY:
-        description = STRING("Out of video memory");
+        description = "Out of video memory";
         break;
     case D3DERR_INVALIDDEVICE:
-        description = STRING("Invalid device");
+        description = "Invalid device";
         break;
     case D3DERR_INVALIDCALL:
-        description = STRING("Invalid call");
+        description = "Invalid call";
         break;
     case D3DERR_DRIVERINVALIDCALL:
-        description = STRING("Driver invalid call");
+        description = "Driver invalid call";
         break;
     case D3DERR_WASSTILLDRAWING:
-        description = STRING("Was still drawing");
+        description = "Was still drawing";
         break;
     default:
-        description = STRING("Unknown error");
+        description = "Unknown error";
         break;
     }
 
     exception.setDescription(
-        detail_description + STRING(" : ") + description );
+        detail_description + " : " + description );
     ExceptionManager::instance()->handle(exception);
 }

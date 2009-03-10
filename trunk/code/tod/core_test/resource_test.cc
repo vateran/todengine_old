@@ -19,122 +19,122 @@ void ResourceTestCase::test_Uri_split()
 {
     Uri uri;
     // test managed protocol
-    uri.set(STRING("managed://img#test.png"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("managed"));
-    TODUNIT_ASSERT(uri.getPackage() == STRING("img"));
-    TODUNIT_ASSERT(uri.getPath() == STRING("test.png"));
+    uri.set("managed://img#test.png");
+    TODUNIT_ASSERT(uri.getProtocol() == "managed");
+    TODUNIT_ASSERT(uri.getPackage() == "img");
+    TODUNIT_ASSERT(uri.getPath() == "test.png");
 
     // test http protocol (ip + port)
-    uri.set(STRING("http://127.0.0.1:8000/test.png"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("http"));
-    TODUNIT_ASSERT(uri.getIp() == STRING("127.0.0.1"));
-    TODUNIT_ASSERT(uri.getPort() == STRING("8000"));
-    TODUNIT_ASSERT(uri.getPath() == STRING("test.png"));
+    uri.set("http://127.0.0.1:8000/test.png");
+    TODUNIT_ASSERT(uri.getProtocol() == "http");
+    TODUNIT_ASSERT(uri.getIp() == "127.0.0.1");
+    TODUNIT_ASSERT(uri.getPort() == "8000");
+    TODUNIT_ASSERT(uri.getPath() == "test.png");
 
     // test http protocol (only ip)
-    uri.set(STRING("http://127.0.0.1/test.png"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("http"));
-    TODUNIT_ASSERT(uri.getIp() == STRING("127.0.0.1"));
-    TODUNIT_ASSERT(uri.getPort() == STRING(""));
-    TODUNIT_ASSERT(uri.getPath() == STRING("test.png"));
+    uri.set("http://127.0.0.1/test.png");
+    TODUNIT_ASSERT(uri.getProtocol() == "http");
+    TODUNIT_ASSERT(uri.getIp() == "127.0.0.1");
+    TODUNIT_ASSERT(uri.getPort() == "");
+    TODUNIT_ASSERT(uri.getPath() == "test.png");
 
     // test file protocol
     // relative path
-    uri.set(STRING("file://test.png"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("file"));
-    TODUNIT_ASSERT(uri.getPath() == STRING("test.png"));
+    uri.set("file://test.png");
+    TODUNIT_ASSERT(uri.getProtocol() == "file");
+    TODUNIT_ASSERT(uri.getPath() == "test.png");
 
     // absolute path
-    uri.set(STRING("file://C:\\test.png"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("file"));
-    TODUNIT_ASSERT(uri.getPath() == STRING("C:\\test.png"));
+    uri.set("file://C:\\test.png");
+    TODUNIT_ASSERT(uri.getProtocol() == "file");
+    TODUNIT_ASSERT(uri.getPath() == "C:\\test.png");
 
     // 불완전한 Uri 테스트
-    uri.set(STRING("managed"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING(""));
-    TODUNIT_ASSERT(uri.getPackage() == STRING(""));
-    TODUNIT_ASSERT(uri.getPath() == STRING(""));
-    TODUNIT_ASSERT(uri.getIp() == STRING(""));
-    TODUNIT_ASSERT(uri.getPort() == STRING(""));
-    uri.set(STRING("managed://"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("managed"));
-    TODUNIT_ASSERT(uri.getPackage() == STRING(""));
-    TODUNIT_ASSERT(uri.getPath() == STRING(""));
-    uri.set(STRING("managed://img"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("managed"));
-    TODUNIT_ASSERT(uri.getPackage() == STRING("img"));
-    TODUNIT_ASSERT(uri.getPath() == STRING(""));
-    uri.set(STRING("managed://img#"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("managed"));
-    TODUNIT_ASSERT(uri.getPackage() == STRING("img"));
-    TODUNIT_ASSERT(uri.getPath() == STRING(""));
-    uri.set(STRING("managed://img#test."));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("managed"));
-    TODUNIT_ASSERT(uri.getPackage() == STRING("img"));
-    TODUNIT_ASSERT(uri.getPath() == STRING("test."));
+    uri.set("managed");
+    TODUNIT_ASSERT(uri.getProtocol() == "");
+    TODUNIT_ASSERT(uri.getPackage() == "");
+    TODUNIT_ASSERT(uri.getPath() == "");
+    TODUNIT_ASSERT(uri.getIp() == "");
+    TODUNIT_ASSERT(uri.getPort() == "");
+    uri.set("managed://");
+    TODUNIT_ASSERT(uri.getProtocol() == "managed");
+    TODUNIT_ASSERT(uri.getPackage() == "");
+    TODUNIT_ASSERT(uri.getPath() == "");
+    uri.set("managed://img");
+    TODUNIT_ASSERT(uri.getProtocol() == "managed");
+    TODUNIT_ASSERT(uri.getPackage() == "img");
+    TODUNIT_ASSERT(uri.getPath() == "");
+    uri.set("managed://img#");
+    TODUNIT_ASSERT(uri.getProtocol() == "managed");
+    TODUNIT_ASSERT(uri.getPackage() == "img");
+    TODUNIT_ASSERT(uri.getPath() == "");
+    uri.set("managed://img#test.");
+    TODUNIT_ASSERT(uri.getProtocol() == "managed");
+    TODUNIT_ASSERT(uri.getPackage() == "img");
+    TODUNIT_ASSERT(uri.getPath() == "test.");
 
-    uri.set(STRING("http://"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("http"));
-    TODUNIT_ASSERT(uri.getIp() == STRING(""));
-    TODUNIT_ASSERT(uri.getPort() == STRING(""));
-    TODUNIT_ASSERT(uri.getPackage() == STRING(""));
-    TODUNIT_ASSERT(uri.getPath() == STRING(""));
-    uri.set(STRING("http://127.0.0.1"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("http"));
-    TODUNIT_ASSERT(uri.getIp() == STRING("127.0.0.1"));
-    uri.set(STRING("http://127.0.0.1:8000"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("http"));
-    TODUNIT_ASSERT(uri.getIp() == STRING("127.0.0.1"));
-    TODUNIT_ASSERT(uri.getPort() == STRING("8000"));
-    uri.set(STRING("http://127.0.0.1:8000/"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("http"));
-    TODUNIT_ASSERT(uri.getIp() == STRING("127.0.0.1"));
-    TODUNIT_ASSERT(uri.getPort() == STRING("8000"));
-    TODUNIT_ASSERT(uri.getPath() == STRING(""));
-    uri.set(STRING("http://127.0.0.1:8000/test.png"));
-    TODUNIT_ASSERT(uri.getProtocol() == STRING("http"));
-    TODUNIT_ASSERT(uri.getIp() == STRING("127.0.0.1"));
-    TODUNIT_ASSERT(uri.getPort() == STRING("8000"));
-    TODUNIT_ASSERT(uri.getPath() == STRING("test.png"));
+    uri.set("http://");
+    TODUNIT_ASSERT(uri.getProtocol() == "http");
+    TODUNIT_ASSERT(uri.getIp() == "");
+    TODUNIT_ASSERT(uri.getPort() == "");
+    TODUNIT_ASSERT(uri.getPackage() == "");
+    TODUNIT_ASSERT(uri.getPath() == "");
+    uri.set("http://127.0.0.1");
+    TODUNIT_ASSERT(uri.getProtocol() == "http");
+    TODUNIT_ASSERT(uri.getIp() == "127.0.0.1");
+    uri.set("http://127.0.0.1:8000");
+    TODUNIT_ASSERT(uri.getProtocol() == "http");
+    TODUNIT_ASSERT(uri.getIp() == "127.0.0.1");
+    TODUNIT_ASSERT(uri.getPort() == "8000");
+    uri.set("http://127.0.0.1:8000/");
+    TODUNIT_ASSERT(uri.getProtocol() == "http");
+    TODUNIT_ASSERT(uri.getIp() == "127.0.0.1");
+    TODUNIT_ASSERT(uri.getPort() == "8000");
+    TODUNIT_ASSERT(uri.getPath() == "");
+    uri.set("http://127.0.0.1:8000/test.png");
+    TODUNIT_ASSERT(uri.getProtocol() == "http");
+    TODUNIT_ASSERT(uri.getIp() == "127.0.0.1");
+    TODUNIT_ASSERT(uri.getPort() == "8000");
+    TODUNIT_ASSERT(uri.getPath() == "test.png");
 
     // get uri
-    uri.set(STRING("managed://img#test.png"));
-    TODUNIT_ASSERT(uri.get() == STRING("managed://img#test.png"));
+    uri.set("managed://img#test.png");
+    TODUNIT_ASSERT(uri.get() == "managed://img#test.png");
 
     // extract
-    uri.set(STRING("managed://img#test.png"));
-    TODUNIT_ASSERT(uri.extractFile() == STRING("test.png"));
-    uri.set(STRING("managed://img#test/test.png"));
-    TODUNIT_ASSERT(uri.extractFile() == STRING("test.png"));
+    uri.set("managed://img#test.png");
+    TODUNIT_ASSERT(uri.extractFile() == "test.png");
+    uri.set("managed://img#test/test.png");
+    TODUNIT_ASSERT(uri.extractFile() == "test.png");
 
-    uri.set(STRING("managed://img#test.png"));
-    TODUNIT_ASSERT(uri.extractExtension() == STRING("png"));
-    uri.set(STRING("managed://img#test/test.png"));
-    TODUNIT_ASSERT(uri.extractExtension() == STRING("png"));
+    uri.set("managed://img#test.png");
+    TODUNIT_ASSERT(uri.extractExtension() == "png");
+    uri.set("managed://img#test/test.png");
+    TODUNIT_ASSERT(uri.extractExtension() == "png");
 
-    uri.set(STRING("managed://img#test.png"));
-    TODUNIT_ASSERT(uri.extractFileName() == STRING("test"));
-    uri.set(STRING("managed://img#test/test.png"));
-    TODUNIT_ASSERT(uri.extractFileName() == STRING("test"));
+    uri.set("managed://img#test.png");
+    TODUNIT_ASSERT(uri.extractFileName() == "test");
+    uri.set("managed://img#test/test.png");
+    TODUNIT_ASSERT(uri.extractFileName() == "test");
 
-    uri.set(STRING("managed://img#.png"));
-    TODUNIT_ASSERT(uri.extractFileName() == STRING(""));
-    uri.set(STRING("managed://img#test/.png"));
-    TODUNIT_ASSERT(uri.extractFileName() == STRING(""));
+    uri.set("managed://img#.png");
+    TODUNIT_ASSERT(uri.extractFileName() == "");
+    uri.set("managed://img#test/.png");
+    TODUNIT_ASSERT(uri.extractFileName() == "");
 
-    uri.set(STRING("managed://img#test."));
-    TODUNIT_ASSERT(uri.extractExtension() == STRING(""));
-    uri.set(STRING("managed://img#test/test."));
-    TODUNIT_ASSERT(uri.extractExtension() == STRING(""));
+    uri.set("managed://img#test.");
+    TODUNIT_ASSERT(uri.extractExtension() == "");
+    uri.set("managed://img#test/test.");
+    TODUNIT_ASSERT(uri.extractExtension() == "");
 
-    uri.set(STRING("managed://img#test/test/test.png"));
-    TODUNIT_ASSERT(uri.extractPath() == STRING("test/test"));
+    uri.set("managed://img#test/test/test.png");
+    TODUNIT_ASSERT(uri.extractPath() == "test/test");
 
-    uri.set(STRING("managed://shader#test_shader00.fx"));
-    TODUNIT_ASSERT(uri.extractPath() == STRING(""));
-    TODUNIT_ASSERT(uri.extractFileName() == STRING("test_shader00"));
-    TODUNIT_ASSERT(uri.extractFile() == STRING("test_shader00.fx"));
-    TODUNIT_ASSERT(uri.extractExtension() == STRING("fx"));
+    uri.set("managed://shader#test_shader00.fx");
+    TODUNIT_ASSERT(uri.extractPath() == "");
+    TODUNIT_ASSERT(uri.extractFileName() == "test_shader00");
+    TODUNIT_ASSERT(uri.extractFile() == "test_shader00.fx");
+    TODUNIT_ASSERT(uri.extractExtension() == "fx");
 }
 
 
@@ -142,9 +142,9 @@ void ResourceTestCase::test_Uri_split()
 #define DATA "test test test resource"
 void ResourceTestCase::test_ResourceManager_addResource()
 {
-    ResourceManager::instance()->initialize(STRING("data"));
+    ResourceManager::instance()->initialize("data");
 
-    Resource r(STRING("managed://img#test/test/test.png"));
+    Resource r("managed://img#test/test/test.png");
     TODUNIT_ASSERT(r.open(Resource::OPEN_WRITE | Resource::OPEN_BINARY));
 
     char buffer[256];

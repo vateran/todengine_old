@@ -39,7 +39,7 @@ namespace engine
         void validateNodeResources();
         void sortNodes();
         void renderCameraScenes();
-        void doRenderPath(const Name& section_name);
+        void doRenderPath(const String& section_name);
 
         void pick(int x, int y, int w, int h);
 

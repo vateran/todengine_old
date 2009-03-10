@@ -11,14 +11,15 @@ tokenizer_(String::begin(), String::begin(), s_seperator)
 
 
 //-----------------------------------------------------------------------------
-Path::Path(const char* path):
+Path::Path(const char_t* path):
 String(path), tokenizer_(String::begin(), String::end(), s_seperator)
 {
+    // empty
 }
 
 
 //-----------------------------------------------------------------------------
-Path::Path(const char_t* path):
+Path::Path(const widechar_t* path):
 String(path), tokenizer_(String::begin(), String::end(), s_seperator)
 {
     // empty
@@ -42,4 +43,4 @@ String(path), tokenizer_(String::begin(), String::end(), s_seperator)
 
 
 //-----------------------------------------------------------------------------
-boost::char_separator<char_t> Path::s_seperator(STRING("/"));
+boost::char_separator<char_t> Path::s_seperator("/");

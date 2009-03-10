@@ -78,10 +78,10 @@ void TodPythonScriptServer::initialize()
     USING_MODULE(TodPython);
     USING_MODULE(TodLua);
 
-    if (0 == Kernel::instance()->lookup(STRING("/sys/server/script/python")))
+    if (0 == Kernel::instance()->lookup("/sys/server/script/python"))
     {
-        Kernel::instance()->create(STRING("TodPythonScriptServer"),
-            STRING("/sys/server/script/python"));
+        Kernel::instance()->create("TodPythonScriptServer",
+            "/sys/server/script/python");
         TodPythonScriptServer::s_standAlone_ = true;
         Py_AtExit(at_Exit);
     }
@@ -126,7 +126,7 @@ TodPythonScriptServer::~TodPythonScriptServer()
 //-----------------------------------------------------------------------------
 bool TodPythonScriptServer::run(const String& str, String* result)
 {
-    if (PyRun_SimpleString(str.toAnsiString().c_str()) == -1)
+    if (PyRun_SimpleString(str) == -1)
         return false;
     return true;
 }

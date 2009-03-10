@@ -38,7 +38,7 @@ bool FsResourceImplementator::open(int mode)
     if (!file_.good())
     {
         TOD_THROW_EXCEPTION(TODEXCEPTIONCODE_RESOURCEOPEN,
-            String(STRING("Could not open resource(%s)\n"), path_.c_str()));
+            String("Could not open resource(%s)\n", path_.c_str()));
         return false;
     }
     return true;
@@ -133,7 +133,7 @@ uint64_t FsResourceImplementator::get_mtime() const
     int fd = -1;
     struct _stat buf;
     buf.st_mtime = 0;
-    _wsopen_s(&fd, path_.c_str(), _O_RDONLY, _SH_SECURE, 0);
+    _sopen_s(&fd, path_.c_str(), _O_RDONLY, _SH_SECURE, 0);
     if(-1 != fd)
     {   
         _fstat(fd, &buf);

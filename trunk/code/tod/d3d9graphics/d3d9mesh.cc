@@ -53,8 +53,7 @@ bool D3D9Mesh::preload
         d3d9device_, 0, &materialBuffer_, 0, &numMaterial_, &d3dmesh_)))
     {
         THROW_D3D9EXCEPTION(0, hr,
-            String(STRING("D3DXLoadD3D9MeshFromXInMemory(%s)"),
-                getUri().c_str()));
+            String("D3DXLoadD3D9MeshFromXInMemory(%s)", getUri().c_str()));
         return false;
     }
     materials_ = static_cast<D3DXMATERIAL*>(materialBuffer_->GetBufferPointer());
@@ -66,7 +65,7 @@ bool D3D9Mesh::preload
     if (FAILED(d3dmesh_->GetDeclaration(old_decl)))
     {
         THROW_D3D9EXCEPTION(0, hr,
-            String(STRING("d3dmesh_->GetDeclaration(%s)"), getUri().c_str()));
+            String("d3dmesh_->GetDeclaration(%s)", getUri().c_str()));
         return false;
     }
     for (UINT i = 0; i < D3DXGetDeclLength(old_decl); ++i)
@@ -149,22 +148,22 @@ bool D3D9Mesh::draw()
     {
         /*if (materials_[i].pTextureFilename)
         {
-            String uri = getUri().getProtocol() + STRING("://") +
-                getUri().getPackage() + STRING("#") +
-                getUri().extractPath() + STRING("/") +
+            String uri = getUri().getProtocol() + "://" +
+                getUri().getPackage() + "#" +
+                getUri().extractPath() + "/" +
                 String(materials_[i].pTextureFilename);
             Texture* t = Renderer::instance()->newTexture(uri);
             if (t)
             {
                 if (t->invalid())
                     t->preload();
-                shader->setTexture(STRING("Diffuse"), t);
+                shader->setTexture("Diffuse", t);
                 shader->commit();
             }
         }
         else
         {
-            shader->setTexture(STRING("Diffuse"), 0);
+            shader->setTexture("Diffuse", 0);
             shader->commit();
         }*/
 

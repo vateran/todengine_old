@@ -27,7 +27,7 @@ void TestCaller<T>::call()
 
 //-----------------------------------------------------------------------------
 template <typename T>
-const Name& TestCaller<T>::getName() const
+const String& TestCaller<T>::getName() const
 {
     return name_;
 }

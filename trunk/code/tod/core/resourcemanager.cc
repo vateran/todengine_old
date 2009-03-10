@@ -26,13 +26,13 @@ ResourceManager::~ResourceManager()
 void ResourceManager::initialize(const path_t* base_path)
 {
     protocols_.insert(
-        ResourceProtocols::value_type(STRING("managed"),
+        ResourceProtocols::value_type("managed",
         new FsResourceProtocol()));
     /*protocols_.insert(
-        ResourceProtocols::value_type(STRING("file"),
+        ResourceProtocols::value_type("file",
         new FileResourceProtocol()));
     protocols_.insert(
-        ResourceProtocols::value_type(STRING("http"),
+        ResourceProtocols::value_type("http",
         new HttpResourceProtocol()));*/
     setBasePath(base_path);
 
@@ -110,7 +110,7 @@ ResourceImplementator* ResourceManager::create(const Uri& uri)
     if (0 == protocol)
     {
         TOD_THROW_EXCEPTION(
-            0, String(STRING("not found protocol \'%s\'"),
+            0, String("not found protocol \'%s\'",
                 uri.getProtocol().c_str()));
         return 0;
     }

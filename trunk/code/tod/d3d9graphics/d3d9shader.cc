@@ -57,7 +57,7 @@ bool D3D9Shader::preload()
         static_cast<UINT>(buffer.size()), 0, 0,
         0, d3deffectpool_, &d3deffect_, &compilation_error)))
     {
-        tod_log_notice((STRING("%s\n"), compilation_error->GetBufferPointer()));
+        tod_log_notice(("%s\n", compilation_error->GetBufferPointer()));
         THROW_D3D9EXCEPTION(
             D3D9GRAPHICSEXCEPTIONCODE_D3D9EFFECTCOMPILATIONERROR,
             hr, String("ID3DXEffect compilation error[%s]",
@@ -121,7 +121,7 @@ void D3D9Shader::setTechnique(const String& name)
 {
     if (0 == d3deffect_)
         return;
-    D3DXHANDLE h = d3deffect_->GetTechniqueByName(name.toAnsiString().c_str());
+    D3DXHANDLE h = d3deffect_->GetTechniqueByName(name.c_str());
     if (0 == h)
         return;
     d3deffect_->SetTechnique(h);
@@ -134,7 +134,7 @@ void D3D9Shader::setInt(const String& name, int v)
     if (0 == d3deffect_)
         return;
     D3DXHANDLE h = d3deffect_->
-        GetParameterByName(0, name.toAnsiString().c_str());
+        GetParameterByName(0, name.c_str());
     if (0 == h)
         return;
     d3deffect_->SetInt(h, v);
@@ -147,7 +147,7 @@ void D3D9Shader::setFloat(const String& name, float v)
     if (0 == d3deffect_)
         return;
     D3DXHANDLE h = d3deffect_->
-        GetParameterByName(0, name.toAnsiString().c_str());
+        GetParameterByName(0, name.c_str());
     if (0 == h)
         return;
     d3deffect_->SetFloat(h, v);
@@ -160,7 +160,7 @@ void D3D9Shader::setMatrix(const String& name, const Matrix44& m)
     if (0 == d3deffect_)
         return;
     D3DXHANDLE h = d3deffect_->
-        GetParameterByName(0, name.toAnsiString().c_str());
+        GetParameterByName(0, name.c_str());
     if (0 == h)
         return;
     d3deffect_->SetMatrix(h, reinterpret_cast<const D3DXMATRIX*>(&m));
@@ -174,7 +174,7 @@ void D3D9Shader::setMatrixArray
     if (0 == d3deffect_)
         return;
     D3DXHANDLE h = d3deffect_->
-        GetParameterByName(0, name.toAnsiString().c_str());
+        GetParameterByName(0, name.c_str());
     if (0 == h)
         return;
     d3deffect_->SetMatrixArray(h, reinterpret_cast<const D3DXMATRIX*>(ma), count);
@@ -187,7 +187,7 @@ void D3D9Shader::setTexture(const String& name, Texture* t)
     if (0 == d3deffect_)
         return;
     D3DXHANDLE h = d3deffect_->
-        GetParameterByName(0, name.toAnsiString().c_str());
+        GetParameterByName(0, name.c_str());
     if (0 == h)
         return;
     
@@ -260,7 +260,7 @@ ShaderParamDesc D3D9Shader::getParameterDesc(uint32_t index)
             BOOL value;
             d3deffect_->GetBool(handle, &value);
             char_t buf[4];
-            tod_snprintf(buf, 4, STRING("%d"), value);
+            tod_snprintf(buf, 4, "%d", value);
             result.value_ = buf;
             break;
         }
@@ -269,7 +269,7 @@ ShaderParamDesc D3D9Shader::getParameterDesc(uint32_t index)
             INT value;
             d3deffect_->GetInt(handle, &value);
             char_t buf[16];
-            tod_snprintf(buf, 16, STRING("%d"), value);
+            tod_snprintf(buf, 16, "%d", value);
             result.value_ = buf;
             break;
         }
@@ -278,7 +278,7 @@ ShaderParamDesc D3D9Shader::getParameterDesc(uint32_t index)
             FLOAT value;
             d3deffect_->GetFloat(handle, &value);
             char_t buf[32];
-            tod_snprintf(buf, 32, STRING("%.3f"), value);
+            tod_snprintf(buf, 32, "%.3f", value);
             result.value_ = buf;
             break;
         }
@@ -287,7 +287,7 @@ ShaderParamDesc D3D9Shader::getParameterDesc(uint32_t index)
             LPCSTR value;
             d3deffect_->GetString(handle, &value);
             char_t buf[32];
-            tod_snprintf(buf, 32, STRING(""), value);
+            tod_snprintf(buf, 32, "", value);
             result.value_ = buf;
             break;
         }

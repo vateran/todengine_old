@@ -41,12 +41,12 @@ namespace engine
         virtual void endScene()=0;
         virtual void presentScene(int windowid_override=0)=0;
 
-        virtual Mesh* newMesh(const Uri& uri=STRING(""))=0;
-        virtual VertexBuffer* newVertexBuffer(const Uri& uri=STRING(""))=0;
-        virtual IndexBuffer* newIndexBuffer(const Uri& uri=STRING(""))=0;
-        virtual Texture* newTexture(const Uri& uri=STRING(""))=0;
-        virtual Texture* newCubeTexture(const Uri& uri=STRING(""))=0;
-        virtual Shader* newShader(const Uri& uri=STRING(""))=0;
+        virtual Mesh* newMesh(const Uri& uri="")=0;
+        virtual VertexBuffer* newVertexBuffer(const Uri& uri="")=0;
+        virtual IndexBuffer* newIndexBuffer(const Uri& uri="")=0;
+        virtual Texture* newTexture(const Uri& uri="")=0;
+        virtual Texture* newCubeTexture(const Uri& uri="")=0;
+        virtual Shader* newShader(const Uri& uri="")=0;
 
         virtual void setDisplayMode(const DisplayMode& display_mode)=0;
         virtual const DisplayMode& getDisplayMode() const=0;

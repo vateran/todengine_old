@@ -35,7 +35,7 @@ namespace tod
 
         void setBasePath(const path_t* path);
         const String& getBasePath() const;
-		const String& getBaseAbsPath() const;
+        const String& getBaseAbsPath() const;
 
         ResourceImplementator* create(const Uri& uri);
         bool destroy(const Uri& uri);

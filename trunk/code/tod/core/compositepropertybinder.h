@@ -36,13 +36,13 @@ namespace tod
 
 #define BIND_COMPOSITE_PROPERTY(ptype, name, setter, getter) \
     static CompositePropertyBinder<type, ptype> s_##name##_property;\
-    s_##name##_property.setName(STRING(#name));\
+    s_##name##_property.setName(#name);\
     s_##name##_property.bind(setter, getter);\
     TYPE.addProperty(&s_##name##_property);
 
 #define BIND_COMPOSITE_PROPERTY_FILED(cpname, ptype, name, setter, getter) \
     static SimplePropertyBinder<type, ptype> s_##cpname##_##name##_property;\
-    s_##cpname##_##name##_property.setName(STRING(#name));\
+    s_##cpname##_##name##_property.setName(#name);\
     s_##cpname##_##name##_property.bind(setter, getter);\
     s_##cpname##_property.addProperty(&s_##cpname##_##name##_property);
 }

@@ -25,7 +25,7 @@ namespace engine
     public:
 
     private:
-        Name name_;
+        String name_;
         ResourceRef<Mesh> mesh_;
         std::vector<Material> materials_;
         uint32_t* adjacency_;
@@ -37,7 +37,7 @@ namespace engine
     public:
 
     private:
-        Name name_;
+        String name_;
         Matrix44 transformation_;
         MeshContainer meshContainer_;
 

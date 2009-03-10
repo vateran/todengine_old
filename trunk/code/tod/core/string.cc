@@ -8,13 +8,13 @@ using namespace tod;
 //-----------------------------------------------------------------------------
 String::String(const std::wstring& s)
 {
-#ifdef __WIN32__
+/*#ifdef __WIN32__
     int len = static_cast<int>(s.size()); 
     resize(len);
-    WideCharToMultiByte(CP_ACP, 0, &s[0], len, &(*this)[0], len, 0, false);
+    WideCharToMultiByte(CP_ACP, 0, &s[0], len, &(data_)[0], len, 0, false);
 #else
 
-#endif
+#endif*/
 }
 
 
@@ -50,7 +50,7 @@ void String::format(const char* s, va_list args)
 {
     int len = _vscprintf(s, args) + 1;
     resize(len);
-    vsprintf_s(&(*this)[0], len, s, args);
+    vsprintf_s(&data_[0], len, s, args);
     if (len > 0)
         resize(len - 1);
 }
@@ -59,7 +59,7 @@ void String::format(const char* s, va_list args)
 //-----------------------------------------------------------------------------
 void String::format(const wchar_t* s, ...)
 {
-    int len = _vscprintf(s, args) + 1;
+    /*int len = _vscprintf(s, args) + 1;
     std::vector<char> temp;
     temp.resize(len);    
     vsprintf_s(&temp[0], len, s, args);
@@ -70,18 +70,18 @@ void String::format(const wchar_t* s, ...)
     }
     resize(len);
     if (len > 0)
-        WideCharToMultiByte(CP_ACP, 0, s, len, &(*this)[0], len, 0, false);
+        WideCharToMultiByte(CP_ACP, 0, s, len, &data_[0], len, 0, false);*/
 }
 
 
 //-----------------------------------------------------------------------------
 void String::format(const wchar_t* s, va_list args)
 {
-    int len = tod_vscprintf(s, args) + 1;
+    /*int len = tod_vscprintf(s, args) + 1;
     resize(len);
-    tod_vsprintf(&(*this)[0], len, s, args);
+    tod_vsprintf(&data_[0], len, s, args);
     if (len > 0)
-        resize(len - 1);
+        resize(len - 1);*/
 }
 
 
@@ -107,25 +107,10 @@ double String::toDouble() const
 
 
 //-----------------------------------------------------------------------------
-std::string String::toAnsiString() const
-{
-#if defined(UNICODE)
-    std::string s;
-    int len = static_cast<int>(size()); 
-    s.resize(len);
-    WideCharToMultiByte(CP_ACP, 0, &(*this)[0], len, &s[0], len, 0, false);
-    return s;
-#else
-
-#endif
-}
-
-
-//-----------------------------------------------------------------------------
 String String::extractPath() const
 {
     String result;
-    size_t p = this->rfind(STRING("/"), this->size());
+    size_t p = this->rfind("/", this->size());
     if (-1 == p)
         result = *this;
     else
@@ -147,4 +132,32 @@ void String::replace(const String& src_str, const String& dst_str)
 
         b = this->find(src_str);
     }
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator char_t* ()
+{
+    return const_cast<char*>(data_.c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator const char_t* () const
+{
+    return data_.c_str();
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator widechar_t* ()
+{
+    return (widechar_t*)data_.c_str();
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator const widechar_t* () const
+{
+    return (widechar_t*)data_.c_str();
 }

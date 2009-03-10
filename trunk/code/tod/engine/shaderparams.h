@@ -22,13 +22,13 @@ namespace engine
     public:
         virtual~ShaderParams();
 
-        void setFloat(const Name& name, float value);
-        void setTexture(const Name& name, const Uri& uri);
-        void setCubeTexture(const Name& name, const Uri& uri);
+        void setFloat(const String& name, float value);
+        void setTexture(const String& name, const Uri& uri);
+        void setCubeTexture(const String& name, const Uri& uri);
 
         template <typename T>
-        T* getShaderParam(const Name& name);
-        Variable* findShaderParam(const Name& name);
+        T* getShaderParam(const String& name);
+        Variable* findShaderParam(const String& name);
 
         void commit(Shader* shader);
 

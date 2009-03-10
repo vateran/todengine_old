@@ -24,7 +24,7 @@ namespace tod
 
         virtual void invoke(Object* self)=0;
 
-        const Name& getName();
+        const String& getName();
         Parameter* getParameter();
 
         void setPrototype(const char_t* proto);
@@ -35,7 +35,7 @@ namespace tod
 
     private:
         String prototype_;
-        Name name_;
+        String name_;
         Parameter parameter_;
     };
 

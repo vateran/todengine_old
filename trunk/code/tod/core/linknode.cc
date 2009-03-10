@@ -42,7 +42,7 @@ void LinkNode::connect
 //-----------------------------------------------------------------------------
 void LinkNode::connect(const String& from, const String& to)
 {
-    size_t o = from.find(STRING("."), 0);
+    size_t o = from.find(".", 0);
     if (o == -1)
         return;
 }
@@ -133,7 +133,7 @@ void LinkNode::UpdateProperty<bool, String>::update
     FromProperty* from_property = static_cast<FromProperty*>(from_p);
     ToProperty* to_property = static_cast<ToProperty*>(to_p);
     to_property->set(to,
-        from_property->get(from)?STRING("true"):STRING("false"));
+        from_property->get(from)?"true":"false");
 }
 
 

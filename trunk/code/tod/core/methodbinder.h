@@ -36,7 +36,7 @@ namespace tod
 #define BIND_METHOD(name, bind_func) \
     if (!TYPE.hasBindedMethod()) {\
         static MethodBinder<type> s_##name##_method;\
-        s_##name##_method.setPrototype(STRING(#name));\
+        s_##name##_method.setPrototype(#name);\
         s_##name##_method.setBindFunc(\
             static_cast<MethodBinder<type>::BindFunc>(bind_func));\
         TYPE.addMethod(&s_##name##_method); }

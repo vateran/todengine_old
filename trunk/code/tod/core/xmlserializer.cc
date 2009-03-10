@@ -22,7 +22,7 @@ bool XmlSerializer::serialize(const Uri& uri, Object* object)
     depth_ = 0;
     String data;
     data.reserve(1024);
-    data = STRING("<?xml version=\"1.0\" encoding=\"euc-kr\" ?>\n");
+    data = "<?xml version=\"1.0\" encoding=\"euc-kr\" ?>\n";
     if (!serialize_class_hierarchy(object, data))
         return false;
     
@@ -32,7 +32,7 @@ bool XmlSerializer::serialize(const Uri& uri, Object* object)
         tod::Resource::OPEN_BINARY))
         return false;
 
-    resource.write(data.toAnsiString().c_str(), data.size());
+    resource.write(data, data.size());
     return true;
 }
 
@@ -56,7 +56,7 @@ Object* XmlSerializer::deserialize
     if (doc.Error())
     {
         TOD_THROW_EXCEPTION(0, String("uri[%s]:(%d/%d)\nDescription: %s",
-            uri.get().toAnsiString().c_str(),
+            uri.c_str(),
             doc.ErrorRow(), doc.ErrorCol(), doc.ErrorDesc()));
         return 0;
     }
@@ -115,10 +115,10 @@ Object* XmlSerializer::deserialize_node(TiXmlNode* node, const char_t* name)
                 Property* prop = pi->second;
                 if (prop->isReadOnly())
                     continue;
-                if (pi->first == STRING("name"))
+                if (pi->first == "name")
                     continue;
                 const char* value =
-                    element->Attribute(prop->getName().toAnsiString().c_str());
+                    element->Attribute(prop->getName());
                 if (value)
                     prop->fromString(new_node, String(value).c_str());
             }
@@ -185,13 +185,13 @@ void XmlSerializer::begin_tag(Object* object, String& data, bool has_child)
     insert_tab(depth_, data);
     ++depth_;
 
-    data += STRING("<");
+    data += "<";
     data += object->getType()->getName();
     serialize_properties(object, data);
     if (has_child)
-        data += STRING(">\n");
+        data += ">\n";
     else
-        data += STRING(" />\n");
+        data += " />\n";
 }
 
 
@@ -202,9 +202,9 @@ void XmlSerializer::end_tag(Object* object, String& data, bool has_child)
     if (!has_child)
         return;
     insert_tab(depth_, data);
-    data += STRING("</");
+    data += "</";
     data += object->getType()->getName();
-    data += STRING(">\n");
+    data += ">\n";
 }
 
 
@@ -231,11 +231,11 @@ void XmlSerializer::serialize_properties(Object* object, String& data)
             Property* prop = p->second;
             if (prop->isReadOnly())
                 continue;
-            data += STRING(" ");
+            data += " ";
             data += prop->getName();
-            data += STRING("=\"");
+            data += "=\"";
             data += prop->toString(object);
-            data += STRING("\"");
+            data += "\"";
         }
     }
 }
@@ -245,5 +245,5 @@ void XmlSerializer::serialize_properties(Object* object, String& data)
 void XmlSerializer::insert_tab(int depth, String& data)
 {
     for (int i = 0; i < depth; ++i)
-        data += STRING("    ");
+        data += "    ";
 }

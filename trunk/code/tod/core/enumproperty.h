@@ -27,7 +27,7 @@ namespace tod
         virtual const PROPERTY_TYPE& get(Object* object) const=0;
 
         void add(const char_t* name, const Value& value);
-        const Name& getName(const Value& value);
+        const String& getName(const Value& value);
         const Value& getValue(const char_t* name);
 
         iterator firstEnumerator();

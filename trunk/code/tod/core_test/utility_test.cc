@@ -9,8 +9,8 @@ using namespace tod;
 void UtilityTestCase::test_String()
 {
     String s;
-    s.format(STRING("%d %.1f %s"), 3, 0.3, STRING("TEST"));
-    TODUNIT_ASSERT(s == STRING("3 0.3 TEST"));
+    s.format("%d %.1f %s", 3, 0.3, "TEST");
+    TODUNIT_ASSERT(s == "3 0.3 TEST");
 }
 
 //-----------------------------------------------------------------------------
@@ -32,9 +32,9 @@ struct TestEnumInitializer : public TestEnumeration
 {
     static void initialize()
     {
-        add(STRING("TestEnum::TESTENUM_1"), TestEnum::TESTENUM_1);
-        add(STRING("TestEnum::TESTENUM_2"), TestEnum::TESTENUM_2);
-        add(STRING("TestEnum::TESTENUM_3"), TestEnum::TESTENUM_3);
+        add("TestEnum::TESTENUM_1", TestEnum::TESTENUM_1);
+        add("TestEnum::TESTENUM_2", TestEnum::TESTENUM_2);
+        add("TestEnum::TESTENUM_3", TestEnum::TESTENUM_3);
     }
 };
 
@@ -64,18 +64,18 @@ void UtilityTestCase::test_Enumeration()
     TODUNIT_ASSERT(te2 == TestEnum::TESTENUM_3);
 
     // from string
-    TestEnumeration te5(STRING("TestEnum::TESTENUM_1"));
+    TestEnumeration te5("TestEnum::TESTENUM_1");
     TODUNIT_ASSERT(te5 == TestEnum::TESTENUM_1);
-    te5 = STRING("TestEnum::TESTENUM_2");
+    te5 = "TestEnum::TESTENUM_2";
     TODUNIT_ASSERT(te5 == TestEnum::TESTENUM_2);
-    te5 = STRING("TestEnum::TESTENUM_4");
+    te5 = "TestEnum::TESTENUM_4";
     TODUNIT_ASSERT(te5 == TestEnum::TESTENUM_INVALID);
 
     // to string
     TestEnumeration te6(TestEnum::TESTENUM_1);
-    TODUNIT_ASSERT(te6 == STRING("TestEnum::TESTENUM_1"));
+    TODUNIT_ASSERT(te6 == "TestEnum::TESTENUM_1");
     te6 = TestEnum::TESTENUM_2;
-    TODUNIT_ASSERT(te6 == STRING("TestEnum::TESTENUM_2"));
+    TODUNIT_ASSERT(te6 == "TestEnum::TESTENUM_2");
 
     // enumerator
     TestEnum::Value a[] =

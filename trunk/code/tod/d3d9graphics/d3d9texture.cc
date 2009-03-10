@@ -46,7 +46,7 @@ bool D3D9Texture::create(int width, int height, int mipmap_level, Format format,
         width, height, mipmap_level, d3dusage_,
         format, pool, &d3d9texture_, 0)))
         THROW_D3D9EXCEPTION(D3D9GRAPHICSEXCEPTIONCODE_CREATETEXTUREERROR,
-            hr, STRING("d3d9device_->CreateTexture"));
+            hr, "d3d9device_->CreateTexture");
     return true;
 }
 
@@ -83,7 +83,7 @@ bool D3D9Texture::preload()
     {
         THROW_D3D9EXCEPTION(
             D3D9GRAPHICSEXCEPTIONCODE_D3DXCREATETEXTUREFROMFILEINMEMORYEXERROR,
-            hr, String(STRING("D3DXCreateTextureFromFileInMemoryEx[%s]"),
+            hr, String("D3DXCreateTextureFromFileInMemoryEx[%s]",
             getUri().c_str()));
         return false;
     }

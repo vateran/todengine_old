@@ -9,7 +9,7 @@ void EnumProperty<PROPERTY_TYPE>::add(const char_t* name, const Value& value)
 
 //-----------------------------------------------------------------------------
 template <typename PROPERTY_TYPE>
-const Name& EnumProperty<PROPERTY_TYPE>::getName(const Value& value)
+const String& EnumProperty<PROPERTY_TYPE>::getName(const Value& value)
 {
     ValueMap::iterator find_iter = valueMap_.find(value);
     if (valueMap_.end() == find_iter)

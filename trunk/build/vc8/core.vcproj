@@ -619,6 +619,10 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="iconv"
+				>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="memory"
@@ -809,6 +813,10 @@
 			</File>
 			<File
 				RelativePath="..\..\code\tod\core\define.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\platform.h"
 				>
 			</File>
 			<File

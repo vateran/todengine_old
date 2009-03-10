@@ -107,18 +107,22 @@ Object* XmlSerializer::deserialize_node(TiXmlNode* node, const char_t* name)
             desObj_ = new_node;
 
         Type* type = new_node->getType();
-        for (Properties::iterator pi = type->firstProperty();
-             pi != type->lastProperty(); ++pi)
+        while (type)
         {
-            Property* prop = pi->second;
-            if (prop->isReadOnly())
-                continue;
-            if (pi->first == STRING("name"))
-                continue;
-            const char* value =
-                element->Attribute(prop->getName().toAnsiString().c_str());
-            if (value)
-                prop->fromString(new_node, String(value).c_str());
+            for (Properties::iterator pi = type->firstProperty();
+                 pi != type->lastProperty(); ++pi)
+            {
+                Property* prop = pi->second;
+                if (prop->isReadOnly())
+                    continue;
+                if (pi->first == STRING("name"))
+                    continue;
+                const char* value =
+                    element->Attribute(prop->getName().toAnsiString().c_str());
+                if (value)
+                    prop->fromString(new_node, String(value).c_str());
+            }
+            type = type->getBase();
         }
     }
 

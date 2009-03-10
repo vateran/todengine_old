@@ -2,16 +2,19 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <Windows.h>
 
 using namespace tod;
 
 //-----------------------------------------------------------------------------
-String::String(const std::string& s)
+String::String(const std::wstring& s)
 {
+#ifdef __WIN32__
     int len = static_cast<int>(s.size()); 
     resize(len);
-    MultiByteToWideChar(CP_ACP, 0, &s[0], len, &(*this)[0], len);
+    WideCharToMultiByte(CP_ACP, 0, &s[0], len, &(*this)[0], len, 0, false);
+#else
+
+#endif
 }
 
 
@@ -45,7 +48,17 @@ void String::format(const char* s, ...)
 //-----------------------------------------------------------------------------
 void String::format(const char* s, va_list args)
 {
-#if defined(UNICODE)
+    int len = _vscprintf(s, args) + 1;
+    resize(len);
+    vsprintf_s(&(*this)[0], len, s, args);
+    if (len > 0)
+        resize(len - 1);
+}
+
+
+//-----------------------------------------------------------------------------
+void String::format(const wchar_t* s, ...)
+{
     int len = _vscprintf(s, args) + 1;
     std::vector<char> temp;
     temp.resize(len);    
@@ -57,19 +70,7 @@ void String::format(const char* s, va_list args)
     }
     resize(len);
     if (len > 0)
-        MultiByteToWideChar(CP_ACP, 0, &temp[0], len, &(*this)[0], len);
-#else
-
-#endif
-}
-
-
-//-----------------------------------------------------------------------------
-void String::format(const wchar_t* s, ...)
-{
-    va_list args;
-    va_start(args, s);
-    format(s, args);
+        WideCharToMultiByte(CP_ACP, 0, s, len, &(*this)[0], len, 0, false);
 }
 
 

@@ -118,7 +118,7 @@ class NOHTree(wx.TreeCtrl):
     s_instance = None
     def __init__(self, parent, id, pos, size, style):
         if NOHTree.s_instance == None:
-            s_instance = self
+            NOHTree.s_instance = self
 
         wx.TreeCtrl.__init__(self, parent, id, pos, size, style)
         self.ip = NOHImageProvider.NOHImageProvider('data/NOHTreeImages')

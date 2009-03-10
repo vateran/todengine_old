@@ -12,16 +12,16 @@
 
 namespace tod
 {
-    class String : public std::wstring
+    class String : public std::string
     {
     public:
         String() {}
-        String(const std::string& s);
-        String(const std::wstring& s):std::wstring(s) {}
+        String(const std::string& s):std::string(s) {}
+        String(const std::wstring& s);
         String(const char* s, ...);
         String(const wchar_t* s, ...);
         String(const String& s, size_type offset, size_type count):
-            std::wstring(s, offset, count) {}
+            std::string(s, offset, count) {}
         
         void format(const char* s, ...);
         void format(const char* s, va_list args);

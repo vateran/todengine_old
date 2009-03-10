@@ -1,21 +1,17 @@
 #ifndef TOD_CORE_BASE_DEFINE_H
 #define TOD_CORE_BASE_DEFINE_H
 
-#if defined(_WIN32)
+#include "tod/core/platform.h"
 
-#define WIN32_LEAN_AND_MEAN
-
-#pragma warning(disable:4311)
-#pragma warning(disable:4267)
-#pragma warning(disable:4819)
-#pragma warning(disable:4995)
-
-#include <windows.h>
-#include <strsafe.h>
+#if defined(__WIN32__)
 
 #define tod_sleep(t) Sleep(t);
 
-#endif
+#else
+
+#define tod_sleep(t)
+
+#endif  // __WIN32__
 
 #define IN
 #define OUT
@@ -40,7 +36,6 @@
 #define tod_getcwd _wgetcwd
 #define tod_chdir _wchdir
 
-
 #define ___FILE___      WIDEN(__FILE__)
 #define ___FUNCSIG___   WIDEN(__FUNCSIG__)
 #define ___FUNCTION___  WIDEN(__FUNCTION__)
@@ -48,7 +43,7 @@
 #define ___DATE___      WIDEN(__DATE__)
 #define ___TIME___      WIDEN(__TIME__)
 
-#else
+#else   // UNICODE
 #define STRING(s) s
 #define tod_printf printf
 #define tod_snprintf StringCchPrintfA
@@ -95,4 +90,3 @@ DERIVED DOWN_CAST(BASE* p)
 }
 
 #endif // TOD_CORE_BASE_DEFINE_H
-

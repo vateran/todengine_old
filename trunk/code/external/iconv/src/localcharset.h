@@ -20,10 +20,14 @@
 #ifndef _LOCALCHARSET_H
 #define _LOCALCHARSET_H
 
+#ifdef LIBCHARSET_STATIC
+#define LIBCHARSET_DLL_EXPORTED
+#else
 #ifdef BUILDING_LIBCHARSET
 #define LIBCHARSET_DLL_EXPORTED __declspec(dllexport)
 #else
 #define LIBCHARSET_DLL_EXPORTED __declspec(dllimport)
+#endif
 #endif
 
 #ifdef __cplusplus

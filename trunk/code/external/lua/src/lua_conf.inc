@@ -14,26 +14,26 @@ ifeq ($(findstring Win, $(TEC_SYSNAME)), )
   DEFINES += LUA_USE_POSIX
   
   # MacOS X
-	ifneq ($(findstring Darwin, $(TEC_UNAME)), )
-	  DEFINES += LUA_DL_DYLD
-	else
-	  DEFINES += LUA_USE_DLOPEN
-	endif
-	
-	# Linux Only
-	ifneq ($(findstring Linux, $(TEC_UNAME)), )
-	  DEFINES += LUA_USE_READLINE
-	endif
-	
-	# BSD Only
-	ifneq ($(findstring BSD, $(TEC_UNAME)), )
-	  DEFINES += LUA_USE_READLINE
-	endif
-	
-	# Cygwin Only (POSIX build)
-	ifneq ($(findstring cygw, $(TEC_UNAME)), )
-	  DEFINES += LUA_USE_READLINE
-	endif
+    ifneq ($(findstring Darwin, $(TEC_UNAME)), )
+      DEFINES += LUA_DL_DYLD
+    else
+      DEFINES += LUA_USE_DLOPEN
+    endif
+    
+    # Linux Only
+    ifneq ($(findstring Linux, $(TEC_UNAME)), )
+      DEFINES += LUA_USE_READLINE
+    endif
+    
+    # BSD Only
+    ifneq ($(findstring BSD, $(TEC_UNAME)), )
+      DEFINES += LUA_USE_READLINE
+    endif
+    
+    # Cygwin Only (POSIX build)
+    ifneq ($(findstring cygw, $(TEC_UNAME)), )
+      DEFINES += LUA_USE_READLINE
+    endif
 endif
 
 

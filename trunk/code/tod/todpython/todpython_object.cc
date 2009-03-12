@@ -25,10 +25,29 @@ void TodObject_dealloc(PyObject* self)
 //-----------------------------------------------------------------------------
 PyObject* TodObject_getattro(TodObject* self, PyObject* name)
 {
-    self->attrName_ = name;
-    Py_INCREF(self);
-    Py_INCREF(name);
-    return (PyObject*)(self);
+    char* attr_name = PyString_AsString(name);
+    Type* type = self->object_->getType();
+
+    // find method
+    Method* method = type->findMethod(attr_name);
+    if (method)
+    {
+        self->method_ = method;
+        Py_INCREF(self);
+        Py_INCREF(name);
+        return (PyObject*)(self);
+    }
+    // find property
+    else
+    {   
+        Property* prop = type->findProperty(attr_name);
+        if (prop)
+            return build_property_to_pyobject(self->object_, prop);
+    }
+
+    return PyErr_Format(PyExc_Exception,
+        "\'%p\' Object has no attribute \'%s\'",
+            self->object_, attr_name);
 }
 
 
@@ -38,7 +57,7 @@ PyObject* TodObject_call(PyObject* self, PyObject* args, PyObject* keys)
     TodObject* o = reinterpret_cast<TodObject*>(self);
     if (0 == o->object_)
         return PyErr_Format(PyExc_Exception, "invalid TodObject");
-    return invoke_method(o->object_, o->attrName_, "", args, keys);
+    return invoke_method(o->object_, o->method_, args, keys);
 }
 
 

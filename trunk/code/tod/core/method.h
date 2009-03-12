@@ -27,7 +27,7 @@ namespace tod
         const String& getName();
         Parameter* getParameter();
 
-        void setPrototype(const char_t* proto);
+        void setPrototype(const String& proto);
         const String& getPrototype() const;
 
     private:

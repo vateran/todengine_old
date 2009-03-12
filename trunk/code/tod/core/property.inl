@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-inline void Property::setName(const char_t* name)
+inline void Property::setName(const String& name)
 {
     name_ = name;
 }

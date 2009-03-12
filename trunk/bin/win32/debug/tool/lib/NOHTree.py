@@ -73,7 +73,7 @@ class NOHPopupMenu(wx.Menu):
         parent_item = self.parent.GetItemParent(self.selectedItem)
         # delete node
         self.targetObject.detach()
-        del self.targetObject
+        self.targetObject = None
         # update parent
         self.parent.Delete(self.selectedItem)
         self.parent.SetItemHasChildren(parent_item, parent_node.getNumChildren() > 0)

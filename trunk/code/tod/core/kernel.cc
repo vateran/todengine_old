@@ -9,6 +9,8 @@ using namespace tod;
 //-----------------------------------------------------------------------------
 Kernel::Kernel()
 {
+    String::initializeEncoding();
+
     addModule(new BuiltinModule(this, "Builtin"));
     root_ = create_node("Node", "");
     pushCwn(root_);
@@ -31,11 +33,13 @@ Kernel::~Kernel()
 
     modules_.clear();
     types_.clear();
+
+    String::finalizeEncoding();
 }
 
 
 //-----------------------------------------------------------------------------
-Object* Kernel::create(const typechar_t* type_name)
+Object* Kernel::create(const String& type_name)
 {
     Types::iterator find_iter = types_.find(type_name);
     if (types_.end() == find_iter)
@@ -49,7 +53,7 @@ Object* Kernel::create(const typechar_t* type_name)
 
 
 //-----------------------------------------------------------------------------
-Node* Kernel::create(const typechar_t* type_name, const Path& path)
+Node* Kernel::create(const String& type_name, const Path& path)
 {
     Node* cur;
     if (path.isAbsolute())
@@ -127,7 +131,7 @@ void Kernel::addModule(Module* module)
 
 
 //-----------------------------------------------------------------------------
-Module* Kernel::findModule(const char_t* name)
+Module* Kernel::findModule(const String& name)
 {
     Modules::iterator find_iter = modules_.find(name);
     if (modules_.end() == find_iter)
@@ -137,7 +141,7 @@ Module* Kernel::findModule(const char_t* name)
 
 
 //-----------------------------------------------------------------------------
-void Kernel::addType(const char_t* type_name, Module* module)
+void Kernel::addType(const String&   type_name, Module* module)
 {
     // insert type names in module to Kernel::types_ for Object creation
     types_.insert(Types::value_type(type_name, module));

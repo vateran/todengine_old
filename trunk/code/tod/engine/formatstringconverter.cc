@@ -33,7 +33,7 @@ const String& FormatStringConverter::toString
 
 //-----------------------------------------------------------------------------
 void FormatStringConverter::fromString
-(Object* object, Property* property, const char_t* value)
+(Object* object, Property* property, const String& value)
 {
     typedef SimpleProperty<const Format&> AdaptiveProperty;
     AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);

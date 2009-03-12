@@ -200,7 +200,7 @@ public:
         BIND_PROPERTY(const int&, hp, &Fighter::Hp, &Fighter::Hp);
         BIND_PROPERTY(const float&, mp, 0, 0);
         BIND_PROPERTY(const double&, str, 0, 0);
-        BIND_PROPERTY(const __int64&, dex, 0, 0);
+        BIND_PROPERTY(const int64_t&, dex, 0, 0);
         BIND_PROPERTY(const String&, name,
             &Fighter::setName, &Fighter::getName);
 
@@ -237,7 +237,7 @@ public:
     int hp_;
     float mp_;
     double str_;
-    __int64 dex_;
+    int64_t dex_;
     String name_;
 
     struct Test

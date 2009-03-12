@@ -21,7 +21,7 @@ namespace tod
         EnumPropertyBinder();
 
         void bind(Setter set, Getter get);
-        override void set(Object* object, const char_t* name);
+        override void set(Object* object, const String& name);
         override void set(Object* object, const PROPERTY_TYPE& value);
         override const PROPERTY_TYPE& get(Object* object) const;
         override bool isReadOnly() const;

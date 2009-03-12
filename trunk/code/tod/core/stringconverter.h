@@ -19,7 +19,7 @@ namespace tod
         virtual type_id getTypeId()=0;
         virtual const char_t* getTypeKeyword() const=0;
         virtual const String& toString(Object* object, Property* property)=0;
-        virtual void fromString(Object* object, Property* property, const char_t* value)=0;
+        virtual void fromString(Object* object, Property* property, const String& value)=0;
     };
 }
 

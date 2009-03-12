@@ -19,10 +19,10 @@ namespace tod
     class Property
     {
     public:
-        void setName(const char_t* name);
+        void setName(const String& name);
         const String& getName() const;
         const String& toString(Object* object);
-        void fromString(Object* object, const char_t* value);
+        void fromString(Object* object, const String& value);
         const char_t* getTypeKeyword() const;
 
         virtual bool isReadOnly() const=0;

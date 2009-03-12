@@ -3,7 +3,7 @@
 using namespace tod;
 
 //-----------------------------------------------------------------------------
-Type::Type(const char_t* name, Type* base):
+Type::Type(const String& name, Type* base):
 name_(name), base_(base)
 {
     // empty
@@ -12,13 +12,6 @@ name_(name), base_(base)
 
 //-----------------------------------------------------------------------------
 Type* Type::findTypeInGenerations(const String& name)
-{
-    return findTypeInGenerations(name.c_str());
-}
-
-
-//-----------------------------------------------------------------------------
-Type* Type::findTypeInGenerations(const char_t* name)
 {
     Type* cur_type = this;
     while (cur_type)
@@ -32,7 +25,7 @@ Type* Type::findTypeInGenerations(const char_t* name)
 
 
 //-----------------------------------------------------------------------------
-bool Type::isKindOf(const char_t* name) const
+bool Type::isKindOf(const String& name) const
 {
     const Type* cur_type = this;
     while (cur_type)
@@ -71,7 +64,7 @@ bool Type::addMethod(Method* method)
 
 
 //-----------------------------------------------------------------------------
-void Type::removeMethod(const char_t* name)
+void Type::removeMethod(const String& name)
 {
     methods_.erase(name);
 }
@@ -79,13 +72,6 @@ void Type::removeMethod(const char_t* name)
 
 //-----------------------------------------------------------------------------
 Method* Type::findMethod(const String& name)
-{
-    return findMethod(name.c_str());
-}
-
-
-//-----------------------------------------------------------------------------
-Method* Type::findMethod(const char_t* name)
 {
     const Type* type = this;
     while (type)
@@ -137,7 +123,7 @@ bool Type::addProperty(Property* property)
 
 
 //-----------------------------------------------------------------------------
-void Type::removeProperty(const char_t* name)
+void Type::removeProperty(const String& name)
 {
     properties_.erase(name);
 }
@@ -145,13 +131,6 @@ void Type::removeProperty(const char_t* name)
 
 //-----------------------------------------------------------------------------
 Property* Type::findProperty(const String& name)
-{
-    return findProperty(name.c_str());
-}
-
-
-//-----------------------------------------------------------------------------
-Property* Type::findProperty(const char_t* name)
 {
     const Type* type = this;
     while (type)

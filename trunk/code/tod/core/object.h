@@ -18,7 +18,7 @@ namespace tod
     public:
         DECLARE_SUPERCLASS(Object);
 
-        bool isKindOf(const char_t* name);
+        bool isKindOf(const String& name);
         bool isKindOf(const Type* type);
 
         static void bindMethod();

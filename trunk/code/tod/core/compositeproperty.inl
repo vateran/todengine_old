@@ -12,7 +12,7 @@ bool CompositeProperty<PROPERTY_TYPE>::addProperty(Property* property)
 //-----------------------------------------------------------------------------
 template <typename PROPERTY_TYPE>
 Property* CompositeProperty<PROPERTY_TYPE>::findProperty
-(const char_t* name)
+(const String& name)
 {
     Properties::const_iterator find_iter =
         properties_.find(name);

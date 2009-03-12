@@ -7,6 +7,7 @@
 */
 
 #include <string>
+#include "iconv/iconv.h"
 #include "tod/core/define.h"
 #include "tod/core/primitivetype.h"
 
@@ -223,17 +224,39 @@ namespace tod
         operator const char_t* () const;
         operator widechar_t* ();
         operator const widechar_t* () const;
+        
+        operator int ();
+        operator const int () const;
+        operator unsigned int ();
+        operator const unsigned int () const;
+        operator int64_t ();
+        operator const int64_t () const;
+        operator uint64_t ();
+        operator const uint64_t () const;
+        operator float ();
+        operator const float () const;
+        operator double ();
+        operator const double () const;
 
         /**
             Utilities
         */
         //@{
         int toInt() const;
+        uint64_t toInt64() const;
         float toFloat() const;
         double toDouble() const;
         String extractPath() const;
         void replace(const String& src_str, const String& dst_str);
         //@}
+
+    public:
+        static void initializeEncoding();
+        static void finalizeEncoding();
+        static iconv_t encodingHandle_;
+        static void encoding(
+            const char* src, size_t src_len,
+            char* dest, size_t dest_len);
 
     private:
         stdstring data_;

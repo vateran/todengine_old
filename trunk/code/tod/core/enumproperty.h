@@ -22,13 +22,13 @@ namespace tod
         typedef typename ValueMap::const_iterator const_iterator;
 
     public:
-        virtual void set(Object* object, const char_t* name)=0;
+        virtual void set(Object* object, const String& name)=0;
         virtual void set(Object* object, const PROPERTY_TYPE& value)=0;
         virtual const PROPERTY_TYPE& get(Object* object) const=0;
 
-        void add(const char_t* name, const Value& value);
+        void add(const String& name, const Value& value);
         const String& getName(const Value& value);
-        const Value& getValue(const char_t* name);
+        const Value& getValue(const String& name);
 
         iterator firstEnumerator();
         iterator lastEnumerator();

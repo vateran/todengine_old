@@ -84,7 +84,7 @@ inline void Type::setFlag(Flag index, bool enable)
 
 //-----------------------------------------------------------------------------
 template <typename T>
-AbstractConcreteType<T>::AbstractConcreteType(const char_t* name, Type* base):
+AbstractConcreteType<T>::AbstractConcreteType(const String& name, Type* base):
 Type(name, base)
 {
     // empty
@@ -128,7 +128,7 @@ bool AbstractConcreteType<T>::isAbstract() const
 
 //-----------------------------------------------------------------------------
 template <typename T>
-ConcreteType<T>::ConcreteType(const char_t* name, Type* base):
+ConcreteType<T>::ConcreteType(const String& name, Type* base):
 AbstractConcreteType<T>(name, base)
 {
     // empty

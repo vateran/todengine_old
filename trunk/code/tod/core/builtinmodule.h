@@ -15,7 +15,7 @@ namespace tod
     class BuiltinModule : public Module
     {
     public:
-        BuiltinModule(Kernel* kernel, const char_t* name);
+        BuiltinModule(Kernel* kernel, const String& name);
         virtual~BuiltinModule();
     };
 }

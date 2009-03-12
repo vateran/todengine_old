@@ -594,12 +594,12 @@ bool TodLuaScriptServer::stackToVariable(lua_State* s, Variable* v, int index)
         AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         *av = static_cast<type>(lua_tonumber(s, index));
     }
-    else if (TypeId<__int64>::check(v->getType()))
+    else if (TypeId<int64_t>::check(v->getType()))
     {
         if (!lua_isnumber(s, index))
             return false;
 
-        typedef __int64 type;
+        typedef int64_t type;
         typedef SimpleVariable<type> AdaptiveVariable;
         AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         *av = static_cast<type>(lua_tonumber(s, index));
@@ -834,9 +834,9 @@ bool TodLuaScriptServer::variableToStack(lua_State* s, Variable* v)
         AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         lua_pushinteger(s, av->get());
     }
-    else if (TypeId<__int64>::check(v->getType()))
+    else if (TypeId<int64_t>::check(v->getType()))
     {   
-        typedef __int64 type;
+        typedef int64_t type;
         typedef SimpleVariable<type> AdaptiveVariable;
         AdaptiveVariable* av = static_cast<AdaptiveVariable*>(v);
         lua_pushnumber(s, static_cast<double>(av->get()));
@@ -938,9 +938,9 @@ bool TodLuaScriptServer::propertyToStack
         AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
         lua_pushinteger(s, ap->get(obj));
     }
-    else if (TypeId<__int64>::check(prop->getType()))
+    else if (TypeId<int64_t>::check(prop->getType()))
     {   
-        typedef __int64 type;
+        typedef int64_t type;
         typedef SimpleProperty<type> AdaptiveProperty;
         AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
         lua_pushnumber(s, static_cast<double>(ap->get(obj)));

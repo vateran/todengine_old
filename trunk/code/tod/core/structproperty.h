@@ -19,8 +19,8 @@ namespace tod
         override type_id getType() const;
         
         bool addProperty(Property* property);
-        void removeProperty(const char_t* name);
-        Property* findProperty(const char_t* name);
+        void removeProperty(const String& name);
+        Property* findProperty(const String& name);
         size_t getPropertySize() const;
         Properties::iterator firstProperty();
         Properties::iterator lastProperty();

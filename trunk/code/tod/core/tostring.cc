@@ -33,16 +33,16 @@ public:
         tod_snprintf(buf, 8, p->get(object)?"true":"false");
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<bool> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
         
         bool v = false;
-        if (tod_stricmp(value, "true") == 0 ||
-            tod_stricmp(value, "t") == 0 ||
-            tod_stricmp(value, "o") == 0 ||
-            tod_atoi(value) > 0)
+        if (value == "true" ||
+            value == "t" ||
+            value == "o" ||
+            value.toInt() > 0)
             v = true;
         p->set(object, v);
     }
@@ -71,11 +71,11 @@ public:
         tod_snprintf(buf, 16, "%d", p->get(object));
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<int> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
-        p->set(object, tod_atoi(value));
+        p->set(object, value);
     }
 
 private:
@@ -103,11 +103,11 @@ public:
         tod_snprintf(buf, 16, "%d", p->get(object));
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<unsigned int> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
-        p->set(object, tod_atoi(value));
+        p->set(object, value);
     }
 
 private:
@@ -120,7 +120,7 @@ class Int64StringConverter : public StringConverter
 public:
     override type_id getTypeId()
     {
-        return TypeId<__int64>::id();
+        return TypeId<int64_t>::id();
     }
     override const char_t* getTypeKeyword() const
     {
@@ -128,17 +128,17 @@ public:
     }
     override const String& toString(Object* object, Property* property)
     {
-        typedef SimpleProperty<__int64> AdaptiveProperty;
+        typedef SimpleProperty<int64_t> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
         char_t buf[32];
         tod_snprintf(buf, 32, "%I64d", p->get(object));
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
-        typedef SimpleProperty<__int64> AdaptiveProperty;
+        typedef SimpleProperty<int64_t> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
-        p->set(object, tod_atoi64(value));
+        p->set(object, value);
     }
 
 private:
@@ -151,7 +151,7 @@ class UnsignedInt64StringConverter : public StringConverter
 public:
     override type_id getTypeId()
     {
-        return TypeId<unsigned __int64>::id();
+        return TypeId<uint64_t>::id();
     }
     override const char_t* getTypeKeyword() const
     {
@@ -159,15 +159,15 @@ public:
     }
     override const String& toString(Object* object, Property* property)
     {
-        typedef SimpleProperty<unsigned __int64> AdaptiveProperty;
+        typedef SimpleProperty<uint64_t> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
         char_t buf[32];
         tod_snprintf(buf, 32, "%I64d", p->get(object));
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
-        typedef SimpleProperty<unsigned __int64> AdaptiveProperty;
+        typedef SimpleProperty<uint64_t> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
         p->set(object, tod_atoi64(value));
     }
@@ -196,11 +196,11 @@ public:
         tod_snprintf(buf, 16, "%.3f", p->get(object));
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<float> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
-        p->set(object, static_cast<float>(tod_atof(value)));
+        p->set(object, value);
     }
 
 private:
@@ -228,11 +228,11 @@ public:
         tod_snprintf(buf, 32, "%.3f", p->get(object));
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<double> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
-        p->set(object, tod_atof(value));
+        p->set(object, value);
     }
 
 private:
@@ -257,7 +257,7 @@ public:
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
         return p->get(object);
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<const String&> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
@@ -284,7 +284,7 @@ public:
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
         return p->get(object);
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<const String&> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
@@ -311,7 +311,7 @@ public:
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
         return p->get(object).get();
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<const Uri&> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
@@ -341,7 +341,7 @@ public:
         tod_snprintf(buf, 48, "%.3f %.3f %.3f", v.x_, v.y_, v.z_);
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<const Vector3&> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
@@ -349,9 +349,8 @@ public:
         typedef boost::tokenizer<
             boost::char_separator<char_t>,
             String::const_iterator, String> Tokenizer;
-        str_ = value;
         static boost::char_separator<char_t> sep(" ,");
-        Tokenizer tok(str_, sep);
+        Tokenizer tok(value, sep);
         Tokenizer::iterator i = tok.begin();
         Vector3 v;
         int c = 0;
@@ -387,7 +386,7 @@ public:
         tod_snprintf(buf, 32, "%d %d %d %d", v.r_, v.g_, v.b_, v.a_);
         return str_ = buf;
     }
-    override void fromString(Object* object, Property* property, const char_t* value)
+    override void fromString(Object* object, Property* property, const String& value)
     {
         typedef SimpleProperty<const Color&> AdaptiveProperty;
         AdaptiveProperty* p = static_cast<AdaptiveProperty*>(property);
@@ -395,9 +394,8 @@ public:
         typedef boost::tokenizer<
             boost::char_separator<char_t>,
             String::const_iterator, String> Tokenizer;
-        str_ = value;
         static boost::char_separator<char_t> sep(" ,");
-        Tokenizer tok(str_, sep);
+        Tokenizer tok(value, sep);
         Tokenizer::iterator i = tok.begin();
         Color v;
         if (i != tok.end())
@@ -505,7 +503,7 @@ const String& ToString::toString(Object* object, Property* property)
 
 //-----------------------------------------------------------------------------
 void ToString::fromString
-(Object* object, Property* property, const char_t* value)
+(Object* object, Property* property, const String& value)
 {
     StringConverters::iterator find_iter =
         converters_.find(property->getType());

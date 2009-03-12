@@ -7,7 +7,7 @@ using namespace tod;
 IMPLEMENT_SUPERCLASS(Object);
 
 //-----------------------------------------------------------------------------
-bool Object::isKindOf(const char_t* name)
+bool Object::isKindOf(const String& name)
 {
     return getType()->isKindOf(name);
 }

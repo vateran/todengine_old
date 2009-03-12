@@ -12,7 +12,7 @@ const String& Property::toString(Object* object)
 
 
 //-----------------------------------------------------------------------------
-void Property::fromString(Object* object, const char_t* value)
+void Property::fromString(Object* object, const String& value)
 {
     ToString::instance()->fromString(object, this, value);
 }

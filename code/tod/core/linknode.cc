@@ -86,10 +86,10 @@ void LinkNode::UpdateProperty<int, bool>::update
 
 //-----------------------------------------------------------------------------
 template <>
-void LinkNode::UpdateProperty<__int64, bool>::update
+void LinkNode::UpdateProperty<int64_t, bool>::update
 (Object* from, Property* from_p, Object* to, Property* to_p)
 {
-    typedef SimpleProperty<__int64> FromProperty;
+    typedef SimpleProperty<int64_t> FromProperty;
     typedef SimpleProperty<bool> ToProperty;
     FromProperty* from_property = static_cast<FromProperty*>(from_p);
     ToProperty* to_property = static_cast<ToProperty*>(to_p);
@@ -150,24 +150,24 @@ void LinkNode::UpdateProperty<from_type, to_type>::update\
     to_property->set(to, static_cast<to_type>(from_property->get(from)));\
 }
 UPDATE_PROPERTY(bool, int);
-UPDATE_PROPERTY(bool, __int64);
+UPDATE_PROPERTY(bool, int64_t);
 UPDATE_PROPERTY(bool, float);
 UPDATE_PROPERTY(bool, double);
 
-UPDATE_PROPERTY(int, __int64);
+UPDATE_PROPERTY(int, int64_t);
 UPDATE_PROPERTY(int, float);
 UPDATE_PROPERTY(int, double);
 
-UPDATE_PROPERTY(__int64, int);
-UPDATE_PROPERTY(__int64, float);
-UPDATE_PROPERTY(__int64, double);
+UPDATE_PROPERTY(int64_t, int);
+UPDATE_PROPERTY(int64_t, float);
+UPDATE_PROPERTY(int64_t, double);
 
 UPDATE_PROPERTY(float, int);
-UPDATE_PROPERTY(float, __int64);
+UPDATE_PROPERTY(float, int64_t);
 UPDATE_PROPERTY(float, double);
 
 UPDATE_PROPERTY(double, int);
-UPDATE_PROPERTY(double, __int64);
+UPDATE_PROPERTY(double, int64_t);
 UPDATE_PROPERTY(double, float);
 
 //------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ LinkNode::UpdatePropertyServer::UpdatePropertyServer()
 {
     INSERT_UPDATEPROPERTYEQUALTYPE(bool);
     INSERT_UPDATEPROPERTYEQUALTYPE(int);
-    INSERT_UPDATEPROPERTYEQUALTYPE(__int64);
+    INSERT_UPDATEPROPERTYEQUALTYPE(int64_t);
     INSERT_UPDATEPROPERTYEQUALTYPE(float);
     INSERT_UPDATEPROPERTYEQUALTYPE(double);
     INSERT_UPDATEPROPERTYEQUALTYPE(String);
@@ -193,23 +193,23 @@ LinkNode::UpdatePropertyServer::UpdatePropertyServer()
     INSERT_UPDATEPROPERTYEQUALTYPE(Time);
 
     INSERT_UPDATEPROPERTY(int, bool);
-    INSERT_UPDATEPROPERTY(int, __int64);
+    INSERT_UPDATEPROPERTY(int, int64_t);
     INSERT_UPDATEPROPERTY(int, float);
     INSERT_UPDATEPROPERTY(int, double);
 
-    INSERT_UPDATEPROPERTY(__int64, bool);
-    INSERT_UPDATEPROPERTY(__int64, int);
-    INSERT_UPDATEPROPERTY(__int64, float);
-    INSERT_UPDATEPROPERTY(__int64, double);
+    INSERT_UPDATEPROPERTY(int64_t, bool);
+    INSERT_UPDATEPROPERTY(int64_t, int);
+    INSERT_UPDATEPROPERTY(int64_t, float);
+    INSERT_UPDATEPROPERTY(int64_t, double);
 
     INSERT_UPDATEPROPERTY(float, bool);
     INSERT_UPDATEPROPERTY(float, int);
-    INSERT_UPDATEPROPERTY(float, __int64);
+    INSERT_UPDATEPROPERTY(float, int64_t);
     INSERT_UPDATEPROPERTY(float, double);
 
     INSERT_UPDATEPROPERTY(double, bool);
     INSERT_UPDATEPROPERTY(double, int);
-    INSERT_UPDATEPROPERTY(double, __int64);
+    INSERT_UPDATEPROPERTY(double, int64_t);
     INSERT_UPDATEPROPERTY(double, float);
 }
 

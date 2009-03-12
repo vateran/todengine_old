@@ -17,7 +17,21 @@ void TodNode_dealloc(PyObject* self)
 {
     TodNode* o = reinterpret_cast<TodNode*>(self);
     if (o->node_.valid())
-        g_todobjects.erase(o->node_->getAbsolutePath());
+    {
+        size_t c = g_todobjects.erase(o->node_->getAbsolutePath());
+        if (0 == c)
+        {
+            for (TodNodes::iterator i = g_todobjects.begin();
+                 i != g_todobjects.end(); ++i)
+            {
+                if (*(o->node_) == *(i->second->node_))
+                {
+                    g_todobjects.erase(i);
+                    break;
+                }
+            }
+        }
+    }
     o->node_.release();
     self->ob_type->tp_free(self);
 }
@@ -33,10 +47,29 @@ PyObject* TodNode_repr(TodNode* self)
 //-----------------------------------------------------------------------------
 PyObject* TodNode_getattro(TodNode* self, PyObject* name)
 {
-    self->attrName_ = name;
-    Py_INCREF(self);
-    Py_INCREF(name);
-    return (PyObject*)(self);
+    char* attr_name = PyString_AsString(name);
+    Type* type = self->node_->getType();
+
+    // find method
+    Method* method = type->findMethod(attr_name);
+    if (method)
+    {
+        self->method_ = method;
+        Py_INCREF(self);
+        Py_INCREF(name);
+        return (PyObject*)(self);
+    }
+    // find property
+    else
+    {   
+        Property* prop = type->findProperty(attr_name);
+        if (prop)
+            return build_property_to_pyobject(self->node_, prop);
+    }
+
+    return PyErr_Format(PyExc_Exception,
+        "\'%s\' Node has no attribute \'%s\'",
+            self->node_->getAbsolutePath().c_str(), attr_name);
 }
 
 
@@ -47,7 +80,7 @@ PyObject* TodNode_call(PyObject* self, PyObject* args, PyObject* keys)
     if (o->node_.invalid())
         return PyErr_Format(PyExc_Exception, "invalid TodNode");
     return invoke_method(
-        o->node_, o->attrName_, o->node_->getAbsolutePath(), args, keys);
+        o->node_, o->method_, args, keys);
 }
 
 

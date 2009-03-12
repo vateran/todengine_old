@@ -18,7 +18,7 @@ void EnumPropertyBinder<TYPE, PROPERTY_TYPE>::bind(Setter set, Getter get)
 //-----------------------------------------------------------------------------
 template <typename TYPE, typename PROPERTY_TYPE>
 void EnumPropertyBinder<TYPE, PROPERTY_TYPE>::set
-(Object* object, const char_t* name)
+(Object* object, const String& name)
 {
     StringMap::iterator find_iter = stringMap_.find(name);
     if (stringMap_.end() == find_iter)

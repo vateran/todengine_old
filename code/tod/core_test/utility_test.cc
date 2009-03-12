@@ -8,9 +8,20 @@ using namespace tod;
 //-----------------------------------------------------------------------------
 void UtilityTestCase::test_String()
 {
-    String s;
-    s.format("%d %.1f %s", 3, 0.3, "TEST");
-    TODUNIT_ASSERT(s == "3 0.3 TEST");
+    String s1;
+    s1.format("%d %.1f %s", 3, 0.3, "TEST");
+    TODUNIT_ASSERT(s1 == "3 0.3 TEST");
+
+    String s2("%d %.1f %s", 3, 0.3, "TEST");
+    TODUNIT_ASSERT(s2 == "3 0.3 TEST");
+
+    // Unicode Encoding
+    String u1(L"test");
+    TODUNIT_ASSERT(u1 == "test");
+
+    String u2;
+    u2.format(L"test %d %d", 2, 3);
+    TODUNIT_ASSERT(u2 == "test 2 3");
 }
 
 //-----------------------------------------------------------------------------

@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../code;../../code/external"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;LIBICONV_STATIC;LIBCHARSET_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -107,7 +107,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../code;../../code/external"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;LIBICONV_STATIC;LIBCHARSET_STATIC"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -1039,7 +1039,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							AdditionalIncludeDirectories="../../code/external/iconv;../../code/external/iconv/src"
-							PreprocessorDefinitions="LIBICONV_STATIC"
 							DisableSpecificWarnings="4018, 4244, 4090, 4996"
 						/>
 					</FileConfiguration>
@@ -1048,7 +1047,6 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							PreprocessorDefinitions="LIBICONV_STATIC"
 							DisableSpecificWarnings="4018, 4244, 4090, 4996"
 						/>
 					</FileConfiguration>
@@ -1222,11 +1220,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset\include\libcharset.h"
+					RelativePath="..\..\code\external\iconv\src\libcharset.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset.h"
+					RelativePath="..\..\code\external\iconv\src\libcharset\include\libcharset.h"
 					>
 				</File>
 				<File
@@ -1237,7 +1235,6 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							PreprocessorDefinitions="LIBCHARSET_STATIC"
 							DisableSpecificWarnings="4996"
 						/>
 					</FileConfiguration>
@@ -1246,7 +1243,6 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							PreprocessorDefinitions="LIBCHARSET_STATIC"
 							DisableSpecificWarnings="4996"
 						/>
 					</FileConfiguration>
@@ -1478,6 +1474,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\tod\core\color.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\globalstringtable.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\tod\core\globalstringtable.h"
 				>
 			</File>
 			<File

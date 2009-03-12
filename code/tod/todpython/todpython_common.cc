@@ -18,8 +18,112 @@ int todpython_toint(PyObject* value)
     return 0;
 }
 
+
 //-----------------------------------------------------------------------------
-PyObject* build_value(Variable* variable)
+PyObject* build_property_to_pyobject(tod::Object* obj, tod::Property* prop)
+{
+    if (TypeId<bool>::check(prop->getType()))
+    {   
+        return Py_BuildValue("b",
+            reinterpret_cast<SimpleProperty<bool>*>(prop)->get(obj));
+    }
+    else if (TypeId<short>::check(prop->getType()))
+    {   
+        return Py_BuildValue("h",
+            reinterpret_cast<SimpleProperty<short>*>(prop)->get(obj));
+    }
+    else if (TypeId<long>::check(prop->getType()))
+    {   
+        return Py_BuildValue("l",
+            reinterpret_cast<SimpleProperty<long>*>(prop)->get(obj));
+    }
+    else if (TypeId<int>::check(prop->getType()))
+    {   
+        return Py_BuildValue("i",
+            reinterpret_cast<SimpleProperty<int>*>(prop)->get(obj));
+    }
+    else if (TypeId<int64_t>::check(prop->getType()))
+    {
+        return Py_BuildValue("L",
+            reinterpret_cast<SimpleProperty<int64_t>*>(prop)->get(obj));
+    }
+    else if (TypeId<float>::check(prop->getType()))
+    {
+        return Py_BuildValue("f",
+            reinterpret_cast<SimpleProperty<float>*>(prop)->get(obj));
+    }
+    else if (TypeId<double>::check(prop->getType()))
+    {
+        return Py_BuildValue("d",
+            reinterpret_cast<SimpleProperty<double>*>(prop)->get(obj));
+    }
+    else if (TypeId<const String&>::check(prop->getType()))
+    {
+        return Py_BuildValue("s",
+            reinterpret_cast<SimpleProperty
+                <const String&>*>(prop)->get(obj).c_str());
+    }
+    else if (TypeId<const Uri&>::check(prop->getType()))
+    {
+        return Py_BuildValue("s",
+            reinterpret_cast<SimpleProperty
+                <const Uri&>*>(prop)->get(obj).c_str());
+    }
+    else if (TypeId<const Vector3&>::check(prop->getType()))
+    {
+        const Vector3* v = &reinterpret_cast<
+            SimpleProperty<const Vector3&>*>(prop)->get(obj);
+        return Py_BuildValue("(d, d, d)", v->x_, v->y_, v->z_);
+    }
+    else if (TypeId<const Color&>::check(prop->getType()))
+    {
+        const Color* c = &reinterpret_cast<
+            SimpleProperty<const Color&>*>(prop)->get(obj);
+        return Py_BuildValue("(i, i, i, i)", c->r_, c->g_, c->b_, c->a_);
+    }
+    else if (TypeId<Object*>::check(prop->getType()))
+    {
+        Object* object = reinterpret_cast<SimpleProperty<Object*>*>(prop)->get(obj);
+        if (0 == object)
+        {
+            Py_INCREF(Py_None);
+            return Py_None;
+        }
+        TodObject* o = reinterpret_cast<TodObject*>(
+            TodObjectType.tp_new(&TodObjectType, 0, 0));
+        if (0 == o)
+        {
+            Py_INCREF(Py_None);
+            return Py_None;
+        }
+        o->object_ = object;
+        o->createdByPython_ = true;
+        return reinterpret_cast<PyObject*>(o);
+    }
+    else if (TypeId<Node*>::check(prop->getType()))
+    {
+        Node* node = reinterpret_cast<SimpleProperty<Node*>*>(prop)->get(obj);
+        if (0 == node)
+        {
+            Py_INCREF(Py_None);
+            return Py_None;
+        }
+        TodNode* o = reinterpret_cast<TodNode*>(
+            TodNodeType.tp_new(&TodNodeType, 0, 0));
+        if (0 == o)
+        {
+            Py_INCREF(Py_None);
+            return Py_None;
+        }
+        o->node_ = node;
+        return reinterpret_cast<PyObject*>(o);
+    }
+    return 0;
+}
+
+
+//-----------------------------------------------------------------------------
+PyObject* build_variable_to_pyobject(Variable* variable)
 {
     if (TypeId<bool>::check(variable->getType()))
     {   
@@ -41,10 +145,10 @@ PyObject* build_value(Variable* variable)
         return Py_BuildValue("i",
             reinterpret_cast<SimpleVariable<int>*>(variable)->get());
     }
-    else if (TypeId<__int64>::check(variable->getType()))
+    else if (TypeId<int64_t>::check(variable->getType()))
     {
         return Py_BuildValue("L",
-            reinterpret_cast<SimpleVariable<__int64>*>(variable)->get());
+            reinterpret_cast<SimpleVariable<int64_t>*>(variable)->get());
     }
     else if (TypeId<float>::check(variable->getType()))
     {
@@ -58,23 +162,13 @@ PyObject* build_value(Variable* variable)
     }
     else if (TypeId<String>::check(variable->getType()))
     {
-#ifdef _UNICODE
-        return Py_BuildValue("u",
-            reinterpret_cast<SimpleVariable<String>*>(variable)->get().c_str());
-#else
         return Py_BuildValue("s",
             reinterpret_cast<SimpleVariable<String>*>(variable)->get().c_str());
-#endif
     }
     else if (TypeId<Uri>::check(variable->getType()))
     {
-#ifdef _UNICODE
-        return Py_BuildValue("u",
-            reinterpret_cast<SimpleVariable<Uri>*>(variable)->get().c_str());
-#else
         return Py_BuildValue("s",
             reinterpret_cast<SimpleVariable<Uri>*>(variable)->get().c_str());
-#endif
     }
     else if (TypeId<Vector3>::check(variable->getType()))
     {
@@ -156,7 +250,7 @@ PyObject* build_input_paramter
             
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'int\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<int>::check(v->get(a)->getType()))
         {
@@ -174,7 +268,7 @@ PyObject* build_input_paramter
             
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'int\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<float>::check(v->get(a)->getType()))
         {
@@ -192,7 +286,7 @@ PyObject* build_input_paramter
             
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'float\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<String>::check(v->get(a)->getType()))
         {
@@ -209,7 +303,7 @@ PyObject* build_input_paramter
             
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'String\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<Uri>::check(v->get(a)->getType()))
         {
@@ -226,7 +320,7 @@ PyObject* build_input_paramter
             
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'Uri\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<Vector3>::check(v->get(a)->getType()))
         {
@@ -251,7 +345,7 @@ PyObject* build_input_paramter
             
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'Vector3\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<Color>::check(v->get(a)->getType()))
         {
@@ -276,7 +370,7 @@ PyObject* build_input_paramter
             
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'Color\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<Object*>::check(v->get(a)->getType()))
         {
@@ -289,7 +383,7 @@ PyObject* build_input_paramter
             
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'TodObject\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else if (TypeId<Node*>::check(v->get(a)->getType()))
         {
@@ -301,13 +395,13 @@ PyObject* build_input_paramter
             }
             return PyErr_Format(PyExc_TypeError,
                 "%s() : cannot convert parameter from \'%s\' to \'TodNode\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
         else
         {
             return PyErr_Format(PyExc_TypeError,
                 "%s() : not supported parameter type \'%s\'",
-                method_name, arg->ob_type->tp_name);
+                    method_name, arg->ob_type->tp_name);
         }
     }
 
@@ -525,42 +619,16 @@ int set_property
 
 //-----------------------------------------------------------------------------
 PyObject* invoke_method
-(Object* object, PyObject* attr_name, const Path& path,
- PyObject* args, PyObject* keys)
+(Object* object, Method* method, PyObject* args, PyObject* keys)
 {
-    class Guard
-    {
-    public:
-        Guard(PyObject* o):o_(o) {}
-        ~Guard() {Py_DECREF(o_);}
-        PyObject* get() {return o_;}
-    protected:
-        PyObject* o_;
-    };
-    Guard argGuard(attr_name);
-
-    // convert method name
-    char* method_name = PyString_AsString(argGuard.get());
-    if (0 == method_name)
-        return PyErr_Format(PyExc_Exception,
-        "\'%s\' object has no method \'%s\'", method_name);
-
-    // find method
-    Method* method = object->getType()->
-        findMethod(String("%s", method_name).c_str());
-    if (0 == method)
-        return PyErr_Format(PyExc_Exception,
-            "\'%s\' object has no method \'%s\'",
-                path.c_str(), method_name);
-
     // make input parameter
     index_t num_args = static_cast<index_t>(PyTuple_Size(args));
     Parameter* param = method->getParameter();
     if (num_args != param->in()->size())
         return PyErr_Format(PyExc_TypeError,
             "%s() takes exactly %d argument (%d given)",
-                method_name, param->in()->size(), num_args);
-    if (!build_input_paramter(param->in(), args, method_name))
+                method->getName().c_str(), param->in()->size(), num_args);
+    if (!build_input_paramter(param->in(), args, method->getName()))
         return 0;
 
     // invoke method
@@ -572,7 +640,8 @@ PyObject* invoke_method
         PyObject* result = PyTuple_New(param->out()->size());
         for (index_t a = 0; a < param->out()->size(); ++a)
         {
-            PyTuple_SET_ITEM(result, a, build_value(param->out()->get(a)));
+            PyTuple_SET_ITEM(result, a,
+                build_variable_to_pyobject(param->out()->get(a)));
         }
         return result;
     }
@@ -586,20 +655,18 @@ PyObject* invoke_method
             return Py_None;
             // parameter size == 1
         case 1:
-            return build_value(param->out()->get(0));
+            return build_variable_to_pyobject(param->out()->get(0));
             // parameter size > 1
         default:
             {
                 PyObject* result = PyTuple_New(param->out()->size());
                 for (index_t a = 0; a < param->out()->size(); ++a)
                 {
-                    PyTuple_SET_ITEM(result, a, build_value(param->out()->get(a)));
+                    PyTuple_SET_ITEM(result, a, 
+                        build_variable_to_pyobject(param->out()->get(a)));
                 }
                 return result;
             }
         }
     }
-
-    Py_INCREF(Py_None);
-    return Py_None;
 }

@@ -35,7 +35,7 @@ bool FsResourceImplementator::open(int mode)
         om |= std::ios_base::binary;
 
     file_.open(path_.c_str(), om);
-    if (!file_.good())
+    if (!file_.is_open())
     {
         TOD_THROW_EXCEPTION(TODEXCEPTIONCODE_RESOURCEOPEN,
             String("Could not open resource(%s)\n", path_.c_str()));

@@ -25,7 +25,7 @@ namespace tod
         void addConverter(StringConverter* sc);
         const char_t* getTypeKeyword(const Property* property) const;
         const String& toString(Object* object, Property* property);
-        void fromString(Object* object, Property* property, const char_t* value);
+        void fromString(Object* object, Property* property, const String& value);
 
     private:
         typedef stdext::hash_map<type_id, StringConverter*> StringConverters;

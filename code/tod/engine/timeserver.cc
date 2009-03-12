@@ -108,7 +108,6 @@ bool TimeServer::trigger()
             (getSystemTime() - s_prevSystemTime_.QuadPart) / 1000.0f * s_scale_;
         s_time_ += s_delta_;
         s_prevSystemTime_ = s_currentSystemTime_;
-
     }
 
     return true;

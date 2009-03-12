@@ -123,11 +123,10 @@ Node::NodeIterator Node::detach()
         Nodes::iterator fi = parent->children_.find(getName());
         if (parent->children_.end() != fi)
         {
-            Nodes::iterator next_i = parent->children_.erase(fi);
             NodeEventPublisher::instance()->onDetachFrom(parent, this);
             this->onDetachFrom(parent);
             parent->onRemoveNode(this);
-            return next_i;
+            return parent->children_.erase(fi);
         }
     }
     return lastChildNode();

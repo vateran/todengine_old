@@ -14,7 +14,7 @@ file_(false), hidden_(false), protocol_(0)
 //-----------------------------------------------------------------------------
 ResourceEntry::ResourceEntry
 (const String& name, const String& type, bool file, bool hidden,
- __int64 size, __int64 write_time, ResourceProtocol* rp):
+ int64_t size, int64_t write_time, ResourceProtocol* rp):
 name_(name), type_(type), file_(file), hidden_(false), size_(size),
 writeTime_(write_time), protocol_(rp)
 {
@@ -63,14 +63,14 @@ bool ResourceEntry::isHidden() const
 
 
 //-----------------------------------------------------------------------------
-__int64 ResourceEntry::getSize() const
+int64_t ResourceEntry::getSize() const
 {
     return size_;
 }
 
 
 //-----------------------------------------------------------------------------
-__int64 ResourceEntry::getWriteTime() const
+int64_t ResourceEntry::getWriteTime() const
 {
     return writeTime_;
 }

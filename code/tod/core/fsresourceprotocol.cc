@@ -101,7 +101,7 @@ bool FsResourceProtocol::findStorages(ResourceStorages* rs)
 //-----------------------------------------------------------------------------
 void FsResourceProtocol::filetime_to_unixtime(const FILETIME& ft, time_t* t)
 {
-    __int64* tt = (__int64*)&ft;
+    int64_t* tt = (int64_t*)&ft;
     *tt -= 116444736000000000;
     *tt /= 10000000;
     *t = (time_t)*tt;
@@ -125,7 +125,7 @@ bool FsResourceProtocol::findEntries
             tod_strcmp(fdata.cFileName, "..") == 0) {}
         else if (!(fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == file)
         {
-            __int64 size = fdata.nFileSizeHigh;
+            int64_t size = fdata.nFileSizeHigh;
             size <<= 32;
             size |= fdata.nFileSizeLow;
             

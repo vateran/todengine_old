@@ -27,14 +27,14 @@ bool StructProperty::addProperty(Property* property)
 
 
 //-----------------------------------------------------------------------------
-void StructProperty::removeProperty(const char_t* name)
+void StructProperty::removeProperty(const String& name)
 {
     properties_.erase(name);
 }
 
 
 //-----------------------------------------------------------------------------
-Property* StructProperty::findProperty(const char_t* name)
+Property* StructProperty::findProperty(const String& name)
 {
     Properties::const_iterator find_iter =
         properties_.find(name);

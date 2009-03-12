@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 template <typename PROPERTY_TYPE>
-void EnumProperty<PROPERTY_TYPE>::add(const char_t* name, const Value& value)
+void EnumProperty<PROPERTY_TYPE>::add(const String& name, const Value& value)
 {
     stringMap_.insert(StringMap::value_type(name, value));
     valueMap_.insert(ValueMap::value_type(value, name));
@@ -24,7 +24,7 @@ const String& EnumProperty<PROPERTY_TYPE>::getName(const Value& value)
 //-----------------------------------------------------------------------------
 template <typename PROPERTY_TYPE>
 const typename EnumProperty<PROPERTY_TYPE>::Value&
-EnumProperty<PROPERTY_TYPE>::getValue(const char_t* name)
+EnumProperty<PROPERTY_TYPE>::getValue(const String& name)
 {
     StringMap::iterator find_iter = stringMap_.find(name);
     if (stringMap_.end() == find_iter)

@@ -8,7 +8,7 @@ using namespace tod;
 
 //-----------------------------------------------------------------------------
 Module::Module
-(const char_t* name,
+(const String& name,
  InitializeModuleFunc init_func, FinalizeModuleFunc fin_func):
 name_(name), initializeModuleFunc_(init_func), finalizeModuleFunc_(fin_func)
 {
@@ -50,7 +50,7 @@ Object* Module::create(const String& type_name)
 
 
 //-----------------------------------------------------------------------------
-void Module::addType(Kernel* kernel, const char_t* type_name, Type* type)
+void Module::addType(Kernel* kernel, const String& type_name, Type* type)
 {
     types_.insert(Types::value_type(type_name, type));
     kernel->addType(type_name, this);

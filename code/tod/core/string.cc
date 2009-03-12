@@ -8,13 +8,8 @@ using namespace tod;
 //-----------------------------------------------------------------------------
 String::String(const std::wstring& s)
 {
-/*#ifdef __WIN32__
-    int len = static_cast<int>(s.size()); 
-    resize(len);
-    WideCharToMultiByte(CP_ACP, 0, &s[0], len, &(data_)[0], len, 0, false);
-#else
-
-#endif*/
+    resize(s.length());
+    encoding((char*)s.c_str(), s.length() * 2, &data_[0], s.length());
 }
 
 
@@ -59,29 +54,31 @@ void String::format(const char* s, va_list args)
 //-----------------------------------------------------------------------------
 void String::format(const wchar_t* s, ...)
 {
-    /*int len = _vscprintf(s, args) + 1;
-    std::vector<char> temp;
-    temp.resize(len);    
-    vsprintf_s(&temp[0], len, s, args);
-    if (len > 0)
-    {
-        --len;
-        temp.resize(len);
-    }
-    resize(len);
-    if (len > 0)
-        WideCharToMultiByte(CP_ACP, 0, s, len, &data_[0], len, 0, false);*/
+    va_list args;
+    va_start(args, s);
+    format(s, args);
 }
 
 
 //-----------------------------------------------------------------------------
-void String::format(const wchar_t* s, va_list args)
+void String::format(const widechar_t* s, va_list args)
 {
-    /*int len = tod_vscprintf(s, args) + 1;
-    resize(len);
-    tod_vsprintf(&data_[0], len, s, args);
+    std::wstring temp;
+    int len;
+
+#ifdef __WIN32__
+    len = _vscwprintf(s, args) + 1;
+    temp.resize(len);
+    vswprintf_s(&temp[0], len, s, args);
+#else
+#endif
+
     if (len > 0)
-        resize(len - 1);*/
+        temp.resize(len - 1);
+    len = temp.length();
+
+    resize(len);
+    encoding((char*)temp.c_str(), len * 2, &data_[0], len);
 }
 
 
@@ -157,7 +154,116 @@ String::operator widechar_t* ()
 
 
 //-----------------------------------------------------------------------------
+String::operator int ()
+{
+    return tod_atoi(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator unsigned int ()
+{
+    return tod_atoi(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator const unsigned int () const
+{
+    return tod_atoi(c_str());
+}
+
+//-----------------------------------------------------------------------------
+String::operator const int () const
+{
+    return tod_atoi(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator int64_t ()
+{
+    return tod_atoi64(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator const int64_t () const
+{
+    return tod_atoi64(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator uint64_t ()
+{
+    return tod_atoi64(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator const uint64_t () const
+{
+    return tod_atoi64(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator float ()
+{
+    return static_cast<float>(tod_atof(c_str()));
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator const float () const
+{
+    return static_cast<float>(tod_atof(c_str()));
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator double ()
+{
+    return tod_atof(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
+String::operator const double () const
+{
+    return tod_atof(c_str());
+}
+
+
+//-----------------------------------------------------------------------------
 String::operator const widechar_t* () const
 {
     return (widechar_t*)data_.c_str();
 }
+
+
+//-----------------------------------------------------------------------------
+void String::initializeEncoding()
+{
+    encodingHandle_ = iconv_open("", "WCHAR_T");
+}
+
+
+//-----------------------------------------------------------------------------
+void String::finalizeEncoding()
+{
+    iconv_close(encodingHandle_);
+}
+
+
+//-----------------------------------------------------------------------------
+void String::encoding
+(const char* src, size_t src_len, char* dest, size_t dest_len)
+{
+    iconv(encodingHandle_, &src, &src_len, &dest, &dest_len);
+}
+
+
+//-----------------------------------------------------------------------------
+iconv_t String::encodingHandle_ = 0;

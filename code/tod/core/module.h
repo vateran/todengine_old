@@ -24,7 +24,7 @@ namespace tod
 
     public:
         Module(
-            const char_t* name,
+            const String& name,
             InitializeModuleFunc init_func,
             FinalizeModuleFunc fin_func);
         virtual~Module();
@@ -34,7 +34,7 @@ namespace tod
         
         Object* create(const String& type_name);
 
-        void addType(Kernel* kernel, const char_t* type_name, Type* type);
+        void addType(Kernel* kernel, const String& type_name, Type* type);
 
         const String& getName() const;
         size_t getNumTypes() const;

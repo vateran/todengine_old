@@ -31,7 +31,7 @@ namespace tod
         };
 
     public:
-        Type(const char_t* name, Type* base);
+        Type(const String& name, Type* base);
 
         virtual Object* create() const=0;
         virtual void bindMethod()=0;
@@ -39,18 +39,16 @@ namespace tod
         virtual bool isAbstract() const=0;
 
         Type* findTypeInGenerations(const String& name);
-        Type* findTypeInGenerations(const char_t* name);
 
         Type* getBase();
         const String& getName() const;
         bool equal(const Type* type) const;
-        bool isKindOf(const char_t* name) const;
+        bool isKindOf(const String& name) const;
         bool isKindOf(const Type* type) const;
 
         bool addMethod(Method* method);
-        void removeMethod(const char_t* name);
+        void removeMethod(const String& name);
         Method* findMethod(const String& name);
-        Method* findMethod(const char_t* name);
         size_t computeMethodSize() const;
         Methods::iterator firstMethod();
         Methods::iterator lastMethod();
@@ -59,9 +57,8 @@ namespace tod
         bool hasBindedMethod() const;
 
         bool addProperty(Property* property);
-        void removeProperty(const char_t* name);
+        void removeProperty(const String& name);
         Property* findProperty(const String& name);
-        Property* findProperty(const char_t* name);
         size_t computePropertySize() const;
         Properties::iterator firstProperty();
         Properties::iterator lastProperty();
@@ -83,7 +80,7 @@ namespace tod
     class AbstractConcreteType : public Type
     {
     public:
-        AbstractConcreteType(const char_t* name, Type* base);
+        AbstractConcreteType(const String& name, Type* base);
         override Object* create() const;
         override void bindMethod();
         override void bindProperty();
@@ -94,7 +91,7 @@ namespace tod
     class ConcreteType : public AbstractConcreteType<T>
     {
     public:
-        ConcreteType(const char_t* name, Type* base);
+        ConcreteType(const String& name, Type* base);
         override Object* create() const;
         override bool isAbstract() const;
     };

@@ -23,7 +23,7 @@ Method::~Method()
 
 
 //-----------------------------------------------------------------------------
-void Method::setPrototype(const char_t* proto)
+void Method::setPrototype(const String& proto)
 {
     if (prototype_.size())
         return;
@@ -70,7 +70,7 @@ void Method::build_paramter(const String& s, Variables* v)
             v->add<int>(0);
             break;
         case 'L':
-            v->add<__int64>(0);
+            v->add<int64_t>(0);
             break;
         case 'f':
             v->add<float>(0);

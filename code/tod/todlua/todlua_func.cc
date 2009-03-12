@@ -468,11 +468,11 @@ bool set_property__(lua_State* s, Object* obj, Property* prop)
             ap->set(obj, static_cast<type>(lua_tonumber(s, 3)));
         }
     }
-    else if (TypeId<__int64>::check(prop->getType()))
+    else if (TypeId<int64_t>::check(prop->getType()))
     {   
         if (lua_isnumber(s, 3))
         {
-            typedef __int64 type;
+            typedef int64_t type;
             typedef SimpleProperty<type> AdaptiveProperty;
             AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
             ap->set(obj, static_cast<type>(lua_tonumber(s, 3)));

@@ -25,7 +25,12 @@ namespace tod
     typedef char int8_t;
     typedef short int16_t;
     typedef long int32_t;
+
+#ifdef __WIN32__
     typedef __int64 int64_t;
+#else
+#endif
+
     typedef float float32_t;
     typedef double float64_t;
     typedef float real_t;

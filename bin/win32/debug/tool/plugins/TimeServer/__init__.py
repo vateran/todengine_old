@@ -100,12 +100,12 @@ class TimeServerEditor(wx.Panel):
         wx.Panel.__init__(self, parent, style=wx.WANTS_CHARS)
         self._init_ctrls(parent)
         
-        self.setTimeScaleByValue(self.obj.getScale())
+        self.setTimeScaleByValue(self.obj.scale)
 
     def setTimeScaleByValue(self, scale):
         self.timeScaleSlider.SetValue(scale * self.timeResolution)
         self.update_timescale_static_text(scale)
-        self.obj.scale(scale)
+        self.obj.scale = scale
                                           
     def initialize(self, obj):
         pass
@@ -132,7 +132,7 @@ class TimeServerEditor(wx.Panel):
             scale = 1
             self.timeScaleSlider.SetValue(scale * self.timeResolution)
         self.update_timescale_static_text(scale)
-        self.obj.scale(scale)
+        self.obj.scale = scale
 
     def update_timescale_static_text(self, scale):
         self.timeScaleStaticText.SetLabel('%.2fx' % (scale,))

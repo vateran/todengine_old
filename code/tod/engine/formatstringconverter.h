@@ -21,7 +21,7 @@ namespace engine
             Object* object, Property* property);
         override void fromString(
             Object* object, Property* property,
-            const char_t* value);
+            const String& value);
 
     private:
         String str_;

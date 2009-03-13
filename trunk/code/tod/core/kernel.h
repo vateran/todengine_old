@@ -6,6 +6,7 @@
     @brief 
 */
 
+#include <list>
 #include <map>
 #include <stack>
 #include "tod/core/name.h"
@@ -23,6 +24,7 @@ namespace tod
     public:
         typedef std::map<Name, Module*> Types;
         typedef std::map<Name, Module*> Modules;
+        typedef std::list<Module*> InitModuleOrder;
 
     public:
         Kernel();
@@ -58,6 +60,7 @@ namespace tod
         Node::RefNode root_;
         Types types_;
         Modules modules_;
+        InitModuleOrder initModuleOrder_;
         Cwn cwn_;
     };
 

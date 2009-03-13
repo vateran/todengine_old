@@ -334,9 +334,9 @@ PyObject* build_input_paramter
                         float value = 0;
                         PyObject* o = PyTuple_GET_ITEM(arg, i);
                         if (PyInt_Check(o))
-                            value = static_cast<float>(PyInt_AsLong(arg));
+                            value = static_cast<float>(PyInt_AsLong(o));
                         else if (PyFloat_Check(o))
-                            value = static_cast<float>(PyFloat_AsDouble(arg));
+                            value = static_cast<float>(PyFloat_AsDouble(o));
                         tv.a_[i] = value;
                     }
                     continue;
@@ -359,9 +359,9 @@ PyObject* build_input_paramter
                         int value = 0;
                         PyObject* o = PyTuple_GET_ITEM(arg, i);
                         if (PyInt_Check(o))
-                            value = PyInt_AsLong(arg);
+                            value = PyInt_AsLong(o);
                         else if (PyFloat_Check(o))
-                            value = static_cast<int>(PyFloat_AsDouble(arg));
+                            value = static_cast<int>(PyFloat_AsDouble(o));
                         tc.array_[i] = value;
                     }
                     continue;

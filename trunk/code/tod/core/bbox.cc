@@ -92,7 +92,6 @@ void BBox::beginExtends()
 {
     min_.set(FLT_MAX, FLT_MAX, FLT_MAX);
     min_.set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-#include <float.h>
 }
 
 

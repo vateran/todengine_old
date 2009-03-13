@@ -19,7 +19,7 @@ inline T tod_sqrt(T x)
 {
     if (x < 0.0f)
         x = 0.0f;
-    return static_cast<T>(sqrt(x));
+    return static_cast<T>(sqrtf(x));
 };
 
 

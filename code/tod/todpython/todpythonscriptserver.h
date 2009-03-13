@@ -6,12 +6,15 @@
     @brief
 */
 
+#include "tod/core/singleton3.h"
 #include "tod/core/scriptserver.h"
 #include "tod/core/nodeeventsubscriber.h"
 
 namespace tod
 {
-    class TodPythonScriptServer : public ScriptServer
+    class TodPythonScriptServer :
+        public ScriptServer,
+        public Singleton3<TodPythonScriptServer>
     {
     public:
         TodPythonScriptServer();

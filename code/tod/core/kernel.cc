@@ -24,13 +24,15 @@ Kernel::~Kernel()
         popCwn();
     root_.release();
 
-    for (Modules::iterator i = modules_.begin();
-         i != modules_.end(); ++i)
-        i->second->finalize();
+    initModuleOrder_.reverse();
+    for (InitModuleOrder::iterator i = initModuleOrder_.begin();
+         i != initModuleOrder_.end(); ++i)
+        (*i)->finalize();
     Module* module = findModule("Builtin");
     tod_assert(module);
     delete module;
 
+    initModuleOrder_.clear();
     modules_.clear();
     types_.clear();
 
@@ -127,6 +129,7 @@ void Kernel::addModule(Module* module)
     
     modules_.insert(Modules::value_type(module->getName(), module));
     module->initialize();
+    initModuleOrder_.push_back(module);
 }
 
 

@@ -25,10 +25,10 @@ namespace tod
     typedef char int8_t;
     typedef short int16_t;
     typedef long int32_t;
-
 #ifdef __WIN32__
     typedef __int64 int64_t;
 #else
+    typedef long long int int64_t;
 #endif
 
     typedef float float32_t;
@@ -38,7 +38,11 @@ namespace tod
     typedef unsigned char uint8_t;
     typedef unsigned short uint16_t;
     typedef unsigned long uint32_t;
+#ifdef __WIN32__
     typedef unsigned __int64 uint64_t;
+#else
+    typedef unsigned long long int uint64_t;
+#endif
 
     typedef uint32_t index_t;
     typedef uint32_t length_t;

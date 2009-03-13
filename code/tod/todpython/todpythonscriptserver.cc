@@ -80,13 +80,13 @@ void TodPythonScriptServer::initialize()
 
     if (0 == Kernel::instance()->lookup("/sys/server/script/python"))
     {
-        Kernel::instance()->create("TodPythonScriptServer",
-            "/sys/server/script/python");
+        TodPythonScriptServer::setSingletonPath("/sys/server/script/python");
         TodPythonScriptServer::s_standAlone_ = true;
         Py_AtExit(at_Exit);
     }
     else
     {
+        TodPythonScriptServer::setSingletonPath("/sys/server/script/python");
         TodPythonScriptServer::s_standAlone_ = false;
     }
 }
@@ -170,3 +170,4 @@ void finalize_TodPython(Module* module)
 
 //-----------------------------------------------------------------------------
 DECLARE_MODULE(TodPython);
+

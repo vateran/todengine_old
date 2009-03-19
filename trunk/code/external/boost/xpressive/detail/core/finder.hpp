@@ -1,6 +1,6 @@
 /// Contains the definition of the basic_regex\<\> class template and its associated helper functions.
 //
-//  Copyright 2004 Eric Niebler. Distributed under the Boost
+//  Copyright 2008 Eric Niebler. Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
@@ -36,7 +36,12 @@ struct boyer_moore_finder
     {
     }
 
-    bool operator ()(state_type<BidiIter> &state) const
+    bool ok_for_partial_matches() const
+    {
+        return false;
+    }
+
+    bool operator ()(match_state<BidiIter> &state) const
     {
         Traits const &traits = traits_cast<Traits>(state);
         state.cur_ = this->bm_.find(state.cur_, state.end_, traits);
@@ -64,10 +69,10 @@ struct hash_peek_finder
     {
     }
 
-    bool operator ()(state_type<BidiIter> &state) const
+    bool operator ()(match_state<BidiIter> &state) const
     {
         Traits const &traits = traits_cast<Traits>(state);
-        state.cur_ = (this->bset_.icase() 
+        state.cur_ = (this->bset_.icase()
             ? this->find_(state.cur_, state.end_, traits, mpl::true_())
             : this->find_(state.cur_, state.end_, traits, mpl::false_()));
         return state.cur_ != state.end_;
@@ -104,7 +109,7 @@ struct line_start_finder
     {
     }
 
-    bool operator ()(state_type<BidiIter> &state) const
+    bool operator ()(match_state<BidiIter> &state) const
     {
         if(state.bos() && state.flags_.match_bol_)
         {
@@ -155,7 +160,7 @@ struct line_start_finder<BidiIter, Traits, 1u>
         }
     }
 
-    bool operator ()(state_type<BidiIter> &state) const
+    bool operator ()(match_state<BidiIter> &state) const
     {
         if(state.bos() && state.flags_.match_bol_)
         {
@@ -183,6 +188,28 @@ private:
     line_start_finder &operator =(line_start_finder const &);
 
     bool bits_[256];
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// leading_simple_repeat_finder
+//
+template<typename BidiIter>
+struct leading_simple_repeat_finder
+  : finder<BidiIter>
+{
+    leading_simple_repeat_finder()
+      : finder<BidiIter>()
+    {}
+
+    bool operator ()(match_state<BidiIter> &state) const
+    {
+        state.cur_ = state.next_search_;
+        return true;
+    }
+
+private:
+    leading_simple_repeat_finder(leading_simple_repeat_finder const &);
+    leading_simple_repeat_finder &operator =(leading_simple_repeat_finder const &);
 };
 
 }}}

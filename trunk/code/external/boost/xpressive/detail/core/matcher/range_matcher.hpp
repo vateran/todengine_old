@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // range_matcher.hpp
 //
-//  Copyright 2004 Eric Niebler. Distributed under the Boost
+//  Copyright 2008 Eric Niebler. Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
@@ -26,12 +26,12 @@ namespace boost { namespace xpressive { namespace detail
     ///////////////////////////////////////////////////////////////////////////////
     // range_matcher
     //
-    template<typename Traits, bool ICase>
+    template<typename Traits, typename ICase>
     struct range_matcher
       : quant_style_fixed_width<1>
     {
         typedef typename Traits::char_type char_type;
-        typedef mpl::bool_<ICase> icase_type;
+        typedef ICase icase_type;
         char_type ch_min_;
         char_type ch_max_;
         bool not_;
@@ -41,6 +41,11 @@ namespace boost { namespace xpressive { namespace detail
           , ch_max_(ch_max)
           , not_(no)
         {
+        }
+
+        void inverse()
+        {
+            this->not_ = !this->not_;
         }
 
         bool in_range(Traits const &traits, char_type ch, mpl::false_) const // case-sensitive
@@ -54,7 +59,7 @@ namespace boost { namespace xpressive { namespace detail
         }
 
         template<typename BidiIter, typename Next>
-        bool match(state_type<BidiIter> &state, Next const &next) const
+        bool match(match_state<BidiIter> &state, Next const &next) const
         {
             if(state.eos() || this->not_ ==
                 this->in_range(traits_cast<Traits>(state), *state.cur_, icase_type()))

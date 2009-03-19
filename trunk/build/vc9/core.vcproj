@@ -1053,7 +1053,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\include\iconv\iconv.h"
+					RelativePath="..\..\code\external\iconv\iconv.h"
 					>
 				</File>
 				<File
@@ -1762,6 +1762,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

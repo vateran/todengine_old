@@ -36,10 +36,10 @@ void Node::clearChildren()
         DERIVED* o = iter->second;
         if (o)
         {
-            iter = children_.erase(iter);
+			iter = o->detach();
             continue;
         }
-        ++iter;
+		++iter;
     }
 }
 

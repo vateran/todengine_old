@@ -431,9 +431,9 @@ int luacmd_Invoke(lua_State* s)
         return 1;
     }
 
-    lua_settop(s, 0);
-
     method->invoke(obj);
+
+	lua_settop(s, 0);
 
     if (!TodLuaScriptServer::instance()->outparamToStack(s, method))
     {

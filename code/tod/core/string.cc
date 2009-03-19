@@ -6,15 +6,15 @@
 using namespace tod;
 
 //-----------------------------------------------------------------------------
-String::String(const std::wstring& s)
+/*String::String(const std::wstring& s)
 {
     resize(s.length());
     encoding((char*)s.c_str(), s.length() * 2, &data_[0], s.length());
-}
+}*/
 
 
 //-----------------------------------------------------------------------------
-String::String(const char* s, ...)
+String::String(const char_t* s, ...)
 {
     va_list args;
     va_start(args, s);
@@ -23,7 +23,7 @@ String::String(const char* s, ...)
 
 
 //-----------------------------------------------------------------------------
-String::String(const wchar_t* s, ...)
+String::String(const widechar_t* s, ...)
 {
     va_list args;
     va_start(args, s);
@@ -43,16 +43,16 @@ void String::format(const char* s, ...)
 //-----------------------------------------------------------------------------
 void String::format(const char* s, va_list args)
 {
-    int len = _vscprintf(s, args) + 1;
+    int len = tod_vsnprintf(0, 0, s, args) + 1;
     resize(len);
-    vsprintf_s(&data_[0], len, s, args);
+    tod_vsnprintf(&data_[0], len, s, args);
     if (len > 0)
         resize(len - 1);
 }
 
 
 //-----------------------------------------------------------------------------
-void String::format(const wchar_t* s, ...)
+void String::format(const widechar_t* s, ...)
 {
     va_list args;
     va_start(args, s);
@@ -124,7 +124,7 @@ void String::replace(const String& src_str, const String& dst_str)
     while (b != -1)
     {
         String head(this->substr(s, b));
-        String tail(this->substr(b + src_str.size(), -1));
+        String tail(this->substr(b + src_str.size(), (size_t)-1));
         *this = head + dst_str + tail;
 
         b = this->find(src_str);
@@ -267,3 +267,4 @@ void String::encoding
 
 //-----------------------------------------------------------------------------
 iconv_t String::encodingHandle_ = 0;
+

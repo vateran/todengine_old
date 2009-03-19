@@ -9,7 +9,6 @@
 #include "boost/tokenizer.hpp"
 #include "tod/core/primitivetype.h"
 #include "tod/core/string.h"
-#include "tod/core/name.h"
 #include "tod/core/parameter.h"
 
 namespace tod

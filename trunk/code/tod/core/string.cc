@@ -43,7 +43,7 @@ void String::format(const char* s, ...)
 //-----------------------------------------------------------------------------
 void String::format(const char* s, va_list args)
 {
-    int len = tod_vsnprintf(0, 0, s, args) + 1;
+    int len = tod_vscprintf(s, args) + 1;
     resize(len);
     tod_vsnprintf(&data_[0], len, s, args);
     if (len > 0)

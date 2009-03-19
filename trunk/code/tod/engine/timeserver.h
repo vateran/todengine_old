@@ -6,8 +6,7 @@
     @brief 
 */
 
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include "tod/core/define.h"
 #include "tod/core/time.h"
 #include "tod/core/node.h"
 #include "tod/core/singleton3.h"

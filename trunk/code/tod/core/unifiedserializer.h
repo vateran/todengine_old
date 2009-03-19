@@ -8,7 +8,7 @@
 
 #include <map>
 #include "tod/core/define.h"
-#include "tod/core/name.h"
+#include "tod/core/string.h"
 #include "tod/core/serializer.h"
 
 namespace tod
@@ -21,7 +21,7 @@ namespace tod
         override Object* deserialize(Node* parent, const Uri& uri, const char_t* name);
 
     private:
-        typedef std::map<Name, Serializer*> Serializers;
+        typedef std::map<String, Serializer*> Serializers;
 
     private:
         Serializers serializers_;

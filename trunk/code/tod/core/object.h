@@ -7,7 +7,7 @@
 */
 
 #include "tod/core/primitivetype.h"
-#include "tod/core/name.h"
+#include "tod/core/String.h"
 #include "tod/core/time.h"
 #include "tod/core/type.h"
 

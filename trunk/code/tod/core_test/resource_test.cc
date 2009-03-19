@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <Windows.h>
 #include "tod/core/primitivetype.h"
 #include "tod/core/time.h"
 #include "tod/core/uri.h"

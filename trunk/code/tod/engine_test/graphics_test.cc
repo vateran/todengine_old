@@ -1,7 +1,5 @@
 #include "tod/engine_test/graphics_test.h"
 
-#include <Windows.h>
-#include <MMSystem.h>
 #include "tod/core/cwnguard.h"
 #include "tod/core/ref.h"
 #include "tod/core/kernel.h"

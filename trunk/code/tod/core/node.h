@@ -22,7 +22,7 @@ namespace tod
 
     public:
         typedef Ref<Node> RefNode;
-        typedef std::map<Name, RefNode> Nodes;
+        typedef std::map<String, RefNode> Nodes;
         typedef Nodes::iterator NodeIterator;
         typedef Nodes::const_iterator ConstNodeIterator;
 

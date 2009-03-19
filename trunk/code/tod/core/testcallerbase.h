@@ -6,7 +6,7 @@
     @brief 
 */
 
-#include "tod/core/name.h"
+#include "tod/core/string.h"
 
 namespace tod
 {

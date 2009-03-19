@@ -11,7 +11,7 @@
 
 namespace tod
 {
-    class Properties : public std::map<Name, Property*>
+    class Properties : public std::map<String, Property*>
     {
     public:
     };

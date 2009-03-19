@@ -1,5 +1,5 @@
-#include <Windows.h>
 #include <python.h>
+#include "tod/core/define.h"
 #include "tod/todpython/todpythonscriptserver.h"
 
 using namespace tod;

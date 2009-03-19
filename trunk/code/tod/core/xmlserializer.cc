@@ -3,6 +3,7 @@
 #include "tinyxml/tinyxml.h"
 #include "tod/core/exception.h"
 #include "tod/core/node.h"
+#include "tod/core/serializerevent.h"
 #include "tod/core/resource.h"
 #include "tod/core/kernel.h"
 

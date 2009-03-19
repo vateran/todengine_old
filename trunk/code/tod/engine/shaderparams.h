@@ -8,7 +8,7 @@
 
 #include <map>
 #include <hash_map>
-#include "tod/core/name.h"
+#include "tod/core/string.h"
 #include "tod/core/uri.h"
 #include "tod/core/simplevariable.h"
 
@@ -33,7 +33,7 @@ namespace engine
         void commit(Shader* shader);
 
     private:
-        typedef std::map<Name, Variable*> Params;
+        typedef std::map<String, Variable*> Params;
 
     private:
         Params params_;

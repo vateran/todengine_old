@@ -28,7 +28,7 @@ static void Node_i_getRef_v(Node* self, Parameter* param)
 //-----------------------------------------------------------------------------
 static void Node_v_setName_s(Node* self, Parameter* param)
 {
-    self->setName(param->in()->get<Name>(0));
+    self->setName(param->in()->get<String>(0));
 }
 
 

@@ -6,8 +6,8 @@
     @brief
 */
 
+#include "tod/core/string.h"
 #include "tod/core/primitivetype.h"
-#include "tod/core/name.h"
 #include "tod/core/vector2.h"
 #include "tod/core/vector3.h"
 #include "tod/core/vector4.h"

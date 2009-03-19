@@ -6,7 +6,6 @@
     @brief 
 */
 
-#include "tod/core/name.h"
 #include "tod/core/uri.h"
 #include "tod/engine/shaderparams.h"
 #include "tod/engine/transformnode.h"

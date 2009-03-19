@@ -7,7 +7,7 @@
  *
  * See http://www.boost.org for most recent version including documentation.
  *
- * $Id: uniform_int.hpp,v 1.27 2004/07/27 03:43:32 dgregor Exp $
+ * $Id: uniform_int.hpp 50601 2009-01-15 03:43:36Z marshall $
  *
  * Revision history
  *  2001-04-08  added min<max assertion (N. Becker)
@@ -24,7 +24,8 @@
 #include <boost/static_assert.hpp>
 #include <boost/detail/workaround.hpp>
 #include <boost/random/uniform_smallint.hpp>
-#include <boost/random/detail/signed_unsigned_compare.hpp>
+#include <boost/random/detail/signed_unsigned_tools.hpp>
+#include <boost/type_traits/make_unsigned.hpp>
 #ifdef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
 #include <boost/type_traits/is_float.hpp>
 #endif
@@ -38,15 +39,16 @@ class uniform_int
 public:
   typedef IntType input_type;
   typedef IntType result_type;
+  typedef typename make_unsigned<result_type>::type range_type;
 
-  explicit uniform_int(IntType min = 0, IntType max = 9)
-    : _min(min), _max(max)
+  explicit uniform_int(IntType min_arg = 0, IntType max_arg = 9)
+    : _min(min_arg), _max(max_arg)
   {
 #ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
     // MSVC fails BOOST_STATIC_ASSERT with std::numeric_limits at class scope
     BOOST_STATIC_ASSERT(std::numeric_limits<IntType>::is_integer);
 #endif
-    assert(min <= max);
+    assert(min_arg <= max_arg);
     init();
   }
 
@@ -58,61 +60,20 @@ public:
   template<class Engine>
   result_type operator()(Engine& eng)
   {
-    typedef typename Engine::result_type base_result;
-    base_result bmin = (eng.min)();
-    base_result brange = (eng.max)() - (eng.min)();
+      return generate(eng, _min, _max, _range);
+  }
 
-    if(_range == 0) {
-      return _min;    
-    } else if(random::equal_signed_unsigned(brange, _range)) {
-      // this will probably never happen in real life
-      // basically nothing to do; just take care we don't overflow / underflow
-      return static_cast<result_type>(eng() - bmin) + _min;
-    } else if(random::lessthan_signed_unsigned(brange, _range)) {
-      // use rejection method to handle things like 0..3 --> 0..4
-      for(;;) {
-        // concatenate several invocations of the base RNG
-        // take extra care to avoid overflows
-        result_type limit;
-        if(_range == (std::numeric_limits<result_type>::max)()) {
-          limit = _range/(result_type(brange)+1);
-          if(_range % result_type(brange)+1 == result_type(brange))
-            ++limit;
-        } else {
-          limit = (_range+1)/(result_type(brange)+1);
-        }
-        // We consider "result" as expressed to base (brange+1):
-        // For every power of (brange+1), we determine a random factor
-        result_type result = result_type(0);
-        result_type mult = result_type(1);
-        while(mult <= limit) {
-          result += (eng() - bmin) * mult;
-          mult *= result_type(brange)+result_type(1);
-        }
-        if(mult == limit)
-          // _range+1 is an integer power of brange+1: no rejections required
-          return result;
-        // _range/mult < brange+1  -> no endless loop
-        result += uniform_int<result_type>(0, _range/mult)(eng) * mult;
-        if(result <= _range)
-          return result + _min;
+  template<class Engine>
+  result_type operator()(Engine& eng, result_type n)
+  {
+      assert(n > 0);
+
+      if (n == 1)
+      {
+        return 0;
       }
-    } else {                   // brange > range
-      if(brange / _range > 4 /* quantization_cutoff */ ) {
-        // the new range is vastly smaller than the source range,
-        // so quantization effects are not relevant
-        return boost::uniform_smallint<result_type>(_min, _max)(eng);
-      } else {
-        // use rejection method to handle cases like 0..5 -> 0..4
-        for(;;) {
-          base_result result = eng() - bmin;
-          // result and range are non-negative, and result is possibly larger
-          // than range, so the cast is safe
-          if(result <= static_cast<base_result>(_range))
-            return result + _min;
-        }
-      }
-    }
+
+      return generate(eng, 0, n - 1, n - 1);
   }
 
 #if !defined(BOOST_NO_OPERATORS_IN_NAMESPACE) && !defined(BOOST_NO_MEMBER_TEMPLATE_FRIENDS)
@@ -128,7 +89,7 @@ public:
   friend std::basic_istream<CharT,Traits>&
   operator>>(std::basic_istream<CharT,Traits>& is, uniform_int& ud)
   {
-# if BOOST_WORKAROUND(_MSC_FULL_VER, BOOST_TESTED_AT(13102292)) && BOOST_MSVC > 1300
+# if BOOST_WORKAROUND(_MSC_FULL_VER, BOOST_TESTED_AT(13102292)) && BOOST_MSVC == 1400
       return detail::extract_uniform_int(is, ud, ud.impl);
 # else
    is >> std::ws >> ud._min >> std::ws >> ud._max;
@@ -139,12 +100,80 @@ public:
 #endif
 
 private:
+  template<class Engine>
+  static result_type generate(Engine& eng, result_type min_value, result_type max_value, range_type range)
+  {
+    typedef typename Engine::result_type base_result;
+    // ranges are always unsigned
+    typedef typename make_unsigned<base_result>::type base_unsigned;
+    const base_result bmin = (eng.min)();
+    const base_unsigned brange =
+      random::detail::subtract<base_result>()((eng.max)(), (eng.min)());
+
+    if(range == 0) {
+      return min_value;    
+    } else if(brange == range) {
+      // this will probably never happen in real life
+      // basically nothing to do; just take care we don't overflow / underflow
+      base_unsigned v = random::detail::subtract<base_result>()(eng(), bmin);
+      return random::detail::add<base_unsigned, result_type>()(v, min_value);
+    } else if(brange < range) {
+      // use rejection method to handle things like 0..3 --> 0..4
+      for(;;) {
+        // concatenate several invocations of the base RNG
+        // take extra care to avoid overflows
+        range_type limit;
+        if(range == (std::numeric_limits<range_type>::max)()) {
+          limit = range/(range_type(brange)+1);
+          if(range % range_type(brange)+1 == range_type(brange))
+            ++limit;
+        } else {
+          limit = (range+1)/(range_type(brange)+1);
+        }
+        // We consider "result" as expressed to base (brange+1):
+        // For every power of (brange+1), we determine a random factor
+        range_type result = range_type(0);
+        range_type mult = range_type(1);
+        while(mult <= limit) {
+          result += random::detail::subtract<base_result>()(eng(), bmin) * mult;
+          mult *= range_type(brange)+range_type(1);
+        }
+        if(mult == limit)
+          // range+1 is an integer power of brange+1: no rejections required
+          return result;
+        // range/mult < brange+1  -> no endless loop
+        result += uniform_int<range_type>(0, range/mult)(eng) * mult;
+        if(result <= range)
+          return random::detail::add<range_type, result_type>()(result, min_value);
+      }
+    } else {                   // brange > range
+      if(brange / range > 4 /* quantization_cutoff */ ) {
+        // the new range is vastly smaller than the source range,
+        // so quantization effects are not relevant
+        return boost::uniform_smallint<result_type>(min_value, max_value)(eng);
+      } else {
+        // use rejection method to handle cases like 0..5 -> 0..4
+        for(;;) {
+          base_unsigned result =
+	    random::detail::subtract<base_result>()(eng(), bmin);
+          // result and range are non-negative, and result is possibly larger
+          // than range, so the cast is safe
+          if(result <= static_cast<base_unsigned>(range))
+            return random::detail::add<base_unsigned, result_type>()(result, min_value);
+        }
+      }
+    }
+  }
+
   void init()
   {
-    _range = _max - _min;
+    _range = random::detail::subtract<result_type>()(_max, _min);
   }
-    
-  result_type _min, _max, _range;
+
+  // The result_type may be signed or unsigned, but the _range is always
+  // unsigned.
+  result_type _min, _max;
+  range_type _range;
 };
 
 } // namespace boost

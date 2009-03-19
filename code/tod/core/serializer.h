@@ -8,20 +8,10 @@
 
 #include "tod/core/primitivetype.h"
 #include "tod/core/uri.h"
-#include "tod/core/name.h"
+#include "tod/core/string.h"
 
 namespace tod
 {
-    class SerializerEvent
-    {
-    public:
-        virtual void beginSerialize()=0;
-        virtual void endSerialize()=0;
-
-        virtual void beginDeserialize()=0;
-        virtual void endDeserialize()=0;
-    };
-
     class Object;
     class Node;
     class Serializer

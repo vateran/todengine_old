@@ -9,7 +9,7 @@
 #include <list>
 #include <map>
 #include <stack>
-#include "tod/core/name.h"
+#include "tod/core/string.h"
 #include "tod/core/node.h"
 #include "tod/core/path.h"
 #include "tod/core/primitivetype.h"
@@ -22,8 +22,8 @@ namespace tod
     class Kernel : public Singleton<Kernel>
     {
     public:
-        typedef std::map<Name, Module*> Types;
-        typedef std::map<Name, Module*> Modules;
+        typedef std::map<String, Module*> Types;
+        typedef std::map<String, Module*> Modules;
         typedef std::list<Module*> InitModuleOrder;
 
     public:

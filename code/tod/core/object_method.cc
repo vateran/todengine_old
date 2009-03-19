@@ -40,7 +40,7 @@ static void Object_l_getPropertyNames_s(Object* self, Parameter* param)
 {
     param->out()->clear();
     Type* type = self->getType()->
-        findTypeInGenerations(param->in()->get<Name>(0));
+        findTypeInGenerations(param->in()->get<String>(0));
     if (0 == type)
         return;
     for (Properties::iterator i = type->firstProperty();
@@ -56,7 +56,7 @@ static void Object_l_getPropertyNames_s(Object* self, Parameter* param)
 static void Object_v_setProperty_ss(Object* self, Parameter* param)
 {
     Property* property = self->getType()->
-        findProperty(param->in()->get<Name>(0));
+        findProperty(param->in()->get<String>(0));
     if (0 == property)
         return;
     property->fromString(self, param->in()->get<String>(1).get().c_str());
@@ -71,10 +71,10 @@ static void Object_v_setProperty_ss(Object* self, Parameter* param)
 static void Object_sssb_getProperty_s(Object* self, Parameter* param)
 {
     Property* property = self->getType()->
-        findProperty(param->in()->get<Name>(0));
+        findProperty(param->in()->get<String>(0));
     if (0 == property)
         return;
-    param->out()->get<Name>(0) = property->getName();
+    param->out()->get<String>(0) = property->getName();
     param->out()->get<String>(1) = property->toString(self);
     param->out()->get<String>(2) = property->getTypeKeyword();
     param->out()->get<bool>(3) = property->isReadOnly();

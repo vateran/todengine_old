@@ -534,22 +534,6 @@ int set_property
             return -1;
         }
     }
-    else if (TypeId<Name>::check(prop->getType()))
-    {
-        if (PyString_Check(value))
-        {
-            typedef SimpleProperty<const String&> AdaptiveProperty;
-            AdaptiveProperty* ap = static_cast<AdaptiveProperty*>(prop);
-            ap->set(object, String("%s", PyString_AsString(value)).c_str());
-        }
-        else
-        {
-            PyErr_Format(PyExc_TypeError,
-                "cannot convert value from \'%s\' to \'Name\'",
-                value->ob_type->tp_name);
-            return -1;
-        }
-    }
     else if (TypeId<Vector3>::check(prop->getType()))
     {
         if (PyTuple_Check(value))

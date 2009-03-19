@@ -8,7 +8,7 @@
 
 #include <map>
 #include "tod/core/primitivetype.h"
-#include "tod/core/name.h"
+#include "tod/core/string.h"
 
 namespace tod
 {
@@ -18,7 +18,7 @@ namespace tod
     class Module
     {
     public:
-        typedef std::map<Name, const Type*> Types;
+        typedef std::map<String, const Type*> Types;
         typedef void (*InitializeModuleFunc)(Module*);
         typedef void (*FinalizeModuleFunc)(Module*);
 

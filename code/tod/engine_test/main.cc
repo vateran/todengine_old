@@ -1,5 +1,3 @@
-#include <Windows.h>
-#include <crtdbg.h>
 #include "tod/core/unittest.h"
 #include "tod/core/module.h"
 #include "tod/core/resourcemanager.h"

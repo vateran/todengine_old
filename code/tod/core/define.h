@@ -13,6 +13,9 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
+#include <MMSystem.h>
+#include <commctrl.h>
+#include <crtdbg.h>
 #include <direct.h>
 #include <strsafe.h>
 
@@ -29,7 +32,7 @@
 #define tod_atoi64 _atoi64
 #define tod_vscprintf _vscprintf
 #define tod_vsprintf vsprintf_s
-#define tod_vsnprintf vsnprintf_s
+#define tod_vsnprintf(buf, bufsize, f, a) vsnprintf_s(buf, bufsize, _TRUNCATE, f, a);
 #define tod_getcwd _getcwd
 #define tod_chdir _chdir
 
@@ -43,14 +46,10 @@
 #define tod_strcmp strcmp
 #define tod_strncmp strncmp
 #define tod_stricmp stricmp
-#ifdef __WIN32__
-#define tod_atoi64 atoi64
-#else
-#define tod_atoi64(s) strtoll(s, 0, 10)
-#endif
 #define tod_atoi atoi
 #define tod_atof atof
-#define tod_vscprintf vscprintf
+#define tod_atoi64(s) strtoll(s, 0, 10)
+#define tod_vscprintf(f, a) vsnprintf(0, 0, f, a)
 #define tod_vsprintf vsprintf
 #define tod_vsnprintf vsnprintf
 #define tod_getcwd getcwd

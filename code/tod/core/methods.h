@@ -11,7 +11,7 @@
 
 namespace tod
 {
-    class Methods : public std::map<Name, Method*>
+    class Methods : public std::map<String, Method*>
     {
     public:
     };

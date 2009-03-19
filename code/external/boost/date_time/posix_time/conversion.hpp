@@ -4,9 +4,9 @@
 /* Copyright (c) 2002-2005 CrystalClear Software, Inc.
  * Use, modification and distribution is subject to the 
  * Boost Software License, Version 1.0. (See accompanying
- * file LICENSE-1.0 or http://www.boost.org/LICENSE-1.0)
+ * file LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
  * Author: Jeff Garland, Bart Garst
- * $Date: 2005/11/01 04:27:29 $
+ * $Date: 2008-11-12 14:37:53 -0500 (Wed, 12 Nov 2008) $
  */
 
 #include "boost/date_time/posix_time/ptime.hpp"
@@ -72,14 +72,18 @@ namespace posix_time {
    * built with microsecond resolution the FILETIME's sub second value 
    * will be truncated. Nanosecond resolution has no truncation. 
    *
-   * Note ftime is part of the Win32 API, so it is not portable to non-windows
+   * \note FILETIME is part of the Win32 API, so it is not portable to non-windows
    * platforms.
+   *
+   * \note The function is templated on the FILETIME type, so that
+   *       it can be used with both native FILETIME and the ad-hoc
+   *       boost::date_time::winapi::file_time type.
    */
-  template<class time_type>
+  template< typename TimeT, typename FileTimeT >
   inline
-  time_type from_ftime(const FILETIME& ft)
+  TimeT from_ftime(const FileTimeT& ft)
   {
-    return boost::date_time::time_from_ftime<time_type>(ft);
+    return boost::date_time::time_from_ftime<TimeT>(ft);
   }
 
 #endif // BOOST_HAS_FTIME

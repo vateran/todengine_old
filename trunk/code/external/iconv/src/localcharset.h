@@ -28,6 +28,8 @@
 #else
 #define LIBCHARSET_DLL_EXPORTED __declspec(dllimport)
 #endif
+#else
+#define LIBCHARSET_DLL_EXPORTED
 #endif
 
 #ifdef __cplusplus

@@ -23,6 +23,7 @@
 
 #define _LIBICONV_VERSION 0x0109    /* version number: (major<<8) + minor */
 
+#ifdef _WIN32
 #ifdef LIBICONV_STATIC
 #define LIBICONV_DLL_EXPORTED
 #else /* LIBICONV_STATIC */
@@ -31,7 +32,10 @@
 #else
 #define LIBICONV_DLL_EXPORTED __declspec(dllimport)
 #endif
-#endif /* LIBICONV_STATIC */ 
+#endif /* LIBICONV_STATIC */
+#else
+#define LIBICONV_DLL_EXPORTED
+#endif
 extern LIBICONV_DLL_EXPORTED int _libiconv_version;       /* Likewise */
 
 /* We would like to #include any system header file which could define

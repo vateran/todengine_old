@@ -19,10 +19,12 @@
 #ifndef _LIBCHARSET_H
 #define _LIBCHARSET_H
 
+#ifdef _WIN32
 #ifdef BUILDING_LIBCHARSET
 #define LIBCHARSET_DLL_EXPORTED __declspec(dllexport)
 #else
 #define LIBCHARSET_DLL_EXPORTED __declspec(dllimport)
+#endif
 #endif
 
 #include <localcharset.h>

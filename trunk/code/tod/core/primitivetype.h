@@ -23,7 +23,7 @@ namespace tod
 #ifdef __WIN32__
     typedef __int64 int64_t;
 #else
-    typedef long long int int64_t;
+    typedef long long int64_t;
 #endif
 
     typedef float float32_t;
@@ -36,7 +36,7 @@ namespace tod
 #ifdef __WIN32__
     typedef unsigned __int64 uint64_t;
 #else
-    typedef unsigned long long int uint64_t;
+    typedef unsigned long long uint64_t;
 #endif
 
     typedef uint32_t index_t;

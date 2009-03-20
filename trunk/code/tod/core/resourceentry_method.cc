@@ -24,7 +24,7 @@ static void ResourceEntry_s_getFileType_v
 static void ResourceEntry_L_getSize_v
 (ResourceEntry* self, Parameter* param)
 {
-    param->out()->get<__int64>(0) = self->getSize();
+    param->out()->get<int64_t>(0) = self->getSize();
 }
 
 
@@ -32,7 +32,7 @@ static void ResourceEntry_L_getSize_v
 static void ResourceEntry_L_getWriteTime_v
 (ResourceEntry* self, Parameter* param)
 {
-    param->out()->get<__int64>(0) = self->getWriteTime();
+    param->out()->get<int64_t>(0) = self->getWriteTime();
 }
 
 

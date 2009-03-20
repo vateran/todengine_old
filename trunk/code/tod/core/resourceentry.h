@@ -18,7 +18,7 @@ namespace tod
     public:
         ResourceEntry();
         ResourceEntry(const String& name, const String& type,
-            bool file, bool hidden, __int64 size, __int64 write_time,
+            bool file, bool hidden, int64_t size, int64_t write_time,
             ResourceProtocol* rp);
         virtual~ResourceEntry();
         DECLARE_CLASS(ResourceEntry, Object);
@@ -28,8 +28,8 @@ namespace tod
         bool isFile() const;
         bool isDirectory() const;
         bool isHidden() const;
-        __int64 getSize() const;
-        __int64 getWriteTime() const;
+        int64_t getSize() const;
+        int64_t getWriteTime() const;
 
         static void bindMethod();
 
@@ -38,8 +38,8 @@ namespace tod
         String type_;
         bool file_;
         bool hidden_;
-        __int64 size_;
-        __int64 writeTime_;
+        int64_t size_;
+        int64_t writeTime_;
         ResourceProtocol* protocol_;
     };
 

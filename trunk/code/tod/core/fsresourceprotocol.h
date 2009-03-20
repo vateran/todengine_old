@@ -6,6 +6,7 @@
     @brief
 */
 
+#include "tod/core/define.h"
 #include "tod/core/resourceprotocol.h"
 
 namespace tod
@@ -41,9 +42,9 @@ namespace tod
 
     private:
         void make_path(const Uri& uri);
-        void filetime_to_unixtime(const FILETIME& ft, time_t* t);
         void push_cwd();
         void pop_cwd();
+		void filetime_to_unixtime(const FILETIME& ft, time_t* t);
 
     private:
         String baseAbsPath_;

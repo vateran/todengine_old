@@ -8,12 +8,7 @@
 
 namespace tod
 {
-#ifdef __WIN32__
     typedef wchar_t widechar_t;
-#else
-    typedef short widechar_t;
-#endif
-
     typedef char char_t;
 
     typedef char buffer_t;

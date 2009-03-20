@@ -14,10 +14,12 @@
 
 #include <Windows.h>
 #include <MMSystem.h>
+#include <Shellapi.h>
 #include <commctrl.h>
 #include <crtdbg.h>
 #include <direct.h>
 #include <strsafe.h>
+#include <io.h>
 
 #define tod_sleep(t) Sleep(t);
 #define tod_printf printf
@@ -58,6 +60,11 @@
 #define tod_vsnprintf vsnprintf
 #define tod_getcwd getcwd
 #define tod_chdir chdir
+
+typedef struct _FILETIME {
+    unsigned int dwLowDateTime;
+    unsigned int dwHighDateTime;
+} FILETIME, *PFILETIME, *LPFILETIME;
 
 #endif  // __WIN32__
 

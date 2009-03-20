@@ -1,6 +1,5 @@
 #include "tod/core/fsresourceprotocol.h"
 
-#include <Shellapi.h>
 #include "tod/core/define.h"
 #include "tod/core/resourcecache.h"
 #include "tod/core/fsresourceimplementator.h"

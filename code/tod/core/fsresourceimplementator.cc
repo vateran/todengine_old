@@ -1,9 +1,10 @@
 #include "tod/core/fsresourceimplementator.h"
 
-#include <io.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include "tod/core/define.h"
+#include "tod/core/primitivetype.h"
 #include "tod/core/exception.h"
 #include "tod/core/resource.h"
 

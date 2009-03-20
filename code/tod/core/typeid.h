@@ -19,7 +19,7 @@ namespace tod
     public:
         static type_id id()
         {
-            return reinterpret_cast<int>(typeid(T).raw_name());
+            return reinterpret_cast<int>(typeid(T).name());
         }
         static bool check(type_id _id)
         {

@@ -6,7 +6,6 @@
     @brief
 */
 
-#include <hash_map>
 #include "tod/core/property.h"
 
 namespace tod

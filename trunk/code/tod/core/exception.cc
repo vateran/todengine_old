@@ -103,5 +103,10 @@ void MessageBoxExceptionHandler::handle(const Exception& e)
     String s("%s(%d :\n\nException(%d):%s:\n%s)",
         e.getFile().c_str(), e.getLine(), e.getErrorCode(),
         e.getFunction().c_str(), e.getDescription().c_str());
+
+#ifdef __WIN32__
     MessageBoxA(0, s, "TodEngine Exception", MB_OK);
+#else
+	NSRunAlertPanel(@"TodEngine Exception", s.c_str(), @"Ok", nil, nil);
+#endif
 }

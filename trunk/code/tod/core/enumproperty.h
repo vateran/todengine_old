@@ -6,7 +6,7 @@
     @brief
 */
 
-#include <hash_map>
+#include "tod/core/define.h"
 #include "tod/core/property.h"
 
 namespace tod
@@ -17,7 +17,7 @@ namespace tod
     public:
         typedef PROPERTY_TYPE Value;
         typedef std::map<String, Value> StringMap;
-        typedef stdext::hash_map<Value, String> ValueMap;
+        typedef tod_hash_map<Value, String> ValueMap;
         typedef typename ValueMap::iterator iterator;
         typedef typename ValueMap::const_iterator const_iterator;
 

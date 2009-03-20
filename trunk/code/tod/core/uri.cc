@@ -1,7 +1,6 @@
 #include "tod/core/uri.h"
 
 #include <list>
-#include <direct.h>
 #include "tod/core/define.h"
 #include "tod/core/assert.h"
 #include "tod/core/resourcemanager.h"

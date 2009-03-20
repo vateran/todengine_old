@@ -38,6 +38,10 @@
 
 #else
 
+#include <cstring>
+#include <unistd.h>
+#include <inttypes.h>
+
 #define tod_sleep(t)
 #define tod_printf printf
 #define tod_snprintf snprintf

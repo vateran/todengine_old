@@ -19,7 +19,7 @@ x_(x), y_(y)
 template <typename T>
 void Tuple2<T>::clear()
 {
-    x_ = y_ = z_ = 0;
+    x_ = y_ = 0;
 }
 
 

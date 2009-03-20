@@ -10,7 +10,7 @@ void Variables::add(const T& v)
 
 //-----------------------------------------------------------------------------
 template <typename T>
-typename SimpleVariable<T>& Variables::get(index_t index)
+SimpleVariable<T>& Variables::get(index_t index)
 {
     return static_cast<SimpleVariable<T>&>(*array_.at(index));
 }

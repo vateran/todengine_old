@@ -6,14 +6,6 @@
 using namespace tod;
 
 //-----------------------------------------------------------------------------
-/*String::String(const std::wstring& s)
-{
-    resize(s.length());
-    encoding((char*)s.c_str(), s.length() * 2, &data_[0], s.length());
-}*/
-
-
-//-----------------------------------------------------------------------------
 String::String(const char_t* s, ...)
 {
     va_list args;

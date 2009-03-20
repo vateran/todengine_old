@@ -25,7 +25,7 @@ namespace tod
         template <typename T>
         void add(const T& v);
         template <typename T>
-        typename SimpleVariable<T>& get(index_t index);
+        SimpleVariable<T>& get(index_t index);
         Variable* get(index_t index);
 
         void setForceList(bool enable);

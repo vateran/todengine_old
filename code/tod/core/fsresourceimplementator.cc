@@ -27,7 +27,7 @@ FsResourceImplementator::~FsResourceImplementator()
 //-----------------------------------------------------------------------------
 bool FsResourceImplementator::open(int mode)
 {
-    std::ios_base::openmode om = 0;
+    std::ios_base::openmode om = static_cast<std::ios_base::openmode>(0);
     if (mode & Resource::OPEN_WRITE)
         om |= std::ios_base::out;
     if (mode & Resource::OPEN_READ)

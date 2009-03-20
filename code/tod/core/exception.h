@@ -20,7 +20,8 @@ namespace tod
         Exception(
             int error_code, int line, const String& file,
             const String& function, const String& description);
-
+        virtual~Exception() throw() {}
+        
         void setErrorCode(int error_code);
         void setLine(int line);
         void setFile(const String& file);

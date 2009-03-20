@@ -33,7 +33,6 @@ namespace tod
     public:
         String() {}
         String(const std::string& s):data_(s) {}
-        //String(const std::wstring& s);
         String(const char_t* s, ...);
         String(const widechar_t* s, ...);
         String(const String& s, size_type offset, size_type count):

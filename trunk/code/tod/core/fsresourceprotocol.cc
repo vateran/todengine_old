@@ -101,7 +101,11 @@ bool FsResourceProtocol::findStorages(ResourceStorages* rs)
 void FsResourceProtocol::filetime_to_unixtime(const FILETIME& ft, time_t* t)
 {
     int64_t* tt = (int64_t*)&ft;
+#ifdef __WIN32__
     *tt -= 116444736000000000;
+#else
+	*tt -= 116444736000000000LLU;
+#endif
     *tt /= 10000000;
     *t = (time_t)*tt;
 }

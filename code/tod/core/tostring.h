@@ -6,7 +6,7 @@
     @brief 
 */
 
-#include <hash_map>
+#include "tod/core/define.h"
 #include "tod/core/primitivetype.h"
 #include "tod/core/singleton.h"
 #include "tod/core/string.h"
@@ -28,7 +28,7 @@ namespace tod
         void fromString(Object* object, Property* property, const String& value);
 
     private:
-        typedef stdext::hash_map<type_id, StringConverter*> StringConverters;
+        typedef tod_hash_map<type_id, StringConverter*> StringConverters;
 
     private:
         StringConverters converters_;

@@ -7,7 +7,7 @@
 */
 
 #include <map>
-#include <hash_map>
+#include "tod/core/define.h"
 #include "tod/core/primitivetype.h"
 #include "tod/core/string.h"
 
@@ -20,7 +20,7 @@ namespace tod
 
     public:
         typedef std::map<String, T> StringMap;
-        typedef stdext::hash_map<T, String> ValueMap;
+        typedef tod_hash_map<T, String> ValueMap;
         typedef typename ValueMap::iterator enumerator;
         typedef typename ValueMap::const_iterator const_enumerator;
 

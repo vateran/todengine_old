@@ -7,7 +7,6 @@
 */
 
 #include <map>
-#include <hash_map>
 #include "tod/core/string.h"
 #include "tod/core/uri.h"
 #include "tod/core/simplevariable.h"

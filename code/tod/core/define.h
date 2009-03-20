@@ -20,6 +20,7 @@
 #include <direct.h>
 #include <strsafe.h>
 #include <io.h>
+#include <hash_map>
 
 #define tod_sleep(t) Sleep(t);
 #define tod_printf printf
@@ -38,11 +39,15 @@
 #define tod_getcwd _getcwd
 #define tod_chdir _chdir
 
+#define tod_hash_map stdext::hash_map
+
 #else
 
 #include <cstring>
 #include <unistd.h>
 #include <inttypes.h>
+#innclude <sys/stat.h>
+#include <ext/hash_map>
 
 #define tod_sleep(t)
 #define tod_printf printf
@@ -60,6 +65,8 @@
 #define tod_vsnprintf vsnprintf
 #define tod_getcwd getcwd
 #define tod_chdir chdir
+
+#define tod_hash_map __gnu_cxx::hash_map
 
 typedef struct _FILETIME {
     unsigned int dwLowDateTime;

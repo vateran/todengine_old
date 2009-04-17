@@ -58,128 +58,128 @@ namespace tod
         }
 
         void reserve(size_type capacity=0)
-		{
+        {
             data_.reserve(capacity);
-		}
+        }
 
         String& assign(const String& s)
-		{
-		    data_.assign(s.data_);
+        {
+            data_.assign(s.data_);
             return (*this);
-		}
-	    String& assign(const String& s, size_type offset, size_type count)
-		{
+        }
+        String& assign(const String& s, size_type offset, size_type count)
+        {
             data_.assign(s.data_, offset, count);
             return (*this);
         }
 
-	    String& assign(const value_type* c, size_type num)
-		{
+        String& assign(const value_type* c, size_type num)
+        {
             data_.assign(c, num);
-		    return (*this);
-		}
-
-	    String& assign(const value_type* c)
-		{
-		    data_.assign(c);
             return (*this);
-		}
+        }
 
-	    String& assign(size_type count, value_type c)
-		{
+        String& assign(const value_type* c)
+        {
+            data_.assign(c);
+            return (*this);
+        }
+
+        String& assign(size_type count, value_type c)
+        {
             data_.assign(count, c);
-		    return (*this);
-		}
+            return (*this);
+        }
 
-	    String& assign(const_pointer first, const_pointer last)
-		{
-            data_.assign(first, last);
-		    return (*this);
-		}
-
-	    String& assign(const_iterator first, const_iterator last)
-		{
+        String& assign(const_pointer first, const_pointer last)
+        {
             data_.assign(first, last);
             return (*this);
-		}
+        }
+
+        String& assign(const_iterator first, const_iterator last)
+        {
+            data_.assign(first, last);
+            return (*this);
+        }
 
         size_type find(const String& s, size_type offset=0) const
-		{
-		    return data_.find(s.data_, offset);
-		}
+        {
+            return data_.find(s.data_, offset);
+        }
 
-	    size_type find(const value_type* c, size_type offset, size_type count) const
-		{
+        size_type find(const value_type* c, size_type offset, size_type count) const
+        {
             return data_.find(c, offset, count);
-		}
+        }
 
-	    size_type find(const value_type* c, size_type offset=0) const
-		{
-		    return data_.find(c, offset);
-		}
+        size_type find(const value_type* c, size_type offset=0) const
+        {
+            return data_.find(c, offset);
+        }
 
-	    size_type find(value_type c, size_type offset=0) const
-		{
-		    return data_.find(c, offset);
-		}
+        size_type find(value_type c, size_type offset=0) const
+        {
+            return data_.find(c, offset);
+        }
 
-	    size_type rfind(const String& s, size_type offset=npos) const
-		{
-		    return rfind(s.data_, offset);
-		}
+        size_type rfind(const String& s, size_type offset=npos) const
+        {
+            return rfind(s.data_, offset);
+        }
 
-	    size_type rfind(const value_type* c, size_type offset, size_type count) const
-		{
+        size_type rfind(const value_type* c, size_type offset, size_type count) const
+        {
             return data_.rfind(c, offset, count);
-		}
+        }
 
-	    size_type rfind(const value_type* c, size_type offset=npos) const
-		{
-		    return data_.rfind(c, offset);
-		}
+        size_type rfind(const value_type* c, size_type offset=npos) const
+        {
+            return data_.rfind(c, offset);
+        }
 
-	    size_type rfind(value_type c, size_type offset=npos) const
-		{
-		    return data_.rfind(c, offset);
-		}
+        size_type rfind(value_type c, size_type offset=npos) const
+        {
+            return data_.rfind(c, offset);
+        }
 
         String substr(size_type offset=0, size_type count=npos) const
-		{
-		    return String(data_, offset, count);
-		}
+        {
+            return String(data_, offset, count);
+        }
 
-	    int compare(const String& s) const
-		{
-		    return data_.compare(s.data_);
-		}
+        int compare(const String& s) const
+        {
+            return data_.compare(s.data_);
+        }
 
-	    int compare(size_type offset, size_type count, const String& s) const
-		{
-		    return data_.compare(offset, count, s.data_);
-		}
+        int compare(size_type offset, size_type count, const String& s) const
+        {
+            return data_.compare(offset, count, s.data_);
+        }
 
-	    int compare(size_type loffset, size_type count, const String& s, size_type roffset, size_type ncount) const
-		{
+        int compare(size_type loffset, size_type count, const String& s, size_type roffset, size_type ncount) const
+        {
             return data_.compare(loffset, count, s.data_, roffset, ncount);
-		}
+        }
 
-	    int compare(const value_type* c) const
-		{
-		    return data_.compare(c);
-		}
+        int compare(const value_type* c) const
+        {
+            return data_.compare(c);
+        }
 
-	    int compare(size_type offset, size_type count, const value_type* c) const
-		{
-		    return data_.compare(offset, count, c);
-		}
+        int compare(size_type offset, size_type count, const value_type* c) const
+        {
+            return data_.compare(offset, count, c);
+        }
 
-	    int compare(size_type offset, size_type count, const value_type* c, size_type ncount) const
-		{
+        int compare(size_type offset, size_type count, const value_type* c, size_type ncount) const
+        {
             return data_.compare(offset, count, c, ncount);
-		}
+        }
 
         const value_type* c_str() const;
-	    const value_type* data() const;
+        const value_type* data() const;
 
         reference at(size_type offset);
         const_reference at(size_type offset) const;

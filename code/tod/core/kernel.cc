@@ -144,10 +144,30 @@ Module* Kernel::findModule(const String& name)
 
 
 //-----------------------------------------------------------------------------
-void Kernel::addType(const String&   type_name, Module* module)
+Module* Kernel::findModuleByTypeName(const String& type_name) const
+{
+	Types::const_iterator fi = types_.find(type_name);
+    if (types_.end() == fi)
+        return 0;
+    return fi->second;
+}
+
+
+//-----------------------------------------------------------------------------
+void Kernel::addType(const String& type_name, Module* module)
 {
     // insert type names in module to Kernel::types_ for Object creation
     types_.insert(Types::value_type(type_name, module));
+}
+
+
+//-----------------------------------------------------------------------------
+const Type* Kernel::findType(const String& type_name) const
+{
+    Module* module = findModuleByTypeName(type_name);
+	if (0 == module)
+		return 0;
+    return module->findType(type_name);
 }
 
 

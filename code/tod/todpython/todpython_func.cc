@@ -297,3 +297,54 @@ PyObject* TodPython_getTypeList(PyObject* self, PyObject* args)
     return result;
 
 }
+
+
+//-----------------------------------------------------------------------------
+PyObject* TodPython_getDerivedTypes(PyObject* self, PyObject* args)
+{
+	char* type_name = 0;
+    if (!PyArg_ParseTuple(args, "s:getDerivedTypes", &type_name))
+        return PyErr_Format(PyExc_Exception, "mismatch argument");
+
+	PyObject* result = 0;
+    const Type* type = Kernel::instance()->findType(type_name);
+    if (0 == type)
+		return PyErr_Format(PyExc_TypeError,
+			"there're no exist specified name of type \'%s\'", type_name);
+	const Type::Types& types = type->getDerivedTypes();
+	result = PyTuple_New(types.size());
+	int i = 0;
+	for (Type::Types::const_iterator t = types.begin();
+		 t != types.end(); ++t, ++i)
+    {
+        PyTuple_SET_ITEM(result, i, PyString_FromString((*t)->getName()));
+    }
+
+	return result;
+}
+
+
+//-----------------------------------------------------------------------------
+PyObject* TodPython_getTypeInfo(PyObject* self, PyObject* args)
+{
+	char* type_name = 0;
+    if (!PyArg_ParseTuple(args, "s:getTypeInfo", &type_name))
+        return PyErr_Format(PyExc_Exception, "mismatch argument");
+
+    const Type* type = Kernel::instance()->findType(type_name);
+    if (0 == type)
+		return PyErr_Format(PyExc_TypeError,
+			"there're no exist specified name of type \'%s\'", type_name);
+
+	PyObject* result = PyTuple_New(3);
+
+	// name
+	PyTuple_SET_ITEM(result, 0, PyString_FromString(type->getName()));
+	// abstract
+	PyTuple_SET_ITEM(result, 1, PyBool_FromLong(type->isAbstract()));
+	// module name
+	PyTuple_SET_ITEM(result, 2, PyString_FromString(
+		Kernel::instance()->findModuleByTypeName(type_name)->getName()));
+
+	return result;
+}

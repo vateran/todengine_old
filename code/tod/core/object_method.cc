@@ -5,6 +5,17 @@
 using namespace tod;
 
 //-----------------------------------------------------------------------------
+static void Object_l_getDerivedTypes_v(Object* self, Parameter* param)
+{
+    const Type::Types& types = self->getType()->getDerivedTypes();
+    param->out()->clear();
+    for (Type::Types::const_iterator i = types.begin();
+         i != types.end(); ++i)
+         param->out()->add<String>((*i)->getName());
+}
+
+
+//-----------------------------------------------------------------------------
 static void Object_b_isKindOf_v(Object* self, Parameter* param)
 {
     param->out()->get<bool>(0) =
@@ -84,6 +95,7 @@ static void Object_sssb_getProperty_s(Object* self, Parameter* param)
 //-----------------------------------------------------------------------------
 void Object::bindMethod()
 {
+    BIND_METHOD(l_getDerivedTypes_v, Object_l_getDerivedTypes_v);
     BIND_METHOD(b_isKindOf_v, Object_b_isKindOf_v);
     BIND_METHOD(s_getTypeName_v, Object_s_getTypeName_v);
     BIND_METHOD(l_getGenerations_v, Object_l_getGenerations_v);

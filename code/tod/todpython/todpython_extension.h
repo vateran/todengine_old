@@ -61,5 +61,7 @@ extern PyObject* TodPython_serialize(PyObject* self, PyObject* args);
 extern PyObject* TodPython_deserialize(PyObject* self, PyObject* args);
 extern PyObject* TodPython_getModuleList(PyObject* self, PyObject* args);
 extern PyObject* TodPython_getTypeList(PyObject* self, PyObject* args);
+extern PyObject* TodPython_getDerivedTypes(PyObject* self, PyObject* args);
+extern PyObject* TodPython_getTypeInfo(PyObject* self, PyObject* args);
 
 #endif // TOD_TODPYTHON_TODPYTHONFUNC_H

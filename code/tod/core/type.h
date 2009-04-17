@@ -12,6 +12,7 @@
 */
 
 #include <bitset>
+#include <set>
 #include "tod/core/define.h"
 #include "tod/core/properties.h"
 #include "tod/core/methods.h"
@@ -29,6 +30,7 @@ namespace tod
 
             FLAG_MAX,
         };
+        typedef std::set<Type*> Types;
 
     public:
         Type(const String& name, Type* base);
@@ -45,6 +47,8 @@ namespace tod
         bool equal(const Type* type) const;
         bool isKindOf(const String& name) const;
         bool isKindOf(const Type* type) const;
+		void addDerivedType(Type* type);
+        const Types& getDerivedTypes() const;
 
         bool addMethod(Method* method);
         void removeMethod(const String& name);
@@ -66,11 +70,12 @@ namespace tod
         Properties::const_iterator lastProperty() const;
         bool hasBindedProperty() const;
         
-        void setFlag(Flag index, bool enable);
+        void setFlag(Flag index, bool enable);        
 
     private:
         String name_;
         Type* base_;
+        Types derivedTypes_;
         Properties properties_;
         Methods methods_;
         std::bitset<FLAG_MAX> flags_;

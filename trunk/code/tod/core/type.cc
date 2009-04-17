@@ -53,6 +53,13 @@ bool Type::isKindOf(const Type* type) const
 
 
 //-----------------------------------------------------------------------------
+void Type::addDerivedType(Type* type)
+{
+	derivedTypes_.insert(type);
+}
+
+
+//-----------------------------------------------------------------------------
 bool Type::addMethod(Method* method)
 {
     if (hasBindedMethod())

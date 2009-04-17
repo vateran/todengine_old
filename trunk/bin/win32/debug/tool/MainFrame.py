@@ -6,7 +6,7 @@ import wx
 import wx.grid
 import wx.aui
 import glob
-from lib.NOHTree import *
+from lib.NodeViewer import *
 from lib.PropertyGrid import *
 from lib.SceneView import *
 from lib.GameSceneViewPanel import *
@@ -121,13 +121,13 @@ class MainFrame(wx.Frame):
         camera.shader_uri = 'managed://shader#camera.fx'
         camera.translation = (0, 0.0, 0.0)
 
-        mesh = new('XFileNode', '/usr/scene/test')
+        '''mesh = new('XFileNode', '/usr/scene/test')
         mesh.mesh_uri = 'managed://mesh#tiny.x'
         mesh.shader_uri = 'managed://shader#character.fx'
         mesh.technique = 'Character'
         mesh.euler_rotation = (0, 3.1, 0)
         mesh.scaling = (0.05, 0.05, 0.05)
-        mesh.translation = (0, 7, 40)                
+        mesh.translation = (0, 7, 40)'''                
         
         '''mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
@@ -178,7 +178,7 @@ class MainFrame(wx.Frame):
         rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 1
         
-        rppass = new('RpPass', '/sys/server/renderpath/default/downscaled4x')
+        '''rppass = new('RpPass', '/sys/server/renderpath/default/downscaled4x')
         rppass.clear_target = False;
         rppass.clear_depth = False;
         rppass.clear_stencil = False;
@@ -240,18 +240,11 @@ class MainFrame(wx.Frame):
         #rppass.setTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rppass.setTexture('SceneMap', 'managed://rt#scene')
         #rppass.setTexture('SceneMap', 'managed://rt#bloomv_scene')
-        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')
+        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')'''
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),
-            wx.Size(300, 300), wx.CLIP_CHILDREN, '')
-
-        # NOHTree
-        self.nohTree = NOHTree(self, wx.NewId(),
-            wx.Point(8, 8), wx.Size(300, 392),
-            style=wx.TR_LINES_AT_ROOT | wx.TR_HAS_BUTTONS | wx.TR_EDIT_LABELS)
-        self.nohTree.Bind(wx.EVT_TREE_SEL_CHANGED, self.onSelChanged, id=self.nohTree.GetId())
-        self.nohTree.build('/')
+            wx.Size(300, 300), wx.CLIP_CHILDREN, '')        
         
         # CommandConsole
         self.commandConsole = CommandConsole(self, wx.NewId(), wx.DefaultPosition, wx.Size(300, 80), 0)
@@ -259,10 +252,14 @@ class MainFrame(wx.Frame):
         # SceneView
         self.sceneView = SceneView(self)
         self.sceneView.addViewPanel('Render View', get('/usr/scene'), get('/usr/scene/camera'), GameSceneViewPanel)
+
+        # Node Viewer
+        self.nodeViewer = NodeViewer(self, wx.NewId())
+        self.nodeViewer.tree.selectNode(get('/'))
         
         # AddPanes
-        self.auimgr.AddPane(self.nohTree, wx.aui.AuiPaneInfo().
-            Caption('Node of Hierarchy').Dockable(True).Right().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
+        self.auimgr.AddPane(self.nodeViewer, wx.aui.AuiPaneInfo().
+            Caption('Node Viewer').Dockable(True).Right().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
         self.auimgr.AddPane(self.propertyGrid, wx.aui.AuiPaneInfo().
             Caption('Property').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
         self.auimgr.AddPane(self.commandConsole, wx.aui.AuiPaneInfo().
@@ -289,10 +286,7 @@ class MainFrame(wx.Frame):
                         self.editorModules[menu.GetId()] = module
                 except:
                     pass
-                
-    def onSelChanged(self, event):
-        self.propertyGrid.setObject(get(self.nohTree.getSelectionAbsolutePath()))
-
+ 
     def OnMainFrameClose(self, event):
         trigger_server = get('/sys/server/trigger')
         trigger_server.quit()

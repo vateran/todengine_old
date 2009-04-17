@@ -6,6 +6,13 @@ inline Type* Type::getBase()
 
 
 //-----------------------------------------------------------------------------
+inline const Type::Types& Type::getDerivedTypes() const
+{
+    return derivedTypes_;
+}
+
+
+//-----------------------------------------------------------------------------
 inline const String& Type::getName() const
 {
     return name_;

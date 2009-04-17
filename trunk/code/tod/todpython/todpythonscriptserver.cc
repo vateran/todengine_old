@@ -36,6 +36,10 @@ static PyMethodDef TodPythonMethods[] =
        "get module list" },
     { "getTypeList",  TodPython_getTypeList, METH_VARARGS, 
       "get type list specified module name" },
+	{ "getDerivedTypes",  TodPython_getDerivedTypes, METH_VARARGS, 
+      "get derived type list specified type name" },
+	{ "getTypeInfo",  TodPython_getTypeInfo, METH_VARARGS, 
+      "get type information specified type name" },
     { NULL, NULL, 0, NULL }        /* Sentinel */
 };
 

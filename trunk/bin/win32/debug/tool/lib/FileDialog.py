@@ -295,7 +295,8 @@ class FileDialog(wx.Dialog):
         self.fileListCtrl.DeleteAllItems()
         index = 0
         for e in s.findEntries(str(path + '/*'), True):
-            self.fileListCtrl.InsertImageStringItem(index, e.getName(), self.ip.getImage('file'))
+            self.fileListCtrl.InsertImageStringItem(
+                index, e.getName(), self.ip.getImageIndex('file'))
             lt = time.localtime(e.getWriteTime())
             t = time.strftime('%Y-%m-%d', lt)
             ampm = time.strftime('%p', lt)

@@ -40,6 +40,7 @@ namespace tod
 
         void addModule(Module* module);
         Module* findModule(const String& name);
+		Module* findModuleByTypeName(const String& type_name) const;
         Modules::iterator firstModule();
         Modules::iterator lastModule();
         Modules::const_iterator firstModule() const;
@@ -47,6 +48,7 @@ namespace tod
         size_t getNumModules() const;
 
         void addType(const String& type_name, Module* module);
+        const Type* findType(const String& type_name) const;
 
         Node* getRoot();
 

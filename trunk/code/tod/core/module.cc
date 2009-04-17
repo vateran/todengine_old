@@ -54,8 +54,20 @@ void Module::addType(Kernel* kernel, const String& type_name, Type* type)
 {
     types_.insert(Types::value_type(type_name, type));
     kernel->addType(type_name, this);
+	if (type->getBase())
+		type->getBase()->addDerivedType(type);
     if (!type->hasBindedMethod())
         type->bindMethod();
     if (!type->hasBindedProperty())
         type->bindProperty();
+}
+
+
+//-----------------------------------------------------------------------------
+const Type* Module::findType(const String& type_name) const
+{
+    Types::const_iterator fi = types_.find(type_name);
+    if (types_.end() == fi)
+        return 0;
+    return fi->second;
 }

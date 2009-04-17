@@ -10,9 +10,9 @@ using namespace tod;
 FsResourceProtocol::FsResourceProtocol()
 {
 #ifdef WIN32
-	char_t cpath[MAX_PATH];
-	tod_getcwd(cpath, MAX_PATH);
-	baseAbsPath_ = cpath;
+    char_t cpath[MAX_PATH];
+    tod_getcwd(cpath, MAX_PATH);
+    baseAbsPath_ = cpath;
 #endif
 }
 
@@ -20,7 +20,7 @@ FsResourceProtocol::FsResourceProtocol()
 //-----------------------------------------------------------------------------
 FsResourceProtocol::~FsResourceProtocol()
 {
-	// empty
+    // empty
 }
 
 
@@ -28,11 +28,11 @@ FsResourceProtocol::~FsResourceProtocol()
 void FsResourceProtocol::push_cwd()
 {
 #ifdef WIN32
-	char_t path[MAX_PATH];
-	tod_getcwd(path, MAX_PATH);
-	curAbsPath_ = path;	
+    char_t path[MAX_PATH];
+    tod_getcwd(path, MAX_PATH);
+    curAbsPath_ = path;    
 
-	tod_chdir(baseAbsPath_.c_str());
+    tod_chdir(baseAbsPath_.c_str());
 #endif
 }
 
@@ -41,7 +41,7 @@ void FsResourceProtocol::push_cwd()
 void FsResourceProtocol::pop_cwd()
 {
 #ifdef WIN32
-	tod_chdir(curAbsPath_.c_str());
+    tod_chdir(curAbsPath_.c_str());
 #endif
 }
 
@@ -60,7 +60,7 @@ ResourceImplementator* FsResourceProtocol::create(const Uri& uri)
 
         ResourceCache::instance()->add(uri, ri);
     }
-	return ri;
+    return ri;
 }
 
 
@@ -104,7 +104,7 @@ void FsResourceProtocol::filetime_to_unixtime(const FILETIME& ft, time_t* t)
 #ifdef __WIN32__
     *tt -= 116444736000000000;
 #else
-	*tt -= 116444736000000000LLU;
+    *tt -= 116444736000000000LLU;
 #endif
     *tt /= 10000000;
     *t = (time_t)*tt;

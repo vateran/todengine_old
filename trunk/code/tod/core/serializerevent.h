@@ -8,14 +8,14 @@
 
 namespace tod
 {
-	class SerializerEvent
+    class SerializerEvent
     {
     public:
-		virtual void beginSerialize() {}
-		virtual void endSerialize() {}
+        virtual void beginSerialize() {}
+        virtual void endSerialize() {}
 
-		virtual void beginDeserialize() {}
-		virtual void endDeserialize() {}
+        virtual void beginDeserialize() {}
+        virtual void endDeserialize() {}
     };
 }
 

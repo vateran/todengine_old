@@ -132,7 +132,7 @@ extern LIBICONV_DLL_EXPORTED void iconvlist (int (*do_one) (unsigned int namesco
    prefixes should be directory names without trailing slash (i.e. use ""
    instead of "/").  */
 extern LIBICONV_DLL_EXPORTED void libiconv_set_relocation_prefix (const char *orig_prefix,
-					    const char *curr_prefix);
+                        const char *curr_prefix);
 
 #endif
 

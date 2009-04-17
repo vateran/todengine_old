@@ -51,7 +51,7 @@ void FsResourceImplementator::close()
 {
     if (file_.is_open())
     {
-	    file_.clear();
+        file_.clear();
         file_.close();
     }
 }
@@ -60,9 +60,9 @@ void FsResourceImplementator::close()
 //-----------------------------------------------------------------------------
 int FsResourceImplementator::write(const dynamic_buffer_t& buffer)
 {
-	std::ios_base::streampos p = file_.tellp();
-	file_.write(&buffer[0], buffer.size());
-	return file_.tellp() - p;
+    std::ios_base::streampos p = file_.tellp();
+    file_.write(&buffer[0], buffer.size());
+    return file_.tellp() - p;
 }
 
 

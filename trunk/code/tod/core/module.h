@@ -35,6 +35,7 @@ namespace tod
         Object* create(const String& type_name);
 
         void addType(Kernel* kernel, const String& type_name, Type* type);
+        const Type* findType(const String& type_name) const;
 
         const String& getName() const;
         size_t getNumTypes() const;

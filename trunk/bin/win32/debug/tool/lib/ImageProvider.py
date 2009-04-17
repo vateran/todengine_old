@@ -11,8 +11,14 @@ class ImageProvider:
     def load(self, root_path):
         # add default icon
         try:
-            bitmap = wx.Bitmap(root_path + '/Default.png', wx.BITMAP_TYPE_PNG)
-            self.imageList.Add(bitmap)
+            if os.path.exists(root_path + '/Default.gif'):
+                bitmap = wx.Bitmap(root_path + '/Default.gif',
+                    wx.BITMAP_TYPE_GIF)
+                self.imageList.Add(bitmap)
+            elif os.path.exists(root_path + '/Default.png'):
+                bitmap = wx.Bitmap(root_path + '/Default.png',
+                    wx.BITMAP_TYPE_PNG)
+                self.imageList.Add(bitmap)
         except:
             raise
 
@@ -44,8 +50,13 @@ class ImageProvider:
     
     def getImage(self, name):
         try:
-            return self.images[name]
+            return self.imageList.GetBitmap(self.images[name])
         except:
             raise
 
+    def getImageIndex(self, name):
+        try:
+            return self.images[name]
+        except:
+            raise
 

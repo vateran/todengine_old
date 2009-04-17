@@ -534,7 +534,7 @@ class PropertyGrid(wx.Panel):
         if PropertyGrid.s_instance == None:
             PropertyGrid.s_instance = self
         wx.Panel.__init__(self, parent, id, pos, size, style, name)
-        self.objectListComboBox = wx.ComboBox(choices=['Core Project ¼Ó¼º'],
+        self.objectListComboBox = wx.ComboBox(choices=[''],
               id=wx.NewId(), name='', parent=self,
               pos=wx.Point(2, 4), size=wx.Size(300, 22), style=0, value=u'')
 
@@ -549,6 +549,7 @@ class PropertyGrid(wx.Panel):
         self.Bind(wx.EVT_SIZE, self.OnSize, id=self.GetId())
         
     def setObject(self, object):
+        self.object = object
         self.list.clear()
         for type_name in object.getGenerations():
             prop_names = object.getPropertyNames(type_name)
@@ -558,7 +559,10 @@ class PropertyGrid(wx.Panel):
             for prop_name in prop_names:
                 prop_name, prop_value, prop_type, readonly = object.getProperty(prop_name)
                 group.addProperty(object, prop_name, prop_value, prop_type, readonly)
-        self.objectListComboBox.SetValue(object.getAbsolutePath())
+        apath = self.object.getAbsolutePath()
+        if len(apath) == 0:
+            apath = '/'
+        self.objectListComboBox.SetValue(apath)
         self.list.OnSize(0)        
 
     def addGroup(self, name):
@@ -572,12 +576,14 @@ class PropertyGrid(wx.Panel):
         self.sw.SetSashPosition(h / 5 * 4)
         
     def OnSelectedProperty(self, child):
+        apath = self.object.getAbsolutePath()
+        if len(apath) == 0:
+            apath = '/'
+        self.objectListComboBox.SetValue(apath + ':' + child.value)
         self.docPanel.SetDesc(child.value, '')
         self.docPanel.Refresh()
         
     def OnChangePropertyValue(self, object, prop_name, value):
-        #str = "get('" + object.getAbsolutePath() + "')." + prop_name + " = (" + value.replace(' ', ',') + ")"
-        #CommandConsole.CommandConsole.instance().execute(str)
         object.setProperty(prop_name, value)
         self.GetParent().Refresh(False)
     

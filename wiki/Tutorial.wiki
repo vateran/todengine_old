@@ -47,3 +47,19 @@ xs.deserialize(root_node, "managed://script#usr.xml", 0);
    }}}
 
 = Scripting =
+ * TodEngine 에서는 고유의 Scripting Abstraction Layer 가 존재한다.
+ * 이러한 Layer 는 다양한 Script 언어에 대한 interface 를 제공한다.
+ * 이러한 특징 때문에 Node 에 method binding 과정을 거치게 되면 Python, Lua, Ruby를 이용하여 객체에 command 를 invokation 할 수 있게 된다.
+   {{{
+# in Python
+from todpython import *
+node = get('/usr/scene/test')
+node.getName() == 'test'
+node.getAbsolutePath() == '/usr/scene/test'
+   }}}
+   {{{
+# in Lua
+node = get('/usr/scene/test')
+node:getName() == 'test'
+node:getAbsolutePath() == '/usr/scene/test'
+   }}}

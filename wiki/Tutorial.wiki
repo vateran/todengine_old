@@ -1,7 +1,9 @@
 #summary TodEngine Turotial
 
 = Modular Programming =
- * 
+ * TodEngine 에서 기능들은 Node 객체의 조합으로 제공된다.
+ * TodEngine 에서 Node 클래스를 제공하는 전체 집합은 Module 이다.
+ * Module 은 제공하는 Node의 종류를 제공하고 결국 기능집합을 제공한다.
 
 = NOH(Named Object of Hierarchy) =
  * TodEngine 에서 객체는 NOH라고 불리우는 트리형식의 데이터 구조로 관리된다. 이는 OS의 파일 시스템의 디렉토리구조와 흡사하다.

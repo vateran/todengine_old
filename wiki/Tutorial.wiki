@@ -63,3 +63,21 @@ node = get('/usr/scene/test')
 node:getName() == 'test'
 node:getAbsolutePath() == '/usr/scene/test'
    }}}
+
+= Resource Management =
+ * TodEngine 에서 File은 Virtual Storage 의 개념으로 관리된다.
+ * TodEngine::ResourceManager 는 Application이 시작될때 지정된 하나의 Resource 디렉토리를 지정하게 된다. 이렇게 지정된 디렉토리 하위의 디렉토리들은 각 Virtual Storage 가 된다.
+   {{{
+/data(Root Resource)
+    /mesh(Virtual Storage)
+    /script(Virtual Storage)
+    /...
+   }}}
+ * TodEngine 에서는 Application 이 Shipping 될때 하나의 Virtual Storage 는 Packed Virtual File System(pvfs) 를 통해서 하나의 파일로 합쳐지도록 하여 보안을 유지하도록 한다.
+ * 하지만 Application Code 에서는 OS의 FS를 사용하던지 PVFS를 사용하던지 관계없이 *URI(Universal Resource Identifier)* 를 통해서 Resource의 접근을 수행한다.
+   {{{
+managed://mesh#test/test.x
+// managed : Protocol 이름, (http/ftp/zip/file/... 으로 확장될 수 있음)
+// mesh : Virtual Storage 이름
+// test/test.x : Virtual Storage 내의 Resoruce Path
+   }}}

@@ -12,6 +12,7 @@ from lib.SceneView import *
 from lib.GameSceneViewPanel import *
 from lib.CommandConsole import *
 from lib.FileDialog import *
+from lib.ClassDiagram import *
 
 def create(parent):
     return MainFrame(parent)
@@ -256,8 +257,13 @@ class MainFrame(wx.Frame):
         # Node Viewer
         self.nodeViewer = NodeViewer(self, wx.NewId())
         self.nodeViewer.tree.selectNode(get('/'))
+
+        self.classDiagram = ClassDiagram(self, wx.NewId())
         
         # AddPanes
+        self.auimgr.AddPane(self.classDiagram, wx.aui.AuiPaneInfo().
+            Caption('Class Diagram').Dockable(True).Left().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
+
         self.auimgr.AddPane(self.nodeViewer, wx.aui.AuiPaneInfo().
             Caption('Node Viewer').Dockable(True).Right().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
         self.auimgr.AddPane(self.propertyGrid, wx.aui.AuiPaneInfo().

@@ -12,7 +12,8 @@ from lib.SceneView import *
 from lib.GameSceneViewPanel import *
 from lib.CommandConsole import *
 from lib.FileDialog import *
-from lib.ClassDiagram import *
+from lib.DiagramPanel import *
+from lib.ImageProvider import *
 
 def create(parent):
     return MainFrame(parent)
@@ -242,6 +243,16 @@ class MainFrame(wx.Frame):
         rppass.setTexture('SceneMap', 'managed://rt#scene')
         #rppass.setTexture('SceneMap', 'managed://rt#bloomv_scene')
         rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')'''
+
+        self.cameraToolbarIP = ImageProvider('data/MainToolbar', 22, 23)
+
+        # Camera ToolBar
+        self.tb = wx.ToolBar(self, wx.NewId(), style=wx.TB_FLAT | wx.TB_NODIVIDER | wx.TB_VERTICAL)
+        self.tb.AddRadioLabelTool(0, "Select", self.cameraToolbarIP.getImage('select'), shortHelp="Select")
+        self.tb.AddRadioLabelTool(1, "Translate", self.cameraToolbarIP.getImage('translate'), shortHelp="Translate")
+        self.tb.AddRadioLabelTool(2, "Rotate", self.cameraToolbarIP.getImage('rotate'), shortHelp="Rotate")
+        self.tb.AddRadioLabelTool(3, "Scale", self.cameraToolbarIP.getImage('scale'), shortHelp="Scale")
+        self.tb.Realize()
         
         # PropertyGrid
         self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),
@@ -258,11 +269,13 @@ class MainFrame(wx.Frame):
         self.nodeViewer = NodeViewer(self, wx.NewId())
         self.nodeViewer.tree.selectNode(get('/'))
 
-        self.classDiagram = ClassDiagram(self, wx.NewId())
+        #self.diagramPanel = DiagramPanel(self, wx.NewId())
         
         # AddPanes
-        self.auimgr.AddPane(self.classDiagram, wx.aui.AuiPaneInfo().
-            Caption('Class Diagram').Dockable(True).Left().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
+        #self.auimgr.AddPane(self.diagramPanel, wx.aui.AuiPaneInfo().
+        #    Caption('Diagram Panel').Dockable(True).Left().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
+
+        self.auimgr.AddPane(self.tb, wx.aui.AuiPaneInfo().Name("Camera Toolbar").Caption("Camera Toolbar").ToolbarPane().Left().TopDockable(False).BottomDockable(False).GripperTop())
 
         self.auimgr.AddPane(self.nodeViewer, wx.aui.AuiPaneInfo().
             Caption('Node Viewer').Dockable(True).Right().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))

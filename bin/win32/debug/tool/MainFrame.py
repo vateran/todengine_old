@@ -15,6 +15,7 @@ from lib.FileDialog import *
 from lib.DiagramPanel import *
 from lib.ImageProvider import *
 
+
 def create(parent):
     return MainFrame(parent)
 
@@ -103,7 +104,7 @@ class MainFrame(wx.Frame):
         
         self.auimgr = wx.aui.AuiManager()
         self.auimgr.SetManagedWindow(self)
-        
+                
         # initialize Menu
         self.buildEditorMenu()
         
@@ -129,9 +130,9 @@ class MainFrame(wx.Frame):
         mesh.technique = 'Character'
         mesh.euler_rotation = (0, 3.1, 0)
         mesh.scaling = (0.05, 0.05, 0.05)
-        mesh.translation = (0, 7, 40)'''                
+        mesh.translation = (0, 7, 40)'''
         
-        '''mesh = new('MeshNode', '/usr/scene/tiger')
+        mesh = new('MeshNode', '/usr/scene/tiger')
         mesh.euler_rotation = (0, 0, 0)
         mesh.shader_uri = 'managed://shader#mesh.fx'
         mesh.technique = 'EnvMapMesh'
@@ -140,9 +141,9 @@ class MainFrame(wx.Frame):
         mesh.translation = (0, -0.5, 2.5)
         mesh.mesh_uri = 'managed://mesh#skullocc.x'
         #mesh.setTexture('EnvMap', 'managed://texture#uffizi_cross.dds')
-        mesh.setCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')'''
+        mesh.setCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')
         
-        '''mesh = new('MeshNode', '/usr/scene/camera/skybox')
+        mesh = new('MeshNode', '/usr/scene/camera/skybox')
         mesh.euler_rotation = (0, 0, 0)
         mesh.scaling = (50, 50, 50)
         mesh.translation = (0, 0, 0)
@@ -150,7 +151,7 @@ class MainFrame(wx.Frame):
         mesh.technique = 'SkyBox'
         mesh.mesh_uri = 'managed://mesh#alley_skybox.x'
         #mesh.setCubeTexture('SkyBoxEnvMap', 'managed://texture#sky_cube.dds')
-        mesh.setCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')'''
+        mesh.setCubeTexture('SkyBoxEnvMap', 'managed://texture#uffizi_cross_cube.dds')
         
         '''terrain = new('TerrainNode', '/usr/scene/terrain')
         terrain.heightmap_uri = 'managed://texture#hmap5x5_tile.png'
@@ -180,7 +181,7 @@ class MainFrame(wx.Frame):
         rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 1
         
-        '''rppass = new('RpPass', '/sys/server/renderpath/default/downscaled4x')
+        rppass = new('RpPass', '/sys/server/renderpath/default/downscaled4x')
         rppass.clear_target = False;
         rppass.clear_depth = False;
         rppass.clear_stencil = False;
@@ -242,7 +243,7 @@ class MainFrame(wx.Frame):
         #rppass.setTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rppass.setTexture('SceneMap', 'managed://rt#scene')
         #rppass.setTexture('SceneMap', 'managed://rt#bloomv_scene')
-        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')'''
+        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')
 
         self.cameraToolbarIP = ImageProvider('data/MainToolbar', 22, 23)
 
@@ -263,7 +264,8 @@ class MainFrame(wx.Frame):
        
         # SceneView
         self.sceneView = SceneView(self)
-        self.sceneView.addViewPanel('Render View', get('/usr/scene'), get('/usr/scene/camera'), GameSceneViewPanel)
+        self.auimgr.AddPane(self.sceneView, wx.aui.AuiPaneInfo().Caption('Render View').Center().CloseButton(False))
+        self.newSceneView(get('/usr/scene'))        
 
         # Node Viewer
         self.nodeViewer = NodeViewer(self, wx.NewId())
@@ -283,10 +285,11 @@ class MainFrame(wx.Frame):
             Caption('Property').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
         self.auimgr.AddPane(self.commandConsole, wx.aui.AuiPaneInfo().
             Caption('Command Console').Dockable(True).Bottom().CloseButton(True).MinimizeButton(True))
-        self.auimgr.AddPane(self.sceneView, wx.aui.AuiPaneInfo().
-            Caption('Render View').Center().CloseButton(False))
        
         self.auimgr.Update()
+        
+    def newSceneView(self, target):
+        self.sceneView.addViewPanel('Render View - ' + target.getAbsolutePath(), target, get('/usr/scene/camera'), SceneViewPanel)
 
     def buildEditorMenu(self):
         dlist = glob.glob('plugins/*')
@@ -322,7 +325,7 @@ class MainFrame(wx.Frame):
                 pass
             module.initialize(self, node)
         except:
-            pass           
+            pass
 
     def update(self):
         self.sceneView.update()

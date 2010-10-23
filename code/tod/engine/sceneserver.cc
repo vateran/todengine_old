@@ -59,7 +59,7 @@ void SceneServer::endScene()
 
 
 //-----------------------------------------------------------------------------
-void SceneServer::renderScene()
+void SceneServer::renderScene(CameraNode* override_camera)
 {
     RenderPath::instance()->validate();
 
@@ -74,7 +74,7 @@ void SceneServer::renderScene()
     sortNodes();
 
     // render cameras
-    renderCameraScenes();
+    renderCameraScenes(override_camera);
 }
 
 
@@ -204,18 +204,25 @@ void SceneServer::sortNodes()
 
 
 //-----------------------------------------------------------------------------
-void SceneServer::renderCameraScenes()
+void SceneServer::renderCameraScenes(CameraNode* camera_override)
 {
-    for (size_t i = 0; i < cameras_.size(); ++i)
+    if (camera_override)
     {
-        Group& group = groups_[cameras_[i]];
-        AbstractCameraNode* camera_node =
-            dynamic_cast<AbstractCameraNode*>(group.sceneNode_);
-        tod_assert(camera_node);
-        camera_node->applyShader(this);
-        camera_node->renderShader(this, group.sceneContext_);
-        camera_node->renderCamera(this);
-        doRenderPath(camera_node->getRenderPathSection());
+
+    }
+    else
+    {
+        for (size_t i = 0; i < cameras_.size(); ++i)
+        {
+            Group& group = groups_[cameras_[i]];
+            AbstractCameraNode* camera_node =
+                dynamic_cast<AbstractCameraNode*>(group.sceneNode_);
+            tod_assert(camera_node);
+            camera_node->applyShader(this);
+            camera_node->renderShader(this, group.sceneContext_);
+            camera_node->renderCamera(this);
+            doRenderPath(camera_node->getRenderPathSection());
+        }
     }
 }
 

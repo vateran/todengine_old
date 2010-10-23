@@ -16,6 +16,7 @@ namespace tod
 namespace engine
 {
     class SceneNode;
+    class CameraNode;
     class SceneContext;
     class SceneServer :
         public Node,
@@ -29,7 +30,7 @@ namespace engine
         void beginScene();
         void attach(SceneContext* scene_context);
         void endScene();
-        void renderScene();
+        void renderScene(CameraNode* camera_override=0);
         void presentScene(int windowid_override=0);
 
         void beginGroup(SceneNode* scene_node, SceneContext* scene_context);
@@ -38,7 +39,7 @@ namespace engine
         void splitNodes();
         void validateNodeResources();
         void sortNodes();
-        void renderCameraScenes();
+        void renderCameraScenes(CameraNode* camera_override=0);
         void doRenderPath(const String& section_name);
 
         void pick(int x, int y, int w, int h);

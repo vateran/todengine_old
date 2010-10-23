@@ -53,6 +53,7 @@ namespace engine
         int windowId_;
         Node* root_;
         CameraNode* camera_;
+        CameraNode defaultCamera_;
         SceneContext sceneContext_;
     };
 }

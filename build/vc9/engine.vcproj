@@ -357,18 +357,6 @@
 							</File>
 						</Filter>
 						<Filter
-							Name="timenode"
-							>
-							<File
-								RelativePath="..\..\code\tod\engine\timenode.cc"
-								>
-							</File>
-							<File
-								RelativePath="..\..\code\tod\engine\timenode.h"
-								>
-							</File>
-						</Filter>
-						<Filter
 							Name="treenode"
 							>
 							<File
@@ -644,30 +632,6 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="time"
-				>
-				<File
-					RelativePath="..\..\code\tod\engine\stopwatch.cc"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\tod\engine\stopwatch.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\tod\engine\timeserver.cc"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\tod\engine\timeserver.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\tod\engine\timeserver_method.cc"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="audio"
 				>
 			</Filter>
@@ -700,22 +664,6 @@
 				</File>
 				<File
 					RelativePath="..\..\code\tod\engine\resourceref.inl"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="trigger"
-				>
-				<File
-					RelativePath="..\..\code\tod\engine\triggerserver.cc"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\tod\engine\triggerserver.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\tod\engine\triggerserver_method.cc"
 					>
 				</File>
 			</Filter>

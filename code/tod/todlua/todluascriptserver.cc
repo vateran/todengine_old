@@ -6,7 +6,7 @@
 #include "tod/core/module.h"
 #include "tod/core/resource.h"
 #include "tod/core/simpleproperty.h"
-#include "tod/engine/timeserver.h"
+#include "tod/core/timeserver.h"
 #include "tod/todlua/todlua_extension.h"
 
 using namespace tod;

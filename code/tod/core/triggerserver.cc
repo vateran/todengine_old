@@ -1,9 +1,8 @@
-#include "tod/engine/triggerserver.h"
+#include "tod/core/triggerserver.h"
 
-#include "tod/engine/timeserver.h"
+#include "tod/core/timeserver.h"
 
 using namespace tod;
-using namespace tod::engine;
 
 IMPLEMENT_CLASS(TriggerServer, Node);
 

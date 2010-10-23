@@ -5,7 +5,7 @@
 #include "tod/core/module.h"
 #include "tod/core/resourcemanager.h"
 #include "tod/core/xmlserializer.h"
-#include "tod/engine/triggerserver.h"
+#include "tod/core/triggerserver.h"
 
 using namespace tod;
 
@@ -192,7 +192,7 @@ PyObject* TodPython_todprint(PyObject* self, PyObject* args)
 //-----------------------------------------------------------------------------
 PyObject* TodPython_exit(PyObject* self, PyObject* args)
 {
-    tod::engine::TriggerServer::instance()->quit();
+    TriggerServer::instance()->quit();
     Py_INCREF(Py_True);
     return Py_True;
 }

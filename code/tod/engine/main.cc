@@ -7,8 +7,6 @@
 #include "tod/core/kernel.h"
 #include "tod/core/tostring.h"
 
-#include "tod/engine/triggerserver.h"
-#include "tod/engine/timeserver.h"
 #include "tod/engine/renderer.h"
 #include "tod/engine/sceneserver.h"
 #include "tod/engine/sceneview.h"
@@ -22,7 +20,6 @@
 #include "tod/engine/rpsection.h"
 #include "tod/engine/rppass.h"
 #include "tod/engine/rprendertarget.h"
-#include "tod/engine/timenode.h"
 #include "tod/engine/terrainnode.h"
 #include "tod/engine/treenode.h"
 #include "tod/engine/quadtree.h"
@@ -35,8 +32,6 @@ using namespace tod::engine;
 //-----------------------------------------------------------------------------
 void initialize_Engine(Module* module)
 {
-    REGISTER_TYPE(module, TriggerServer);
-    REGISTER_TYPE(module, TimeServer);;
     REGISTER_TYPE(module, SceneServer);
     REGISTER_TYPE(module, SceneView);
     REGISTER_TYPE(module, SceneNode);
@@ -51,13 +46,10 @@ void initialize_Engine(Module* module)
     REGISTER_TYPE(module, RpSection);
     REGISTER_TYPE(module, RpPass);
     REGISTER_TYPE(module, RpRenderTarget);
-    REGISTER_TYPE(module, TimeNode);
     REGISTER_TYPE(module, TerrainNode);
     REGISTER_TYPE(module, TreeNode);
     REGISTER_TYPE(module, QuadTree::Element);
     
-    TimeServer::setSingletonPath("/sys/server/time");
-    TriggerServer::setSingletonPath("/sys/server/trigger");
     Renderer::setSingletonPath("/sys/server/renderer");
     RenderPath::setSingletonPath("/sys/server/renderpath");
     SceneServer::setSingletonPath("/sys/server/scene");

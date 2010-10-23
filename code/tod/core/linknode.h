@@ -1,5 +1,5 @@
-#ifndef TOD_CORE_OBJECT_LINKNODE_H
-#define TOD_CORE_OBJECT_LINKNODE_H
+#ifndef TOD_CORE_NODE_LINKNODE_H
+#define TOD_CORE_NODE_LINKNODE_H
 /**
     @ingroup TodCoreObject
     @class tod::LinkNode
@@ -77,4 +77,4 @@ namespace tod
     };
 }
 
-#endif // TOD_CORE_OBJECT_LINKNODE_H
+#endif // TOD_CORE_NODE_LINKNODE_H

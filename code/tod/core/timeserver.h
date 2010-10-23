@@ -1,8 +1,8 @@
-#ifndef TOD_ENGINE_TIME_TIMESERVER_H
-#define TOD_ENGINE_TIME_TIMESERVER_H
+#ifndef TOD_CORE_UTILITY_TIME_TIMESERVER_H
+#define TOD_CORE_UTILITY_TIME_TIMESERVER_H
 /**
-    @ingroup TodEngineTime
-    @class tod::engine::TimeServer
+    @ingroup TodUtility
+    @class tod::core::TimeServer
     @brief 
 */
 
@@ -12,8 +12,6 @@
 #include "tod/core/singleton3.h"
 
 namespace tod
-{
-namespace engine
 {
     class TimeServer :
         public Node,
@@ -53,6 +51,5 @@ namespace engine
         static LARGE_INTEGER s_Frequency_;
     };
 }
-}
 
-#endif // TOD_ENGINE_TIME_TIMESERVER_H
+#endif // TOD_CORE_UTILITY_TIME_TIMESERVER_H

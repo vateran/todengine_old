@@ -1,10 +1,9 @@
-#include "tod/engine/timenode.h"
+#include "tod/core/timenode.h"
 
-#include "tod/engine/timeserver.h"
+#include "tod/core/timeserver.h"
 #include "tod/core/simplepropertybinder.h"
 
 using namespace tod;
-using namespace tod::engine;
 
 IMPLEMENT_CLASS(TimeNode, Node);
 

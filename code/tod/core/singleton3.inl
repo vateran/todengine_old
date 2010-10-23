@@ -54,11 +54,14 @@ int Singleton3<T>::getRefSingleton() const
 
 //-----------------------------------------------------------------------------
 template <typename T>
-void Singleton3<T>::setSingletonPath(const Path& path)
+void Singleton3<T>::setSingletonPath(const Path& path, bool init)
 {
     s_path = path;
-    if (!T::TYPE.isAbstract())
-        instance();
+    if (init)
+    {
+        if (!T::TYPE.isAbstract())
+            instance();
+    }
 }
 
 

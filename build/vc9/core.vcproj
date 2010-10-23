@@ -463,6 +463,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="timenode"
+					>
+					<File
+						RelativePath="..\..\code\tod\core\timenode.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\tod\core\timenode.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -1446,6 +1458,46 @@
 				</File>
 				<File
 					RelativePath="..\..\code\external\iconv\src\viscii.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="trigger"
+				>
+				<File
+					RelativePath="..\..\code\tod\core\triggerserver.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\tod\core\triggerserver.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\tod\core\triggerserver_method.cc"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="time"
+				>
+				<File
+					RelativePath="..\..\code\tod\core\stopwatch.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\tod\core\stopwatch.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\tod\core\timeserver.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\tod\core\timeserver.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\tod\core\timeserver_method.cc"
 					>
 				</File>
 			</Filter>

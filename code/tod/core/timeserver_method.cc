@@ -1,9 +1,8 @@
-#include "tod/engine/timeserver.h"
+#include "tod/core/timeserver.h"
 
 #include "tod/core/methodbinder.h"
 
 using namespace tod;
-using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 static void TimeServer_v_pause_v(TimeServer* self, Parameter* param)

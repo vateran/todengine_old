@@ -2,7 +2,7 @@
 
 #include "tod/core/resource.h"
 #include "tod/core/simplepropertybinder.h"
-#include "tod/engine/timeserver.h"
+#include "tod/core/timeserver.h"
 #include "tod/engine/shader.h"
 #include "tod/engine/texture.h"
 #include "tod/d3d9graphics/d3d9renderer.h"

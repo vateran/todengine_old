@@ -15,7 +15,7 @@ extern "C"
 
 #include "tod/core/uri.h"
 #include "tod/core/parameter.h"
-#include "tod/engine/stopwatch.h"
+#include "tod/core/stopwatch.h"
 
 namespace tod
 {
@@ -54,7 +54,7 @@ namespace tod
         lua_State* luaStateRoot_;
         lua_State* luaState_;
         YieldMode yieldMode_;
-        engine::StopWatch stopWatch_;
+        StopWatch stopWatch_;
 
         union
         {

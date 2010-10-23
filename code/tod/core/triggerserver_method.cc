@@ -1,9 +1,8 @@
-#include "tod/engine/triggerserver.h"
+#include "tod/core/triggerserver.h"
 
 #include "tod/core/methodbinder.h"
 
 using namespace tod;
-using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 static void TriggerServer_v_add_of(TriggerServer* self, Parameter* param)

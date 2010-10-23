@@ -2,8 +2,8 @@
 
 #include "tod/core/ref.h"
 #include "tod/core/kernel.h"
-#include "tod/engine/timeserver.h"
-#include "tod/engine/stopwatch.h"
+#include "tod/core/timeserver.h"
+#include "tod/core/stopwatch.h"
 
 using namespace tod;
 using namespace tod::engine;

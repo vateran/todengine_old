@@ -25,7 +25,7 @@ namespace tod
         override int releaseSingleton();
         override int getRefSingleton() const;
 
-        static void setSingletonPath(const Path& path);
+        static void setSingletonPath(const Path& path, bool init=true);
 
         static T* instance();
         static bool isInitialized();

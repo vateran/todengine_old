@@ -1,8 +1,8 @@
-#ifndef TOD_ENGINE_TRIGGER_TRIGGERSERVER_H
-#define TOD_ENGINE_TRIGGER_TRIGGERSERVER_H
+#ifndef TOD_CORE_UTILITY_TRIGGER_TRIGGERSERVER_H
+#define TOD_CORE_UTILITY_TRIGGER_TRIGGERSERVER_H
 /**
-    @ingroup TodEngineResource
-    @class tod::engine::Resource
+    @ingroup TodCoreUtility
+    @class tod::core::TriggerServer
     @brief 
 */
 
@@ -11,11 +11,9 @@
 #include "tod/core/ref.h"
 #include "tod/core/node.h"
 #include "tod/core/singleton3.h"
-#include "tod/engine/stopwatch.h"
+#include "tod/core/stopwatch.h"
 
 namespace tod
-{
-namespace engine
 {
     class TriggerServer :
         public Node,
@@ -63,6 +61,5 @@ namespace engine
         
     };
 }
-}
 
-#endif // TOD_ENGINE_TRIGGER_TRIGGERSERVER_H
+#endif // TOD_CORE_UTILITY_TRIGGER_TRIGGERSERVER_H

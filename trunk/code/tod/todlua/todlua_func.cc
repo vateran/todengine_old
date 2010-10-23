@@ -8,7 +8,7 @@
 #include "tod/core/simpleproperty.h"
 #include "tod/core/resourcemanager.h"
 #include "tod/core/xmlserializer.h"
-#include "tod/engine/triggerserver.h"
+#include "tod/core/triggerserver.h"
 #include "tod/todlua/todluascriptserver.h"
 
 using namespace tod;
@@ -250,7 +250,7 @@ int luacmd_TodPrint(lua_State* s)
 //-----------------------------------------------------------------------------
 int luacmd_Exit(lua_State* s)
 {
-    tod::engine::TriggerServer::instance()->quit();
+    TriggerServer::instance()->quit();
     return 0;
 }
 

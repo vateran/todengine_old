@@ -1,8 +1,8 @@
-#ifndef TOD_ENGINE_NODE_TIMENODE_H
-#define TOD_ENGINE_NODE_TIMENODE_H
+#ifndef TOD_CORE_NODE_TIMENODE_H
+#define TOD_CORE_NODE_TIMENODE_H
 /**
-    @ingroup TodEngine
-    @class tod::engine::TimeNode
+    @ingroup TodCoreObject
+    @class tod::core::TimeNode
     @brief 
 */
 
@@ -10,8 +10,6 @@
 #include "tod/core/node.h"
 
 namespace tod
-{
-namespace engine
 {
     class TimeNode : public Node
     {
@@ -25,6 +23,5 @@ namespace engine
         static void bindProperty();
     };
 }
-}
 
-#endif // TOD_ENGINE_NODE_TIMENODE_H
+#endif // TOD_CORE_NODE_TIMENODE_H

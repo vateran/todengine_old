@@ -1,16 +1,14 @@
-#ifndef TOD_ENGINE_TIME_STOPWATCH_H
-#define TOD_ENGINE_TIME_STOPWATCH_H
+#ifndef TOD_CORE_UTILITY_TIME_STOPWATCH_H
+#define TOD_CORE_UTILITY_TIME_STOPWATCH_H
 /**
-    @ingroup TodEngineTime
-    @class tod::engine::TimeServer
+    @ingroup TodUtility
+    @class tod::core::StopWatch
     @brief 
 */
 
 #include "tod/core/time.h"
 
 namespace tod
-{
-namespace engine
 {
     class StopWatch
     {
@@ -36,6 +34,5 @@ namespace engine
         Time pauseTime_;
     };
 }
-}
 
-#endif // TOD_ENGINE_TIME_STOPWATCH_H
+#endif // TOD_CORE_UTILITY_TIME_STOPWATCH_H

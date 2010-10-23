@@ -5,6 +5,7 @@ import wx
 import lib.NOHImageProvider as NOHImageProvider
 import lib.NodeCreator as NodeCreator
 import lib.FileDialog as FileDialog
+import MainFrame
 from todpython import *
 
 # ------------------------------------------------------------------------------
@@ -23,6 +24,7 @@ class NOHPopupMenu(wx.Menu):
             (u'Delete\tDel', self.ap.GetBitmap(wx.ART_DELETE), self.OnDeleteNode),
             None,
             (u'Run Editor...', self.ap.GetBitmap(wx.ART_FIND), self.OnRunEditor),
+            (u'New SceneView...', self.ap.GetBitmap(wx.ART_NEW), self.OnNewSceneView),
             None,
             (u'&Save ...', self.ap.GetBitmap(wx.ART_FILE_SAVE), self.OnSave),
             (u'&Load ...', self.ap.GetBitmap(wx.ART_FILE_OPEN), self.OnLoad)]
@@ -35,8 +37,9 @@ class NOHPopupMenu(wx.Menu):
                 mi.SetBitmap(md[1])
                 self.AppendItem(mi)
                 self.Bind(wx.EVT_MENU, md[2], id=mi.GetId())
-
+        
         self.runEditorMenuItem = self.FindItemByPosition(8)
+        self.newSceneViewMenuItem = self.FindItemByPosition(9)
 
     def setSelectedItem(self, item):
         self.selectedItem = item
@@ -48,7 +51,12 @@ class NOHPopupMenu(wx.Menu):
             if os.path.exists('plugins/' + type_name):
                 self.runEditorMenuItem.Enable(True)
                 break
-        
+        self.newSceneViewMenuItem.Enable(False)
+        for type_name in obj.getGenerations():
+            if type_name == 'SceneNode':
+                self.newSceneViewMenuItem.Enable(True)
+                break;
+                
     def OnAddNode(self, event):
         frame = NodeCreator.create(self.parent)
         frame.setSelectedItem(self.selectedItem)
@@ -109,6 +117,9 @@ class NOHPopupMenu(wx.Menu):
                     break
         except:
             raise
+        
+    def OnNewSceneView(self, event):
+        MainFrame.MainFrame.instance().newSceneView(self.targetObject);
         
     def load_NOH_icons(self):
         pass

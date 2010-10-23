@@ -1,25 +1,27 @@
 # coding: mbcs
 
-from todpython import *
 import wx
+from todpython import *
 from SceneViewPanel import *
+
 
 #-------------------------------------------------------------------------------
 class GameSceneViewPanel(SceneViewPanel):
     def __init__(self, parent):
         SceneViewPanel.__init__(self, parent)
+        
+        #view
         self.sceneView = newobj('SceneView')
         self.sceneView.setWindowId(self.GetHandle())
-
+        
+        
+        #events
         self.Bind(wx.EVT_MOTION, self.OnMotion, id=self.GetId())
         self.Bind(wx.EVT_LEFT_UP, self.OnLeftUp, id=self.GetId())
         self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown, id=self.GetId())
         self.Bind(wx.EVT_RIGHT_UP, self.OnRightUp, id=self.GetId())
         self.Bind(wx.EVT_RIGHT_DOWN, self.OnRightDown, id=self.GetId())
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown, id=self.GetId())
-
-        self.camera = None
-        self.sceneRoot = None
         
     def OnMotion(self, event):
         self.GetParent().OnMotion(self, event)
@@ -65,3 +67,4 @@ class GameSceneViewPanel(SceneViewPanel):
         if kc == wx.WXK_RIGHT or kc == 68:
             self.camera.moveSideward(dist)
 
+    

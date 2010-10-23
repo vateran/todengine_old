@@ -12,7 +12,7 @@ IMPLEMENT_CLASS(SceneView, Node);
 
 //-----------------------------------------------------------------------------
 SceneView::SceneView():
-windowId_(0), root_(0), camera_(0)
+windowId_(0), root_(0), camera_(&defaultCamera_)
 {
     // empty
 }

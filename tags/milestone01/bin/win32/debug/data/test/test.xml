@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="euc-kr" ?>
+<Node name="usr">
+    <TransformNode euler_rotation="0.000 0.000 0.000" scaling="1.000 1.000 1.000" translation="0.000 0.000 0.000" name="scene">
+        <CameraNode projection_matrix="" renderpath_section="default" view_matrix="" shader_uri="managed://shader#camera.fx" technique="" rppass_name="" euler_rotation="0.000 0.000 0.000" scaling="1.000 1.000 1.000" translation="0.000 6.000 6.000" name="camera">
+            <MeshNode mesh_uri="managed://mesh#alley_skybox.x" shader_uri="managed://shader#mesh.fx" technique="SkyBox" rppass_name="" euler_rotation="0.000 0.000 0.000" scaling="50.000 50.000 50.000" translation="0.000 0.000 0.000" name="skybox" />
+        </CameraNode>
+        <TerrainNode diffuse_texture_uri="" heightmap_uri="managed://texture#hmap5x5_tile.png" terrain_size="33" uv_repeat="16" shader_uri="managed://shader#terrain.fx" technique="Terrain" rppass_name="" euler_rotation="0.000 0.000 0.000" scaling="1.000 0.500 1.000" translation="0.000 0.000 0.000" name="terrain" />
+        <MeshNode mesh_uri="managed://mesh#skullocc.x" shader_uri="managed://shader#mesh.fx" technique="EnvMapMesh" rppass_name="" euler_rotation="0.000 0.000 0.000" scaling="0.300 0.300 0.300" translation="0.000 10.000 0.000" name="tiger" />
+        <TreeNode shader_uri="managed://shader#terrain.fx" technique="Terrain" rppass_name="" euler_rotation="0.000 0.000 0.000" scaling="1.000 1.000 1.000" translation="0.000 0.000 0.000" name="tree" />
+        <TreeNode shader_uri="managed://shader#mesh.fx" technique="Mesh" rppass_name="" euler_rotation="0.000 0.000 0.000" scaling="1.000 1.000 1.000" translation="0.000 0.000 0.000" name="xesh" />
+    </TransformNode>
+</Node>

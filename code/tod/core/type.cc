@@ -1,5 +1,7 @@
 #include "tod/core/type.h"
 
+#include "boost/tokenizer.hpp"
+
 using namespace tod;
 
 //-----------------------------------------------------------------------------
@@ -139,17 +141,36 @@ void Type::removeProperty(const String& name)
 //-----------------------------------------------------------------------------
 Property* Type::findProperty(const String& name)
 {
+    size_t o = name.find(".", 0);
+    String prop_name(name.substr(0, o));
+
     const Type* type = this;
     while (type)
     {
-        Properties::const_iterator find_iter =
-            type->properties_.find(name);
+        Properties::const_iterator find_iter = type->properties_.find(prop_name);
         if (type->properties_.end() == find_iter)
         {
             type = type->base_;
             continue;
         }
-        return find_iter->second;
+
+        if (o != -1)
+        {
+            Property* prop = find_iter->second;
+            while (prop)
+            {
+                size_t l = name.find(".", o + 1);
+                prop_name.assign(name.substr(o + 1, l - o - 1));
+                o = l;
+                prop = prop->findProperty(prop_name);
+                if (l == -1) break;
+            }
+            return prop;
+        }
+        else
+        {
+            return find_iter->second;
+        }
     }
     return 0;
 }

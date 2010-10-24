@@ -462,6 +462,10 @@
 						RelativePath="..\..\code\tod\core\linknode.h"
 						>
 					</File>
+					<File
+						RelativePath="..\..\code\tod\core\linknode_method.cc"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="timenode"
@@ -1233,11 +1237,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset.h"
+					RelativePath="..\..\code\external\iconv\src\libcharset\include\libcharset.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset\include\libcharset.h"
+					RelativePath="..\..\code\external\iconv\src\libcharset.h"
 					>
 				</File>
 				<File
@@ -1498,6 +1502,18 @@
 				</File>
 				<File
 					RelativePath="..\..\code\tod\core\timeserver_method.cc"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="updateproperty"
+				>
+				<File
+					RelativePath="..\..\code\tod\core\updatepropertyserver.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\tod\core\updatepropertyserver.h"
 					>
 				</File>
 			</Filter>

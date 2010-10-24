@@ -29,9 +29,7 @@ void CameraNode::renderCamera(SceneServer* scene_server)
 {
     projection_.perspectiveFovLH(fov_, aspectRatio_, near_, far_);
     view_ = camera_.getMatrix();
-    //view_.inverse();
-    printf("%f\n", aspectRatio_);
-
+    
     Renderer::instance()->setTransform(TRANSFORM_VIEW, view_);
     Renderer::instance()->setTransform(TRANSFORM_PROJECTION, projection_);
 }

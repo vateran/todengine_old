@@ -11,6 +11,7 @@
 
 namespace tod
 {
+    class UpdatePropertyBase;
     class LinkNode : public Node
     {
     public:
@@ -23,47 +24,23 @@ namespace tod
             Node* to, Property* to_prop);
         void connect(const String& from, const String& to);
 
-        void update();
+        void setFromByStr(const String& from);
+        void setToByStr(const String& to);
+        const String& getFromStr() const;
+        const String& getToStr() const;
+
+        override bool trigger();
+
+        static void bindMethod();
+        static void bindProperty();
 
     private:
-        struct UpdatePropertyBase
-        {
-            virtual void update(
-                Object* from, Property* from_p,
-                Object* to, Property* to_p)=0;
-        };
-        template <typename T>
-        struct UpdatePropertyEqualType : public UpdatePropertyBase
-        {
-            override void update(
-                Object* from, Property* from_p,
-                Object* to, Property* to_p);
-        };
-        template <typename FROM, typename TO>
-        struct UpdateProperty : public UpdatePropertyBase
-        {
-            override void update(
-                Object* from, Property* from_p,
-                Object* to, Property* to_p);
-        };
-        class PropertyTypeId
-        {
-        public:
-            PropertyTypeId(type_id from, type_id to);
-            bool operator < (const PropertyTypeId& rhs) const;
-            type_id from_;
-            type_id to_;
-        };
-        struct UpdatePropertyServer
-        {
-        public:
-            UpdatePropertyServer();
-            ~UpdatePropertyServer();
-            UpdatePropertyBase* find(type_id from, type_id to);
-            typedef std::map
-                <PropertyTypeId, UpdatePropertyBase*> UpdateProperties;
-            UpdateProperties updateProperties_;
-        };
+        /**
+            @brief parse ups(universal property string)
+            path:property_name
+            ex) /usr/scene:name
+        */
+        bool parse_ups(const String& ups, Node** node, Property** prop);
 
     private:
         Ref<Node> from_;
@@ -71,9 +48,9 @@ namespace tod
         Ref<Node> to_;
         Property* toProperty_;
         UpdatePropertyBase* updateProperty_;
+        String fromStr_;
+        String toStr_;
 
-    private:
-        static UpdatePropertyServer s_updatePropertyServer_;
     };
 }
 

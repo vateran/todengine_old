@@ -142,6 +142,10 @@ class MainFrame(wx.Frame):
         mesh.mesh_uri = 'managed://mesh#skullocc.x'
         #mesh.setTexture('EnvMap', 'managed://texture#uffizi_cross.dds')
         mesh.setCubeTexture('EnvMap', 'managed://texture#uffizi_cross_cube.dds')
+
+        tn = new('TimeNode', '/usr/scene/tiger/time')
+        link = new('LinkNode', '/usr/scene/tiger/link')
+        link.connect('/usr/scene/tiger/time:time', '/usr/scene/tiger:euler_rotation.y')
         
         mesh = new('MeshNode', '/usr/scene/camera/skybox')
         mesh.euler_rotation = (0, 0, 0)

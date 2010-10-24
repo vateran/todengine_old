@@ -23,3 +23,10 @@ const char_t* Property::getTypeKeyword() const
 {
     return ToString::instance()->getTypeKeyword(this);
 }
+
+
+//-----------------------------------------------------------------------------
+Property* Property::findProperty(const String& name)
+{
+    return 0;
+}

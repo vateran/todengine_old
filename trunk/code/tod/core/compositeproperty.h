@@ -23,7 +23,7 @@ namespace tod
         }
 
         bool addProperty(Property* property);
-        Property* findProperty(const String& name);
+        override Property* findProperty(const String& name);
         size_t getPropertySize() const;
         Properties::iterator firstProperty();
         Properties::iterator lastProperty();

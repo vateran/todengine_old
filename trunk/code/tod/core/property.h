@@ -20,13 +20,14 @@ namespace tod
     {
     public:
         void setName(const String& name);
-        const String& getName() const;
+        virtual const String& getName() const;
         const String& toString(Object* object);
         void fromString(Object* object, const String& value);
         const char_t* getTypeKeyword() const;
 
         virtual bool isReadOnly() const=0;
         virtual type_id getType() const;
+        virtual Property* findProperty(const String& name);
 
     private:
         String name_;

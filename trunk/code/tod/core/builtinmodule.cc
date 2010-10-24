@@ -5,6 +5,7 @@
 #include "tod/core/timenode.h"
 #include "tod/core/triggerserver.h"
 #include "tod/core/timeserver.h"
+#include "tod/core/updatepropertyserver.h"
 #include "tod/core/resourcemanager.h"
 #include "tod/core/resourcestorage.h"
 #include "tod/core/resourceentry.h"
@@ -24,9 +25,11 @@ Module(name, 0, 0)
     addType(kernel, "ResourceEntry", &ResourceEntry::TYPE);
     addType(kernel, "TimeServer", &TimeServer::TYPE);
     addType(kernel, "TriggerServer", &TriggerServer::TYPE);
+    addType(kernel, "UpdatePropertyServer", &UpdatePropertyServer::TYPE);
 
     TimeServer::setSingletonPath("/sys/server/time", false);
 	TriggerServer::setSingletonPath("/sys/server/trigger", false);
+    UpdatePropertyServer::setSingletonPath("/sys/server/updateproperty", false);
 }
 
 //-----------------------------------------------------------------------------

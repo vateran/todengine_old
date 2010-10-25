@@ -13,15 +13,16 @@ class SceneViewPanel(wx.Panel):
         #toolbar
         self.imageProvider = ImageProvider.ImageProvider('data')        
         tb = wx.ToolBar(self, -1, style=wx.TB_HORIZONTAL | wx.NO_BORDER | wx.TB_FLAT)
-        self.filterButton = tb.AddLabelTool(wx.NewId(), "Filter",
-            self.imageProvider.getImage('filter'), shortHelp="Filter")        
+        tb.AddCheckLabelTool(wx.NewId(), "WireFrame", self.imageProvider.getImage('wireframe'), shortHelp="WireFrame")
+        tb.AddCheckLabelTool(wx.NewId(), "Lighting", self.imageProvider.getImage('lighting'), shortHelp="Lighting")
+        tb.AddCheckLabelTool(wx.NewId(), "Shadow", self.imageProvider.getImage('shadow'), shortHelp="Shadow")
         tb.AddSeparator()
         tb.Realize()        
                 
         
         #viewer
         self.view = wx.Panel(self, wx.NewId())
-        self.sceneView = newobj('SceneView')
+        self.sceneView = newobj('EditorSceneView')
         self.sceneView.setWindowId(self.view.GetHandle())        
         
         
@@ -33,9 +34,10 @@ class SceneViewPanel(wx.Panel):
         
         
         #event
-        tb.Bind(wx.EVT_TOOL, self.OnToolBar)
+        tb.Bind(wx.EVT_TOOL, self.OnToolBar)        
         self.view.Bind(wx.EVT_PAINT, self.OnPaint)
         self.view.Bind(wx.EVT_SIZE, self.OnSize)
+        self.view.Bind(wx.EVT_MOTION, self.OnMotion)
         
 
         self.camera = None
@@ -49,11 +51,7 @@ class SceneViewPanel(wx.Panel):
         except:
             pass
         
-    def OnPaint(self, event):        
-        '''mstat = wx.GetMouseState()
-        x, y = self.view.ScreenToClient((mstat.GetX(), mstat.GetY()))
-        w, h = self.view.GetClientSizeTuple()'''
-
+    def OnPaint(self, event):
         target_window = event.GetEventObject()        
         dc = wx.PaintDC(target_window)
         s = target_window.GetSize()
@@ -69,7 +67,30 @@ class SceneViewPanel(wx.Panel):
         
     def setCamera(self, camera):
         self.camera = camera
-        #self.sceneView.setCamera(camera)
+        self.sceneView.setCamera(camera)
         
     def Refresh(self, eraseBackground=True, rect=0):
         self.view.Refresh(eraseBackground)
+
+    def OnToolBar(self, event):
+        pass
+    
+    def OnMotion(self, event):        
+        x = event.GetX()
+        y = event.GetY()
+        if event.AltDown():
+            if event.LeftIsDown() and event.RightIsDown():
+                delta_x = self.prev[0] - x
+                delta_y = y - self.prev[1]
+                self.camera.moveForward(-(float)(delta_y) / 100)
+                self.camera.moveSideward(-(float)(delta_x) / 100)
+            else:
+                if event.LeftIsDown():
+                    delta_x = self.prev[0] - x
+                    delta_y = y - self.prev[1]
+                    self.camera.eulerRotateX((float)(delta_y) / 100)
+                    self.camera.eulerRotateY(-(float)(delta_x) / 100)
+                if event.RightIsDown():
+                    delta_x = self.prev[0] - x
+                    self.camera.eulerRotateZ((float)(delta_x) / 100)
+        self.prev = (x, y)

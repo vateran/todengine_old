@@ -52,12 +52,11 @@ namespace engine
         virtual const DisplayMode& getDisplayMode() const=0;
         virtual const String& getDisplayModeStr() const;
 
-        virtual void pushRenderTarget(Texture* texture)=0;
-        virtual Texture* popRenderTarget()=0;
+        virtual void setRenderTarget(Texture* texture)=0;
         virtual Texture* getRenderTarget()=0;
+        virtual void pushRenderTarget(Texture* texture)=0;
+        virtual void popRenderTarget()=0;
 
-        virtual void pushShader(Shader* shader)=0;
-        virtual Shader* popShader()=0;
         virtual void setShader(Shader* shader)=0;
         virtual Shader* getShader()=0;
 
@@ -67,19 +66,18 @@ namespace engine
         virtual void popTransform(Transform type);
 
         virtual void drawQuad(const Rect& r, const Color& color)=0;
+        virtual void drawLine()=0;
 
         static void bindMethod();
         static void bindProperty();
 
     private:
-        typedef std::stack<Matrix44> MatrixStack;
-
-    private:
         void set_transform(Transform type, const Matrix44& m);
 
     private:
-        MatrixStack matrixStack_[TRANSFORM_MAX];
-        
+        Matrix44 matrix_[TRANSFORM_MAX];
+        std::stack<Matrix44> matrixStack_[TRANSFORM_MAX];
+                
     };
 }
 }

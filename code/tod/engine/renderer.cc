@@ -15,7 +15,10 @@ Renderer::Renderer()
     Matrix44 m;
     m.identity();
     for (int i = 0; i < TRANSFORM_MAX; ++i)
+    {
+        matrix_[i] = m;
         matrixStack_[i].push(m);
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -28,10 +31,8 @@ Renderer::~Renderer()
 //-----------------------------------------------------------------------------
 void Renderer::setTransform(Transform type, const Matrix44& m)
 {
-    tod_assert(type < TRANSFORM_MAX);
-    while (matrixStack_[type].size())
-        matrixStack_[type].pop();
-    matrixStack_[type].push(m);
+    tod_assert(type < TRANSFORM_MAX);    
+    matrix_[type] = m;
     set_transform(type, m);
 }
 
@@ -40,7 +41,7 @@ void Renderer::setTransform(Transform type, const Matrix44& m)
 const Matrix44& Renderer::getTransform(Transform type) const
 {
     tod_assert(type < TRANSFORM_MAX);
-    return matrixStack_[type].top();
+    return matrix_[type];
 }
 
 
@@ -48,8 +49,8 @@ const Matrix44& Renderer::getTransform(Transform type) const
 void Renderer::pushTransform(Transform type, const Matrix44& m)
 {
     tod_assert(type < TRANSFORM_MAX);
-    matrixStack_[type].push(m);
-    set_transform(type, m);
+    matrixStack_[type].push(getTransform(type));
+    setTransform(type, m);
 }
 
 
@@ -59,7 +60,7 @@ void Renderer::popTransform(Transform type)
     tod_assert(type < TRANSFORM_MAX);
     matrixStack_[type].pop();
     if (matrixStack_[type].size())
-        set_transform(type, matrixStack_[type].top());
+        setTransform(type, matrixStack_[type].top());
 }
 
 
@@ -69,6 +70,7 @@ void Renderer::set_transform(Transform type, const Matrix44& m)
     Shader* shader = getShader();
     if (0 == shader)
         return;
+
     switch (type)
     {
     case TRANSFORM_WORLD:        

@@ -28,7 +28,7 @@ namespace engine
         virtual~SceneView();
         DECLARE_CLASS(SceneView, Object);
 
-        void render(SceneServer* scene_server);
+        virtual void render(SceneServer* scene_server);
 
         void setSceneRoot(Node* root);
         Node* getSceneRoot() const;
@@ -49,11 +49,10 @@ namespace engine
         static void bindMethod();
         static void bindProperty();
 
-    private:
+    protected:
         int windowId_;
         Node* root_;
         CameraNode* camera_;
-        CameraNode defaultCamera_;
         SceneContext sceneContext_;
     };
 }

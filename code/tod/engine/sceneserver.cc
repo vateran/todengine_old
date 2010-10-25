@@ -219,8 +219,8 @@ void SceneServer::renderCameraScenes(CameraNode* camera_override)
                 dynamic_cast<AbstractCameraNode*>(group.sceneNode_);
             tod_assert(camera_node);
             camera_node->applyShader(this);
-            camera_node->renderShader(this, group.sceneContext_);
             camera_node->renderCamera(this);
+            camera_node->renderShader(this, group.sceneContext_);            
             doRenderPath(camera_node->getRenderPathSection());
         }
     }

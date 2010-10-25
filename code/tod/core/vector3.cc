@@ -1,5 +1,6 @@
 #include "tod/core/vector3.h"
 
+#include "tod/core/define.h"
 #ifdef __WIN32__
 #include <d3dx9.h>
 #endif

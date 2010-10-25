@@ -8,11 +8,11 @@
 using namespace tod;
 using namespace tod::engine;
 
-IMPLEMENT_CLASS(SceneView, Node);
+IMPLEMENT_CLASS(SceneView, Object);
 
 //-----------------------------------------------------------------------------
 SceneView::SceneView():
-windowId_(0), root_(0), camera_(&defaultCamera_)
+windowId_(0), root_(0), camera_(0)
 {
     // empty
 }

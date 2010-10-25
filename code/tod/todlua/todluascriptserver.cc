@@ -23,7 +23,6 @@ void TodLuaScriptServer::initialize()
     USING_MODULE(Engine);
     USING_MODULE(D3D9Graphics);
     USING_MODULE(TodLua);
-
 }
 
 

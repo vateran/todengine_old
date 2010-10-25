@@ -21,7 +21,7 @@ IMPLEMENT_CLASS(D3D9Renderer, Renderer);
 //-----------------------------------------------------------------------------
 D3D9Renderer::D3D9Renderer():
 d3d9_(0), d3d9device_(0), d3dbasicRenderTarget_(0), d3deffectpool_(0),
-d3dsprite_(0), windowHandle_(0)
+d3dsprite_(0), d3dline_(0), windowHandle_(0), renderTarget_(0), shader_(0)
 {
     d3d9_ = Direct3DCreate9(D3D_SDK_VERSION);
     if (0 == d3d9_)
@@ -40,10 +40,11 @@ D3D9Renderer::~D3D9Renderer()
     indexBuffers_.clear();
     meshes_.clear();
     quadVb_.release();
-    while (shaderStack_.size())
-        shaderStack_.pop();
-    while (renderTargetStack_.size())
-        renderTargetStack_.pop();
+    shader_.release();
+    renderTarget_.release();
+    while (shaderStack_.size()) shaderStack_.pop();
+    while (renderTargetStack_.size()) renderTargetStack_.pop();
+    SAFE_RELEASE(d3dline_);
     SAFE_RELEASE(d3dsprite_);
     SAFE_RELEASE(d3deffectpool_);
     SAFE_RELEASE(d3dbasicRenderTarget_);
@@ -237,13 +238,15 @@ void D3D9Renderer::setDisplayMode(const DisplayMode& display_mode)
             (D3D9GRAPHICSEXCEPTIONCODE_COULDNOTCREATED3DSPRITE,
             hr, "D3DXSprite");
 
-    quadVb_.release();
-    quadVb_ = newVertexBuffer("managed://stock#quad");
-    quadVb_->create(4,
-        VERTEXCOMPONENT_COORD |
-        VERTEXCOMPONENT_COLOR |
-        VERTEXCOMPONENT_UV0,
-        USAGE_DYNAMIC);
+    // create ID3DXLine
+    SAFE_RELEASE(d3dline_);
+    if (FAILED(hr = D3DXCreateLine(d3d9device_, &d3dline_)))
+        THROW_D3D9EXCEPTION
+            (D3D9GRAPHICSEXCEPTIONCODE_COULDNOTCREATED3DLINE,
+            hr, "D3DXLine");
+    d3dline_->SetAntialias(true);
+    
+    setup_quad();
 }
 
 
@@ -255,67 +258,66 @@ const DisplayMode& D3D9Renderer::getDisplayMode() const
 
 
 //-----------------------------------------------------------------------------
-void D3D9Renderer::pushRenderTarget(Texture* texture)
+void D3D9Renderer::setRenderTarget(Texture* texture)
 {
-    renderTargetStack_.push(texture);
-    texture->useAsRenderTarget(0);
-}
-
-
-//-----------------------------------------------------------------------------
-Texture* D3D9Renderer::popRenderTarget()
-{
-    tod_assert(renderTargetStack_.size() > 0);
-    Texture* t = renderTargetStack_.top();
-    renderTargetStack_.pop();
-    if (renderTargetStack_.empty())
-        d3d9device_->SetRenderTarget(0, d3dbasicRenderTarget_);
+    if (texture)
+    {
+        texture->useAsRenderTarget(0);
+        renderTarget_ = texture;
+    }
     else
-        t->useAsRenderTarget(0);
-    return t;
+    {
+        renderTarget_.release();
+        d3d9device_->SetRenderTarget(0, d3dbasicRenderTarget_);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 Texture* D3D9Renderer::getRenderTarget()
 {
-    tod_assert(shaderStack_.size() > 0);
-    return renderTargetStack_.top();
+    return renderTarget_;
 }
 
 
 //-----------------------------------------------------------------------------
-void D3D9Renderer::pushShader(Shader* shader)
+void D3D9Renderer::pushRenderTarget(Texture* texture)
 {
-    shaderStack_.push(shader);
+    renderTargetStack_.push(texture);
+    setRenderTarget(texture);    
 }
 
 
 //-----------------------------------------------------------------------------
-Shader* D3D9Renderer::popShader()
+void D3D9Renderer::popRenderTarget()
 {
-    tod_assert(shaderStack_.size() > 0);
-    Shader* s = shaderStack_.top();
-    shaderStack_.pop();
-    return s;
+    tod_assert(renderTargetStack_.size() > 0);
+
+    Texture* t = renderTargetStack_.top();
+    renderTargetStack_.pop();
+
+    if(renderTargetStack_.empty())
+    {
+        setRenderTarget(0);
+    }
+    else
+    {
+        setRenderTarget(t);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 void D3D9Renderer::setShader(Shader* shader)
 {
-    while (shaderStack_.size())
-        shaderStack_.pop();
-    shaderStack_.push(shader);
+    shader_ = shader;
 }
 
 
 //-----------------------------------------------------------------------------
 Shader* D3D9Renderer::getShader()
 {
-    if (shaderStack_.empty())
-        return 0;
-    return shaderStack_.top();
+    return shader_;
 }
 
 
@@ -325,11 +327,7 @@ void D3D9Renderer::setTransform(Transform type, const Matrix44& m)
     super::setTransform(type, m);
 
     D3DTRANSFORMSTATETYPE tt = static_cast<D3DTRANSFORMSTATETYPE>(type);
-    if (TRANSFORM_WORLD == type)
-    {
-        return;
-        tt = D3DTS_WORLD;
-    }
+    if (TRANSFORM_WORLD == type) return;
     d3d9device_->SetTransform(tt, reinterpret_cast<CONST D3DMATRIX*>(&m));
 }
 
@@ -375,6 +373,28 @@ void D3D9Renderer::drawQuad(const Rect& r, const Color& color)
 
 
 //-----------------------------------------------------------------------------
+void D3D9Renderer::drawLine()
+{
+    d3dline_->Begin();
+
+    Vector3 l[2];
+    l[0].x_ = 100;
+    l[0].y_ = 100;
+    l[0].z_ = 0;
+    l[1].x_ = 400;
+    l[1].y_ = 100;
+    l[1].z_ = 0;
+
+    Matrix44 m;
+    m.identity();
+    
+    d3dline_->DrawTransform((const D3DXVECTOR3*)&l, 2, (const D3DXMATRIX*)&m, Color(255, 255, 255, 255).data_);
+
+    d3dline_->End();
+}
+
+
+//-----------------------------------------------------------------------------
 IDirect3DDevice9* D3D9Renderer::getD3DDevice()
 {
     return d3d9device_;
@@ -396,6 +416,19 @@ Texture* D3D9Renderer::findTextureByD3D9Texture(IDirect3DBaseTexture9* texture)
     }
 
     return 0;
+}
+
+
+//-----------------------------------------------------------------------------
+void D3D9Renderer::setup_quad()
+{
+    quadVb_.release();
+    quadVb_ = newVertexBuffer("managed://stock#quad");
+    quadVb_->create(4,
+        VERTEXCOMPONENT_COORD |
+        VERTEXCOMPONENT_COLOR |
+        VERTEXCOMPONENT_UV0,
+        USAGE_DYNAMIC);
 }
 
 

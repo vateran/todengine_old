@@ -11,6 +11,8 @@ shared float4x4 RevViewMatrix;
 shared float4x4 InvWorldViewMatrix;
 shared float4x4 InvWorldViewProjectionMatrix;
 
+shared int FillMode = 3;
+
 float3 DirLight = float3(0, 0, -1);
 
 float4 i_a : LIGHTAMBIENT <string name="Light Ambient";> = {1, 1, 1, 1};
@@ -169,6 +171,30 @@ void RenderEnvMapScenePS( float4 Diffuse : COLOR,
     oPos = float4( Pos, 1.0f );
 }
 
+void RenderWireFrameScenePS( float4 Diffuse : COLOR,
+                             float3 Tex : TEXCOORD0,
+                             float3 Normal : TEXCOORD1,
+                             float3 Pos : TEXCOORD2,
+                             out float4 oCol : COLOR0,
+                             out float4 oNormal : COLOR1,
+                             out float4 oPos : COLOR2 )
+{
+    //
+    // Output pixel color
+    //
+    oCol = float4(1,1,1,1);
+
+    //
+    // Output normal
+    //
+    oNormal = float4( normalize( Normal ), 1.0f );
+
+    //
+    // Output view position
+    //
+    oPos = float4( Pos, 1.0f );
+}
+
 
 void vsSkyBoxMain(
     float4 pos                  : POSITION,
@@ -195,7 +221,7 @@ technique Mesh
     {
         VertexShader = compile vs_2_0 MeshVertexShaderMain();
         PixelShader  = compile ps_2_0 MeshPixelShaderMain();
-        FillMode = Solid;
+        FillMode = FillMode;
         CullMode = CCW;
     }
 }
@@ -206,9 +232,9 @@ technique EnvMapMesh
     {
         VertexShader = compile vs_2_0 RenderEnvMapSceneVS();
         PixelShader  = compile ps_2_0 RenderEnvMapScenePS();
-        FillMode = Solid;
+        FillMode = FillMode;
         CullMode = CCW;
-    }
+    }    
 }
 
 technique SkyBox
@@ -218,7 +244,7 @@ technique SkyBox
         VertexShader = compile vs_2_0 vsSkyBoxMain();
         PixelShader  = compile ps_2_0 psSkyBoxMain();
         ZEnable = True;
-        FillMode = Solid;
+        FillMode = FillMode;
         CullMode = CCW;
     }
 }

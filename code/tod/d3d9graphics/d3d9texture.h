@@ -18,7 +18,7 @@ namespace engine
     class D3D9Texture : public Texture
     {
     public:
-        D3D9Texture(const Uri& uri, IDirect3DDevice9* d3d9device);
+        D3D9Texture(const Uri& uri, IDirect3DDevice9* d3d9device);        
         virtual~D3D9Texture();
 
         override bool create(

@@ -10,6 +10,7 @@
 #include "tod/engine/renderer.h"
 #include "tod/engine/sceneserver.h"
 #include "tod/engine/sceneview.h"
+#include "tod/engine/editorsceneview.h"
 #include "tod/engine/scenenode.h"
 #include "tod/engine/transformnode.h"
 #include "tod/engine/shadernode.h"
@@ -34,6 +35,7 @@ void initialize_Engine(Module* module)
 {
     REGISTER_TYPE(module, SceneServer);
     REGISTER_TYPE(module, SceneView);
+    REGISTER_TYPE(module, EditorSceneView);
     REGISTER_TYPE(module, SceneNode);
     REGISTER_TYPE(module, TransformNode);
     REGISTER_TYPE(module, AbstractShaderNode);

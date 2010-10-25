@@ -46,21 +46,24 @@ namespace engine
         override void setDisplayMode(const DisplayMode& display_mode);
         override const DisplayMode& getDisplayMode() const;
 
-        override void pushRenderTarget(Texture* texture);
-        override Texture* popRenderTarget();
+        override void setRenderTarget(Texture* texture);
         override Texture* getRenderTarget();
-
-        override void pushShader(Shader* shader);
-        override Shader* popShader();
+        override void pushRenderTarget(Texture* texture);
+        override void popRenderTarget();
+        
         override void setShader(Shader* shader);
         override Shader* getShader();
 
         override void setTransform(Transform type, const Matrix44& m);
 
         override void drawQuad(const Rect& r, const Color& color);
+        override void drawLine();
 
         IDirect3DDevice9* getD3DDevice();
         Texture* findTextureByD3D9Texture(IDirect3DBaseTexture9* texture);
+
+    private:
+        void setup_quad();
 
     private:
         typedef std::stack<Texture*> RenderTargetStack;
@@ -78,13 +81,15 @@ namespace engine
         ID3DXEffectPool* d3deffectpool_;
         IDirect3DSurface9* d3dbasicRenderTarget_;
         ID3DXSprite* d3dsprite_;
+        ID3DXLine* d3dline_;
         D3DPRESENT_PARAMETERS d3dpp_;
         HWND windowHandle_;
-
-        RenderTargetStack renderTargetStack_;
-        ShaderStack shaderStack_;
-
+        
         ResourceRef<VertexBuffer> quadVb_;
+        ResourceRef<Texture> renderTarget_;
+        ResourceRef<Shader> shader_;
+        std::stack<ResourceRef<Texture> > renderTargetStack_;
+        std::stack<ResourceRef<Shader> > shaderStack_;
 
         ResourceHolder<Shader> shaders_;
         ResourceHolder<Texture> textures_;

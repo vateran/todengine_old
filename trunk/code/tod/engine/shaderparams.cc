@@ -77,6 +77,7 @@ Variable* ShaderParams::findShaderParam(const String& name)
 //-----------------------------------------------------------------------------
 void ShaderParams::commit(Shader* shader)
 {
+    bool changed = false;
     for (Params::iterator i = params_.begin();
         i != params_.end(); ++i)
     {
@@ -87,11 +88,13 @@ void ShaderParams::commit(Shader* shader)
             typedef SimpleVariable<float> FloatVariable;
             FloatVariable* rv = static_cast<FloatVariable*>(v);
             shader->setFloat(i->first, rv->get());
+
+            changed = true;
         }
         // Matrix44
         else if (v->getType() == TypeId<Matrix44>::id())
         {
-
+            changed = true;
         }
         // Texture
         else if (v->getType() == TypeId<Texture*>::id())
@@ -104,7 +107,9 @@ void ShaderParams::commit(Shader* shader)
                     t->preload();
             }
             shader->setTexture(i->first, t);
+            changed = true;
         }
     }
-    shader->commit();
+
+    if (changed) shader->commit();
 }

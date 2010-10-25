@@ -82,7 +82,7 @@ class MainFrame(wx.Frame):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Frame.__init__(self, id=wxID_MAINFRAME, name=u'MainFrame',
-              parent=prnt, pos=wx.Point(230, 42), size=wx.Size(785, 622),
+              parent=prnt, size=wx.Size(1300, 700),
               style=wx.MAXIMIZE | wx.DEFAULT_FRAME_STYLE, title=u'TodEditor')
         self._init_utils()
         self.SetThemeEnabled(True)
@@ -94,6 +94,7 @@ class MainFrame(wx.Frame):
         self.statusBar = wx.StatusBar(id=wxID_MAINFRAMESTATUSBAR,
               name=u'statusBar', parent=self, style=0)
         self.SetStatusBar(self.statusBar)
+        self.Center()
 
     def __init__(self, parent):
         self._init_ctrls(parent)
@@ -116,7 +117,8 @@ class MainFrame(wx.Frame):
         trigger_server.add(lua, 0)
         
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
-        self.renderer.setDisplayMode('w[800]h[600]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        self.renderer.setDisplayMode('w[800]h[600]f[R8G8B8A8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        
         new('TransformNode', '/usr/scene')
 
         camera = new('CameraNode', '/usr/scene/camera')
@@ -174,18 +176,21 @@ class MainFrame(wx.Frame):
         '''
         
         render_path = new('RenderPath', '/sys/server/renderpath')
+        #deserialize(render_path, 'managed://configure#hdr_renderpath.xml')
+        #이걸 하려면 setTexture 를 Property 로 뺄 수 있어야 한다.
+        
         rpsection = new('RpSection', '/sys/server/renderpath/default')
         
-        rppass = new('RpPass', '/sys/server/renderpath/default/scene')
+        rppass = new('RpPass', '/sys/server/renderpath/default/1scene')
         rppass.clear_color = (0, 0, 255, 255)
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'ScenePass'
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/scene/rt')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/1scene/rt')
         rt.texture_uri = 'managed://rt#scene'
-        rt.texture_format = 'X8R8G8B8'
+        rt.texture_format = 'X8R8G8B8'        
         rt.relative_size = 1
         
-        rppass = new('RpPass', '/sys/server/renderpath/default/downscaled4x')
+        rppass = new('RpPass', '/sys/server/renderpath/default/2downscaled4x')
         rppass.clear_target = False;
         rppass.clear_depth = False;
         rppass.clear_stencil = False;
@@ -193,12 +198,12 @@ class MainFrame(wx.Frame):
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'DownFilterPass'
         rppass.setTexture('SceneMap', 'managed://rt#scene')
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/downscaled4x/rt')        
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/2downscaled4x/rt')        
         rt.texture_uri = 'managed://rt#downscaled4x_scene'
         rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 0.125
         
-        rppass = new('RpPass', '/sys/server/renderpath/default/brightpass')
+        rppass = new('RpPass', '/sys/server/renderpath/default/3brightpass')
         rppass.clear_target = False;
         rppass.clear_depth = False;
         rppass.clear_stencil = False;
@@ -206,12 +211,12 @@ class MainFrame(wx.Frame):
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'BrightPass'
         rppass.setTexture('SceneMap', 'managed://rt#downscaled4x_scene')
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/brightpass/rt')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/3brightpass/rt')
         rt.texture_uri = 'managed://rt#brightpass_scene'
         rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 0.125
         
-        rppass = new('RpPass', '/sys/server/renderpath/default/bloom_h')
+        rppass = new('RpPass', '/sys/server/renderpath/default/4bloom_h')
         rppass.clear_target = False;
         rppass.clear_depth = False;
         rppass.clear_stencil = False;
@@ -219,12 +224,12 @@ class MainFrame(wx.Frame):
         rppass.shader_uri = 'managed://shader#bloom.fx'
         rppass.technique = 'BloomHPass'
         rppass.setTexture('SceneMap', 'managed://rt#brightpass_scene')
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/bloom_h/rt')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/4bloom_h/rt')
         rt.texture_uri = 'managed://rt#bloomh_scene'
         rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 0.125
         
-        rppass = new('RpPass', '/sys/server/renderpath/default/bloom_v')
+        rppass = new('RpPass', '/sys/server/renderpath/default/5bloom_v')
         rppass.clear_target = False;
         rppass.clear_depth = False;
         rppass.clear_stencil = False;
@@ -232,64 +237,56 @@ class MainFrame(wx.Frame):
         rppass.shader_uri = 'managed://shader#bloom.fx'
         rppass.technique = 'BloomVPass'
         rppass.setTexture('SceneMap', 'managed://rt#bloomh_scene')
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/bloom_v/rt')
+        rt = new('RpRenderTarget', '/sys/server/renderpath/default/5bloom_v/rt')
         rt.texture_uri = 'managed://rt#bloomv_scene'
         rt.texture_format = 'X8R8G8B8'
         rt.relative_size = 0.125
         
-        rppass = new('RpPass', '/sys/server/renderpath/default/final')
+        rppass = new('RpPass', '/sys/server/renderpath/default/6final')
         rppass.clear_target = False;
         rppass.clear_depth = False;
         rppass.clear_stencil = False;
         rppass.draw_quad = True
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'ComposeScenePass'
-        #rppass.setTexture('SceneMap', 'managed://rt#downscaled4x_scene')
         rppass.setTexture('SceneMap', 'managed://rt#scene')
-        #rppass.setTexture('SceneMap', 'managed://rt#bloomv_scene')
         rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')
 
-        self.cameraToolbarIP = ImageProvider('data/MainToolbar', 22, 23)
-
-        # Camera ToolBar
-        self.tb = wx.ToolBar(self, wx.NewId(), style=wx.TB_FLAT | wx.TB_NODIVIDER | wx.TB_VERTICAL)
-        self.tb.AddRadioLabelTool(0, "Select", self.cameraToolbarIP.getImage('select'), shortHelp="Select")
-        self.tb.AddRadioLabelTool(1, "Translate", self.cameraToolbarIP.getImage('translate'), shortHelp="Translate")
-        self.tb.AddRadioLabelTool(2, "Rotate", self.cameraToolbarIP.getImage('rotate'), shortHelp="Rotate")
-        self.tb.AddRadioLabelTool(3, "Scale", self.cameraToolbarIP.getImage('scale'), shortHelp="Scale")
-        self.tb.Realize()
         
-        # PropertyGrid
-        self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0),
-            wx.Size(300, 300), wx.CLIP_CHILDREN, '')        
+        # Main ToolBar
+        self.mainToolbarIP = ImageProvider('data/MainToolbar', 22, 23)
+        self.tb = wx.ToolBar(self, wx.NewId(), style=wx.TB_FLAT | wx.TB_NODIVIDER | wx.TB_VERTICAL)
+        self.tb.AddRadioLabelTool(0, "Select", self.mainToolbarIP.getImage('select'), shortHelp="Select")
+        self.tb.AddRadioLabelTool(1, "Translate", self.mainToolbarIP.getImage('translate'), shortHelp="Translate")
+        self.tb.AddRadioLabelTool(2, "Rotate", self.mainToolbarIP.getImage('rotate'), shortHelp="Rotate")
+        self.tb.AddRadioLabelTool(3, "Scale", self.mainToolbarIP.getImage('scale'), shortHelp="Scale")
+        self.tb.Realize()
+        self.auimgr.AddPane(self.tb, wx.aui.AuiPaneInfo().Name("Camera Toolbar").Caption("Camera Toolbar").ToolbarPane().Left().TopDockable(False).BottomDockable(False).GripperTop())
+       
         
         # CommandConsole
         self.commandConsole = CommandConsole(self, wx.NewId(), wx.DefaultPosition, wx.Size(300, 80), 0)
+        self.auimgr.AddPane(self.commandConsole, wx.aui.AuiPaneInfo().Caption('Command Console').Dockable(True).Bottom().CloseButton(True).MinimizeButton(True))       
+       
        
         # SceneView
         self.sceneView = SceneView(self)
         self.auimgr.AddPane(self.sceneView, wx.aui.AuiPaneInfo().Caption('Render View').Center().CloseButton(False))
-        self.newSceneView(get('/usr/scene'))        
-
+        self.newSceneView(get('/usr/scene'))
+        
+        
+        # PropertyGrid
+        self.propertyGrid = PropertyGrid(self, wx.NewId(), wx.Point(0, 0), wx.Size(300, 300), wx.CLIP_CHILDREN, '')
+        
+        
         # Node Viewer
         self.nodeViewer = NodeViewer(self, wx.NewId())
         self.nodeViewer.tree.selectNode(get('/'))
-
-        #self.diagramPanel = DiagramPanel(self, wx.NewId())
         
-        # AddPanes
-        #self.auimgr.AddPane(self.diagramPanel, wx.aui.AuiPaneInfo().
-        #    Caption('Diagram Panel').Dockable(True).Left().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
-
-        self.auimgr.AddPane(self.tb, wx.aui.AuiPaneInfo().Name("Camera Toolbar").Caption("Camera Toolbar").ToolbarPane().Left().TopDockable(False).BottomDockable(False).GripperTop())
-
-        self.auimgr.AddPane(self.nodeViewer, wx.aui.AuiPaneInfo().
-            Caption('Node Viewer').Dockable(True).Right().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
-        self.auimgr.AddPane(self.propertyGrid, wx.aui.AuiPaneInfo().
-            Caption('Property').Dockable(True).Right().CloseButton(True).MinimizeButton(True))
-        self.auimgr.AddPane(self.commandConsole, wx.aui.AuiPaneInfo().
-            Caption('Command Console').Dockable(True).Bottom().CloseButton(True).MinimizeButton(True))
-       
+                
+        self.auimgr.AddPane(self.nodeViewer, wx.aui.AuiPaneInfo().Caption('Node Viewer').Dockable(True).Left().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(300, 300)))
+        self.auimgr.AddPane(self.propertyGrid, wx.aui.AuiPaneInfo().Caption('Property').Dockable(True).Right().CloseButton(True).MinimizeButton(True).MinSize(wx.Size(400, 300)))        
+                
         self.auimgr.Update()
         
     def newSceneView(self, target):

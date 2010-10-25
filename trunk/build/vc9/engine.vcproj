@@ -373,6 +373,18 @@
 						Name="sceneserver"
 						>
 						<File
+							RelativePath="..\..\code\tod\engine\editorsceneview.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\code\tod\engine\editorsceneview.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\code\tod\engine\editorsceneview_method.cc"
+							>
+						</File>
+						<File
 							RelativePath="..\..\code\tod\engine\scenecontext.cc"
 							>
 						</File>

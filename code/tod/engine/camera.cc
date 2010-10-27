@@ -70,7 +70,7 @@ void Camera::translateZ(float dist)
     Vector3 move(view_);
     move.normalize();
     move *= dist;
-    setView(eye_ + move, at_ + move, up_);
+    //setView(eye_ + move, at_ + move, up_);
 }
 
 
@@ -115,6 +115,35 @@ const Vector3& Camera::getEye() const
 {
     return eye_;
 }
+
+
+//-----------------------------------------------------------------------------
+const Vector3& Camera::getAt() const
+{
+    return at_;
+}
+
+
+//-----------------------------------------------------------------------------
+const Vector3& Camera::getUp() const
+{
+    return up_;
+}
+
+
+//-----------------------------------------------------------------------------
+const Vector3& Camera::getCross() const
+{
+    return cross_;
+}
+
+
+//-----------------------------------------------------------------------------
+const Vector3& Camera::getView() const
+{
+    return view_;
+}
+
 
 //-----------------------------------------------------------------------------
 const Matrix44& Camera::getMatrix()

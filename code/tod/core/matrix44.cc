@@ -378,6 +378,14 @@ void Matrix44::perspectiveFovLH
     D3DXMatrixPerspectiveFovLH(
         reinterpret_cast<D3DXMATRIX*>(this),
         fov_y, aspect_ratio, z_near, z_far);
+/*
+    m11_ = z_near;  m12_ = 0;       m13_ = 0;   m14_ = 0;
+    m21_ = 0;       m22_ = z_near;  m23_ = 0;   m24_ = 0;
+    m31_ = 0;       m32_ = 0;
+    m33_ = -(z_far + z_near) / (z_far - z_near);
+    m34_ = -(2 * z_far * z_near) / (z_far - z_near);
+    m41_ = 0;       m42_ = 0;       m43_ = -1;  m44_ = 0;
+*/
 #else
 #endif
 }

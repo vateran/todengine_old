@@ -26,6 +26,8 @@ namespace engine
         void moveForward(float dist);
         void moveSideward(float dist);
 
+        void rotate(float x, float y, float z);
+
         void eulerRotateX(float angle);
         void eulerRotateY(float angle);
         void eulerRotateZ(float angle);
@@ -50,6 +52,9 @@ namespace engine
         float aspectRatio_;
         float near_;
         float far_;
+
+        Vector3 pos_;
+        Quaternion ori_;
     };
 
 #include "tod/engine/cameranode.inl"

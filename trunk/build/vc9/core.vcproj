@@ -1237,11 +1237,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset\include\libcharset.h"
+					RelativePath="..\..\code\external\iconv\src\libcharset.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\external\iconv\src\libcharset.h"
+					RelativePath="..\..\code\external\iconv\src\libcharset\include\libcharset.h"
 					>
 				</File>
 				<File

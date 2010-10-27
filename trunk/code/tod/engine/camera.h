@@ -33,10 +33,14 @@ namespace engine
         void rotateZ(float angle);
 
         const Vector3& getEye() const;
+        const Vector3& getAt() const;
+        const Vector3& getUp() const;
+        const Vector3& getCross() const;
+        const Vector3& getView() const;
 
         const Matrix44& getMatrix();
 
-    private:
+    public:
         Vector3 eye_;
         Vector3 at_;
         Vector3 up_;

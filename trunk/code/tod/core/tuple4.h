@@ -6,6 +6,8 @@
     @brief
 */
 
+#include "tod/core/tuple3.h"
+
 namespace tod
 {
     template <typename T>
@@ -20,9 +22,45 @@ namespace tod
 
         void clear();
         void set(T x, T y, T z, T w);
+        void set(int i, T value)
+        {
+            a_[i] = value;
+        }
+        bool isEqual(const type& v, T tol) const
+        {
+            for (int i = 0; i < 4; ++i)
+                if (a_[i] - tol >= v.a_[i] || v.a_[i] <= a_[i] + tol)
+                    return false;
+            return true;
+        }
+        T size() const
+        {
+            return tod_sqrt(x_ * x_ + y_ * y_ + z_ * z_ + w_ * w_);
+        }
+        T length() const
+        {
+            return size();
+        }
+        void normalize()
+        {
+            T l = length();
+            if (l == 0)
+                return;
+            x_ /= l;
+            y_ /= l;
+            z_ /= l;
+            w_ /= l;
+        }
         
     public:
-        T x_, y_, z_, w_;
+        union
+        {
+            struct
+            {
+                T x_, y_, z_, w_;
+            };            
+            T a_[4];
+        };
     };
 
 #include "tod/core/tuple4.inl"

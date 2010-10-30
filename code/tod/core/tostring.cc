@@ -42,6 +42,7 @@ public:
         if (value == "true" ||
             value == "t" ||
             value == "o" ||
+            tod_stricmp(value.c_str(), "true") == 0 ||
             value.toInt() > 0)
             v = true;
         p->set(object, v);

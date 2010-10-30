@@ -1,5 +1,7 @@
 #include "tod/engine/scenenode.h"
 
+#include "tod/core/simplepropertybinder.h"
+
 using namespace tod;
 using namespace tod::engine;
 
@@ -28,8 +30,7 @@ void SceneNode::attach
     for (NodeIterator i = firstChildNode(); i != lastChildNode(); ++i)
     {
         child = i->second;
-        if (0 == child)
-            continue;
+        if (0 == child) continue;
         child->attach(scene_server, scene_context);
     }
 }

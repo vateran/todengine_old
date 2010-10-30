@@ -6,7 +6,7 @@
     @brief 
 */
 
-#include "tod/engine/camera.h"
+#include "tod/engine/quaternioncamera.h"
 #include "tod/engine/abstractcameranode.h"
 
 namespace tod
@@ -46,12 +46,13 @@ namespace engine
         static void bindMethod();
         static void bindProperty();
 
-    private:
-        Camera camera_;
+    public:
+        QuaternionCamera camera_;
         float fov_;
         float aspectRatio_;
         float near_;
         float far_;
+        int windowWidth_, windowHeight_;
 
         Vector3 pos_;
         Quaternion ori_;

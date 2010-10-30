@@ -484,6 +484,14 @@
 							RelativePath="..\..\code\tod\engine\camera.h"
 							>
 						</File>
+						<File
+							RelativePath="..\..\code\tod\engine\quaternioncamera.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\code\tod\engine\quaternioncamera.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="light"

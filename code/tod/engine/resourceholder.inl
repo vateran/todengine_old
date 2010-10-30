@@ -24,6 +24,28 @@ void ResourceHolder<T>::clear()
 
 //-----------------------------------------------------------------------------
 template <typename T>
+void ResourceHolder<T>::onLostDevice()
+{
+    for (NamedResources::iterator i = begin(); i != end(); ++i)
+    {
+        i->second->onLostDevice();
+    }
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
+void ResourceHolder<T>::onRestoreDevice()
+{
+    for (NamedResources::iterator i = begin(); i != end(); ++i)
+    {
+        i->second->onRestoreDevice();
+    }
+}
+
+
+//-----------------------------------------------------------------------------
+template <typename T>
 void ResourceHolder<T>::add(Resource* r)
 {
     tod_assert(r);

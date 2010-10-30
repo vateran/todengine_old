@@ -32,6 +32,7 @@ bool D3D9IndexBuffer::create(uint32_t num_indices, int usage, Format format)
 
     numIndices_ = num_indices;
     usage_ = 0;
+    format_ = format;
     d3dpool_ = D3DPOOL_MANAGED;
     if (usage & USAGE_DYNAMIC)
     {
@@ -160,12 +161,18 @@ uint32_t D3D9IndexBuffer::getNumIndices() const
 //-----------------------------------------------------------------------------
 void D3D9IndexBuffer::onLostDevice()
 {
-    // not implement
+    if (d3dpool_ == D3DPOOL_DEFAULT)
+    {
+        SAFE_RELEASE(d3d9ib_);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 void D3D9IndexBuffer::onRestoreDevice()
 {
-    // not implement
+    if (d3dpool_ == D3DPOOL_DEFAULT)
+    {
+        create(numIndices_, usage_, format_);
+    }
 }

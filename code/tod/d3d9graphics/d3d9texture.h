@@ -52,6 +52,12 @@ namespace engine
         IDirect3DTexture9* d3d9texture_;
         D3DXIMAGE_INFO info_;
         int d3dusage_;
+
+        int width_;
+        int height_;
+        int mipmap_level_;
+        Format format_;
+        int usage_;
     };
 }
 }

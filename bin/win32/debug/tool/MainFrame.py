@@ -117,7 +117,7 @@ class MainFrame(wx.Frame):
         trigger_server.add(lua, 0)
         
         self.renderer = new('D3D9Renderer', '/sys/server/renderer')
-        self.renderer.setDisplayMode('w[800]h[600]f[R8G8B8A8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
+        self.renderer.setDisplayMode('w[320]h[240]f[A8R8G8B8]sbuf[8]zbuf[24]fullscreen[false]title[test]')
         
         new('TransformNode', '/usr/scene')
 
@@ -184,8 +184,8 @@ class MainFrame(wx.Frame):
         rppass = new('RpPass', '/sys/server/renderpath/default/1scene')
         rppass.clear_color = (0, 0, 255, 255)
         rppass.shader_uri = 'managed://shader#hdr.fx'
-        rppass.technique = 'ScenePass'
-        rt = new('RpRenderTarget', '/sys/server/renderpath/default/1scene/rt')
+        rppass.technique = 'ScenePass'        
+        '''rt = new('RpRenderTarget', '/sys/server/renderpath/default/1scene/rt')
         rt.texture_uri = 'managed://rt#scene'
         rt.texture_format = 'X8R8G8B8'        
         rt.relative_size = 1
@@ -250,7 +250,7 @@ class MainFrame(wx.Frame):
         rppass.shader_uri = 'managed://shader#hdr.fx'
         rppass.technique = 'ComposeScenePass'
         rppass.setTexture('SceneMap', 'managed://rt#scene')
-        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')
+        rppass.setTexture('ToneMap', 'managed://rt#bloomv_scene')'''
 
         
         # Main ToolBar

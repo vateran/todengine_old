@@ -190,8 +190,7 @@ bool D3D9Mesh::valid() const
 
 //-----------------------------------------------------------------------------
 void D3D9Mesh::onLostDevice()
-{
-    // not implement
+{   
 }
 
 

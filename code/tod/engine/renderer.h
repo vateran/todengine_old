@@ -67,6 +67,7 @@ namespace engine
 
         virtual void drawQuad(const Rect& r, const Color& color)=0;
         virtual void drawLine()=0;
+        virtual void onChangedWindowSize(int width, int height)=0;
 
         static void bindMethod();
         static void bindProperty();

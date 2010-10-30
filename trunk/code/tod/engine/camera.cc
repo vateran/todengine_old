@@ -70,7 +70,7 @@ void Camera::translateZ(float dist)
     Vector3 move(view_);
     move.normalize();
     move *= dist;
-    //setView(eye_ + move, at_ + move, up_);
+    setView(eye_ + move, at_ + move, up_);
 }
 
 

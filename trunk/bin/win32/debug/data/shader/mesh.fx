@@ -215,13 +215,25 @@ void psSkyBoxMain(
     output_color = texCUBE(SkyBoxSampler, uv0);
 }
 
+technique FixedPipeLine
+{
+    pass
+    {
+        VertexShader = null;
+        PixelShader = null;
+        FillMode = FillMode;
+        CullMode = None;
+        Lighting = False;
+    }
+}
+
 technique Mesh
 {
     pass P0
     {
         VertexShader = compile vs_2_0 MeshVertexShaderMain();
         PixelShader  = compile ps_2_0 MeshPixelShaderMain();
-        FillMode = FillMode;
+        FillMode = FillMode;        
         CullMode = CCW;
     }
 }
@@ -234,6 +246,7 @@ technique EnvMapMesh
         PixelShader  = compile ps_2_0 RenderEnvMapScenePS();
         FillMode = FillMode;
         CullMode = CCW;
+        AlphaBlendEnable = False;
     }    
 }
 

@@ -12,7 +12,8 @@ using namespace tod::engine;
 
 //-----------------------------------------------------------------------------
 D3D9Texture::D3D9Texture(const Uri& uri, IDirect3DDevice9* d3d9device):
-Texture(uri), d3d9device_(d3d9device), d3d9texture_(0), d3dusage_(0)
+Texture(uri), d3d9device_(d3d9device), d3d9texture_(0), d3dusage_(0),
+width_(0), height_(0), mipmap_level_(0), usage_(0)
 {
     d3d9device_->AddRef();
 }
@@ -40,6 +41,11 @@ bool D3D9Texture::create(int width, int height, int mipmap_level, Format format,
         d3dusage_ |= D3DUSAGE_RENDERTARGET;
         pool = D3DPOOL_DEFAULT;
     }
+    if (usage & USAGE_DYNAMIC)
+    {
+        d3dusage_ |= D3DUSAGE_DYNAMIC;
+        pool = D3DPOOL_DEFAULT;
+    }
 
     HRESULT hr;
     if (FAILED(hr = d3d9device_->CreateTexture(
@@ -47,6 +53,13 @@ bool D3D9Texture::create(int width, int height, int mipmap_level, Format format,
         format, pool, &d3d9texture_, 0)))
         THROW_D3D9EXCEPTION(D3D9GRAPHICSEXCEPTIONCODE_CREATETEXTUREERROR,
             hr, "d3d9device_->CreateTexture");
+
+    width_ = width;
+    height_ = height;
+    mipmap_level_ = mipmap_level;
+    format_ = format;
+    usage_ = usage;
+
     return true;
 }
 
@@ -55,6 +68,12 @@ bool D3D9Texture::create(int width, int height, int mipmap_level, Format format,
 void D3D9Texture::destroy()
 {
     SAFE_RELEASE(d3d9texture_);
+
+    width_ = 0;
+    height_ = 0;
+    mipmap_level_ = 0;
+    format_ = Format::UNKNOWN;
+    usage_ = 0;
 }
 
 
@@ -179,14 +198,22 @@ bool D3D9Texture::valid() const
 //-----------------------------------------------------------------------------
 void D3D9Texture::onLostDevice()
 {
-    // not implement
+    if (d3dusage_ & D3DUSAGE_RENDERTARGET ||
+        d3dusage_ & D3DUSAGE_DYNAMIC)
+    {
+        SAFE_RELEASE(d3d9texture_);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 void D3D9Texture::onRestoreDevice()
 {
-    // not implement
+    if (d3dusage_ & D3DUSAGE_RENDERTARGET ||
+        d3dusage_ & D3DUSAGE_DYNAMIC)
+    {
+        create(width_, height_, mipmap_level_, format_, usage_);
+    }
 }
 
 

@@ -38,6 +38,9 @@ namespace engine
         void remove(const Uri& uri);
         T* find(const Uri& uri);
 
+        void onLostDevice();
+        void onRestoreDevice();
+
         typename NamedResources::iterator begin();
         typename NamedResources::iterator end();
         typename NamedResources::const_iterator begin() const;

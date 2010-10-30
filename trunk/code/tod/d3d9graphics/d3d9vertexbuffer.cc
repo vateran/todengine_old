@@ -145,14 +145,20 @@ bool D3D9VertexBuffer::valid() const
 //-----------------------------------------------------------------------------
 void D3D9VertexBuffer::onLostDevice()
 {
-    // not implement
+    if (d3dpool_ == D3DPOOL_DEFAULT)
+    {
+        SAFE_RELEASE(d3d9vb_);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 void D3D9VertexBuffer::onRestoreDevice()
 {
-    // not implement
+    if (d3dpool_ == D3DPOOL_DEFAULT)
+    {
+        create(numVertice_, numVertice_, usage_);
+    }
 }
 
 

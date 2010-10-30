@@ -124,6 +124,8 @@ void TransformNode::setLockViewer(bool v)
 //-----------------------------------------------------------------------------
 void TransformNode::bindProperty()
 {
+    BIND_PROPERTY(bool, active, &setActive, &isActive);
+    BIND_PROPERTY(bool, visible, &setVisible, &isVisible);
     BIND_COMPOSITE_PROPERTY(
         const Vector3&, translation, &setTranslation, &getTranslation);
     BIND_COMPOSITE_PROPERTY(

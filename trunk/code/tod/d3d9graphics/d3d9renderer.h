@@ -58,12 +58,14 @@ namespace engine
 
         override void drawQuad(const Rect& r, const Color& color);
         override void drawLine();
+        override void onChangedWindowSize(int width, int height);
 
         IDirect3DDevice9* getD3DDevice();
         Texture* findTextureByD3D9Texture(IDirect3DBaseTexture9* texture);
 
     private:
         void setup_quad();
+        void reset();
 
     private:
         typedef std::stack<Texture*> RenderTargetStack;

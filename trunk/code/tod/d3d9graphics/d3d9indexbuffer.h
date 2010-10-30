@@ -46,6 +46,7 @@ namespace engine
         int usage_;
         int lockOption_;
         int stride_;
+        Format format_;
     };
 }
 }

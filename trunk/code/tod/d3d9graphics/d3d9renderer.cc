@@ -92,7 +92,11 @@ void D3D9Renderer::endScene()
 void D3D9Renderer::presentScene(int windowid_override)
 {
     tod_assert(d3d9device_);
-    d3d9device_->Present(0, 0, reinterpret_cast<HWND>(windowid_override), 0);
+    if (FAILED(d3d9device_->Present(
+        0, 0, reinterpret_cast<HWND>(windowid_override), 0)))
+    {
+        reset();
+    }
 }
 
 
@@ -205,7 +209,7 @@ void D3D9Renderer::setDisplayMode(const DisplayMode& display_mode)
         d3dpp_.AutoDepthStencilFormat = ds_format;
     }
         
-    d3dpp_.BackBufferFormat = D3DFMT_UNKNOWN;
+    d3dpp_.BackBufferFormat = display_mode.getFormat();
     d3dpp_.BackBufferCount = 1;
     if (display_mode.isVSync())
         d3dpp_.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
@@ -325,10 +329,6 @@ Shader* D3D9Renderer::getShader()
 void D3D9Renderer::setTransform(Transform type, const Matrix44& m)
 {
     super::setTransform(type, m);
-
-    D3DTRANSFORMSTATETYPE tt = static_cast<D3DTRANSFORMSTATETYPE>(type);
-    if (TRANSFORM_WORLD == type) return;
-    d3d9device_->SetTransform(tt, reinterpret_cast<CONST D3DMATRIX*>(&m));
 }
 
 
@@ -373,24 +373,142 @@ void D3D9Renderer::drawQuad(const Rect& r, const Color& color)
 
 
 //-----------------------------------------------------------------------------
+#include "tod/engine/cameranode.h"
 void D3D9Renderer::drawLine()
 {
-    d3dline_->Begin();
+    /*static VertexBuffer* vb = 0;
+    static Texture* tt = 0;
+    if(vb == 0)
+    {
+        struct VertexType
+        {
+            float x, y, z;
+            Color diffuse;
+        };
 
-    Vector3 l[2];
-    l[0].x_ = 100;
-    l[0].y_ = 100;
-    l[0].z_ = 0;
-    l[1].x_ = 400;
-    l[1].y_ = 100;
-    l[1].z_ = 0;
+        vb = newVertexBuffer("managed://stock#test");
+        vb->create(6, VERTEXCOMPONENT_COORD | VERTEXCOMPONENT_COLOR, 0);
 
-    Matrix44 m;
+        VertexType* ptr = 0;
+        if (!vb->lock(reinterpret_cast<void*&>(ptr)))
+            return;
+
+        ptr[0].x = 0;
+        ptr[0].y = 0;
+        ptr[0].z = 0;
+        ptr[0].diffuse = Color(255, 0, 0, 255);
+        ptr[1].x = 10;
+        ptr[1].y = 0;
+        ptr[1].z = 0;
+        ptr[1].diffuse = Color(255, 0, 0, 255);
+
+        ptr[2].x = 0;
+        ptr[2].y = 0;
+        ptr[2].z = 0;
+        ptr[2].diffuse = Color(0, 255, 0, 255);
+        ptr[3].x = 0;
+        ptr[3].y = 10;
+        ptr[3].z = 0;
+        ptr[3].diffuse = Color(0, 255, 0, 255);
+
+        ptr[4].x = 0;
+        ptr[4].y = 0;
+        ptr[4].z = 0;
+        ptr[4].diffuse = Color(0, 0, 255, 255);
+        ptr[5].x = 0;
+        ptr[5].y = 0;
+        ptr[5].z = 10;
+        ptr[5].diffuse = Color(0, 0, 255, 255);
+
+        vb->unlock();
+
+        tt = newTexture("managed://stock#xyz_texture");
+        tt->create(20, 20, 1, Format::A8R8G8B8, engine::USAGE_RENDERTARGET);
+    }
+
+    CameraNode* c = (CameraNode*)(Kernel::instance()->lookup("/usr/scene/camera"));
+
+    Matrix44 m, p, v;
+    m.identity();    
+    m = c->getViewMatrix();
+    m.setTranslation(0, 0, 0);
+    v.setTranslation(0, 0, -10);
+    p.orthogonalLH(20, 20, -1000, 1000);
+
+    d3d9device_->SetRenderState(D3DRS_LIGHTING, false);
+    d3d9device_->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+    d3d9device_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    d3d9device_->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    d3d9device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    d3d9device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    d3d9device_->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)&m);
+    d3d9device_->SetTransform(D3DTS_VIEW, (D3DXMATRIX*)&v);
+    d3d9device_->SetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&p);    
+
+    setRenderTarget(tt);
+    clearScene(Color(255, 255, 255, 128), 1, 0, true, true, false);
+    vb->use();
+    vb->draw(engine::PRIMITIVETYPE_LINELIST);
+    setRenderTarget(0);
+
+    tt->use(0);
+
+
     m.identity();
-    
-    d3dline_->DrawTransform((const D3DXVECTOR3*)&l, 2, (const D3DXMATRIX*)&m, Color(255, 255, 255, 255).data_);
+    m.setTranslation(-10, -10, 0);
+    v.identity();
 
-    d3dline_->End();
+    d3d9device_->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)&m);
+    d3d9device_->SetTransform(D3DTS_VIEW, (D3DXMATRIX*)&v);
+    d3d9device_->SetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&p);
+    d3d9device_->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+    d3d9device_->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    d3d9device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    d3d9device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    drawQuad(Rect(0, 0, 3, 3), Color(255, 255, 255, 255));*/
+}
+
+
+//-----------------------------------------------------------------------------
+void D3D9Renderer::onChangedWindowSize(int width, int height)
+{
+    if (width == 0 || height == 0) return;
+
+    d3dpp_.BackBufferWidth = width;
+    d3dpp_.BackBufferHeight = height;
+    displayMode_.width_ = width;
+    displayMode_.height_ = height;
+
+    reset();
+}
+
+
+//-----------------------------------------------------------------------------
+void D3D9Renderer::reset()
+{
+    shaders_.onLostDevice();
+    textures_.onLostDevice();
+    vertexBuffers_.onLostDevice();
+    indexBuffers_.onLostDevice();
+    meshes_.onLostDevice();    
+    setRenderTarget(0);
+
+    d3dline_->OnLostDevice();
+    d3dsprite_->OnLostDevice();    
+    SAFE_RELEASE(d3dbasicRenderTarget_);
+
+    if (FAILED(d3d9device_->Reset(&d3dpp_))) return;
+
+    shaders_.onRestoreDevice();
+    textures_.onRestoreDevice();
+    vertexBuffers_.onRestoreDevice();
+    indexBuffers_.onRestoreDevice();
+    meshes_.onRestoreDevice();    
+    setRenderTarget(0);
+
+    d3dline_->OnResetDevice();
+    d3dsprite_->OnResetDevice();
+    d3d9device_->GetRenderTarget(0, &d3dbasicRenderTarget_);
 }
 
 

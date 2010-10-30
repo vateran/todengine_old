@@ -34,7 +34,7 @@ namespace engine
 
         DisplayMode& operator = (const char_t* mode);
         
-    private:
+    public:
         String title_;
         int width_;
         int height_;

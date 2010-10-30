@@ -87,8 +87,8 @@ class SceneViewPanel(wx.Panel):
             else:
                 if event.LeftIsDown():
                     delta_x = x - self.prev[0]
-                    delta_y = y - self.prev[1]
-                    self.camera.rotate((float)(delta_x) / 100, (float)(delta_y) / 100, 0);
+                    delta_y = y - self.prev[1]                    
+                    self.camera.rotate((float)(delta_x) / 100, (float)(delta_y) / 100, 0)
                 if event.RightIsDown():
                     delta_x = self.prev[0] - x
                     self.camera.eulerRotateZ((float)(delta_x) / 100)

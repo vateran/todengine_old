@@ -1,0 +1,1241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="script">
+      <UniqueIdentifier>{f33795fa-0628-45f8-baa1-1cc3d221b16d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{508f2214-9e05-4b59-8ddc-77fb6df07262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{a54a92da-3fbb-4e86-9afc-b8b6e743b07f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object\property">
+      <UniqueIdentifier>{17181035-955a-4923-96e3-7bd6270bebe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object\method">
+      <UniqueIdentifier>{f1388006-c5f4-42ee-962e-1250a0aadefd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object\builtinnodes">
+      <UniqueIdentifier>{d1ddeca2-6a0e-4410-bd71-0c23e72bd705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object\builtinnodes\linknode">
+      <UniqueIdentifier>{66c5433f-f2ea-4fdf-985a-c2ea9fb50e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object\builtinnodes\timenode">
+      <UniqueIdentifier>{ab8ec284-845e-48bb-8d45-0de8bbfea188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{c5046ccc-d285-4692-b1a5-afb3b490fddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\unittest">
+      <UniqueIdentifier>{c8785e7f-733a-47d1-990e-ee6b50bdef76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\math">
+      <UniqueIdentifier>{49333764-1194-4ea8-ae08-781c739f2c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\log">
+      <UniqueIdentifier>{01eaf8d1-4e8c-40e9-9f95-26fc1e410324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\tinyxml">
+      <UniqueIdentifier>{9917b793-5d11-4aec-ab1f-968935b156c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\iconv">
+      <UniqueIdentifier>{c873f9c9-c313-49a8-ad89-b9e188fd5dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\trigger">
+      <UniqueIdentifier>{ef40ffac-722c-48c9-b007-de73f1519fd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\time">
+      <UniqueIdentifier>{d8203287-90b6-4213-9fe4-da37942d0d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\updateproperty">
+      <UniqueIdentifier>{17b019f9-3798-4725-8298-c299dbc1aa29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="memory">
+      <UniqueIdentifier>{70a37b09-c30a-485f-948f-f382691f9649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="primitivetype">
+      <UniqueIdentifier>{6704f215-c4d7-498e-8773-422bb7fd20d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base">
+      <UniqueIdentifier>{8b8d429f-b7d8-4f2f-9b01-b291a1ef2b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serializer">
+      <UniqueIdentifier>{7f568e21-d129-456d-9081-30cc3096c9c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kernel">
+      <UniqueIdentifier>{5d6d0e9e-c284-4983-9f95-92a4ef2c305c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kernel\module">
+      <UniqueIdentifier>{a5b3c1ea-1536-4df3-91f2-6ae9cc8b0d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="exception">
+      <UniqueIdentifier>{a2f5c42f-a44d-445b-a6a1-1c0a44922b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="message">
+      <UniqueIdentifier>{c3e08bf9-2caf-40f7-aade-44ca190c0f33}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\code\tod\core\scriptserver.cc">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\scriptserver_method.cc">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\fsresourceimplementator.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\fsresourceprotocol.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\resource.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\resourcecache.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\resourceentry.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\resourceentry_method.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\resourcemanager.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\resourcemanager_method.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\resourcestorage.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\resourcestorage_method.cc">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\node.cc">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\node_method.cc">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\nodeeventpublisher.cc">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\object.cc">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\object_method.cc">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\type.cc">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\property.cc">
+      <Filter>object\property</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\structproperty.cc">
+      <Filter>object\property</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\method.cc">
+      <Filter>object\method</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\variables.cc">
+      <Filter>object\method</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\linknode.cc">
+      <Filter>object\builtinnodes\linknode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\linknode_method.cc">
+      <Filter>object\builtinnodes\linknode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\timenode.cc">
+      <Filter>object\builtinnodes\timenode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\singletonserver.cc">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\tostring.cc">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\testsuite.cc">
+      <Filter>utility\unittest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\tinyxml\tinystr.cpp">
+      <Filter>utility\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\tinyxml\tinyxml.cpp">
+      <Filter>utility\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\tinyxml\tinyxmlerror.cpp">
+      <Filter>utility\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\tinyxml\tinyxmlparser.cpp">
+      <Filter>utility\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\iconv\src\iconv.c">
+      <Filter>utility\iconv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\iconv\src\iconv_string.c">
+      <Filter>utility\iconv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\iconv\src\localcharset.c">
+      <Filter>utility\iconv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\iconv\src\relocatable.c">
+      <Filter>utility\iconv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\triggerserver.cc">
+      <Filter>utility\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\triggerserver_method.cc">
+      <Filter>utility\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\stopwatch.cc">
+      <Filter>utility\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\timeserver.cc">
+      <Filter>utility\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\timeserver_method.cc">
+      <Filter>utility\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\updatepropertyserver.cc">
+      <Filter>utility\updateproperty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\bbox.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\color.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\globalstringtable.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\line3.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\matrix44.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\path.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\plane.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\quaternion.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\rect.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\string.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\transform44.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\tuple3_impl.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\uri.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\vector3.cc">
+      <Filter>primitivetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\unifiedserializer.cc">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\xmlserializer.cc">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\kernel.cc">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\builtinmodule.cc">
+      <Filter>kernel\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\module.cc">
+      <Filter>kernel\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\exception.cc">
+      <Filter>exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\core\messagequeue.cc">
+      <Filter>message</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\code\tod\core\scriptserver.h">
+      <Filter>script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\fsresourceimplementator.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\fsresourceprotocol.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\resource.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\resourcecache.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\resourceentry.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\resourceimplementator.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\resourcemanager.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\resourceprotocol.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\resourcestorage.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\node.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\nodeeventpublisher.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\nodeeventsubscriber.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\object.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\type.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\compositeproperty.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\compositepropertybinder.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\containerproperty.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\enumproperty.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\enumpropertybinder.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\properties.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\property.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\propertytype.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\simpleproperty.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\simplepropertybinder.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\structproperty.h">
+      <Filter>object\property</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\method.h">
+      <Filter>object\method</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\methodbinder.h">
+      <Filter>object\method</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\methods.h">
+      <Filter>object\method</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\parameter.h">
+      <Filter>object\method</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\simplevariable.h">
+      <Filter>object\method</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\variable.h">
+      <Filter>object\method</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\variables.h">
+      <Filter>object\method</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\linknode.h">
+      <Filter>object\builtinnodes\linknode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\timenode.h">
+      <Filter>object\builtinnodes\timenode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\cwnguard.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\enumeration.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\ref.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\singleton.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\singleton2.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\singleton3.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\singletonbase.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\singletonserver.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\stringconverter.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\tostring.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\testcaller.h">
+      <Filter>utility\unittest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\testcallerbase.h">
+      <Filter>utility\unittest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\testcase.h">
+      <Filter>utility\unittest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\testsuite.h">
+      <Filter>utility\unittest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\unittest.h">
+      <Filter>utility\unittest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\math.h">
+      <Filter>utility\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\tinyxml\tinystr.h">
+      <Filter>utility\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\tinyxml\tinyxml.h">
+      <Filter>utility\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\aliases.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\aliases2.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\aliases_aix.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\aliases_dos.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\aliases_extra.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\aliases_osf1.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\armscii_8.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ascii.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\big5.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\big5hkscs.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\c99.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ces_big5.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ces_gbk.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cjk_variants.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_1.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_15.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_2.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_3.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_4.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_4a.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_4b.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_5.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_6.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_7.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_inv.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\config.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\converters.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1046.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1124.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1125.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1129.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1133.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1161.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1162.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1163.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1250.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1251.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1252.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1253.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1254.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1255.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1256.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1257.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp1258.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp437.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp737.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp775.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp850.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp852.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp853.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp855.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp856.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp857.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp858.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp860.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp861.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp862.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp863.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp864.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp865.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp866.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp869.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp874.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp922.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp932.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp932ext.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp936ext.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp943.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp949.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp950.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\cp950ext.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\dec_hanyu.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\dec_kanji.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\euc_cn.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\euc_jisx0213.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\euc_jp.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\euc_kr.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\euc_tw.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\flags.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\flushwc.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gb12345.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gb12345ext.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gb18030.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gb18030ext.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gb18030uni.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gb2312.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gbk.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gbkext1.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gbkext2.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\gbkext_inv.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\georgian_academy.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\georgian_ps.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\hkscs.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\hp_roman8.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\hz.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\iconv.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\include\iconv\iconv_string.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_cn.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_cnext.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_jp.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_jp1.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_jp2.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_jp3.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_kr.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso646_cn.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso646_jp.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_1.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_10.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_13.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_14.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_15.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_16.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_2.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_3.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_4.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_5.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_6.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_7.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_8.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_9.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\isoir165.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\isoir165ext.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\java.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\jisx0201.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\jisx0208.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\jisx0212.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\jisx0213.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\johab.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\johab_hangul.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\koi8_r.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\koi8_ru.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\koi8_t.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\koi8_u.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ksc5601.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\libcharset.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\libcharset\include\libcharset.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\localcharset.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\loop_unicode.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\loop_wchar.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\loops.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_arabic.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_centraleurope.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_croatian.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_cyrillic.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_greek.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_hebrew.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_iceland.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_roman.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_romania.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_thai.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_turkish.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mac_ukraine.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\mulelao.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\nextstep.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\relocatable.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\riscos1.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\shift_jisx0213.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\sjis.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\tcvn.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\tds565.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\tis620.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\translit.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2be.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2internal.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2le.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2swapped.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4be.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4internal.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4le.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4swapped.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\uhc_1.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\uhc_2.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\utf16.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\utf16be.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\utf16le.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\utf32.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\utf32be.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\utf32le.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\utf7.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\utf8.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\vietcomb.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\external\iconv\src\viscii.h">
+      <Filter>utility\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\triggerserver.h">
+      <Filter>utility\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\stopwatch.h">
+      <Filter>utility\time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\timeserver.h">
+      <Filter>utility\time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\updatepropertyserver.h">
+      <Filter>utility\updateproperty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\bbox.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\boundedvalue.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\color.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\globalstringtable.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\line3.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\matrix44.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\path.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\plane.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\primitivetype.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\quaternion.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\rect.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\string.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\time.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\transform44.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\tuple2.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\tuple3.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\tuple3_impl.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\tuple4.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\uri.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\vector2.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\vector3.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\vector4.h">
+      <Filter>primitivetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\assert.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\define.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\platform.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\typeid.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\serializer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\serializerevent.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\unifiedserializer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\xmlserializer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\kernel.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\builtinmodule.h">
+      <Filter>kernel\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\module.h">
+      <Filter>kernel\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\currentsnapshot.h">
+      <Filter>exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\exception.h">
+      <Filter>exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\messagequeue.h">
+      <Filter>message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\core\log.h">
+      <Filter>utility\log</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\code\tod\core\resourceprotocol.inl">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\node.inl">
+      <Filter>object</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\type.inl">
+      <Filter>object</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\compositeproperty.inl">
+      <Filter>object\property</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\compositepropertybinder.inl">
+      <Filter>object\property</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\containerproperty.inl">
+      <Filter>object\property</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\enumproperty.inl">
+      <Filter>object\property</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\enumpropertybinder.inl">
+      <Filter>object\property</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\property.inl">
+      <Filter>object\property</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\simplepropertybinder.inl">
+      <Filter>object\property</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\method.inl">
+      <Filter>object\method</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\methodbinder.inl">
+      <Filter>object\method</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\parameter.inl">
+      <Filter>object\method</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\simplevariable.inl">
+      <Filter>object\method</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\variables.inl">
+      <Filter>object\method</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\cwnguard.inl">
+      <Filter>utility</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\ref.inl">
+      <Filter>utility</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\singleton.inl">
+      <Filter>utility</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\singleton2.inl">
+      <Filter>utility</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\singleton3.inl">
+      <Filter>utility</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\singletonbase.inl">
+      <Filter>utility</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\testcaller.inl">
+      <Filter>utility\unittest</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\testcase.inl">
+      <Filter>utility\unittest</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\testsuite.inl">
+      <Filter>utility\unittest</Filter>
+    </None>
+    <None Include="..\..\code\external\iconv\src\encodings.def">
+      <Filter>utility\iconv</Filter>
+    </None>
+    <None Include="..\..\code\external\iconv\src\encodings_aix.def">
+      <Filter>utility\iconv</Filter>
+    </None>
+    <None Include="..\..\code\external\iconv\src\encodings_dos.def">
+      <Filter>utility\iconv</Filter>
+    </None>
+    <None Include="..\..\code\external\iconv\src\encodings_extra.def">
+      <Filter>utility\iconv</Filter>
+    </None>
+    <None Include="..\..\code\external\iconv\src\encodings_local.def">
+      <Filter>utility\iconv</Filter>
+    </None>
+    <None Include="..\..\code\external\iconv\src\encodings_osf1.def">
+      <Filter>utility\iconv</Filter>
+    </None>
+    <None Include="..\..\code\external\iconv\src\translit.def">
+      <Filter>utility\iconv</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\matrix44.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\path.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\string.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\transform44.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\tuple2.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\tuple3.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\tuple4.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\uri.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\vector3.inl">
+      <Filter>primitivetype</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\kernel.inl">
+      <Filter>kernel</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\module.inl">
+      <Filter>kernel\module</Filter>
+    </None>
+    <None Include="..\..\code\tod\core\currentsnapshot.inl">
+      <Filter>exception</Filter>
+    </None>
+  </ItemGroup>
+</Project>

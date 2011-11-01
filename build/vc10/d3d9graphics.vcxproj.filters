@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="main">
+      <UniqueIdentifier>{d48e1186-402a-443e-8639-0b44c140f0d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class">
+      <UniqueIdentifier>{36d03cce-1b34-4f89-aae1-3ad135674fb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\core">
+      <UniqueIdentifier>{28513ac9-9a35-45fa-ae63-cf655e51a7a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\node">
+      <UniqueIdentifier>{4e857302-a227-43b5-aebb-c58533364920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="exception">
+      <UniqueIdentifier>{c1620048-7de5-4b40-ba16-0e4d07103018}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\main.cc">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\d3d9cubetexture.cc">
+      <Filter>class\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\d3d9indexbuffer.cc">
+      <Filter>class\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\d3d9mesh.cc">
+      <Filter>class\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\d3d9renderer.cc">
+      <Filter>class\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\d3d9shader.cc">
+      <Filter>class\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\d3d9texture.cc">
+      <Filter>class\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\d3d9vertexbuffer.cc">
+      <Filter>class\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\xfilenode.cc">
+      <Filter>class\node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\d3d9graphics\d3d9exception.cc">
+      <Filter>exception</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\d3d9cubetexture.h">
+      <Filter>class\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\d3d9indexbuffer.h">
+      <Filter>class\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\d3d9mesh.h">
+      <Filter>class\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\d3d9renderer.h">
+      <Filter>class\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\d3d9shader.h">
+      <Filter>class\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\d3d9texture.h">
+      <Filter>class\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\d3d9vertexbuffer.h">
+      <Filter>class\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\xfilenode.h">
+      <Filter>class\node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\d3d9graphics\d3d9exception.h">
+      <Filter>exception</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

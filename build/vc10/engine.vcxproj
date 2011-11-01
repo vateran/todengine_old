@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{163D05E3-9CFC-4376-9811-2173760DCC8F}</ProjectGuid>
+    <RootNamespace>engine</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)../../bin/win32/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../intermediate/win32/$(ProjectName)/$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)../../bin/win32/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../intermediate/win32/$(ProjectName)/$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../code;../../code/external;../../code/external/devil/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)../../lib/win32/$(ProjectName)_d.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../code/external/devil/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../code;../../code/external;../../code/external/devil/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>DevIL.lib,;ILU.lib,;ILUT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)../../lib/win32/$(ProjectName).lib</OutputFile>
+      <AdditionalLibraryDirectories>../../code/external/devil/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\code\tod\engine\scenenode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\transformnode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\cameranode.cpp" />
+    <ClCompile Include="..\..\code\tod\engine\cameranode_method.cc" />
+    <ClCompile Include="..\..\code\tod\engine\meshnode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\geometrynode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\shapenode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\abstractshadernode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\abstractshadernode_method.cc" />
+    <ClCompile Include="..\..\code\tod\engine\abstractcameranode.cpp" />
+    <ClCompile Include="..\..\code\tod\engine\shadernode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\quadtree.cc" />
+    <ClCompile Include="..\..\code\tod\engine\terrain.cc" />
+    <ClCompile Include="..\..\code\tod\engine\terrainnode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\terrainnode_method.cc" />
+    <ClCompile Include="..\..\code\tod\engine\terrainsection.cc" />
+    <ClCompile Include="..\..\code\tod\engine\terraintile.cc" />
+    <ClCompile Include="..\..\code\tod\engine\terraintileset.cc" />
+    <ClCompile Include="..\..\code\tod\engine\treenode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\editorsceneview.cc" />
+    <ClCompile Include="..\..\code\tod\engine\editorsceneview_method.cc" />
+    <ClCompile Include="..\..\code\tod\engine\scenecontext.cc" />
+    <ClCompile Include="..\..\code\tod\engine\sceneserver.cc" />
+    <ClCompile Include="..\..\code\tod\engine\sceneview.cc" />
+    <ClCompile Include="..\..\code\tod\engine\sceneview_method.cc" />
+    <ClCompile Include="..\..\code\tod\engine\renderpath.cc" />
+    <ClCompile Include="..\..\code\tod\engine\rpbase.cc" />
+    <ClCompile Include="..\..\code\tod\engine\rpbase_method.cc" />
+    <ClCompile Include="..\..\code\tod\engine\rppass.cc" />
+    <ClCompile Include="..\..\code\tod\engine\rprendertarget.cc" />
+    <ClCompile Include="..\..\code\tod\engine\rpsection.cc" />
+    <ClCompile Include="..\..\code\tod\engine\rpsequence.cc" />
+    <ClCompile Include="..\..\code\tod\engine\camera.cc" />
+    <ClCompile Include="..\..\code\tod\engine\quaternioncamera.cc" />
+    <ClCompile Include="..\..\code\tod\engine\shader.cc" />
+    <ClCompile Include="..\..\code\tod\engine\shaderparams.cc" />
+    <ClCompile Include="..\..\code\tod\engine\cubetexture.cc" />
+    <ClCompile Include="..\..\code\tod\engine\texture.cc" />
+    <ClCompile Include="..\..\code\tod\engine\displaymode.cc" />
+    <ClCompile Include="..\..\code\tod\engine\format.cc" />
+    <ClCompile Include="..\..\code\tod\engine\renderer.cc" />
+    <ClCompile Include="..\..\code\tod\engine\renderer_method.cc" />
+    <ClCompile Include="..\..\code\tod\engine\image.cc" />
+    <ClCompile Include="..\..\code\tod\engine\pick.cc" />
+    <ClCompile Include="..\..\code\tod\engine\resource.cc" />
+    <ClCompile Include="..\..\code\tod\engine\main.cc" />
+    <ClCompile Include="..\..\code\tod\engine\formatstringconverter.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\code\tod\engine\scenenode.h" />
+    <ClInclude Include="..\..\code\tod\engine\transformnode.h" />
+    <ClInclude Include="..\..\code\tod\engine\cameranode.h" />
+    <ClInclude Include="..\..\code\tod\engine\meshnode.h" />
+    <ClInclude Include="..\..\code\tod\engine\geometrynode.h" />
+    <ClInclude Include="..\..\code\tod\engine\shapenode.h" />
+    <ClInclude Include="..\..\code\tod\engine\abstractshadernode.h" />
+    <ClInclude Include="..\..\code\tod\engine\abstractcameranode.h" />
+    <ClInclude Include="..\..\code\tod\engine\shadernode.h" />
+    <ClInclude Include="..\..\code\tod\engine\quadtree.h" />
+    <ClInclude Include="..\..\code\tod\engine\terrain.h" />
+    <ClInclude Include="..\..\code\tod\engine\terrainnode.h" />
+    <ClInclude Include="..\..\code\tod\engine\terrainsection.h" />
+    <ClInclude Include="..\..\code\tod\engine\terraintile.h" />
+    <ClInclude Include="..\..\code\tod\engine\terraintileset.h" />
+    <ClInclude Include="..\..\code\tod\engine\treenode.h" />
+    <ClInclude Include="..\..\code\tod\engine\editorsceneview.h" />
+    <ClInclude Include="..\..\code\tod\engine\scenecontext.h" />
+    <ClInclude Include="..\..\code\tod\engine\sceneserver.h" />
+    <ClInclude Include="..\..\code\tod\engine\sceneview.h" />
+    <ClInclude Include="..\..\code\tod\engine\renderpath.h" />
+    <ClInclude Include="..\..\code\tod\engine\rpbase.h" />
+    <ClInclude Include="..\..\code\tod\engine\rppass.h" />
+    <ClInclude Include="..\..\code\tod\engine\rprendertarget.h" />
+    <ClInclude Include="..\..\code\tod\engine\rpsection.h" />
+    <ClInclude Include="..\..\code\tod\engine\rpsequence.h" />
+    <ClInclude Include="..\..\code\tod\engine\camera.h" />
+    <ClInclude Include="..\..\code\tod\engine\quaternioncamera.h" />
+    <ClInclude Include="..\..\code\tod\engine\light.h" />
+    <ClInclude Include="..\..\code\tod\engine\vertexbuffer.h" />
+    <ClInclude Include="..\..\code\tod\engine\shader.h" />
+    <ClInclude Include="..\..\code\tod\engine\shaderparams.h" />
+    <ClInclude Include="..\..\code\tod\engine\cubetexture.h" />
+    <ClInclude Include="..\..\code\tod\engine\texture.h" />
+    <ClInclude Include="..\..\code\tod\engine\indexbuffer.h" />
+    <ClInclude Include="..\..\code\tod\engine\mesh.h" />
+    <ClInclude Include="..\..\code\tod\engine\displaymode.h" />
+    <ClInclude Include="..\..\code\tod\engine\format.h" />
+    <ClInclude Include="..\..\code\tod\engine\renderer.h" />
+    <ClInclude Include="..\..\code\tod\engine\types.h" />
+    <ClInclude Include="..\..\code\tod\engine\image.h" />
+    <ClInclude Include="..\..\code\tod\engine\bone.h" />
+    <ClInclude Include="..\..\code\tod\engine\boneanimator.h" />
+    <ClInclude Include="..\..\code\tod\engine\pick.h" />
+    <ClInclude Include="..\..\code\tod\engine\resource.h" />
+    <ClInclude Include="..\..\code\tod\engine\resourcehoder.h" />
+    <ClInclude Include="..\..\code\tod\engine\resourceref.h" />
+    <ClInclude Include="..\..\code\tod\engine\formatstringconverter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\code\tod\engine\transformnode.inl" />
+    <None Include="..\..\code\tod\engine\cameranode.inl" />
+    <None Include="..\..\code\tod\engine\abstractshadernode.inl" />
+    <None Include="..\..\code\tod\engine\terraintile.inl" />
+    <None Include="..\..\code\tod\engine\shaderparams.inl" />
+    <None Include="..\..\code\tod\engine\resourceholder.inl" />
+    <None Include="..\..\code\tod\engine\resourceref.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="core.vcxproj">
+      <Project>{58ce3ce6-052c-4b11-9efa-919249e0d378}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

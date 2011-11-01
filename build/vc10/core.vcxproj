@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{58CE3CE6-052C-4B11-9EFA-919249E0D378}</ProjectGuid>
+    <RootNamespace>core</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)../../bin/win32/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../intermediate/win32/$(ProjectName)/$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)../../bin/win32/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../intermediate/win32/$(ProjectName)/$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../code;../../code/external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;LIBICONV_STATIC;LIBCHARSET_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4311; 4267; 4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../code;../../code/external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;LIBICONV_STATIC;LIBCHARSET_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4311; 4267; 4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(SolutionDir)../../lib/win32/$(ProjectName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\code\tod\core\scriptserver.cc" />
+    <ClCompile Include="..\..\code\tod\core\scriptserver_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\fsresourceimplementator.cc" />
+    <ClCompile Include="..\..\code\tod\core\fsresourceprotocol.cc" />
+    <ClCompile Include="..\..\code\tod\core\resource.cc" />
+    <ClCompile Include="..\..\code\tod\core\resourcecache.cc" />
+    <ClCompile Include="..\..\code\tod\core\resourceentry.cc" />
+    <ClCompile Include="..\..\code\tod\core\resourceentry_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\resourcemanager.cc" />
+    <ClCompile Include="..\..\code\tod\core\resourcemanager_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\resourcestorage.cc" />
+    <ClCompile Include="..\..\code\tod\core\resourcestorage_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\node.cc" />
+    <ClCompile Include="..\..\code\tod\core\node_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\nodeeventpublisher.cc" />
+    <ClCompile Include="..\..\code\tod\core\object.cc" />
+    <ClCompile Include="..\..\code\tod\core\object_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\type.cc" />
+    <ClCompile Include="..\..\code\tod\core\property.cc" />
+    <ClCompile Include="..\..\code\tod\core\structproperty.cc" />
+    <ClCompile Include="..\..\code\tod\core\method.cc" />
+    <ClCompile Include="..\..\code\tod\core\variables.cc" />
+    <ClCompile Include="..\..\code\tod\core\linknode.cc" />
+    <ClCompile Include="..\..\code\tod\core\linknode_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\timenode.cc" />
+    <ClCompile Include="..\..\code\tod\core\singletonserver.cc" />
+    <ClCompile Include="..\..\code\tod\core\tostring.cc" />
+    <ClCompile Include="..\..\code\tod\core\testsuite.cc" />
+    <ClCompile Include="..\..\code\external\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\code\external\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\code\external\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\code\external\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\code\external\iconv\src\iconv.c">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../code/external/iconv;../../code/external/iconv/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4018; 4244; 4090; 4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4018; 4244; 4090; 4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\iconv\src\iconv_string.c">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../code/external/iconv;../../code/external/iconv/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\iconv\src\localcharset.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\..\code\external\iconv\src\relocatable.c" />
+    <ClCompile Include="..\..\code\tod\core\triggerserver.cc" />
+    <ClCompile Include="..\..\code\tod\core\triggerserver_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\stopwatch.cc" />
+    <ClCompile Include="..\..\code\tod\core\timeserver.cc" />
+    <ClCompile Include="..\..\code\tod\core\timeserver_method.cc" />
+    <ClCompile Include="..\..\code\tod\core\updatepropertyserver.cc" />
+    <ClCompile Include="..\..\code\tod\core\bbox.cc" />
+    <ClCompile Include="..\..\code\tod\core\color.cc" />
+    <ClCompile Include="..\..\code\tod\core\globalstringtable.cc" />
+    <ClCompile Include="..\..\code\tod\core\line3.cc" />
+    <ClCompile Include="..\..\code\tod\core\matrix44.cc" />
+    <ClCompile Include="..\..\code\tod\core\path.cc" />
+    <ClCompile Include="..\..\code\tod\core\plane.cc" />
+    <ClCompile Include="..\..\code\tod\core\quaternion.cc" />
+    <ClCompile Include="..\..\code\tod\core\rect.cc" />
+    <ClCompile Include="..\..\code\tod\core\string.cc" />
+    <ClCompile Include="..\..\code\tod\core\transform44.cc" />
+    <ClCompile Include="..\..\code\tod\core\tuple3_impl.cc" />
+    <ClCompile Include="..\..\code\tod\core\uri.cc" />
+    <ClCompile Include="..\..\code\tod\core\vector3.cc" />
+    <ClCompile Include="..\..\code\tod\core\unifiedserializer.cc" />
+    <ClCompile Include="..\..\code\tod\core\xmlserializer.cc" />
+    <ClCompile Include="..\..\code\tod\core\kernel.cc" />
+    <ClCompile Include="..\..\code\tod\core\builtinmodule.cc" />
+    <ClCompile Include="..\..\code\tod\core\module.cc" />
+    <ClCompile Include="..\..\code\tod\core\exception.cc" />
+    <ClCompile Include="..\..\code\tod\core\messagequeue.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\code\tod\core\scriptserver.h" />
+    <ClInclude Include="..\..\code\tod\core\fsresourceimplementator.h" />
+    <ClInclude Include="..\..\code\tod\core\fsresourceprotocol.h" />
+    <ClInclude Include="..\..\code\tod\core\resource.h" />
+    <ClInclude Include="..\..\code\tod\core\resourcecache.h" />
+    <ClInclude Include="..\..\code\tod\core\resourceentry.h" />
+    <ClInclude Include="..\..\code\tod\core\resourceimplementator.h" />
+    <ClInclude Include="..\..\code\tod\core\resourcemanager.h" />
+    <ClInclude Include="..\..\code\tod\core\resourceprotocol.h" />
+    <ClInclude Include="..\..\code\tod\core\resourcestorage.h" />
+    <ClInclude Include="..\..\code\tod\core\node.h" />
+    <ClInclude Include="..\..\code\tod\core\nodeeventpublisher.h" />
+    <ClInclude Include="..\..\code\tod\core\nodeeventsubscriber.h" />
+    <ClInclude Include="..\..\code\tod\core\object.h" />
+    <ClInclude Include="..\..\code\tod\core\type.h" />
+    <ClInclude Include="..\..\code\tod\core\compositeproperty.h" />
+    <ClInclude Include="..\..\code\tod\core\compositepropertybinder.h" />
+    <ClInclude Include="..\..\code\tod\core\containerproperty.h" />
+    <ClInclude Include="..\..\code\tod\core\enumproperty.h" />
+    <ClInclude Include="..\..\code\tod\core\enumpropertybinder.h" />
+    <ClInclude Include="..\..\code\tod\core\properties.h" />
+    <ClInclude Include="..\..\code\tod\core\property.h" />
+    <ClInclude Include="..\..\code\tod\core\propertytype.h" />
+    <ClInclude Include="..\..\code\tod\core\simpleproperty.h" />
+    <ClInclude Include="..\..\code\tod\core\simplepropertybinder.h" />
+    <ClInclude Include="..\..\code\tod\core\structproperty.h" />
+    <ClInclude Include="..\..\code\tod\core\method.h" />
+    <ClInclude Include="..\..\code\tod\core\methodbinder.h" />
+    <ClInclude Include="..\..\code\tod\core\methods.h" />
+    <ClInclude Include="..\..\code\tod\core\parameter.h" />
+    <ClInclude Include="..\..\code\tod\core\simplevariable.h" />
+    <ClInclude Include="..\..\code\tod\core\variable.h" />
+    <ClInclude Include="..\..\code\tod\core\variables.h" />
+    <ClInclude Include="..\..\code\tod\core\linknode.h" />
+    <ClInclude Include="..\..\code\tod\core\timenode.h" />
+    <ClInclude Include="..\..\code\tod\core\cwnguard.h" />
+    <ClInclude Include="..\..\code\tod\core\enumeration.h" />
+    <ClInclude Include="..\..\code\tod\core\ref.h" />
+    <ClInclude Include="..\..\code\tod\core\singleton.h" />
+    <ClInclude Include="..\..\code\tod\core\singleton2.h" />
+    <ClInclude Include="..\..\code\tod\core\singleton3.h" />
+    <ClInclude Include="..\..\code\tod\core\singletonbase.h" />
+    <ClInclude Include="..\..\code\tod\core\singletonserver.h" />
+    <ClInclude Include="..\..\code\tod\core\stringconverter.h" />
+    <ClInclude Include="..\..\code\tod\core\tostring.h" />
+    <ClInclude Include="..\..\code\tod\core\testcaller.h" />
+    <ClInclude Include="..\..\code\tod\core\testcallerbase.h" />
+    <ClInclude Include="..\..\code\tod\core\testcase.h" />
+    <ClInclude Include="..\..\code\tod\core\testsuite.h" />
+    <ClInclude Include="..\..\code\tod\core\unittest.h" />
+    <ClInclude Include="..\..\code\tod\core\math.h" />
+    <ClInclude Include="..\..\code\external\tinyxml\tinystr.h" />
+    <ClInclude Include="..\..\code\external\tinyxml\tinyxml.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\aliases.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\aliases2.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\aliases_aix.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\aliases_dos.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\aliases_extra.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\aliases_osf1.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\armscii_8.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ascii.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\big5.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\big5hkscs.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\c99.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ces_big5.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ces_gbk.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cjk_variants.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_1.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_15.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_2.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_3.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_4.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_4a.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_4b.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_5.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_6.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_7.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cns11643_inv.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\config.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\converters.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1046.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1124.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1125.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1129.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1133.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1161.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1162.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1163.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1250.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1251.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1252.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1253.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1254.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1255.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1256.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1257.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp1258.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp437.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp737.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp775.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp850.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp852.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp853.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp855.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp856.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp857.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp858.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp860.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp861.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp862.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp863.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp864.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp865.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp866.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp869.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp874.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp922.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp932.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp932ext.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp936ext.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp943.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp949.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp950.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\cp950ext.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\dec_hanyu.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\dec_kanji.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\euc_cn.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\euc_jisx0213.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\euc_jp.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\euc_kr.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\euc_tw.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\flags.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\flushwc.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gb12345.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gb12345ext.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gb18030.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gb18030ext.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gb18030uni.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gb2312.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gbk.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gbkext1.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gbkext2.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\gbkext_inv.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\georgian_academy.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\georgian_ps.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\hkscs.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\hp_roman8.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\hz.h" />
+    <ClInclude Include="..\..\code\external\iconv\iconv.h" />
+    <ClInclude Include="..\..\code\external\iconv\include\iconv\iconv_string.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_cn.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_cnext.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_jp.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_jp1.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_jp2.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_jp3.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso2022_kr.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso646_cn.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso646_jp.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_1.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_10.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_13.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_14.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_15.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_16.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_2.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_3.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_4.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_5.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_6.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_7.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_8.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\iso8859_9.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\isoir165.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\isoir165ext.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\java.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\jisx0201.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\jisx0208.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\jisx0212.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\jisx0213.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\johab.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\johab_hangul.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\koi8_r.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\koi8_ru.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\koi8_t.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\koi8_u.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ksc5601.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\libcharset.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\libcharset\include\libcharset.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\localcharset.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\loop_unicode.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\loop_wchar.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\loops.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_arabic.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_centraleurope.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_croatian.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_cyrillic.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_greek.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_hebrew.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_iceland.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_roman.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_romania.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_thai.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_turkish.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mac_ukraine.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\mulelao.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\nextstep.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\relocatable.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\riscos1.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\shift_jisx0213.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\sjis.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\tcvn.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\tds565.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\tis620.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\translit.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2be.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2internal.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2le.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs2swapped.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4be.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4internal.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4le.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\ucs4swapped.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\uhc_1.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\uhc_2.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\utf16.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\utf16be.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\utf16le.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\utf32.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\utf32be.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\utf32le.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\utf7.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\utf8.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\vietcomb.h" />
+    <ClInclude Include="..\..\code\external\iconv\src\viscii.h" />
+    <ClInclude Include="..\..\code\tod\core\triggerserver.h" />
+    <ClInclude Include="..\..\code\tod\core\stopwatch.h" />
+    <ClInclude Include="..\..\code\tod\core\timeserver.h" />
+    <ClInclude Include="..\..\code\tod\core\updatepropertyserver.h" />
+    <ClInclude Include="..\..\code\tod\core\bbox.h" />
+    <ClInclude Include="..\..\code\tod\core\boundedvalue.h" />
+    <ClInclude Include="..\..\code\tod\core\color.h" />
+    <ClInclude Include="..\..\code\tod\core\globalstringtable.h" />
+    <ClInclude Include="..\..\code\tod\core\line3.h" />
+    <ClInclude Include="..\..\code\tod\core\matrix44.h" />
+    <ClInclude Include="..\..\code\tod\core\path.h" />
+    <ClInclude Include="..\..\code\tod\core\plane.h" />
+    <ClInclude Include="..\..\code\tod\core\primitivetype.h" />
+    <ClInclude Include="..\..\code\tod\core\quaternion.h" />
+    <ClInclude Include="..\..\code\tod\core\rect.h" />
+    <ClInclude Include="..\..\code\tod\core\string.h" />
+    <ClInclude Include="..\..\code\tod\core\time.h" />
+    <ClInclude Include="..\..\code\tod\core\transform44.h" />
+    <ClInclude Include="..\..\code\tod\core\tuple2.h" />
+    <ClInclude Include="..\..\code\tod\core\tuple3.h" />
+    <ClInclude Include="..\..\code\tod\core\tuple3_impl.h" />
+    <ClInclude Include="..\..\code\tod\core\tuple4.h" />
+    <ClInclude Include="..\..\code\tod\core\uri.h" />
+    <ClInclude Include="..\..\code\tod\core\vector2.h" />
+    <ClInclude Include="..\..\code\tod\core\vector3.h" />
+    <ClInclude Include="..\..\code\tod\core\vector4.h" />
+    <ClInclude Include="..\..\code\tod\core\assert.h" />
+    <ClInclude Include="..\..\code\tod\core\define.h" />
+    <ClInclude Include="..\..\code\tod\core\platform.h" />
+    <ClInclude Include="..\..\code\tod\core\typeid.h" />
+    <ClInclude Include="..\..\code\tod\core\serializer.h" />
+    <ClInclude Include="..\..\code\tod\core\serializerevent.h" />
+    <ClInclude Include="..\..\code\tod\core\unifiedserializer.h" />
+    <ClInclude Include="..\..\code\tod\core\xmlserializer.h" />
+    <ClInclude Include="..\..\code\tod\core\kernel.h" />
+    <ClInclude Include="..\..\code\tod\core\builtinmodule.h" />
+    <ClInclude Include="..\..\code\tod\core\module.h" />
+    <ClInclude Include="..\..\code\tod\core\currentsnapshot.h" />
+    <ClInclude Include="..\..\code\tod\core\exception.h" />
+    <ClInclude Include="..\..\code\tod\core\messagequeue.h" />
+    <ClInclude Include="..\..\code\tod\core\log.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\code\tod\core\resourceprotocol.inl" />
+    <None Include="..\..\code\tod\core\node.inl" />
+    <None Include="..\..\code\tod\core\type.inl" />
+    <None Include="..\..\code\tod\core\compositeproperty.inl" />
+    <None Include="..\..\code\tod\core\compositepropertybinder.inl" />
+    <None Include="..\..\code\tod\core\containerproperty.inl" />
+    <None Include="..\..\code\tod\core\enumproperty.inl" />
+    <None Include="..\..\code\tod\core\enumpropertybinder.inl" />
+    <None Include="..\..\code\tod\core\property.inl" />
+    <None Include="..\..\code\tod\core\simplepropertybinder.inl" />
+    <None Include="..\..\code\tod\core\method.inl" />
+    <None Include="..\..\code\tod\core\methodbinder.inl" />
+    <None Include="..\..\code\tod\core\parameter.inl" />
+    <None Include="..\..\code\tod\core\simplevariable.inl" />
+    <None Include="..\..\code\tod\core\variables.inl" />
+    <None Include="..\..\code\tod\core\cwnguard.inl" />
+    <None Include="..\..\code\tod\core\ref.inl" />
+    <None Include="..\..\code\tod\core\singleton.inl" />
+    <None Include="..\..\code\tod\core\singleton2.inl" />
+    <None Include="..\..\code\tod\core\singleton3.inl" />
+    <None Include="..\..\code\tod\core\singletonbase.inl" />
+    <None Include="..\..\code\tod\core\testcaller.inl" />
+    <None Include="..\..\code\tod\core\testcase.inl" />
+    <None Include="..\..\code\tod\core\testsuite.inl" />
+    <None Include="..\..\code\external\iconv\src\encodings.def" />
+    <None Include="..\..\code\external\iconv\src\encodings_aix.def" />
+    <None Include="..\..\code\external\iconv\src\encodings_dos.def" />
+    <None Include="..\..\code\external\iconv\src\encodings_extra.def" />
+    <None Include="..\..\code\external\iconv\src\encodings_local.def" />
+    <None Include="..\..\code\external\iconv\src\encodings_osf1.def" />
+    <None Include="..\..\code\external\iconv\src\translit.def" />
+    <None Include="..\..\code\tod\core\matrix44.inl" />
+    <None Include="..\..\code\tod\core\path.inl" />
+    <None Include="..\..\code\tod\core\string.inl" />
+    <None Include="..\..\code\tod\core\transform44.inl" />
+    <None Include="..\..\code\tod\core\tuple2.inl" />
+    <None Include="..\..\code\tod\core\tuple3.inl" />
+    <None Include="..\..\code\tod\core\tuple4.inl" />
+    <None Include="..\..\code\tod\core\uri.inl" />
+    <None Include="..\..\code\tod\core\vector3.inl" />
+    <None Include="..\..\code\tod\core\kernel.inl" />
+    <None Include="..\..\code\tod\core\module.inl" />
+    <None Include="..\..\code\tod\core\currentsnapshot.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

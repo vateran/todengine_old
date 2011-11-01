@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8CC082BB-22B9-4624-800B-C07D44D466D6}</ProjectGuid>
+    <RootNamespace>todlua</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)../../bin/win32/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../intermediate/win32/$(ProjectName)/$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)../../bin/win32/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../intermediate/win32/$(ProjectName)/$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../code;../../code/external;../../code/external/lua/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4996; 4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>../../code/external/lua;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../code;../../code/external;../../code/external/lua/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996; 4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>../../code/external/lua;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\code\tod\todlua\todluascriptserver.cc" />
+    <ClCompile Include="..\..\code\tod\todlua\todluascriptserver_method.cc" />
+    <ClCompile Include="..\..\code\tod\todlua\todluathread.cc" />
+    <ClCompile Include="..\..\code\external\lua\src\lapi.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lauxlib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lbaselib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lcode.c" />
+    <ClCompile Include="..\..\code\external\lua\src\ldblib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\ldebug.c" />
+    <ClCompile Include="..\..\code\external\lua\src\ldo.c" />
+    <ClCompile Include="..\..\code\external\lua\src\ldump.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lfunc.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lgc.c" />
+    <ClCompile Include="..\..\code\external\lua\src\linit.c" />
+    <ClCompile Include="..\..\code\external\lua\src\liolib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\llex.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lmathlib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lmem.c" />
+    <ClCompile Include="..\..\code\external\lua\src\loadlib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lobject.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lopcodes.c" />
+    <ClCompile Include="..\..\code\external\lua\src\loslib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lparser.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lstate.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lstring.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lstrlib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\ltable.c" />
+    <ClCompile Include="..\..\code\external\lua\src\ltablib.c" />
+    <ClCompile Include="..\..\code\external\lua\src\ltm.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lundump.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lvm.c" />
+    <ClCompile Include="..\..\code\external\lua\src\lzio.c" />
+    <ClCompile Include="..\..\code\tod\todlua\todlua_func.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\code\tod\todlua\todluascriptserver.h" />
+    <ClInclude Include="..\..\code\tod\todlua\todluathread.h" />
+    <ClInclude Include="..\..\code\external\lua\src\lapi.h" />
+    <ClInclude Include="..\..\code\tod\todlua\todlua_extension.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\code\external\lua\src\lua_conf.inc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="core.vcxproj">
+      <Project>{58ce3ce6-052c-4b11-9efa-919249e0d378}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="d3d9graphics.vcxproj">
+      <Project>{0d072f18-cfd1-415d-a3d8-c4daa8506ef4}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="engine.vcxproj">
+      <Project>{163d05e3-9cfc-4376-9811-2173760dcc8f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

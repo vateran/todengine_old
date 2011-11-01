@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="class">
+      <UniqueIdentifier>{ce1f2575-84e3-4e09-821f-f534401299c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics">
+      <UniqueIdentifier>{aa310e05-a756-41e4-8f28-8614849ba000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene">
+      <UniqueIdentifier>{12e9affd-046c-459c-888e-4e6b6061d658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node">
+      <UniqueIdentifier>{9ac76d5a-c075-445d-a1ce-0f8ea9cd59a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\scenenode">
+      <UniqueIdentifier>{9602c2a0-1c7a-43b1-b98e-93b8b0e15d7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\transformnode">
+      <UniqueIdentifier>{49966261-7bfc-4428-9cd0-ec9743f9c9de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\cameranode">
+      <UniqueIdentifier>{ad81951d-f229-4f84-900d-b79ffcd6f4cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\meshnode">
+      <UniqueIdentifier>{b8f28568-ba30-4138-8cae-45f1ed6436ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\geometrynode">
+      <UniqueIdentifier>{26434a92-a8ff-4ac3-8543-84f659e8f640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\shapenode">
+      <UniqueIdentifier>{171605b3-bac6-400c-8dc0-33326dd83394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\abstractshadernode">
+      <UniqueIdentifier>{de56adf6-2236-4c5e-80ca-75701611cc1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\abstractcameranode">
+      <UniqueIdentifier>{2dc96be3-e084-4721-acda-cecf06ddbf56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\shadernode">
+      <UniqueIdentifier>{44f3b74c-d8a0-4dd0-9a4c-793a59e0ec81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\quadtree">
+      <UniqueIdentifier>{5e05ed8d-022c-485a-9ecc-3cd7371b1ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\terrainnode">
+      <UniqueIdentifier>{a42c17e2-6721-4f70-acb7-19c37032a6e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\node\treenode">
+      <UniqueIdentifier>{06b8f9f7-2d4a-4846-9ac6-b8c7ee17a196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\sceneserver">
+      <UniqueIdentifier>{8176446f-a0c9-4c6d-88ae-92d97758d143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\scene\renderpath">
+      <UniqueIdentifier>{0796d6d4-fbe2-41b3-bf0f-fadf96f45f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core">
+      <UniqueIdentifier>{361f8cdc-43b3-462a-8d62-e1c09fc99e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\camera">
+      <UniqueIdentifier>{f53336e2-877b-48dd-8733-d75742404fa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\light">
+      <UniqueIdentifier>{a3d94a5a-b3bb-435d-b3d4-020e29ba60dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\vertexbuffer">
+      <UniqueIdentifier>{ff0cf625-b5e9-4617-be95-45e65e34db48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\shader">
+      <UniqueIdentifier>{3ef49bc1-8cf2-41b0-8d16-26a265e64c43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\font">
+      <UniqueIdentifier>{539d9622-b9d1-4e30-bf67-d9dea17659ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\texture">
+      <UniqueIdentifier>{4c3d61f7-d395-4cf8-ac27-89531d50d490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\indexbuffer">
+      <UniqueIdentifier>{52466fb8-f554-4f35-803d-03b2b82d0d54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\mesh">
+      <UniqueIdentifier>{7e3093d3-31d3-446d-8e32-cac681f12e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\renderer">
+      <UniqueIdentifier>{12523530-81c3-43ab-878e-714076e5bf16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\image">
+      <UniqueIdentifier>{c9b2cefa-2d0e-4ae6-bb17-c5e9c886b246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\frustum">
+      <UniqueIdentifier>{10008244-0969-4e3e-a205-88653c825b2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\animation">
+      <UniqueIdentifier>{e4e41f5b-286b-487e-b7b5-9af3f8c75017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\graphics\core\pick">
+      <UniqueIdentifier>{5d9bd2c6-d486-4d59-b67e-14bd1a3745fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\audio">
+      <UniqueIdentifier>{80421990-d98f-46c1-8381-d874d175c36c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\input">
+      <UniqueIdentifier>{2238c7e4-913a-4098-abf6-82a1ee5cf50c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="class\resource">
+      <UniqueIdentifier>{9bd7ed88-b856-457e-aad6-5cbddf7ea7bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{741b149c-abf2-4499-ba15-3e18f9ee3a25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\stringconverters">
+      <UniqueIdentifier>{66de8b34-8425-4613-818b-b69142c2b1ae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\code\tod\engine\scenenode.cc">
+      <Filter>class\graphics\scene\node\scenenode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\transformnode.cc">
+      <Filter>class\graphics\scene\node\transformnode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\cameranode.cpp">
+      <Filter>class\graphics\scene\node\cameranode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\cameranode_method.cc">
+      <Filter>class\graphics\scene\node\cameranode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\meshnode.cc">
+      <Filter>class\graphics\scene\node\meshnode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\geometrynode.cc">
+      <Filter>class\graphics\scene\node\geometrynode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\shapenode.cc">
+      <Filter>class\graphics\scene\node\shapenode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\abstractshadernode.cc">
+      <Filter>class\graphics\scene\node\abstractshadernode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\abstractshadernode_method.cc">
+      <Filter>class\graphics\scene\node\abstractshadernode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\abstractcameranode.cpp">
+      <Filter>class\graphics\scene\node\abstractcameranode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\shadernode.cc">
+      <Filter>class\graphics\scene\node\shadernode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\quadtree.cc">
+      <Filter>class\graphics\scene\node\quadtree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\terrain.cc">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\terrainnode.cc">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\terrainnode_method.cc">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\terrainsection.cc">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\terraintile.cc">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\terraintileset.cc">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\treenode.cc">
+      <Filter>class\graphics\scene\node\treenode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\editorsceneview.cc">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\editorsceneview_method.cc">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\scenecontext.cc">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\sceneserver.cc">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\sceneview.cc">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\sceneview_method.cc">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\renderpath.cc">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\rpbase.cc">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\rpbase_method.cc">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\rppass.cc">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\rprendertarget.cc">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\rpsection.cc">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\rpsequence.cc">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\camera.cc">
+      <Filter>class\graphics\core\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\quaternioncamera.cc">
+      <Filter>class\graphics\core\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\shader.cc">
+      <Filter>class\graphics\core\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\shaderparams.cc">
+      <Filter>class\graphics\core\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\cubetexture.cc">
+      <Filter>class\graphics\core\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\texture.cc">
+      <Filter>class\graphics\core\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\displaymode.cc">
+      <Filter>class\graphics\core\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\format.cc">
+      <Filter>class\graphics\core\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\renderer.cc">
+      <Filter>class\graphics\core\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\renderer_method.cc">
+      <Filter>class\graphics\core\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\image.cc">
+      <Filter>class\graphics\core\image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\pick.cc">
+      <Filter>class\graphics\core\pick</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\resource.cc">
+      <Filter>class\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\main.cc">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\tod\engine\formatstringconverter.cc">
+      <Filter>main\stringconverters</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\code\tod\engine\scenenode.h">
+      <Filter>class\graphics\scene\node\scenenode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\transformnode.h">
+      <Filter>class\graphics\scene\node\transformnode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\cameranode.h">
+      <Filter>class\graphics\scene\node\cameranode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\meshnode.h">
+      <Filter>class\graphics\scene\node\meshnode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\geometrynode.h">
+      <Filter>class\graphics\scene\node\geometrynode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\shapenode.h">
+      <Filter>class\graphics\scene\node\shapenode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\abstractshadernode.h">
+      <Filter>class\graphics\scene\node\abstractshadernode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\abstractcameranode.h">
+      <Filter>class\graphics\scene\node\abstractcameranode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\shadernode.h">
+      <Filter>class\graphics\scene\node\shadernode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\quadtree.h">
+      <Filter>class\graphics\scene\node\quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\terrain.h">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\terrainnode.h">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\terrainsection.h">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\terraintile.h">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\terraintileset.h">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\treenode.h">
+      <Filter>class\graphics\scene\node\treenode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\editorsceneview.h">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\scenecontext.h">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\sceneserver.h">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\sceneview.h">
+      <Filter>class\graphics\scene\sceneserver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\renderpath.h">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\rpbase.h">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\rppass.h">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\rprendertarget.h">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\rpsection.h">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\rpsequence.h">
+      <Filter>class\graphics\scene\renderpath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\camera.h">
+      <Filter>class\graphics\core\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\quaternioncamera.h">
+      <Filter>class\graphics\core\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\light.h">
+      <Filter>class\graphics\core\light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\vertexbuffer.h">
+      <Filter>class\graphics\core\vertexbuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\shader.h">
+      <Filter>class\graphics\core\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\shaderparams.h">
+      <Filter>class\graphics\core\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\cubetexture.h">
+      <Filter>class\graphics\core\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\texture.h">
+      <Filter>class\graphics\core\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\indexbuffer.h">
+      <Filter>class\graphics\core\indexbuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\mesh.h">
+      <Filter>class\graphics\core\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\displaymode.h">
+      <Filter>class\graphics\core\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\format.h">
+      <Filter>class\graphics\core\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\renderer.h">
+      <Filter>class\graphics\core\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\types.h">
+      <Filter>class\graphics\core\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\image.h">
+      <Filter>class\graphics\core\image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\bone.h">
+      <Filter>class\graphics\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\boneanimator.h">
+      <Filter>class\graphics\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\pick.h">
+      <Filter>class\graphics\core\pick</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\resource.h">
+      <Filter>class\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\resourcehoder.h">
+      <Filter>class\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\resourceref.h">
+      <Filter>class\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\tod\engine\formatstringconverter.h">
+      <Filter>main\stringconverters</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\code\tod\engine\transformnode.inl">
+      <Filter>class\graphics\scene\node\transformnode</Filter>
+    </None>
+    <None Include="..\..\code\tod\engine\cameranode.inl">
+      <Filter>class\graphics\scene\node\cameranode</Filter>
+    </None>
+    <None Include="..\..\code\tod\engine\abstractshadernode.inl">
+      <Filter>class\graphics\scene\node\abstractshadernode</Filter>
+    </None>
+    <None Include="..\..\code\tod\engine\terraintile.inl">
+      <Filter>class\graphics\scene\node\terrainnode</Filter>
+    </None>
+    <None Include="..\..\code\tod\engine\shaderparams.inl">
+      <Filter>class\graphics\core\shader</Filter>
+    </None>
+    <None Include="..\..\code\tod\engine\resourceholder.inl">
+      <Filter>class\resource</Filter>
+    </None>
+    <None Include="..\..\code\tod\engine\resourceref.inl">
+      <Filter>class\resource</Filter>
+    </None>
+  </ItemGroup>
+</Project>
